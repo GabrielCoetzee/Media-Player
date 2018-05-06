@@ -6,3 +6,4 @@ Technologies used :
 
 - C# with MVVM Design Pattern
 - Mahapps Metro 
+- Visual Studio 2017
