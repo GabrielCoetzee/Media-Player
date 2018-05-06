@@ -59,7 +59,7 @@
 
             <Expander Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding ModelMediaPlayer.CurrentTrack.HasLyrics, FallbackValue=Hidden, Mode=TwoWay,  Converter={StaticResource BooleanToVisibleOrHidden}}">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox Text="{Binding ModelMediaPlayer.CurrentTrack.Lyrics}" Cursor="Arrow" CaretBrush="Transparent" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" Focusable="False" IsTabStop="False" AllowDrop="False"/>
+                    <TextBox Text="{Binding ModelMediaPlayer.CurrentTrack.Lyrics}" ContextMenu="{x:Null}" Cursor="Arrow" CaretBrush="Transparent" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" Focusable="False" IsTabStop="False" AllowDrop="False"/>
                 </Grid>
             </Expander>
 

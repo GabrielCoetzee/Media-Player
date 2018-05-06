@@ -32,7 +32,7 @@ namespace MediaPlayer.MVVM.ViewModels
         #region Fields
 
         readonly Random RandomIdGenerator = new Random();
-        readonly DispatcherTimer MediaOpenedTimer = new DispatcherTimer();
+        readonly DispatcherTimer MediaPositionTracker = new DispatcherTimer();
 
         private ModelMediaPlayer _modelMediaPlayer;  
         private IReadMp3Metadata _readMp3Metadata;
@@ -253,7 +253,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void ClearMediaListCommand_Execute()
         {
-            MediaOpenedTimer.Stop();
+            MediaPositionTracker.Stop();
             InitializeModelInstance();
         }
 
@@ -325,7 +325,10 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void PlayPauseCommand_Execute()
         {
-            ModelMediaPlayer.MediaState = ModelMediaPlayer.MediaState != MediaState.Play ? MediaState.Play : MediaState.Pause;
+            if (ModelMediaPlayer.MediaState != MediaState.Play)
+                PlayMedia();
+            else   
+                PauseMedia();
         }
 
         public bool AddFilesCommand_CanExecute()
@@ -434,6 +437,11 @@ namespace MediaPlayer.MVVM.ViewModels
             ModelMediaPlayer.MediaState = MediaState.Play;
         }
 
+        private void PauseMedia()
+        {
+            ModelMediaPlayer.MediaState = MediaState.Pause;
+        }
+
         private void SelectMediaItem(int mediaItemId)
         {
             ModelMediaPlayer.CurrentTrack = ModelMediaPlayer.TrackList.First(x => x.Id == mediaItemId);
@@ -509,10 +517,10 @@ namespace MediaPlayer.MVVM.ViewModels
         {
             if (mediaElement != null)
             {
-                MediaOpenedTimer.Tick += (sender, args) => UpdateMediaPosition(mediaElement);
+                MediaPositionTracker.Tick += (sender, args) => UpdateMediaPosition(mediaElement);
             }
 
-            MediaOpenedTimer.Start();
+            MediaPositionTracker.Start();
         }
 
         private void UpdateMediaPosition(MediaElement mediaElement)
@@ -550,6 +558,7 @@ namespace MediaPlayer.MVVM.ViewModels
         {
             return ModelMediaPlayer.CurrentTrack.TrackDuration == mediaElement.NaturalDuration.TimeSpan;
         }
+
 
         #endregion
      }
