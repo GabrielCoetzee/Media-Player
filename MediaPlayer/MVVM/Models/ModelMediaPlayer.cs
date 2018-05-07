@@ -45,16 +45,9 @@ namespace MediaPlayer.MVVM.Models
             get => _currentTrack;
             set
             {
-                if (_currentTrack != null && (_currentTrack?.Id != value.Id))
-                {
-                    _currentTrack.IsSelected = false;
-                }
-
-                value.IsSelected = true;
                 _currentTrack = value;
 
                 SetMainWindowTitle();
-
                 OnPropertyChanged(nameof(CurrentTrack));
             }
         } 
@@ -108,9 +101,7 @@ namespace MediaPlayer.MVVM.Models
             set
             {
                 _elapsedTime = value;
-
                 OnPropertyChanged(nameof(ElapsedTime));
-                OnPropertyChanged(nameof(ElapsedTimeFormatted));
             }
         }
 

@@ -38,7 +38,6 @@ namespace MediaPlayer.Objects
         private string _lyrics;
         private bool _hasLyrics;
         private string _composer;
-        private bool _isSelected;
         private TimeSpan _trackDuration;
         private int _bitrate;
 
@@ -113,20 +112,7 @@ namespace MediaPlayer.Objects
             }
         }
 
-        public string TrackTitleTrimmed
-        {
-            get
-            {
-                int charMaxLength = 32;
-
-                var trackTitleTrimmed = TrackTitle;
-
-                if (TrackTitle.Length > charMaxLength)
-                    trackTitleTrimmed = TrackTitle.Substring(0, charMaxLength) + "...";
-
-                return trackTitleTrimmed;
-            }
-        }
+        public string TrackTitleTrimmed => GetTrimmedTrackTitle();
 
         public string Genre
         {
@@ -192,15 +178,7 @@ namespace MediaPlayer.Objects
                 OnPropertyChanged(nameof(Composer));
             } 
         }
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                _isSelected = value;
-                OnPropertyChanged(nameof(IsSelected));
-            } 
-        }
+
         public TimeSpan TrackDuration
         {
             get => _trackDuration;
@@ -221,5 +199,19 @@ namespace MediaPlayer.Objects
         }
 
         #endregion Properties
+
+        #region Private Methods
+
+        private string GetTrimmedTrackTitle()
+        {
+            int charMaxLength = 32;
+
+            if (TrackTitle.Length > charMaxLength)
+                return TrackTitle.Substring(0, charMaxLength) + "...";
+
+            return TrackTitle;
+        }
+
+        #endregion
     }
 }

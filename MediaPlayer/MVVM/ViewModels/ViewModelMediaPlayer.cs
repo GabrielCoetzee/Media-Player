@@ -358,7 +358,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public bool MediaOpenedCommand_CanExecute()
         {
-            return ModelMediaPlayer.TrackList.Count > 0 && ModelMediaPlayer.CurrentTrack != null && ModelMediaPlayer.CurrentTrack.IsSelected;
+            return ModelMediaPlayer.TrackList.Count > 0 && ModelMediaPlayer.CurrentTrack != null;
         }
 
         public void MediaOpenedCommand_Execute(object uiElement)
