@@ -33,7 +33,7 @@ namespace MediaPlayer.MVVM.Models
         private string _elapsedTimeFormatted;
         private string _windowTitle;
         private bool _isRepeatMediaListEnabled;
-        private bool _isShuffleMediaListEnabled;
+        //private bool _isShuffleMediaListEnabled;
 
         #endregion
 
@@ -145,15 +145,15 @@ namespace MediaPlayer.MVVM.Models
             }
         }
 
-        public bool IsShuffleMediaListEnabled
-        {
-            get => _isShuffleMediaListEnabled;
-            set
-            {
-                _isShuffleMediaListEnabled = value;
-                OnPropertyChanged(nameof(IsShuffleMediaListEnabled));
-            }
-        }
+        //public bool IsShuffleMediaListEnabled
+        //{
+        //    get => _isShuffleMediaListEnabled;
+        //    set
+        //    {
+        //        _isShuffleMediaListEnabled = value;
+        //        OnPropertyChanged(nameof(IsShuffleMediaListEnabled));
+        //    }
+        //}
 
         #endregion
 

@@ -259,17 +259,20 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public bool ShuffleMediaListCommand_CanExecute()
         {
-            return ModelMediaPlayer.TrackList.Count > 2 && ModelMediaPlayer.CurrentTrack != null && !ModelMediaPlayer.IsRepeatMediaListEnabled;
+            return ModelMediaPlayer.TrackList.Count > 2 && ModelMediaPlayer.CurrentTrack != null;
         }
 
         public void ShuffleMediaListCommand_Execute()
         {
-            ModelMediaPlayer.IsShuffleMediaListEnabled = !ModelMediaPlayer.IsShuffleMediaListEnabled;
+            ShuffleMediaList();
+
+            SelectMediaItem(ModelMediaPlayer.TrackList.First().Id);
+            PlayMedia();
         }
 
         public bool RepeatMediaListCommand_CanExecute()
         {
-            return ModelMediaPlayer.TrackList.Count > 0 && ModelMediaPlayer.CurrentTrack != null && !ModelMediaPlayer.IsShuffleMediaListEnabled;
+            return ModelMediaPlayer.TrackList.Count > 0 && ModelMediaPlayer.CurrentTrack != null;
         }
 
         public void RepeatMediaListCommand_Execute()
@@ -279,7 +282,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public bool NextTrackCommand_CanExecute()
         {
-            return ModelMediaPlayer.TrackList.Count > 0 && NextMediaItemIsAvailable() || ModelMediaPlayer.IsRepeatMediaListEnabled || ModelMediaPlayer.IsShuffleMediaListEnabled;
+            return ModelMediaPlayer.TrackList.Count > 0 && NextMediaItemIsAvailable() || ModelMediaPlayer.IsRepeatMediaListEnabled;
         }
 
         public void NextTrackCommand_Execute()
@@ -300,7 +303,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public bool PreviousTrackCommand_CanExecute()
         {
-            return ModelMediaPlayer.TrackList.Count > 0 && PreviousMediaItemIsAvailable() || ModelMediaPlayer.IsRepeatMediaListEnabled || ModelMediaPlayer.IsShuffleMediaListEnabled; 
+            return ModelMediaPlayer.TrackList.Count > 0 && PreviousMediaItemIsAvailable() || ModelMediaPlayer.IsRepeatMediaListEnabled; 
         }
 
         public void PreviousTrackCommand_Execute()
@@ -434,12 +437,20 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void PlayMedia()
         {
-            ModelMediaPlayer.MediaState = MediaState.Play;
+            if (ModelMediaPlayer.MediaState != MediaState.Play)
+                ModelMediaPlayer.MediaState = MediaState.Play;
         }
 
         private void PauseMedia()
         {
-            ModelMediaPlayer.MediaState = MediaState.Pause;
+            if (ModelMediaPlayer.MediaState != MediaState.Pause)
+                ModelMediaPlayer.MediaState = MediaState.Pause;
+        }
+
+        private void StopMedia()
+        {
+            if (ModelMediaPlayer.MediaState != MediaState.Stop)
+                ModelMediaPlayer.MediaState = MediaState.Stop;
         }
 
         private void SelectMediaItem(int mediaItemId)
@@ -447,14 +458,9 @@ namespace MediaPlayer.MVVM.ViewModels
             ModelMediaPlayer.CurrentTrack = ModelMediaPlayer.TrackList.First(x => x.Id == mediaItemId);
         }
 
-        private void StopMedia()
-        {
-            ModelMediaPlayer.MediaState = MediaState.Stop;
-        }
-
         private bool PreviousMediaItemIsAvailable()
         {
-            return ModelMediaPlayer.TrackList.Any(x => x.Id == ModelMediaPlayer.CurrentTrack.Id - 1);
+            return ModelMediaPlayer.TrackList.Count > 0 && ModelMediaPlayer.TrackList.Any(x => x.Id == ModelMediaPlayer.CurrentTrack.Id - 1);
         }
 
         private bool NextMediaItemIsAvailable()
@@ -464,53 +470,38 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void PlayPreviousMediaItem()
         {
-            if (ModelMediaPlayer.IsShuffleMediaListEnabled)
-            {
-                var randomMediaItemId = GetShuffledMediaListIds().First();
-
-                SelectMediaItem(ModelMediaPlayer.TrackList.First(x => x.Id == randomMediaItemId).Id);
-            }
-            else if (ModelMediaPlayer.IsRepeatMediaListEnabled && ModelMediaPlayer.CurrentTrack.Id == ModelMediaPlayer.TrackList.First().Id)
-            {
+            if (ModelMediaPlayer.IsRepeatMediaListEnabled && ModelMediaPlayer.CurrentTrack.Id == ModelMediaPlayer.TrackList.First().Id)
                 SelectMediaItem(ModelMediaPlayer.TrackList.Last().Id);
-            }
             else
-            {
                 SelectMediaItem(ModelMediaPlayer.TrackList.First(x => x.Id == ModelMediaPlayer.CurrentTrack.Id - 1).Id);
-            }
 
-            if (ModelMediaPlayer.MediaState != MediaState.Play)
-                PlayMedia();
+            PlayMedia();
         }
 
         private void PlayNextMediaItem()
         {
-            if (ModelMediaPlayer.IsShuffleMediaListEnabled)
-            {
-                var randomMediaItemId = GetShuffledMediaListIds().First();
-
-                SelectMediaItem(ModelMediaPlayer.TrackList.First(x => x.Id == randomMediaItemId).Id);
-            }
-            else if (ModelMediaPlayer.IsRepeatMediaListEnabled && ModelMediaPlayer.CurrentTrack.Id == ModelMediaPlayer.TrackList.Last().Id)
-            {
+            if (ModelMediaPlayer.IsRepeatMediaListEnabled && ModelMediaPlayer.CurrentTrack.Id == ModelMediaPlayer.TrackList.Last().Id)
                 SelectMediaItem(ModelMediaPlayer.TrackList.First().Id);
-            }
             else
-            {
                 SelectMediaItem(ModelMediaPlayer.TrackList.First(x => x.Id == ModelMediaPlayer.CurrentTrack.Id + 1).Id);
-            }
 
-            if (ModelMediaPlayer.MediaState != MediaState.Play)
-                PlayMedia();
+            PlayMedia();
         }
 
-        private List<int> GetShuffledMediaListIds()
+        //private List<int> GetShuffledMediaListIds()
+        //{
+        //    return ModelMediaPlayer.TrackList
+        //        .Where(x => x.Id != ModelMediaPlayer.CurrentTrack.Id)
+        //        .OrderBy(x => RandomIdGenerator.Next())
+        //        .Select(x => x.Id)
+        //        .ToList();
+        //}
+
+        private void ShuffleMediaList()
         {
-            return ModelMediaPlayer.TrackList
-                .Where(x => x.Id != ModelMediaPlayer.CurrentTrack.Id)
-                .OrderBy(x => RandomIdGenerator.Next())
-                .Select(x => x.Id)
-                .ToList();
+            ModelMediaPlayer.TrackList = new ObservableCollection<Mp3>(ModelMediaPlayer.TrackList.OrderBy(x => RandomIdGenerator.Next()));
+
+            ModelMediaPlayer.TrackList.ToList().ForEach(x => x.Id = ModelMediaPlayer.TrackList.IndexOf(x));
         }
 
         private void PollMediaPosition(MediaElement mediaElement)

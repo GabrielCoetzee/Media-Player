@@ -140,7 +140,7 @@
                 </i:Interaction.Triggers>
             </Slider>
 
-            <ToggleButton Grid.Row="3" Grid.Column="10" Grid.RowSpan="2" Command="{Binding ShuffleMediaListCommand}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MetroCircleToggleButtonStyle}" />
+            <Button Grid.Row="3" Grid.Column="10" Grid.RowSpan="2" Command="{Binding ShuffleMediaListCommand}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MetroCircleButtonStyle}" />
             <ToggleButton Grid.Row="3" Grid.Column="9" Grid.RowSpan="2" Command="{Binding RepeatMediaListCommand}" Background="{StaticResource ResourceRepeatButtonImage}"  Style="{DynamicResource MetroCircleToggleButtonStyle}" />
             <Button Grid.Row="3" Grid.Column="8" Grid.RowSpan="2" Command="{Binding NextTrackCommand}" Background="{StaticResource ResourceNextTrackButtonImage}"  Style="{DynamicResource MetroCircleButtonStyle}" />
             <Button Grid.Row="3" Grid.Column="7" Grid.RowSpan="2" Command="{Binding PlayPauseCommand}" Background="{Binding ModelMediaPlayer.MediaState, Converter={StaticResource PlayPauseButtonBackgroundConverter}, FallbackValue={StaticResource ResourcePlayButtonImage}}" Style="{DynamicResource MetroCircleButtonStyle}" />

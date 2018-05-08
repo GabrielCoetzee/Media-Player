@@ -28,11 +28,8 @@ namespace MediaPlayer
 
         private void SeekBar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (DataContext is ViewModelMediaPlayer vm)
-            {
-                var pointerLocation = (e.GetPosition(SeekBar).X / SeekBar.ActualWidth) * (SeekBar.Maximum - SeekBar.Minimum);
-                SeekMediaPosition(TimeSpan.FromSeconds(pointerLocation));
-            }
+            var pointerLocation = (e.GetPosition(SeekBar).X / SeekBar.ActualWidth) * (SeekBar.Maximum - SeekBar.Minimum);
+            SeekMediaPosition(TimeSpan.FromSeconds(pointerLocation));
         }
 
         private void SeekMediaPosition(TimeSpan seekToPosition)
@@ -43,13 +40,9 @@ namespace MediaPlayer
         private void TopMostGrid_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
                 e.Effects = DragDropEffects.Move;
-            }
             else
-            {
                 e.Effects = DragDropEffects.None;
-            }
         }
 
         private void TopMostGrid_Drop(object sender, DragEventArgs e)
