@@ -225,7 +225,7 @@ namespace MediaPlayer.MVVM.ViewModels
             StopCommand = new RelayCommand(StopCommand_Execute, StopCommand_CanExecute);
             NextTrackCommand = new RelayCommand(NextTrackCommand_Execute, NextTrackCommand_CanExecute);
             RepeatMediaListCommand = new RelayCommand(RepeatMediaListCommand_Execute, RepeatMediaListCommand_CanExecute);
-            ShuffleMediaListCommand = new RelayCommand(ShuffleMediaListCommand_Execute, ShuffleMediaListCommand_CanExecute);
+            ShuffleMediaListCommand = new RelayCommandWithParameter(ShuffleMediaListCommand_Execute, ShuffleMediaListCommand_CanExecute);
             ClearMediaListCommand = new RelayCommand(ClearMediaListCommand_Execute, ClearMediaListCommand_CanExecute);
         }
 
@@ -262,16 +262,20 @@ namespace MediaPlayer.MVVM.ViewModels
             return ModelMediaPlayer.TrackList.Count > 2 && ModelMediaPlayer.CurrentTrack != null;
         }
 
-        public void ShuffleMediaListCommand_Execute()
+        public void ShuffleMediaListCommand_Execute(object uiElement)
         {
-            ModelMediaPlayer.IsShuffled = !ModelMediaPlayer.IsShuffled;
+            if (uiElement is ListBox UI_MediaList)
+            {
+                ModelMediaPlayer.IsShuffled = !ModelMediaPlayer.IsShuffled;
 
-            if (ModelMediaPlayer.IsShuffled)
-                ShuffleMediaList();
-            else
-                OrderMediaList();
+                if (ModelMediaPlayer.IsShuffled)
+                    ShuffleMediaList();
+                else
+                    OrderMediaList();
 
-            PlayMedia();
+                PlayMedia();
+                UI_MediaList.ScrollIntoView(UI_MediaList.SelectedItem);
+            }
         }
 
         public bool RepeatMediaListCommand_CanExecute()
@@ -370,9 +374,9 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void MediaOpenedCommand_Execute(object uiElement)
         {
-            if (uiElement is MediaElement mediaElement)
+            if (uiElement is MediaElement UI_MediaElement)
             {
-                PollMediaPosition(mediaElement);
+                PollMediaPosition(UI_MediaElement);
             }
         }
 
@@ -383,10 +387,10 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void SeekbarThumbCompletedDraggingCommand_Execute(object uiElement)
         {
-            if (uiElement is MediaElement mediaElement)
+            if (uiElement is MediaElement UI_MediaElement)
             {
                 ModelMediaPlayer.IsDraggingSeekbarThumb = false;
-                mediaElement.Position = TimeSpan.FromSeconds(ModelMediaPlayer.ElapsedTime);
+                UI_MediaElement.Position = TimeSpan.FromSeconds(ModelMediaPlayer.ElapsedTime);
             }
         }
 
@@ -407,11 +411,11 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void SeekbarValueChangedCommand_Execute(object uiElement)
         {
-            if (uiElement is Slider seekbar)
+            if (uiElement is Slider UI_Seekbar)
             {
                 if (ModelMediaPlayer.IsDraggingSeekbarThumb)
                 {
-                    ModelMediaPlayer.MediaPosition = TimeSpan.FromSeconds(seekbar.Value);
+                    ModelMediaPlayer.MediaPosition = TimeSpan.FromSeconds(UI_Seekbar.Value);
                 }
             }
         }
@@ -531,7 +535,9 @@ namespace MediaPlayer.MVVM.ViewModels
             if (IsEndOfCurrentMedia(mediaElement))
             {
                 if (NextTrackCommand_CanExecute())
+                {
                     NextTrackCommand_Execute();
+                }
 
                 CommandManager.InvalidateRequerySuggested();
             }
