@@ -36,12 +36,14 @@ namespace MediaPlayer.MetadataReaders.Interface_Implementations
             Mp3.Year = _taglibMp3MetadataReader.Tag.Year;
             Mp3.Lyrics = _taglibMp3MetadataReader.Tag.Lyrics;
             Mp3.Composer = _taglibMp3MetadataReader.Tag.FirstComposer;
-            Mp3.TrackTitle = _taglibMp3MetadataReader.Tag.Title;
-            Mp3.TrackDuration = _taglibMp3MetadataReader.Properties.Duration;
+            Mp3.SongTitle = _taglibMp3MetadataReader.Tag.Title;
+            Mp3.MediaDuration = _taglibMp3MetadataReader.Properties.Duration;
             Mp3.Bitrate = _taglibMp3MetadataReader.Properties.AudioBitrate;
 
             Mp3.HasLyrics = !string.IsNullOrEmpty(Mp3.Lyrics);
             Mp3.FilePath = new Uri(path);
+
+            Mp3.SetWindowTitle();
 
             Dispose();
 

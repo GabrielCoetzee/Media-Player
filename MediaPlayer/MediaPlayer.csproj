@@ -104,6 +104,7 @@
     <Compile Include="MP3MetadataReaders\Interface Implementations\TaglibMp3MetadataReaderWrapper.cs" />
     <Compile Include="MP3MetadataReaders\Interfaces\IReadMp3Metadata.cs" />
     <Compile Include="MP3MetadataReaders\Types\Mp3MetadataReaderTypes.cs" />
+    <Compile Include="MVVM\Models\Base Types\MediaItem.cs" />
     <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelMediaPlayer.cs" />
     <Compile Include="MVVM\Views\ViewMediaPlayer.xaml.cs">

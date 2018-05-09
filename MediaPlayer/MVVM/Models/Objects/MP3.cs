@@ -2,13 +2,12 @@
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Windows.Controls;
 using MediaPlayer.Annotations;
+using MediaPlayer.MVVM.Models.Base_Types;
 
 namespace MediaPlayer.Objects
 {
-    public class Mp3 : INotifyPropertyChanged
+    public class Mp3 : MediaItem,INotifyPropertyChanged
     {
         #region Interface Implementations
 
@@ -29,7 +28,7 @@ namespace MediaPlayer.Objects
         private byte[] _albumArt;
         private string _album;
         private string _artist;
-        private string _trackTitle;
+        private string _songTitle;
         private string _genre;
         private string _comments;
         private uint? _trackNumber;
@@ -37,23 +36,24 @@ namespace MediaPlayer.Objects
         private string _lyrics;
         private bool _hasLyrics;
         private string _composer;
-        private TimeSpan _trackDuration;
+        private TimeSpan _mediaDuration;
         private int _bitrate;
+        private string _windowTitle;
 
         #endregion
 
-        #region Properties
+        #region Overridden Properties
 
-        public int Id
+        public override int Id
         {
             get => _id;
             set
             {
                 _id = value;
                 OnPropertyChanged(nameof(Id));
-            } 
+            }
         }
-        public Uri FilePath
+        public override Uri FilePath
         {
             get => _filePath;
             set
@@ -64,7 +64,33 @@ namespace MediaPlayer.Objects
             }
         }
 
-        public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
+        public override TimeSpan MediaDuration
+        {
+            get => _mediaDuration;
+            set
+            {
+                _mediaDuration = value;
+                OnPropertyChanged(nameof(MediaDuration));
+            }
+        }
+
+        public override string WindowTitle
+        {
+            get => _windowTitle;
+            set
+            {
+                _windowTitle = value;
+                OnPropertyChanged(nameof(WindowTitle));
+            }
+        }
+
+        public override string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
+        public override string MediaTitle => _songTitle ?? FileName;
+        public override string MediaTitleTrimmed => GetTrimmedMediaTitle();
+
+        #endregion
+
+        #region Properties
 
         public byte[] AlbumArt
         {
@@ -93,19 +119,20 @@ namespace MediaPlayer.Objects
                 OnPropertyChanged(nameof(Artist));
             } 
         }
-        public string TrackTitle
+
+        public string SongTitle
         {
-            get => _trackTitle ?? FileName;
+            get => _songTitle;
             set
             {
-                _trackTitle = value;
+                _songTitle = value;
 
-                OnPropertyChanged(nameof(TrackTitle));
-                OnPropertyChanged(nameof(TrackTitleTrimmed));
+                OnPropertyChanged(nameof(SongTitle));
+                OnPropertyChanged(nameof(MediaTitle));
+                OnPropertyChanged(nameof(MediaTitleTrimmed));
             }
         }
 
-        public string TrackTitleTrimmed => GetTrimmedTrackTitle();
 
         public string Genre
         {
@@ -172,15 +199,6 @@ namespace MediaPlayer.Objects
             } 
         }
 
-        public TimeSpan TrackDuration
-        {
-            get => _trackDuration;
-            set
-            {
-                _trackDuration = value;
-                OnPropertyChanged(nameof(TrackDuration));
-            } 
-        }
         public int Bitrate
         {
             get => _bitrate;
@@ -193,16 +211,28 @@ namespace MediaPlayer.Objects
 
         #endregion Properties
 
+        #region Public Methods
+
+        public void SetWindowTitle()
+        {
+            if (!string.IsNullOrEmpty(Artist) && !string.IsNullOrEmpty(MediaTitle))
+                WindowTitle = $"Now Playing : {Artist} - {MediaTitle}";
+            else
+                WindowTitle = $"Now Playing : {FileName}";
+        }
+
+        #endregion
+
         #region Private Methods
 
-        private string GetTrimmedTrackTitle()
+        private string GetTrimmedMediaTitle()
         {
             int charMaxLength = 32;
 
-            if (TrackTitle.Length > charMaxLength)
-                return TrackTitle.Substring(0, charMaxLength) + "...";
+            if (MediaTitle.Length > charMaxLength)
+                return MediaTitle.Substring(0, charMaxLength) + "...";
 
-            return TrackTitle;
+            return MediaTitle;
         }
 
         #endregion

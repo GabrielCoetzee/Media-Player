@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using MediaPlayer.Annotations;
+using MediaPlayer.MVVM.Models.Base_Types;
 using MediaPlayer.Objects;
 
 namespace MediaPlayer.MVVM.Models
@@ -23,15 +24,14 @@ namespace MediaPlayer.MVVM.Models
 
         #region Fields
 
-        private Mp3 _currentTrack;
-        private ObservableCollection<Mp3> _trackList;
+        private MediaItem _currentMediaItem;
+        private ObservableCollection<MediaItem> _mediaList;
         private TimeSpan _mediaPosition;
         private MediaState _mediaState;
         private CustomTypes.VolumeLevel _mediaVolume;
         private double _elapsedTime;
         private bool _isDraggingSeekbarThumb = false;
         private string _elapsedTimeFormatted;
-        private string _windowTitle;
         private bool _isRepeatMediaListEnabled;
         private bool _isShuffled;
 
@@ -40,25 +40,23 @@ namespace MediaPlayer.MVVM.Models
         #region Properties
 
         [CanBeNull]
-        public Mp3 CurrentTrack
+        public MediaItem CurrentMediaItem
         {
-            get => _currentTrack;
+            get => _currentMediaItem;
             set
             {
-                _currentTrack = value;
-
-                SetWindowTitle();
-                OnPropertyChanged(nameof(CurrentTrack));
+                _currentMediaItem = value;
+                OnPropertyChanged(nameof(CurrentMediaItem));
             }
         } 
 
-        public ObservableCollection<Mp3> TrackList
+        public ObservableCollection<MediaItem> MediaList
         {
-            get => _trackList;
+            get => _mediaList;
             set
             {
-                _trackList = value;
-                OnPropertyChanged(nameof(TrackList));
+                _mediaList = value;
+                OnPropertyChanged(nameof(MediaList));
             }
         }
 
@@ -125,16 +123,6 @@ namespace MediaPlayer.MVVM.Models
             }
         }
 
-        public string WindowTitle
-        {
-            get => _windowTitle;
-            set
-            {
-                _windowTitle = value;
-                OnPropertyChanged(nameof(WindowTitle));
-            }
-        }
-
         public bool IsRepeatMediaListEnabled
         {
             get => _isRepeatMediaListEnabled;
@@ -155,21 +143,6 @@ namespace MediaPlayer.MVVM.Models
             }
         }
 
-
-        #endregion
-
-        #region Private Methods - Logic
-
-        private void SetWindowTitle()
-        {
-            if (CurrentTrack == null)
-                return;
-
-            if (!string.IsNullOrEmpty(CurrentTrack.Artist) && !string.IsNullOrEmpty(CurrentTrack.TrackTitle))
-                WindowTitle = $"Now Playing : {CurrentTrack.Artist} - {CurrentTrack.TrackTitle}";
-            else
-                WindowTitle = $"Now Playing : {CurrentTrack.FileName}";
-        }
 
         #endregion
 
