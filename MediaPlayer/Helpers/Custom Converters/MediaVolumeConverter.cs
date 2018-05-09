@@ -8,11 +8,11 @@ namespace MediaPlayer.Helpers.Custom_Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Constants.VolumeLevel volumeLevel)
+            if (value is CustomTypes.VolumeLevel volumeLevel)
             {
-                if (volumeLevel == Constants.VolumeLevel.FullVolume)
+                if (volumeLevel == CustomTypes.VolumeLevel.FullVolume)
                     return 100;
-                else if (volumeLevel == Constants.VolumeLevel.Mute)
+                else if (volumeLevel == CustomTypes.VolumeLevel.Mute)
                     return 0;
             }
 
@@ -21,11 +21,11 @@ namespace MediaPlayer.Helpers.Custom_Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Constants.VolumeLevel volumeLevel)
+            if (value is CustomTypes.VolumeLevel volumeLevel)
             {
-                if (volumeLevel == Constants.VolumeLevel.FullVolume)
+                if (volumeLevel == CustomTypes.VolumeLevel.FullVolume)
                     return 100;
-                else if (volumeLevel == Constants.VolumeLevel.Mute)
+                else if (volumeLevel == CustomTypes.VolumeLevel.Mute)
                     return 0;
             }
 

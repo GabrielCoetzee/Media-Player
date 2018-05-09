@@ -94,7 +94,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Constants\Constants.cs" />
+    <Compile Include="Helpers\Custom Types\CustomTypes.cs" />
     <Compile Include="Helpers\Custom Command Classes\RelayCommandWithParameter.cs" />
     <Compile Include="Helpers\Custom Converters\MediaVolumeConverter.cs" />
     <Compile Include="Helpers\Custom Converters\PlayPauseButtonBackgroundConverter.cs" />

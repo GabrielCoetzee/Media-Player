@@ -213,7 +213,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void InitializeModelInstance()
         {
-            ModelMediaPlayer = new ModelMediaPlayer() { TrackList = new ObservableCollection<Mp3>(), MediaState = MediaState.Pause, MediaVolume = Constants.VolumeLevel.FullVolume };
+            ModelMediaPlayer = new ModelMediaPlayer() { TrackList = new ObservableCollection<Mp3>(), MediaState = MediaState.Pause, MediaVolume = CustomTypes.VolumeLevel.FullVolume };
         }
 
         private void InitializeCommands()
@@ -264,9 +264,13 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void ShuffleMediaListCommand_Execute()
         {
-            ShuffleMediaList();
+            ModelMediaPlayer.IsShuffled = !ModelMediaPlayer.IsShuffled;
 
-            SelectMediaItem(ModelMediaPlayer.TrackList.First().Id);
+            if (ModelMediaPlayer.IsShuffled)
+                ShuffleMediaList();
+            else
+                OrderMediaList();
+
             PlayMedia();
         }
 
@@ -297,7 +301,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void StopCommand_Execute()
         {
-            SelectMediaItem(ModelMediaPlayer.TrackList.First().Id);
+            SelectMediaItem(ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.TrackList.First()));
             StopMedia();
         }
 
@@ -318,7 +322,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void MuteCommand_Execute()
         {
-            ModelMediaPlayer.MediaVolume = ModelMediaPlayer.MediaVolume == Constants.VolumeLevel.FullVolume ? Constants.VolumeLevel.Mute : Constants.VolumeLevel.FullVolume;
+            ModelMediaPlayer.MediaVolume = ModelMediaPlayer.MediaVolume == CustomTypes.VolumeLevel.FullVolume ? CustomTypes.VolumeLevel.Mute : CustomTypes.VolumeLevel.FullVolume;
         }
 
         public bool PlayPauseCommand_CanExecute()
@@ -420,13 +424,13 @@ namespace MediaPlayer.MVVM.ViewModels
         {
             foreach (var file in files)
             {
-                var id = ModelMediaPlayer.TrackList.Count > 0 ? ModelMediaPlayer.TrackList.Last().Id + 1 : 0;
+                var id = ModelMediaPlayer.TrackList.Count > 0 ? ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.TrackList.Last()) + 1 : 0;
                 ModelMediaPlayer.TrackList.Add(_readMp3Metadata.GetMp3Metadata(id, file));
             }
 
             if (ModelMediaPlayer.CurrentTrack == null)
             {
-                SelectMediaItem(ModelMediaPlayer.TrackList.First().Id);
+                SelectMediaItem(ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.TrackList.First()));
                 PlayMedia();
             }
         }
@@ -453,27 +457,27 @@ namespace MediaPlayer.MVVM.ViewModels
                 ModelMediaPlayer.MediaState = MediaState.Stop;
         }
 
-        private void SelectMediaItem(int mediaItemId)
+        private void SelectMediaItem(int index)
         {
-            ModelMediaPlayer.CurrentTrack = ModelMediaPlayer.TrackList.First(x => x.Id == mediaItemId);
+            ModelMediaPlayer.CurrentTrack = ModelMediaPlayer.TrackList[index];
         }
 
         private bool PreviousMediaItemIsAvailable()
         {
-            return ModelMediaPlayer.TrackList.Count > 0 && ModelMediaPlayer.TrackList.Any(x => x.Id == ModelMediaPlayer.CurrentTrack.Id - 1);
+            return ModelMediaPlayer.TrackList.Count > 0 && ModelMediaPlayer.TrackList.Any(x => ModelMediaPlayer.TrackList.IndexOf(x) == ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.CurrentTrack) - 1);
         }
 
         private bool NextMediaItemIsAvailable()
         {
-            return ModelMediaPlayer.TrackList.Count > 0 && ModelMediaPlayer.TrackList.Any(x => x.Id == ModelMediaPlayer.CurrentTrack.Id + 1);
+            return ModelMediaPlayer.TrackList.Count > 0 && ModelMediaPlayer.TrackList.Any(x => ModelMediaPlayer.TrackList.IndexOf(x) == ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.CurrentTrack) + 1);
         }
 
         private void PlayPreviousMediaItem()
         {
             if (ModelMediaPlayer.IsRepeatMediaListEnabled && ModelMediaPlayer.CurrentTrack.Id == ModelMediaPlayer.TrackList.First().Id)
-                SelectMediaItem(ModelMediaPlayer.TrackList.Last().Id);
+                SelectMediaItem(ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.TrackList.Last()));
             else
-                SelectMediaItem(ModelMediaPlayer.TrackList.First(x => x.Id == ModelMediaPlayer.CurrentTrack.Id - 1).Id);
+                SelectMediaItem(ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.TrackList.First(x => ModelMediaPlayer.TrackList.IndexOf(x) == ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.CurrentTrack) - 1)));
 
             PlayMedia();
         }
@@ -481,21 +485,17 @@ namespace MediaPlayer.MVVM.ViewModels
         private void PlayNextMediaItem()
         {
             if (ModelMediaPlayer.IsRepeatMediaListEnabled && ModelMediaPlayer.CurrentTrack.Id == ModelMediaPlayer.TrackList.Last().Id)
-                SelectMediaItem(ModelMediaPlayer.TrackList.First().Id);
+                SelectMediaItem(ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.TrackList.First()));
             else
-                SelectMediaItem(ModelMediaPlayer.TrackList.First(x => x.Id == ModelMediaPlayer.CurrentTrack.Id + 1).Id);
+                SelectMediaItem(ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.TrackList.First(x => ModelMediaPlayer.TrackList.IndexOf(x) == ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.CurrentTrack) + 1)));
 
             PlayMedia();
         }
 
-        //private List<int> GetShuffledMediaListIds()
-        //{
-        //    return ModelMediaPlayer.TrackList
-        //        .Where(x => x.Id != ModelMediaPlayer.CurrentTrack.Id)
-        //        .OrderBy(x => RandomIdGenerator.Next())
-        //        .Select(x => x.Id)
-        //        .ToList();
-        //}
+        private void OrderMediaList()
+        {
+            ModelMediaPlayer.TrackList = new ObservableCollection<Mp3>(ModelMediaPlayer.TrackList.OrderBy(x => x.Id));
+        }
 
         private void ShuffleMediaList()
         {
@@ -503,7 +503,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
             ModelMediaPlayer.TrackList.Move(ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.TrackList.First(x => x.Id == ModelMediaPlayer.CurrentTrack.Id)), 0);
 
-            ModelMediaPlayer.TrackList.ToList().ForEach(x => x.Id = ModelMediaPlayer.TrackList.IndexOf(x));
+            SelectMediaItem(ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.TrackList.First()));
         }
 
         private void PollMediaPosition(MediaElement mediaElement)

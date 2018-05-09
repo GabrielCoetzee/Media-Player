@@ -27,12 +27,13 @@ namespace MediaPlayer.MVVM.Models
         private ObservableCollection<Mp3> _trackList;
         private TimeSpan _mediaPosition;
         private MediaState _mediaState;
-        private Constants.VolumeLevel _mediaVolume;
+        private CustomTypes.VolumeLevel _mediaVolume;
         private double _elapsedTime;
         private bool _isDraggingSeekbarThumb = false;
         private string _elapsedTimeFormatted;
         private string _windowTitle;
         private bool _isRepeatMediaListEnabled;
+        private bool _isShuffled;
 
         #endregion
 
@@ -84,7 +85,7 @@ namespace MediaPlayer.MVVM.Models
             }
         }
 
-        public Constants.VolumeLevel MediaVolume
+        public CustomTypes.VolumeLevel MediaVolume
         {
             get => _mediaVolume;
             set
@@ -143,6 +144,17 @@ namespace MediaPlayer.MVVM.Models
                 OnPropertyChanged(nameof(IsRepeatMediaListEnabled));
             }
         }
+
+        public bool IsShuffled
+        {
+            get => _isShuffled;
+            set
+            {
+                _isShuffled = value;
+                OnPropertyChanged(nameof(IsShuffled));
+            }
+        }
+
 
         #endregion
 
