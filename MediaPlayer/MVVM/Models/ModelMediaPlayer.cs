@@ -33,7 +33,6 @@ namespace MediaPlayer.MVVM.Models
         private string _elapsedTimeFormatted;
         private string _windowTitle;
         private bool _isRepeatMediaListEnabled;
-        //private bool _isShuffleMediaListEnabled;
 
         #endregion
 
@@ -47,7 +46,7 @@ namespace MediaPlayer.MVVM.Models
             {
                 _currentTrack = value;
 
-                SetMainWindowTitle();
+                SetWindowTitle();
                 OnPropertyChanged(nameof(CurrentTrack));
             }
         } 
@@ -145,33 +144,19 @@ namespace MediaPlayer.MVVM.Models
             }
         }
 
-        //public bool IsShuffleMediaListEnabled
-        //{
-        //    get => _isShuffleMediaListEnabled;
-        //    set
-        //    {
-        //        _isShuffleMediaListEnabled = value;
-        //        OnPropertyChanged(nameof(IsShuffleMediaListEnabled));
-        //    }
-        //}
-
         #endregion
 
         #region Private Methods - Logic
 
-        private void SetMainWindowTitle()
+        private void SetWindowTitle()
         {
-            if (CurrentTrack != null)
-            {
-                if (!string.IsNullOrEmpty(CurrentTrack.Artist) && !string.IsNullOrEmpty(CurrentTrack.TrackTitle))
-                {
-                    WindowTitle = $"Now Playing : {CurrentTrack.Artist} - {CurrentTrack.TrackTitle}";
-                }
-                else
-                {
-                    WindowTitle = $"Now Playing : {CurrentTrack.FileName}";
-                }
-            }
+            if (CurrentTrack == null)
+                return;
+
+            if (!string.IsNullOrEmpty(CurrentTrack.Artist) && !string.IsNullOrEmpty(CurrentTrack.TrackTitle))
+                WindowTitle = $"Now Playing : {CurrentTrack.Artist} - {CurrentTrack.TrackTitle}";
+            else
+                WindowTitle = $"Now Playing : {CurrentTrack.FileName}";
         }
 
         #endregion

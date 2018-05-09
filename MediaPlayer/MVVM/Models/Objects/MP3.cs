@@ -26,7 +26,6 @@ namespace MediaPlayer.Objects
 
         private int _id;
         private Uri _filePath;
-        private string _fileName;
         private byte[] _albumArt;
         private string _album;
         private string _artist;
@@ -61,18 +60,12 @@ namespace MediaPlayer.Objects
             {
                 _filePath = value;
                 OnPropertyChanged(nameof(FilePath));
-            } 
-        }
-
-        public string FileName
-        {
-            get => _fileName;
-            set
-            {
-                _fileName = value;
                 OnPropertyChanged(nameof(FileName));
             }
-        } 
+        }
+
+        public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
+
         public byte[] AlbumArt
         {
             get => _albumArt;
@@ -102,7 +95,7 @@ namespace MediaPlayer.Objects
         }
         public string TrackTitle
         {
-            get => _trackTitle ?? _fileName;
+            get => _trackTitle ?? FileName;
             set
             {
                 _trackTitle = value;

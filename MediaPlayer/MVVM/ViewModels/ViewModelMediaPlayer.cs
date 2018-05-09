@@ -501,6 +501,8 @@ namespace MediaPlayer.MVVM.ViewModels
         {
             ModelMediaPlayer.TrackList = new ObservableCollection<Mp3>(ModelMediaPlayer.TrackList.OrderBy(x => RandomIdGenerator.Next()));
 
+            ModelMediaPlayer.TrackList.Move(ModelMediaPlayer.TrackList.IndexOf(ModelMediaPlayer.TrackList.First(x => x.Id == ModelMediaPlayer.CurrentTrack.Id)), 0);
+
             ModelMediaPlayer.TrackList.ToList().ForEach(x => x.Id = ModelMediaPlayer.TrackList.IndexOf(x));
         }
 

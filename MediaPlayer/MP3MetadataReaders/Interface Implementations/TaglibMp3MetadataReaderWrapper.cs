@@ -42,7 +42,6 @@ namespace MediaPlayer.MetadataReaders.Interface_Implementations
 
             Mp3.HasLyrics = !string.IsNullOrEmpty(Mp3.Lyrics);
             Mp3.FilePath = new Uri(path);
-            Mp3.FileName = Path.GetFileNameWithoutExtension(Mp3.FilePath.ToString());
 
             Dispose();
 
