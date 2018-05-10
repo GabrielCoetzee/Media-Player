@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using MediaPlayer.Annotations;
+using MediaPlayer.Helpers.Extension_Methods;
 using MediaPlayer.MVVM.Models.Base_Types;
 
 namespace MediaPlayer.Objects
@@ -210,6 +212,19 @@ namespace MediaPlayer.Objects
         #endregion Properties
 
         #region Internal Methods
+        internal byte[] GetAlbumArtFromDirectory(string filePath)
+        {
+            var albumArtFromDirectory = Directory
+                .GetFiles(Path.GetDirectoryName(filePath), "*.*", SearchOption.TopDirectoryOnly)
+                .Where(x => x.ToLower().EndsWith("cover.jpg") || x.ToLower().EndsWith("folder.jpg"));
+
+            if (albumArtFromDirectory.Count() != 0)
+            {
+                return albumArtFromDirectory.First().ConvertPathToByteArray();
+            }
+
+            return null;
+        }
 
         internal void SetWindowTitle()
         {

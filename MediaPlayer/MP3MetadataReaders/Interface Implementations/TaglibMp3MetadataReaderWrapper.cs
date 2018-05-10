@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Controls;
+using MediaPlayer.Helpers.Extension_Methods;
 using MediaPlayer.MetadataReaders.Interfaces;
 using MediaPlayer.Objects;
 using TagLib;
@@ -15,44 +17,43 @@ namespace MediaPlayer.MetadataReaders.Interface_Implementations
 
         private File _taglibMp3MetadataReader;
 
-        public AudioItem AudioItem { get; set; } = new AudioItem() { };
-
         #endregion
 
         public AudioItem GetMp3Metadata(int id, string path)
         {
-            if (AudioItem != null)
-                AudioItem = new AudioItem();
+            var audioItem = new AudioItem();
 
             _taglibMp3MetadataReader = File.Create(path);
 
-            AudioItem.Id = id;
-            AudioItem.AlbumArt = _taglibMp3MetadataReader.Tag.Pictures.Length >= 1 ? _taglibMp3MetadataReader.Tag.Pictures[0].Data.Data : null;
-            AudioItem.Album = _taglibMp3MetadataReader.Tag.Album;
-            AudioItem.Artist = _taglibMp3MetadataReader.Tag.FirstPerformer;
-            AudioItem.Genre = _taglibMp3MetadataReader.Tag.FirstGenre;
-            AudioItem.Comments = _taglibMp3MetadataReader.Tag.Comment;
-            AudioItem.TrackNumber = _taglibMp3MetadataReader.Tag.Track;
-            AudioItem.Year = _taglibMp3MetadataReader.Tag.Year;
-            AudioItem.Lyrics = _taglibMp3MetadataReader.Tag.Lyrics;
-            AudioItem.Composer = _taglibMp3MetadataReader.Tag.FirstComposer;
-            AudioItem.SongTitle = _taglibMp3MetadataReader.Tag.Title;
-            AudioItem.MediaDuration = _taglibMp3MetadataReader.Properties.Duration;
-            AudioItem.Bitrate = _taglibMp3MetadataReader.Properties.AudioBitrate;
+            audioItem.Id = id;
+            audioItem.AlbumArt = _taglibMp3MetadataReader.Tag.Pictures.Length >= 1 ? _taglibMp3MetadataReader.Tag.Pictures[0].Data.Data : audioItem.GetAlbumArtFromDirectory(path);
+            audioItem.Album = _taglibMp3MetadataReader.Tag.Album;
+            audioItem.Artist = _taglibMp3MetadataReader.Tag.FirstPerformer;
+            audioItem.Genre = _taglibMp3MetadataReader.Tag.FirstGenre;
+            audioItem.Comments = _taglibMp3MetadataReader.Tag.Comment;
+            audioItem.TrackNumber = _taglibMp3MetadataReader.Tag.Track;
+            audioItem.Year = _taglibMp3MetadataReader.Tag.Year;
+            audioItem.Lyrics = _taglibMp3MetadataReader.Tag.Lyrics;
+            audioItem.Composer = _taglibMp3MetadataReader.Tag.FirstComposer;
+            audioItem.SongTitle = _taglibMp3MetadataReader.Tag.Title;
+            audioItem.MediaDuration = _taglibMp3MetadataReader.Properties.Duration;
+            audioItem.Bitrate = _taglibMp3MetadataReader.Properties.AudioBitrate;
 
-            AudioItem.HasLyrics = !string.IsNullOrEmpty(AudioItem.Lyrics);
-            AudioItem.FilePath = new Uri(path);
+            audioItem.HasLyrics = !string.IsNullOrEmpty(audioItem.Lyrics);
+            audioItem.FilePath = new Uri(path);
 
-            AudioItem.SetWindowTitle();
+            audioItem.SetWindowTitle();
 
             Dispose();
 
-            return AudioItem;
+            return audioItem;
         }
 
         public void Dispose()
         {
             _taglibMp3MetadataReader.Dispose();
         }
+
+
     }
 }
