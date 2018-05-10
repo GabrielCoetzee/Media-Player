@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Controls;
 using MediaPlayer.Annotations;
 using MediaPlayer.MVVM.Models.Base_Types;
-using MediaPlayer.Objects;
 
 namespace MediaPlayer.MVVM.Models
 {
@@ -24,7 +22,7 @@ namespace MediaPlayer.MVVM.Models
 
         #region Fields
 
-        private MediaItem _currentMediaItem;
+        private MediaItem _selectedMediaItem;
         private ObservableCollection<MediaItem> _mediaList;
         private TimeSpan _mediaPosition;
         private MediaState _mediaState;
@@ -40,13 +38,13 @@ namespace MediaPlayer.MVVM.Models
         #region Properties
 
         [CanBeNull]
-        public MediaItem CurrentMediaItem
+        public MediaItem SelectedMediaItem
         {
-            get => _currentMediaItem;
+            get => _selectedMediaItem;
             set
             {
-                _currentMediaItem = value;
-                OnPropertyChanged(nameof(CurrentMediaItem));
+                _selectedMediaItem = value;
+                OnPropertyChanged(nameof(SelectedMediaItem));
             }
         } 
 

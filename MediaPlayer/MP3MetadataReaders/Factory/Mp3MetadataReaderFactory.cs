@@ -33,7 +33,6 @@ namespace MediaPlayer.MetadataReaders.Factory
 
         #endregion
 
-
         #region Factory
 
         public IReadMp3Metadata GetMp3MetadataReader(Mp3MetadataReaderTypes.Mp3MetadataReaders selectedMp3MetadataReader)

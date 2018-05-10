@@ -7,7 +7,7 @@ using MediaPlayer.MVVM.Models.Base_Types;
 
 namespace MediaPlayer.Objects
 {
-    public class Mp3 : MediaItem,INotifyPropertyChanged
+    public class AudioItem : MediaItem,INotifyPropertyChanged
     {
         #region Interface Implementations
 
@@ -84,7 +84,19 @@ namespace MediaPlayer.Objects
             }
         }
 
-        public override string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
+        public string SongTitle
+        {
+            get => _songTitle;
+            set
+            {
+                _songTitle = value;
+
+                OnPropertyChanged(nameof(SongTitle));
+                OnPropertyChanged(nameof(MediaTitle));
+                OnPropertyChanged(nameof(MediaTitleTrimmed));
+            }
+        }
+
         public override string MediaTitle => _songTitle ?? FileName;
         public override string MediaTitleTrimmed => GetTrimmedMediaTitle();
 
@@ -119,20 +131,6 @@ namespace MediaPlayer.Objects
                 OnPropertyChanged(nameof(Artist));
             } 
         }
-
-        public string SongTitle
-        {
-            get => _songTitle;
-            set
-            {
-                _songTitle = value;
-
-                OnPropertyChanged(nameof(SongTitle));
-                OnPropertyChanged(nameof(MediaTitle));
-                OnPropertyChanged(nameof(MediaTitleTrimmed));
-            }
-        }
-
 
         public string Genre
         {
@@ -211,9 +209,9 @@ namespace MediaPlayer.Objects
 
         #endregion Properties
 
-        #region Public Methods
+        #region Internal Methods
 
-        public void SetWindowTitle()
+        internal void SetWindowTitle()
         {
             if (!string.IsNullOrEmpty(Artist) && !string.IsNullOrEmpty(MediaTitle))
                 WindowTitle = $"Now Playing : {Artist} - {MediaTitle}";

@@ -94,6 +94,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\Custom Converters\MediaItemToEnabledStateConverter.cs" />
+    <Compile Include="Helpers\Custom Converters\MediaItemToVisibilityConverter.cs" />
     <Compile Include="Helpers\Custom Types\CustomTypes.cs" />
     <Compile Include="Helpers\Custom Command Classes\RelayCommandWithParameter.cs" />
     <Compile Include="Helpers\Custom Converters\MediaVolumeConverter.cs" />
@@ -104,7 +106,7 @@
     <Compile Include="MP3MetadataReaders\Interface Implementations\TaglibMp3MetadataReaderWrapper.cs" />
     <Compile Include="MP3MetadataReaders\Interfaces\IReadMp3Metadata.cs" />
     <Compile Include="MP3MetadataReaders\Types\Mp3MetadataReaderTypes.cs" />
-    <Compile Include="MVVM\Models\Base Types\MediaItem.cs" />
+    <Compile Include="MVVM\Models\Objects\Base Types\MediaItem.cs" />
     <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelMediaPlayer.cs" />
     <Compile Include="MVVM\Views\ViewMediaPlayer.xaml.cs">
@@ -113,7 +115,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MVVM\Models\Objects\MP3.cs" />
+    <Compile Include="MVVM\Models\Objects\AudioItem.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
