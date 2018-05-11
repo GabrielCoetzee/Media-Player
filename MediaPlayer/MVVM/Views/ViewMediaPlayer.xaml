@@ -80,7 +80,7 @@
                     <RowDefinition Height="0.95*" />
                 </Grid.RowDefinitions>
 
-                <Label Content="Media List " HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
+                <Label Content="Media List " Visibility="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
                 <ListBox Name="MediaListBox" Grid.Row="1" AllowDrop="True" Background="Transparent" ItemsSource="{Binding ModelMediaPlayer.MediaList}" SelectedItem="{Binding ModelMediaPlayer.SelectedMediaItem}" SelectionChanged="MediaListBox_SelectionChanged" >
                     <ListBox.ItemTemplate>
                         <DataTemplate>

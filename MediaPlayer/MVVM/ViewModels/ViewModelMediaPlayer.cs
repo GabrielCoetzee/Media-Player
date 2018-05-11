@@ -275,7 +275,6 @@ namespace MediaPlayer.MVVM.ViewModels
                 else
                     OrderMediaList();
 
-                PlayMedia();
                 UI_MediaList.ScrollIntoView(UI_MediaList.SelectedItem);
             }
         }
@@ -508,8 +507,6 @@ namespace MediaPlayer.MVVM.ViewModels
             ModelMediaPlayer.MediaList = new ObservableCollection<MediaItem>(ModelMediaPlayer.MediaList
                 .OrderBy(x => x != ModelMediaPlayer.SelectedMediaItem)
                 .ThenBy(x => RandomIdGenerator.Next()));
-
-            SelectMediaItem(ModelMediaPlayer.MediaList.IndexOf(ModelMediaPlayer.MediaList.First()));
         }
 
         private void PollMediaPosition(MediaElement mediaElement)
