@@ -215,7 +215,7 @@ namespace MediaPlayer.Objects
         internal byte[] GetAlbumArtFromDirectory(string filePath)
         {
             var albumArtFromDirectory = Directory
-                .GetFiles(Path.GetDirectoryName(filePath), "*.*", SearchOption.TopDirectoryOnly)
+                .EnumerateFiles(Path.GetDirectoryName(filePath), "*.*", SearchOption.TopDirectoryOnly)
                 .Where(x => x.ToLower().EndsWith("cover.jpg") || x.ToLower().EndsWith("folder.jpg"));
 
             if (albumArtFromDirectory.Count() != 0)

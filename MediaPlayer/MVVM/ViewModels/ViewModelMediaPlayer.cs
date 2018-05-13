@@ -8,11 +8,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using MediaPlayer.Helpers.Custom_Command_Classes;
+using MediaPlayer.Interfaces;
 using MediaPlayer.MetadataReaders.Factory;
 using MediaPlayer.MetadataReaders.Interfaces;
 using MediaPlayer.MetadataReaders.Types;
 using MediaPlayer.MVVM.Models;
 using MediaPlayer.MVVM.Models.Base_Types;
+using MediaPlayer.MVVM.Models.Objects;
 using MediaPlayer.Objects;
 using Microsoft.Win32;
 
@@ -66,6 +68,8 @@ namespace MediaPlayer.MVVM.ViewModels
                 OnPropertyChanged(nameof(ModelMediaPlayer));
             }
         }
+
+        public IExposeApplicationSettings Settings => ApplicationSettings.Instance;
 
         public ICommand AddMediaCommand
         {
@@ -433,7 +437,7 @@ namespace MediaPlayer.MVVM.ViewModels
                 ModelMediaPlayer.MediaList.Add(_readMp3Metadata.GetMp3Metadata(id, file));
             }
 
-            if (ModelMediaPlayer.SelectedMediaItem == null)
+            if (ModelMediaPlayer.SelectedMediaItem == null && ModelMediaPlayer.MediaList.Count > 0)
             {
                 SelectMediaItem(ModelMediaPlayer.MediaList.IndexOf(ModelMediaPlayer.MediaList.First()));
                 PlayMedia();

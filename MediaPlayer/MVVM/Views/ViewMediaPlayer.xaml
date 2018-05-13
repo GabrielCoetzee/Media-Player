@@ -138,7 +138,7 @@
                 <Image Source="{Binding ModelMediaPlayer.SelectedMediaItem.AlbumArt, FallbackValue='../../Resources/Default_AlbumArt/blue.png', TargetNullValue='../../Resources/Default_AlbumArt/blue.png'}" />
             </StackPanel>
 
-            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding ModelMediaPlayer.ElapsedTime, UpdateSourceTrigger=Explicit}" IsEnabled="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource MediaItemToEnabledStateConverter}}" Maximum="{Binding ModelMediaPlayer.SelectedMediaItem.MediaDuration.TotalSeconds}" PreviewMouseUp="SeekBar_PreviewMouseUp" >
+            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding ModelMediaPlayer.ElapsedTime}" IsEnabled="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource MediaItemToEnabledStateConverter}}" Maximum="{Binding ModelMediaPlayer.SelectedMediaItem.MediaDuration.TotalSeconds}" PreviewMouseUp="SeekBar_PreviewMouseUp" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="ValueChanged" >
                         <i:InvokeCommandAction Command="{Binding SeekbarValueChangedCommand}" CommandParameter="{Binding ElementName=SeekBar}" />

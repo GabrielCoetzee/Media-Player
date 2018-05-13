@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls;
+using MediaPlayer.MVVM.Models.Objects;
 using MediaPlayer.MVVM.ViewModels;
 
 namespace MediaPlayer
@@ -39,27 +40,28 @@ namespace MediaPlayer
 
         private void TopMostGrid_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effects = DragDropEffects.Move;
-            else
-                e.Effects = DragDropEffects.None;
+            e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Move : DragDropEffects.None;
         }
 
         private void TopMostGrid_Drop(object sender, DragEventArgs e)
         {
-            if (DataContext is ViewModelMediaPlayer vm)
+            if (!(DataContext is ViewModelMediaPlayer vm))
+                return;
+
+            var droppedContent = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
+            string directory = droppedContent;
+
+            if (Path.HasExtension(droppedContent))
+                directory = Path.GetDirectoryName(directory);
+
+            if (!string.IsNullOrEmpty(directory))
             {
-                var droppedContent = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
-                string directory = droppedContent;
+                var supportedFiles = Directory
+                    .EnumerateFiles(directory)
+                    .Where(file => vm.Settings.SupportedAudioFormats.Any(file.ToLower().EndsWith))
+                    .ToList();
 
-                if (Path.HasExtension(droppedContent))
-                    directory = Path.GetDirectoryName(directory);
-
-                if (!string.IsNullOrEmpty(directory))
-                {
-                    var filteredFiles = Directory.EnumerateFiles(directory, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase));
-                    vm.AddToMediaList(filteredFiles.ToArray());
-                }
+                vm.AddToMediaList(supportedFiles.ToArray());
             }
         }
         private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
