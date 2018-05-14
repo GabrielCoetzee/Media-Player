@@ -357,15 +357,15 @@ namespace MediaPlayer.MVVM.ViewModels
             var chooseFiles = new OpenFileDialog
             {
                 Title = "Choose Files",
-                DefaultExt = ".mp3",
-                Filter = "MP3 Format|*.mp3",
+                DefaultExt = Settings.SupportedAudioFormats.First(),
+                Filter = CreateDialogFilter(),
                 Multiselect = true
             };
 
             var result = chooseFiles.ShowDialog();
 
             if (result ?? true)
-                AddToMediaList(chooseFiles.FileNames);
+                AddToMediaList(chooseFiles.FileNames.ToArray());
         }
 
         #endregion
@@ -437,33 +437,47 @@ namespace MediaPlayer.MVVM.ViewModels
                 ModelMediaPlayer.MediaList.Add(_readMp3Metadata.GetMp3Metadata(id, file));
             }
 
-            if (ModelMediaPlayer.SelectedMediaItem == null && ModelMediaPlayer.MediaList.Count > 0)
-            {
-                SelectMediaItem(ModelMediaPlayer.MediaList.IndexOf(ModelMediaPlayer.MediaList.First()));
-                PlayMedia();
-            }
+            if (ModelMediaPlayer.SelectedMediaItem != null || ModelMediaPlayer.MediaList.Count <= 0)
+                return;
+
+            SelectMediaItem(ModelMediaPlayer.MediaList.IndexOf(ModelMediaPlayer.MediaList.First()));
+            PlayMedia();
         }
 
         #endregion
 
         #region Private Methods
 
+        private string CreateDialogFilter()
+        {
+            string filter = "Supported Audio Formats (";
+
+            filter += AppendSupportedAudioFormats(",");
+            filter = filter.TrimEnd(',');
+            filter += ") | ";
+            filter += AppendSupportedAudioFormats(";");
+
+            return filter;
+        }
+
+        private string AppendSupportedAudioFormats(string seperator)
+        {
+            return Settings.SupportedAudioFormats.Aggregate(string.Empty, (current, audioFormat) => current + $"*{audioFormat}{seperator}");
+        }
+
         private void PlayMedia()
         {
-            if (ModelMediaPlayer.MediaState != MediaState.Play)
-                ModelMediaPlayer.MediaState = MediaState.Play;
+            ModelMediaPlayer.MediaState = MediaState.Play;
         }
 
         private void PauseMedia()
         {
-            if (ModelMediaPlayer.MediaState != MediaState.Pause)
-                ModelMediaPlayer.MediaState = MediaState.Pause;
+            ModelMediaPlayer.MediaState = MediaState.Pause;
         }
 
         private void StopMedia()
         {
-            if (ModelMediaPlayer.MediaState != MediaState.Stop)
-                ModelMediaPlayer.MediaState = MediaState.Stop;
+            ModelMediaPlayer.MediaState = MediaState.Stop;
         }
 
         private void SelectMediaItem(int index)

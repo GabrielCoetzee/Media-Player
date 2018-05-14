@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using MediaPlayer.Annotations;
-using MediaPlayer.Helpers.Extension_Methods;
 using MediaPlayer.MVVM.Models.Base_Types;
 
 namespace MediaPlayer.Objects
@@ -220,7 +220,7 @@ namespace MediaPlayer.Objects
 
             if (albumArtFromDirectory.Count() != 0)
             {
-                return albumArtFromDirectory.First().ConvertPathToByteArray();
+                return ConvertPathToByteArray(albumArtFromDirectory.First());
             }
 
             return null;
@@ -237,6 +237,11 @@ namespace MediaPlayer.Objects
         #endregion
 
         #region Private Methods
+
+        public byte[] ConvertPathToByteArray(string filePath)
+        {
+            return (byte[])new ImageConverter().ConvertTo(Image.FromFile(filePath), typeof(byte[]));
+        }
 
         private string GetTrimmedMediaTitle()
         {

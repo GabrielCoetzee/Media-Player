@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -48,21 +49,31 @@ namespace MediaPlayer
             if (!(DataContext is ViewModelMediaPlayer vm))
                 return;
 
-            var droppedContent = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
-            string directory = droppedContent;
+            var droppedContent = ((string[])e.Data.GetData(DataFormats.FileDrop));
 
-            if (Path.HasExtension(droppedContent))
-                directory = Path.GetDirectoryName(directory);
+            if (droppedContent == null)
+                return;
 
-            if (!string.IsNullOrEmpty(directory))
+            var supportedFiles = new List<string>();
+
+            foreach (var path in droppedContent)
             {
-                var supportedFiles = Directory
-                    .EnumerateFiles(directory)
-                    .Where(file => vm.Settings.SupportedAudioFormats.Any(file.ToLower().EndsWith))
-                    .ToList();
+                if (!string.IsNullOrWhiteSpace(path) && !Path.HasExtension(path))
+                {
+                    supportedFiles.AddRange(Directory
+                        .EnumerateFiles(path, "*.*", SearchOption.AllDirectories)
+                        .Where(file => vm.Settings.SupportedAudioFormats.Any(file.ToLower().EndsWith))
+                        .ToList());
 
-                vm.AddToMediaList(supportedFiles.ToArray());
+                }
+                else if (!string.IsNullOrWhiteSpace(path) && Path.HasExtension(path))
+                {
+                    if (vm.Settings.SupportedAudioFormats.Any(x => x.ToLower().Equals(Path.GetExtension(path.ToLower()))))
+                        supportedFiles.Add(path);
+                }
             }
+
+            vm.AddToMediaList(supportedFiles.ToArray());
         }
         private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {

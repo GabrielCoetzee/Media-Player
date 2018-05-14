@@ -1,11 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Windows.Controls;
-using MediaPlayer.Helpers.Extension_Methods;
 using MediaPlayer.MetadataReaders.Interfaces;
 using MediaPlayer.Objects;
-using TagLib;
 using File = TagLib.File;
 
 
