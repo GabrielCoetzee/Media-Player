@@ -219,7 +219,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void InitializeModelInstance()
         {
-            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new ObservableCollection<MediaItem>(), MediaState = MediaState.Pause, MediaVolume = CustomTypes.VolumeLevel.FullVolume };
+            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new ObservableCollection<MediaItem>(), MediaState = MediaState.Pause, MediaVolume = CustomTypes.VolumeLevel.FullVolume};
         }
 
         private void InitializeCommands()
@@ -482,6 +482,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void SelectMediaItem(int index)
         {
+            ModelMediaPlayer.SelectedMediaItem = null;
             ModelMediaPlayer.SelectedMediaItem = ModelMediaPlayer.MediaList[index];
         }
 
