@@ -245,7 +245,7 @@ namespace MediaPlayer.Objects
 
         private string GetTrimmedMediaTitle()
         {
-            int charMaxLength = 32;
+            const int charMaxLength = 32;
 
             if (MediaTitle.Length > charMaxLength)
                 return MediaTitle.Substring(0, charMaxLength) + "...";

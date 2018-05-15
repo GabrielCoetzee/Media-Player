@@ -69,7 +69,7 @@ namespace MediaPlayer.MVVM.ViewModels
             }
         }
 
-        public IExposeApplicationSettings Settings => ApplicationSettings.Instance;
+        public IExposeApplicationSettings ApplicationSettings => Models.Objects.ApplicationSettings.Instance;
 
         public ICommand AddMediaCommand
         {
@@ -357,7 +357,7 @@ namespace MediaPlayer.MVVM.ViewModels
             var chooseFiles = new OpenFileDialog
             {
                 Title = "Choose Files",
-                DefaultExt = Settings.SupportedAudioFormats.First(),
+                DefaultExt = ApplicationSettings.SupportedAudioFormats.First(),
                 Filter = CreateDialogFilter(),
                 Multiselect = true
             };
@@ -450,19 +450,12 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private string CreateDialogFilter()
         {
-            string filter = "Supported Audio Formats (";
-
-            filter += AppendSupportedAudioFormats(",");
-            filter = filter.TrimEnd(',');
-            filter += ") | ";
-            filter += AppendSupportedAudioFormats(";");
-
-            return filter;
+            return string.Join("|", $"Supported Audio Formats ({AppendSupportedAudioFormats(",")})", AppendSupportedAudioFormats(";"));
         }
 
         private string AppendSupportedAudioFormats(string seperator)
         {
-            return Settings.SupportedAudioFormats.Aggregate(string.Empty, (current, audioFormat) => current + $"*{audioFormat}{seperator}");
+            return ApplicationSettings.SupportedAudioFormats.Aggregate(string.Empty, (current, audioFormat) => current + $"*{audioFormat}{(ApplicationSettings.SupportedAudioFormats.Last() != audioFormat ? seperator : string.Empty)}");
         }
 
         private void PlayMedia()

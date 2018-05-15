@@ -36,5 +36,9 @@ namespace MediaPlayer.MVVM.Models.Objects
                 return supportedAudioFormats.Cast<string>().ToArray<string>();
             }
         }
+
+        public string SelectedTheme => Properties.Settings.Default[nameof(SelectedTheme)].ToString();
+
+        public decimal Opacity => (decimal)Properties.Settings.Default[nameof(Opacity)];
     }
 }

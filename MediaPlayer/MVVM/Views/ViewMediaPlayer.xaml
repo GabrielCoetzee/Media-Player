@@ -8,9 +8,12 @@
         xmlns:customConverters="clr-namespace:MediaPlayer.Helpers.Custom_Converters"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="{Binding ModelMediaPlayer.SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" ShowMaxRestoreButton="False" Height="768" Width="1366" MinHeight="768" MinWidth="1366">
+        Title="{Binding ModelMediaPlayer.SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" ShowMaxRestoreButton="False" Height="768" Width="1366" MinHeight="768" MinWidth="1366" Activated="MetroWindow_Activated">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding PlayPauseCommand}" Key="Space"/>
+    </Window.InputBindings>
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="Black" Opacity="0.8"/>
+        <SolidColorBrush Color="Black" Opacity="{Binding ApplicationSettings.Opacity}"/>
     </Controls:MetroWindow.Background>
 
     <Window.Resources>
@@ -60,9 +63,9 @@
                 <ColumnDefinition Width="0.1*" />
             </Grid.ColumnDefinitions>
 
-            <Expander Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding ModelMediaPlayer.SelectedMediaItem.HasLyrics, FallbackValue=Hidden, Mode=TwoWay,  Converter={StaticResource BooleanToVisibleOrHidden}}">
+            <Expander Focusable="False" Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding ModelMediaPlayer.SelectedMediaItem.HasLyrics, FallbackValue=Hidden, Mode=TwoWay,  Converter={StaticResource BooleanToVisibleOrHidden}}" Collapsed="LyricsExpander_Collapsed" Expanded="LyricsExpander_Expanded">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox Text="{Binding ModelMediaPlayer.SelectedMediaItem.Lyrics}" ContextMenu="{x:Null}" Cursor="Arrow" CaretBrush="Transparent" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" Focusable="False" IsTabStop="False" AllowDrop="False"/>
+                    <TextBox Name="TextboxLyrics" Text="{Binding ModelMediaPlayer.SelectedMediaItem.Lyrics}" ContextMenu="{x:Null}" Cursor="Arrow" CaretBrush="Transparent" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" Focusable="False" IsTabStop="False" AllowDrop="False"/>
                 </Grid>
             </Expander>
 
@@ -81,7 +84,7 @@
                 </Grid.RowDefinitions>
 
                 <Label Content="Media List " Visibility="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
-                <ListBox Name="MediaListBox" Grid.Row="1" AllowDrop="True" Background="Transparent" ItemsSource="{Binding ModelMediaPlayer.MediaList}" SelectedItem="{Binding ModelMediaPlayer.SelectedMediaItem}" SelectionChanged="MediaListBox_SelectionChanged" >
+                <ListBox Focusable="False" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding ModelMediaPlayer.MediaList}" SelectedItem="{Binding ModelMediaPlayer.SelectedMediaItem}" SelectionChanged="MediaListBox_SelectionChanged" >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -152,16 +155,16 @@
                 </i:Interaction.Triggers>
             </Slider>
 
-            <ToggleButton Grid.Row="4" Grid.Column="10" Grid.RowSpan="2" Command="{Binding ShuffleMediaListCommand}" CommandParameter="{Binding ElementName=MediaListBox}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MetroCircleToggleButtonStyle}" />
-            <ToggleButton Grid.Row="4" Grid.Column="9" Grid.RowSpan="2" Command="{Binding RepeatMediaListCommand}" Background="{StaticResource ResourceRepeatButtonImage}"  Style="{DynamicResource MetroCircleToggleButtonStyle}" />
-            <Button Grid.Row="4" Grid.Column="8" Grid.RowSpan="2" Command="{Binding NextTrackCommand}" Background="{StaticResource ResourceNextTrackButtonImage}"  Style="{DynamicResource MetroCircleButtonStyle}" />
-            <Button Grid.Row="4" Grid.Column="7" Grid.RowSpan="2" Command="{Binding PlayPauseCommand}" Background="{Binding ModelMediaPlayer.MediaState, Converter={StaticResource PlayPauseButtonBackgroundConverter}, FallbackValue={StaticResource ResourcePlayButtonImage}}" Style="{DynamicResource MetroCircleButtonStyle}" />
-            <Button Grid.Row="4" Grid.Column="6" Grid.RowSpan="2" Command="{Binding StopCommand}" Background="{StaticResource ResourceStopButtonImage}" Style="{DynamicResource MetroCircleButtonStyle}" />
-            <Button Grid.Row="4" Grid.Column="5" Grid.RowSpan="2" Command="{Binding PreviousTrackCommand}" Background="{StaticResource ResourcePreviousTrackButtonImage}"  Style="{DynamicResource MetroCircleButtonStyle}" />
-            <ToggleButton Grid.Row="4" Grid.Column="4" Grid.RowSpan="2" Name="ButtonMute" Command="{Binding MuteCommand}" Background="{StaticResource ResourceMuteButtonImage}" Style="{DynamicResource MetroCircleToggleButtonStyle}" />
+            <ToggleButton Focusable="False" Grid.Row="4" Grid.Column="10" Grid.RowSpan="2" Command="{Binding ShuffleMediaListCommand}" CommandParameter="{Binding ElementName=MediaListBox}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MetroCircleToggleButtonStyle}" />
+            <ToggleButton Focusable="False" Grid.Row="4" Grid.Column="9" Grid.RowSpan="2" Command="{Binding RepeatMediaListCommand}" Background="{StaticResource ResourceRepeatButtonImage}"  Style="{DynamicResource MetroCircleToggleButtonStyle}" />
+            <Button Focusable="False" Grid.Row="4" Grid.Column="8" Grid.RowSpan="2" Command="{Binding NextTrackCommand}" Background="{StaticResource ResourceNextTrackButtonImage}"  Style="{DynamicResource MetroCircleButtonStyle}" />
+            <Button Name="ButtonPlayPause" Grid.Row="4" Grid.Column="7" Grid.RowSpan="2" Command="{Binding PlayPauseCommand}" Background="{Binding ModelMediaPlayer.MediaState, Converter={StaticResource PlayPauseButtonBackgroundConverter}, FallbackValue={StaticResource ResourcePlayButtonImage}}" Style="{DynamicResource MetroCircleButtonStyle}" />
+            <Button Focusable="False" Grid.Row="4" Grid.Column="6" Grid.RowSpan="2" Command="{Binding StopCommand}" Background="{StaticResource ResourceStopButtonImage}" Style="{DynamicResource MetroCircleButtonStyle}" />
+            <Button Focusable="False" Grid.Row="4" Grid.Column="5" Grid.RowSpan="2" Command="{Binding PreviousTrackCommand}" Background="{StaticResource ResourcePreviousTrackButtonImage}"  Style="{DynamicResource MetroCircleButtonStyle}" />
+            <ToggleButton Focusable="False" Grid.Row="4" Grid.Column="4" Grid.RowSpan="2" Name="ButtonMute" Command="{Binding MuteCommand}" Background="{StaticResource ResourceMuteButtonImage}" Style="{DynamicResource MetroCircleToggleButtonStyle}" />
 
-            <Button Grid.Row="5" Grid.Column="1" Content="Add File(s)" Command="{Binding AddMediaCommand}" />
-            <Button Grid.Row="5" Grid.Column="13" Content="Clear Media List" Command="{Binding ClearMediaListCommand}" />
+            <Button Focusable="False" Grid.Row="5" Grid.Column="1" Content="Add File(s)" Command="{Binding AddMediaCommand}" />
+            <Button Focusable="False" Grid.Row="5" Grid.Column="13" Content="Clear Media List" Command="{Binding ClearMediaListCommand}" />
 
         </Grid>
     </Grid>

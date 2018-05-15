@@ -101,14 +101,14 @@
     <Compile Include="Helpers\Custom Converters\MediaVolumeConverter.cs" />
     <Compile Include="Helpers\Custom Converters\PlayPauseButtonBackgroundConverter.cs" />
     <Compile Include="Helpers\Custom Command Classes\RelayCommand.cs" />
-    <Compile Include="Interfaces\IExposeApplicationSettings.cs" />
+    <Compile Include="Interfaces\Application Settings\IExposeApplicationSettings.cs" />
     <Compile Include="MP3MetadataReaders\Factory\Mp3MetadataReaderFactory.cs" />
     <Compile Include="MP3MetadataReaders\Interface Implementations\TaglibMp3MetadataReaderWrapper.cs" />
     <Compile Include="MP3MetadataReaders\Interfaces\IReadMp3Metadata.cs" />
     <Compile Include="MP3MetadataReaders\Types\Mp3MetadataReaderTypes.cs" />
     <Compile Include="Objects\Base Types\MediaItem.cs" />
     <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />
-    <Compile Include="Objects\ApplicationSettings.cs" />
+    <Compile Include="Objects\Application Settings\ApplicationSettings.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelMediaPlayer.cs" />
     <Compile Include="MVVM\Views\ViewMediaPlayer.xaml.cs">
       <DependentUpon>ViewMediaPlayer.xaml</DependentUpon>
