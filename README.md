@@ -29,5 +29,7 @@ Technologies used :
 - Visual Studio 2017
 
 ![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
+
 ![Screenshot - Lyrics Collapsed](./Screenshots/Lyrics - Collapsed.JPG?raw=true "Screenshot - Lyrics Collapsed")
+
 ![Screenshot - Lyrics Expanded](./Screenshots/Lyrics - Expanded.JPG?raw=true "Screenshot - Lyrics Expanded")
