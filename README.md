@@ -10,4 +10,4 @@ Technologies used :
 - Mahapps Metro 
 - Visual Studio 2017
 
-![Alt text](/Screenshots/Main.jpg?raw=true "UI Screenshot")
+![Alt text](./Screenshots/Main.jpg?raw=true "UI Screenshot")
