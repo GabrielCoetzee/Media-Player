@@ -30,6 +30,6 @@ Technologies used :
 
 ![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
 
-![Screenshot - Lyrics Collapsed](./Screenshots/Lyrics - Collapsed.JPG?raw=true "Screenshot - Lyrics Collapsed")
+![Screenshot - Lyrics Collapsed](./Screenshots/LyricsCollapsed.JPG?raw=true "Screenshot - Lyrics Collapsed")
 
-![Screenshot - Lyrics Expanded](./Screenshots/Lyrics - Expanded.JPG?raw=true "Screenshot - Lyrics Expanded")
+![Screenshot - Lyrics Expanded](./Screenshots/LyricsExpanded.JPG?raw=true "Screenshot - Lyrics Expanded")
