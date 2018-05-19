@@ -10,7 +10,7 @@ Features Include :
 - Hotkeys :
     - Space = Play / Pause
     - More coming!
-- Lyrics found for the media item (Within the .mp3`s metadata at this point) will show in an expander on the top-left as shown in a below screenshots.
+- Lyrics found for the media item (Within the .mp3`s metadata) will show in an expander on the top-left as shown in a below screenshots.
 
 Features to come :
 
