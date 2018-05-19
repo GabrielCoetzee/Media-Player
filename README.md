@@ -9,3 +9,5 @@ Technologies used :
 - C# with MVVM Design Pattern
 - Mahapps Metro 
 - Visual Studio 2017
+
+![Alt text](/Screenshots/Main.jpg?raw=true "UI Screenshot")
