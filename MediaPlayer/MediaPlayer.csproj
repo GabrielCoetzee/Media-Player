@@ -39,6 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -56,12 +57,22 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MoreLinq, Version=2.10.21623.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.2.10.0\lib\net40\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -101,14 +112,15 @@
     <Compile Include="Helpers\Custom Converters\MediaVolumeConverter.cs" />
     <Compile Include="Helpers\Custom Converters\PlayPauseButtonBackgroundConverter.cs" />
     <Compile Include="Helpers\Custom Command Classes\RelayCommand.cs" />
-    <Compile Include="Interfaces\IExposeApplicationSettings.cs" />
+    <Compile Include="Application Settings\Interfaces\IExposeApplicationSettings.cs" />
     <Compile Include="MP3MetadataReaders\Factory\Mp3MetadataReaderFactory.cs" />
     <Compile Include="MP3MetadataReaders\Interface Implementations\TaglibMp3MetadataReaderWrapper.cs" />
     <Compile Include="MP3MetadataReaders\Interfaces\IReadMp3Metadata.cs" />
     <Compile Include="MP3MetadataReaders\Types\Mp3MetadataReaderTypes.cs" />
-    <Compile Include="Objects\Base Objects\MediaItem.cs" />
+    <Compile Include="Objects\Collections\Derived\MediaListObservableCollection.cs" />
+    <Compile Include="Objects\MediaList\Base\MediaItem.cs" />
     <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />
-    <Compile Include="Objects\Interface Implementations\ApplicationSettings.cs" />
+    <Compile Include="Application Settings\Interface Implementations\ApplicationSettings.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelMediaPlayer.cs" />
     <Compile Include="MVVM\Views\ViewMediaPlayer.xaml.cs">
       <DependentUpon>ViewMediaPlayer.xaml</DependentUpon>
@@ -116,7 +128,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Objects\Derived Objects\AudioItem.cs" />
+    <Compile Include="Objects\Collections\Base\BulkObservableCollection.cs" />
+    <Compile Include="Objects\MediaList\Derived\AudioItem.cs" />
+    <Compile Include="Objects\MediaList\Processing\MediaItemProcessingArguments.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

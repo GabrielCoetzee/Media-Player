@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:MediaPlayer"
         xmlns:customConverters="clr-namespace:MediaPlayer.Helpers.Custom_Converters"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="{Binding ModelMediaPlayer.SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" ShowMaxRestoreButton="False" Height="768" Width="1366" MinHeight="768" MinWidth="1366" Activated="MetroWindow_Activated">
     <Window.InputBindings>
@@ -83,6 +84,8 @@
                     <RowDefinition Height="0.95*" />
                 </Grid.RowDefinitions>
 
+                <fa:ImageAwesome Grid.Row="0" Icon="Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding ModelMediaPlayer.IsLoadingMediaItems, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibleOrHidden}}" Foreground="White" Spin="True" />
+                <Label Content="Media List Loading..." Visibility="{Binding ModelMediaPlayer.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
                 <Label Content="Media List " Visibility="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
                 <ListBox Focusable="False" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding ModelMediaPlayer.MediaList}" SelectedItem="{Binding ModelMediaPlayer.SelectedMediaItem}" SelectionChanged="MediaListBox_SelectionChanged" >
                     <ListBox.ItemTemplate>

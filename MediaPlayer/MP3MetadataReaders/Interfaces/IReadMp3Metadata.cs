@@ -4,7 +4,7 @@ namespace MediaPlayer.MetadataReaders.Interfaces
 {
     public interface IReadMp3Metadata
     {
-        AudioItem GetMp3Metadata(int id, string path);
+        AudioItem GetMp3Metadata(string path);
 
         void Dispose();
     }

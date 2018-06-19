@@ -2,7 +2,7 @@
 using System.Linq;
 using MediaPlayer.Interfaces;
 
-namespace MediaPlayer.MVVM.Models.Objects
+namespace MediaPlayer.Application_Settings.Interface_Implementations
 {
     public class ApplicationSettings : IExposeApplicationSettings
     {

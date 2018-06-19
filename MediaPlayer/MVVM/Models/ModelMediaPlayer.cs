@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;
 using MediaPlayer.Annotations;
 using MediaPlayer.MVVM.Models.Base_Types;
+using MediaPlayer.Objects;
+using MediaPlayer.Objects.Collections;
 
 namespace MediaPlayer.MVVM.Models
 {
@@ -23,7 +26,8 @@ namespace MediaPlayer.MVVM.Models
         #region Fields
 
         private MediaItem _selectedMediaItem;
-        private ObservableCollection<MediaItem> _mediaList;
+        private bool _isLoadingMediaItems;
+        private MediaListObservableCollection _mediaList;
         private TimeSpan _mediaPosition;
         private MediaState _mediaState;
         private CustomTypes.VolumeLevel _mediaVolume;
@@ -46,9 +50,19 @@ namespace MediaPlayer.MVVM.Models
                 _selectedMediaItem = value;
                 OnPropertyChanged(nameof(SelectedMediaItem));
             }
-        } 
+        }
 
-        public ObservableCollection<MediaItem> MediaList
+        public bool IsLoadingMediaItems
+        {
+            get => _isLoadingMediaItems;
+            set
+            {
+                _isLoadingMediaItems = value;
+                OnPropertyChanged(nameof(IsLoadingMediaItems));
+            }
+        }
+
+        public MediaListObservableCollection MediaList
         {
             get => _mediaList;
             set

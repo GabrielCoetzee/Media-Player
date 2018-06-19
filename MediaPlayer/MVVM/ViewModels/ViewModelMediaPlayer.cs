@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using MediaPlayer.Helpers.Custom_Command_Classes;
@@ -14,9 +13,8 @@ using MediaPlayer.MetadataReaders.Interfaces;
 using MediaPlayer.MetadataReaders.Types;
 using MediaPlayer.MVVM.Models;
 using MediaPlayer.MVVM.Models.Base_Types;
-using MediaPlayer.MVVM.Models.Objects;
-using MediaPlayer.Objects;
-using Microsoft.Win32;
+using MediaPlayer.Objects.Collections;
+using ListBox = System.Windows.Controls.ListBox;
 
 namespace MediaPlayer.MVVM.ViewModels
 {
@@ -38,8 +36,7 @@ namespace MediaPlayer.MVVM.ViewModels
         readonly Random RandomIdGenerator = new Random();
         readonly DispatcherTimer MediaPositionTracker = new DispatcherTimer();
 
-        private ModelMediaPlayer _modelMediaPlayer;  
-        private IReadMp3Metadata _readMp3Metadata;
+        private ModelMediaPlayer _modelMediaPlayer;
 
         private ICommand _addMediaCommand;
         private ICommand _playPauseCommand;
@@ -69,7 +66,9 @@ namespace MediaPlayer.MVVM.ViewModels
             }
         }
 
-        public IExposeApplicationSettings ApplicationSettings => Models.Objects.ApplicationSettings.Instance;
+        public IExposeApplicationSettings ApplicationSettings => Application_Settings.Interface_Implementations.ApplicationSettings.Instance;
+
+        public IReadMp3Metadata Mp3MetadataReader { get; set; } = Mp3MetadataReaderFactory.Instance.GetMp3MetadataReader(Mp3MetadataReaderTypes.Mp3MetadataReaders.Taglib);
 
         public ICommand AddMediaCommand
         {
@@ -210,7 +209,6 @@ namespace MediaPlayer.MVVM.ViewModels
             InitializeCommands();
             InitializeEventTriggerCommands();
             InitializeModelInstance();
-            GetMp3MetadataReader();
         }
 
         #endregion
@@ -219,7 +217,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void InitializeModelInstance()
         {
-            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new ObservableCollection<MediaItem>(), MediaState = MediaState.Pause, MediaVolume = CustomTypes.VolumeLevel.FullVolume};
+            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new MediaListObservableCollection(), MediaState = MediaState.Pause, MediaVolume = CustomTypes.VolumeLevel.FullVolume};
         }
 
         private void InitializeCommands()
@@ -243,18 +241,13 @@ namespace MediaPlayer.MVVM.ViewModels
             SeekbarThumbCompletedDraggingCommand = new RelayCommandWithParameter(SeekbarThumbCompletedDraggingCommand_Execute, SeekbarThumbCompletedDraggingCommand_CanExecute);
         }
 
-        private void GetMp3MetadataReader()
-        {
-            _readMp3Metadata = Mp3MetadataReaderFactory.Instance.GetMp3MetadataReader(Mp3MetadataReaderTypes.Mp3MetadataReaders.Taglib);
-        }
-
         #endregion
 
         #region Command Methods
 
         public bool ClearMediaListCommand_CanExecute()
         {
-            return ModelMediaPlayer.SelectedMediaItem != null && ModelMediaPlayer.MediaList.Count > 0;
+            return ModelMediaPlayer.MediaList.Count > 0;
         }
 
         public void ClearMediaListCommand_Execute()
@@ -270,17 +263,17 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void ShuffleMediaListCommand_Execute(object uiElement)
         {
-            if (uiElement is ListBox UI_MediaList)
-            {
-                ModelMediaPlayer.IsShuffled = !ModelMediaPlayer.IsShuffled;
+            if (!(uiElement is ListBox UI_MediaList))
+                return;
 
-                if (ModelMediaPlayer.IsShuffled)
-                    ShuffleMediaList();
-                else
-                    OrderMediaList();
+            ModelMediaPlayer.IsShuffled = !ModelMediaPlayer.IsShuffled;
 
-                UI_MediaList.ScrollIntoView(UI_MediaList.SelectedItem);
-            }
+            if (ModelMediaPlayer.IsShuffled)
+                ShuffleMediaList();
+            else
+                OrderMediaList();
+
+            UI_MediaList.ScrollIntoView(UI_MediaList.SelectedItem);
         }
 
         public bool RepeatMediaListCommand_CanExecute()
@@ -364,8 +357,11 @@ namespace MediaPlayer.MVVM.ViewModels
 
             var result = chooseFiles.ShowDialog();
 
-            if (result ?? true)
-                AddToMediaList(chooseFiles.FileNames.ToArray());
+            if (result != DialogResult.OK)
+                return;
+
+            var mediaItems = chooseFiles.FileNames.Select(file => Mp3MetadataReader.GetMp3Metadata(file)).Cast<MediaItem>().ToList();
+            AddToMediaList(mediaItems);
         }
 
         #endregion
@@ -379,10 +375,10 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void MediaOpenedCommand_Execute(object uiElement)
         {
-            if (uiElement is MediaElement UI_MediaElement)
-            {
-                PollMediaPosition(UI_MediaElement);
-            }
+            if (!(uiElement is MediaElement UI_MediaElement))
+                return;
+
+            PollMediaPosition(UI_MediaElement);
         }
 
         public bool SeekbarThumbCompletedDraggingCommand_CanExecute()
@@ -392,11 +388,11 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void SeekbarThumbCompletedDraggingCommand_Execute(object uiElement)
         {
-            if (uiElement is MediaElement UI_MediaElement)
-            {
-                ModelMediaPlayer.IsDraggingSeekbarThumb = false;
-                UI_MediaElement.Position = TimeSpan.FromSeconds(ModelMediaPlayer.ElapsedTime);
-            }
+            if (!(uiElement is MediaElement UI_MediaElement))
+                return;
+
+            ModelMediaPlayer.IsDraggingSeekbarThumb = false;
+            UI_MediaElement.Position = TimeSpan.FromSeconds(ModelMediaPlayer.ElapsedTime);
         }
 
         public bool SeekbarThumbStartedDraggingCommand_CanExecute()
@@ -416,26 +412,21 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void SeekbarValueChangedCommand_Execute(object uiElement)
         {
-            if (uiElement is Slider UI_Seekbar)
-            {
-                if (ModelMediaPlayer.IsDraggingSeekbarThumb)
-                {
-                    ModelMediaPlayer.MediaPosition = TimeSpan.FromSeconds(UI_Seekbar.Value);
-                }
-            }
+            if (!(uiElement is Slider UI_Seekbar))
+                return;
+
+            if (ModelMediaPlayer.IsDraggingSeekbarThumb)
+                ModelMediaPlayer.MediaPosition = TimeSpan.FromSeconds(UI_Seekbar.Value);
         }
 
         #endregion
 
         #region Public Methods
 
-        public void AddToMediaList(string[] files)
+        public void AddToMediaList(List<string> files)
         {
             foreach (var file in files)
-            {
-                var id = ModelMediaPlayer.MediaList.Count > 0 ? ModelMediaPlayer.MediaList.IndexOf(ModelMediaPlayer.MediaList.Last()) + 1 : 0;
-                ModelMediaPlayer.MediaList.Add(_readMp3Metadata.GetMp3Metadata(id, file));
-            }
+                ModelMediaPlayer.MediaList.Add(Mp3MetadataReader.GetMp3Metadata(file));
 
             if (ModelMediaPlayer.SelectedMediaItem != null || ModelMediaPlayer.MediaList.Count <= 0)
                 return;
@@ -444,9 +435,27 @@ namespace MediaPlayer.MVVM.ViewModels
             PlayMedia();
         }
 
+        public void AddToMediaList(List<MediaItem> mediaItems)
+        {
+            ModelMediaPlayer.MediaList.AddRange(mediaItems);
+
+            if (ModelMediaPlayer.SelectedMediaItem != null || ModelMediaPlayer.MediaList.Count <= 0)
+                return;
+
+            SelectMediaItem(GetFirstMediaItemIndex());
+            PlayMedia();
+
+            RefreshUIBindings();
+        }
+
         #endregion
 
         #region Private Methods
+
+        private void RefreshUIBindings()
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
 
         private string CreateDialogFilter()
         {
@@ -511,12 +520,12 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void OrderMediaList()
         {
-            ModelMediaPlayer.MediaList = new ObservableCollection<MediaItem>(ModelMediaPlayer.MediaList.OrderBy(x => x.Id));
+            ModelMediaPlayer.MediaList = new MediaListObservableCollection(ModelMediaPlayer.MediaList.OrderBy(x => x.Id));
         }
 
         private void ShuffleMediaList()
         {
-            ModelMediaPlayer.MediaList = new ObservableCollection<MediaItem>(ModelMediaPlayer.MediaList
+            ModelMediaPlayer.MediaList = new MediaListObservableCollection(ModelMediaPlayer.MediaList
                 .OrderBy(x => x != ModelMediaPlayer.SelectedMediaItem)
                 .ThenBy(x => RandomIdGenerator.Next()));
         }
@@ -550,7 +559,7 @@ namespace MediaPlayer.MVVM.ViewModels
                     NextTrackCommand_Execute();
                 }
 
-                CommandManager.InvalidateRequerySuggested();
+                RefreshUIBindings();
             }
         }
 

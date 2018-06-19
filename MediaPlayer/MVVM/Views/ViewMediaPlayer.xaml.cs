@@ -1,13 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.MVVM.Models.Objects;
+using MediaPlayer.Application_Settings.Interface_Implementations;
+using MediaPlayer.MetadataReaders.Interfaces;
+using MediaPlayer.MVVM.Models.Base_Types;
 using MediaPlayer.MVVM.ViewModels;
+using MediaPlayer.Objects.MediaList.Processing;
 
 namespace MediaPlayer
 {
@@ -16,12 +24,20 @@ namespace MediaPlayer
     /// </summary>
     public partial class ViewMediaPlayer : MetroWindow
     {
+        #region Properties
+
+        private BackgroundWorker mediaListProcessor_background;
+        
+        #endregion
+
+
         #region Constructor
 
         public ViewMediaPlayer()
         {
             InitializeComponent();
             InitializeViewModel();
+            InitializeMediaListProcessor();
 
             this.AllowsTransparency = true;
         }
@@ -33,6 +49,14 @@ namespace MediaPlayer
         private void InitializeViewModel()
         {
             DataContext = new ViewModelMediaPlayer();
+        }
+
+        private void InitializeMediaListProcessor()
+        {
+            mediaListProcessor_background = new BackgroundWorker();
+
+            mediaListProcessor_background.DoWork += MediaListProcessorProcessDroppedContent;
+            mediaListProcessor_background.RunWorkerCompleted += MediaListProcessorCompleted;
         }
 
         #endregion
@@ -52,34 +76,22 @@ namespace MediaPlayer
 
         private void TopMostGrid_Drop(object sender, DragEventArgs e)
         {
-            if (!(DataContext is ViewModelMediaPlayer vm))
-                return;
-
-            var droppedContent = ((string[])e.Data.GetData(DataFormats.FileDrop));
+            var droppedContent = ((IEnumerable)e.Data.GetData(DataFormats.FileDrop));
 
             if (droppedContent == null)
                 return;
 
-            var supportedFiles = new List<string>();
+            ProcessDroppedFilesAndFolders(droppedContent);
+        }
+    
+        private void ProcessDroppedFilesAndFolders(IEnumerable droppedContent)
+        {
+            if (!(DataContext is ViewModelMediaPlayer vm))
+                return;
 
-            foreach (var path in droppedContent)
-            {
-                if (!string.IsNullOrWhiteSpace(path) && !Path.HasExtension(path))
-                {
-                    supportedFiles.AddRange(Directory
-                        .EnumerateFiles(path, "*.*", SearchOption.AllDirectories)
-                        .Where(file => vm.ApplicationSettings.SupportedAudioFormats.Any(file.ToLower().EndsWith))
-                        .ToList());
+            vm.ModelMediaPlayer.IsLoadingMediaItems = true;
 
-                }
-                else if (!string.IsNullOrWhiteSpace(path) && Path.HasExtension(path))
-                {
-                    if (vm.ApplicationSettings.SupportedAudioFormats.Any(x => x.ToLower().Equals(Path.GetExtension(path.ToLower()))))
-                        supportedFiles.Add(path);
-                }
-            }
-
-            vm.AddToMediaList(supportedFiles.ToArray());
+            mediaListProcessor_background.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent, IReadMp3Metadata = vm.Mp3MetadataReader });
         }
 
         private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -126,7 +138,50 @@ namespace MediaPlayer
             ButtonPlayPause.Focus();
         }
 
+        #endregion
 
+        #region Background Thread - File Processing
+
+        private void MediaListProcessorProcessDroppedContent(object o, DoWorkEventArgs args)
+        {
+            if (!(args.Argument is MediaItemProcessingArguments mediaItemArgs))
+                return;
+
+            var supportedFiles = new List<MediaItem>();
+
+            foreach (var path in mediaItemArgs.FilePaths)
+            {
+                bool isFolder = !Path.HasExtension(path.ToString());
+
+                if (isFolder)
+                {
+                    supportedFiles.AddRange(Directory.EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
+                        .Where(file => ApplicationSettings.Instance.SupportedAudioFormats.Any(file.ToLower().EndsWith))
+                        .Select((x) => mediaItemArgs.IReadMp3Metadata.GetMp3Metadata(x))
+                        .ToList());
+                }
+                else
+                {
+                    if (ApplicationSettings.Instance.SupportedAudioFormats.Any(x => x.ToLower().Equals(Path.GetExtension(path.ToString().ToLower()))))
+                        supportedFiles.Add(mediaItemArgs.IReadMp3Metadata.GetMp3Metadata(path.ToString()));
+                }
+
+            }
+
+            args.Result = supportedFiles;
+        }
+
+        private void MediaListProcessorCompleted(object o, RunWorkerCompletedEventArgs args)
+        {
+            if (!(DataContext is ViewModelMediaPlayer vm))
+                return;
+
+            if (!(args.Result is List<MediaItem> mediaItems))
+                return;
+
+            vm.AddToMediaList(mediaItems);
+            vm.ModelMediaPlayer.IsLoadingMediaItems = false;
+        }
 
         #endregion
     }

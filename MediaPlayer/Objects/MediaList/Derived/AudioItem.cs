@@ -9,7 +9,7 @@ using MediaPlayer.MVVM.Models.Base_Types;
 
 namespace MediaPlayer.Objects
 {
-    public class AudioItem : MediaItem,INotifyPropertyChanged
+    public class AudioItem : MediaItem, INotifyPropertyChanged
     {
         #region Interface Implementations
 
@@ -240,7 +240,14 @@ namespace MediaPlayer.Objects
 
         public byte[] ConvertPathToByteArray(string filePath)
         {
-            return (byte[])new ImageConverter().ConvertTo(Image.FromFile(filePath), typeof(byte[]));
+            try
+            {
+                return (byte[])new ImageConverter().ConvertTo(Image.FromFile(filePath), typeof(byte[]));
+            }
+            catch (OutOfMemoryException)
+            {
+                return null;
+            }
         }
 
         private string GetTrimmedMediaTitle()
