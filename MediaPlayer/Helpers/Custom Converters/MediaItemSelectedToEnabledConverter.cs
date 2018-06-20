@@ -5,7 +5,7 @@ using MediaPlayer.MVVM.Models.Base_Types;
 
 namespace MediaPlayer.Helpers.Custom_Converters
 {
-    public class MediaItemToEnabledStateConverter : IValueConverter
+    public class MediaItemSelectedToEnabledConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

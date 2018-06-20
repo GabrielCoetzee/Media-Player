@@ -6,7 +6,7 @@ using MediaPlayer.MVVM.Models.Base_Types;
 
 namespace MediaPlayer.Helpers.Custom_Converters
 {
-    public class MediaItemToVisibilityConverter : IValueConverter
+    public class MediaItemSelectedToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -28,10 +28,11 @@
         <ImageBrush x:Key="ResourceShuffleButtonImage" ImageSource="../../Resources/Button_Images/appbar.shuffle.png"/>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibleOrHidden" />
+        <customConverters:BooleanToVisibleOrHiddenInverseConverter x:Key="BooleanToVisibleOrHiddenInverse" />
         <customConverters:PlayPauseButtonBackgroundConverter x:Key="PlayPauseButtonBackgroundConverter" />
         <customConverters:MediaVolumeConverter x:Key="MediaVolumeConverter" />
-        <customConverters:MediaItemToVisibilityConverter x:Key="MediaItemToVisibilityConverter" />
-        <customConverters:MediaItemToEnabledStateConverter x:Key="MediaItemToEnabledStateConverter" />
+        <customConverters:MediaItemSelectedToVisibilityConverter x:Key="MediaItemSelectedToVisibilityConverter" />
+        <customConverters:MediaItemSelectedToEnabledConverter x:Key="SliderToEnabledWhenMediaItemSelectedConverter" />
     </Window.Resources>
 
     <Grid x:Name="TopMostGrid" AllowDrop="True" Background="Transparent" DragEnter="TopMostGrid_DragEnter" Drop="TopMostGrid_Drop" ZIndex="999">
@@ -86,7 +87,7 @@
 
                 <fa:ImageAwesome Grid.Row="0" Icon="Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding ModelMediaPlayer.IsLoadingMediaItems, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibleOrHidden}}" Foreground="White" Spin="True" />
                 <Label Content="Media List Loading..." Visibility="{Binding ModelMediaPlayer.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
-                <Label Content="Media List " Visibility="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
+                <Label Content="Media List " Visibility="{Binding ModelMediaPlayer.IsLoadingMediaItems, TargetNullValue=Hidden, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
                 <ListBox Focusable="False" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding ModelMediaPlayer.MediaList}" SelectedItem="{Binding ModelMediaPlayer.SelectedMediaItem}" SelectionChanged="MediaListBox_SelectionChanged" >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -123,8 +124,8 @@
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Visibility="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemToVisibilityConverter}}" Text="Elapsed : " />
-                <TextBlock Visibility="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemToVisibilityConverter}}" Text="{Binding ModelMediaPlayer.ElapsedTimeFormatted}" />
+                <TextBlock Visibility="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Text="Elapsed : " />
+                <TextBlock Visibility="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Text="{Binding ModelMediaPlayer.ElapsedTimeFormatted}" />
                 <TextBlock Visibility="{Binding ModelMediaPlayer.IsDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" Text=" / " />
                 <TextBlock Visibility="{Binding ModelMediaPlayer.IsDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" >
                     <TextBlock.Text>
@@ -144,7 +145,7 @@
                 <Image Source="{Binding ModelMediaPlayer.SelectedMediaItem.AlbumArt, FallbackValue='../../Resources/Default_AlbumArt/blue.png', TargetNullValue='../../Resources/Default_AlbumArt/blue.png'}" />
             </StackPanel>
 
-            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding ModelMediaPlayer.ElapsedTime}" IsEnabled="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource MediaItemToEnabledStateConverter}}" Maximum="{Binding ModelMediaPlayer.SelectedMediaItem.MediaDuration.TotalSeconds}" PreviewMouseUp="SeekBar_PreviewMouseUp" >
+            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding ModelMediaPlayer.ElapsedTime}" IsEnabled="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource SliderToEnabledWhenMediaItemSelectedConverter}}" Maximum="{Binding ModelMediaPlayer.SelectedMediaItem.MediaDuration.TotalSeconds}" PreviewMouseUp="SeekBar_PreviewMouseUp" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="ValueChanged" >
                         <i:InvokeCommandAction Command="{Binding SeekbarValueChangedCommand}" CommandParameter="{Binding ElementName=SeekBar}" />

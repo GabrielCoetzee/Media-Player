@@ -217,7 +217,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void InitializeModelInstance()
         {
-            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new MediaListObservableCollection(), MediaState = MediaState.Pause, MediaVolume = CustomTypes.VolumeLevel.FullVolume};
+            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new MediaItemObservableCollection(), MediaState = MediaState.Pause, MediaVolume = CustomTypes.VolumeLevel.FullVolume};
         }
 
         private void InitializeCommands()
@@ -520,12 +520,12 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void OrderMediaList()
         {
-            ModelMediaPlayer.MediaList = new MediaListObservableCollection(ModelMediaPlayer.MediaList.OrderBy(x => x.Id));
+            ModelMediaPlayer.MediaList = new MediaItemObservableCollection(ModelMediaPlayer.MediaList.OrderBy(x => x.Id));
         }
 
         private void ShuffleMediaList()
         {
-            ModelMediaPlayer.MediaList = new MediaListObservableCollection(ModelMediaPlayer.MediaList
+            ModelMediaPlayer.MediaList = new MediaItemObservableCollection(ModelMediaPlayer.MediaList
                 .OrderBy(x => x != ModelMediaPlayer.SelectedMediaItem)
                 .ThenBy(x => RandomIdGenerator.Next()));
         }

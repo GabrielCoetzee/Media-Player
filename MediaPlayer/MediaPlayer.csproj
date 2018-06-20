@@ -105,9 +105,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\Custom Converters\MediaItemToEnabledStateConverter.cs" />
-    <Compile Include="Helpers\Custom Converters\MediaItemToVisibilityConverter.cs" />
-    <Compile Include="Helpers\Custom Types\CustomTypes.cs" />
+    <Compile Include="Helpers\Custom Converters\BooleanToVisibleOrHiddenInverseConverter.cs" />
+    <Compile Include="Helpers\Custom Converters\MediaItemSelectedToEnabledConverter.cs" />
+    <Compile Include="Helpers\Custom Converters\MediaItemSelectedToVisibilityConverter.cs" />
+    <Compile Include="Objects\Custom Types\CustomTypes.cs" />
     <Compile Include="Helpers\Custom Command Classes\RelayCommandWithParameter.cs" />
     <Compile Include="Helpers\Custom Converters\MediaVolumeConverter.cs" />
     <Compile Include="Helpers\Custom Converters\PlayPauseButtonBackgroundConverter.cs" />
@@ -117,7 +118,7 @@
     <Compile Include="MP3MetadataReaders\Interface Implementations\TaglibMp3MetadataReaderWrapper.cs" />
     <Compile Include="MP3MetadataReaders\Interfaces\IReadMp3Metadata.cs" />
     <Compile Include="MP3MetadataReaders\Types\Mp3MetadataReaderTypes.cs" />
-    <Compile Include="Objects\Collections\Derived\MediaListObservableCollection.cs" />
+    <Compile Include="Objects\Collections\Derived\MediaItemObservableCollection.cs" />
     <Compile Include="Objects\MediaList\Base\MediaItem.cs" />
     <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />
     <Compile Include="Application Settings\Interface Implementations\ApplicationSettings.cs" />

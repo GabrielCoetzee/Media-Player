@@ -27,7 +27,7 @@ namespace MediaPlayer.MVVM.Models
 
         private MediaItem _selectedMediaItem;
         private bool _isLoadingMediaItems;
-        private MediaListObservableCollection _mediaList;
+        private MediaItemObservableCollection _mediaList;
         private TimeSpan _mediaPosition;
         private MediaState _mediaState;
         private CustomTypes.VolumeLevel _mediaVolume;
@@ -62,7 +62,7 @@ namespace MediaPlayer.MVVM.Models
             }
         }
 
-        public MediaListObservableCollection MediaList
+        public MediaItemObservableCollection MediaList
         {
             get => _mediaList;
             set
