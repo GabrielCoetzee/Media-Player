@@ -1,5 +1,9 @@
 # Media-Player
 
+Features Recently added : 
+- Themes! :-)
+- Enable / Disable Transparency and slider to select preferred opacity
+
 This is a Media Player that I am actively working on. This is made for personal use only. I do not own any of the images used in this software, and this software will not be distributed.
 
 Features Include : 
@@ -18,16 +22,16 @@ Features to come :
 - Create Installer
 - Have ability to set media player as default in windows
 - Video playback
-- Themes! :-)
-- Enable / Disable Transparency and slider to select preferred opacity
 - Download and save album art and lyrics for media items while playing and if not found.
 - Resize window while retaining aspect ratio
 
-Technologies used : 
+Technologies used :
 
+- Visual Studio 2017
 - C# with MVVM Design Pattern
 - Mahapps Metro 
-- Visual Studio 2017
+- Mahapps Metro Icons
+- FontAwesome.WPF
 
 ![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
 
