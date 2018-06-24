@@ -10,6 +10,8 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
+        SaveWindowPosition="True"
+        GlowBrush="{DynamicResource AccentColorBrush}"
         Title="{Binding ModelMediaPlayer.SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" ShowMaxRestoreButton="False" Height="768" Width="1366" MinHeight="768" MinWidth="1366" Activated="MetroWindow_Activated">
     <Window.InputBindings>
         <KeyBinding Command="{Binding PlayPauseCommand}" Key="Space"/>
@@ -179,16 +181,16 @@
                 </i:Interaction.Triggers>
             </Slider>
 
-            <ToggleButton Focusable="False" Grid.Row="4" Grid.Column="10" Grid.RowSpan="2" Command="{Binding ShuffleMediaListCommand}" CommandParameter="{Binding ElementName=MediaListBox}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MetroCircleToggleButtonStyle}" />
-            <ToggleButton Focusable="False" Grid.Row="4" Grid.Column="9" Grid.RowSpan="2" Command="{Binding RepeatMediaListCommand}" Background="{StaticResource ResourceRepeatButtonImage}"  Style="{DynamicResource MetroCircleToggleButtonStyle}" />
-            <Button Focusable="False" Grid.Row="4" Grid.Column="8" Grid.RowSpan="2" Command="{Binding NextTrackCommand}" Background="{StaticResource ResourceNextTrackButtonImage}"  Style="{DynamicResource MetroCircleButtonStyle}" />
-            <Button Name="ButtonPlayPause" Grid.Row="4" Grid.Column="7" Grid.RowSpan="2" Command="{Binding PlayPauseCommand}" Background="{Binding ModelMediaPlayer.MediaState, Converter={StaticResource PlayPauseButtonBackgroundConverter}, FallbackValue={StaticResource ResourcePlayButtonImage}}" Style="{DynamicResource MetroCircleButtonStyle}" />
-            <Button Focusable="False" Grid.Row="4" Grid.Column="6" Grid.RowSpan="2" Command="{Binding StopCommand}" Background="{StaticResource ResourceStopButtonImage}" Style="{DynamicResource MetroCircleButtonStyle}" />
-            <Button Focusable="False" Grid.Row="4" Grid.Column="5" Grid.RowSpan="2" Command="{Binding PreviousTrackCommand}" Background="{StaticResource ResourcePreviousTrackButtonImage}"  Style="{DynamicResource MetroCircleButtonStyle}" />
-            <ToggleButton Focusable="False" Grid.Row="4" Grid.Column="4" Grid.RowSpan="2" Name="ButtonMute" Command="{Binding MuteCommand}" Background="{StaticResource ResourceMuteButtonImage}" Style="{DynamicResource MetroCircleToggleButtonStyle}" />
+            <ToggleButton Focusable="False" Grid.Row="4" Grid.Column="10" Grid.RowSpan="2" Foreground="{DynamicResource AccentColorBrush}" Command="{Binding ShuffleMediaListCommand}" CommandParameter="{Binding ElementName=MediaListBox}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MetroCircleToggleButtonStyle}" />
+            <ToggleButton Focusable="False" Grid.Row="4" Grid.Column="9" Grid.RowSpan="2" Foreground="{DynamicResource AccentColorBrush}" Command="{Binding RepeatMediaListCommand}" Background="{StaticResource ResourceRepeatButtonImage}"  Style="{DynamicResource MetroCircleToggleButtonStyle}" />
+            <Button Focusable="False" Grid.Row="4" Grid.Column="8" Grid.RowSpan="2" Foreground="{DynamicResource AccentColorBrush}" Command="{Binding NextTrackCommand}" Background="{StaticResource ResourceNextTrackButtonImage}"  Style="{DynamicResource MetroCircleButtonStyle}" />
+            <Button Name="ButtonPlayPause" Grid.Row="4" Grid.Column="7" Grid.RowSpan="2" Foreground="{DynamicResource AccentColorBrush}" Command="{Binding PlayPauseCommand}" Background="{Binding ModelMediaPlayer.MediaState, Converter={StaticResource PlayPauseButtonBackgroundConverter}, FallbackValue={StaticResource ResourcePlayButtonImage}}" Style="{DynamicResource MetroCircleButtonStyle}" />
+            <Button Focusable="False" Grid.Row="4" Grid.Column="6" Grid.RowSpan="2" Foreground="{DynamicResource AccentColorBrush}" Command="{Binding StopCommand}" Background="{StaticResource ResourceStopButtonImage}" Style="{DynamicResource MetroCircleButtonStyle}" />
+            <Button Focusable="False" Grid.Row="4" Grid.Column="5" Grid.RowSpan="2" Foreground="{DynamicResource AccentColorBrush}" Command="{Binding PreviousTrackCommand}" Background="{StaticResource ResourcePreviousTrackButtonImage}"  Style="{DynamicResource MetroCircleButtonStyle}" />
+            <ToggleButton Focusable="False" Grid.Row="4" Grid.Column="4" Grid.RowSpan="2" Foreground="{DynamicResource AccentColorBrush}" Name="ButtonMute" Command="{Binding MuteCommand}" Background="{StaticResource ResourceMuteButtonImage}" Style="{DynamicResource MetroCircleToggleButtonStyle}" />
 
-            <Button Focusable="False" Grid.Row="5" Grid.Column="1" Content="Add File(s)" Command="{Binding AddMediaCommand}" />
-            <Button Focusable="False" Grid.Row="5" Grid.Column="13" Content="Clear Media List" Command="{Binding ClearMediaListCommand}" />
+            <Button Focusable="False" Grid.Row="5" Grid.Column="1" Content="Add File(s)" BorderBrush="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource AccentColorBrush}" Command="{Binding AddMediaCommand}" />
+            <Button Focusable="False" Grid.Row="5" Grid.Column="13" Content="Clear Media List" BorderBrush="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource AccentColorBrush}" Command="{Binding ClearMediaListCommand}" />
 
         </Grid>
     </Grid>

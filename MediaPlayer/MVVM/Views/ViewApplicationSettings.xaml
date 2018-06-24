@@ -43,7 +43,7 @@
                     <Label Grid.Column="0" Grid.Row="0" Content="Themes :" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" />
 
-                    <Button x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Content="Close" Click="ButtonCloseSettings_Click" />
+                    <Button x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource AccentColorBrush}" Content="Close" Click="ButtonCloseSettings_Click" />
                 </Grid>
             </TabItem>
         </TabControl>
