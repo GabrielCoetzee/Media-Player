@@ -13,7 +13,10 @@ using MediaPlayer.MetadataReaders.Interfaces;
 using MediaPlayer.MetadataReaders.Types;
 using MediaPlayer.MVVM.Models;
 using MediaPlayer.MVVM.Models.Base_Types;
+using MediaPlayer.MVVM.Views;
 using MediaPlayer.Objects.Collections;
+using MediaPlayer.Window_Service.Interfaces;
+using MediaPlayer.Window_Service.Interface_Implementations;
 using ListBox = System.Windows.Controls.ListBox;
 
 namespace MediaPlayer.MVVM.ViewModels
@@ -36,6 +39,8 @@ namespace MediaPlayer.MVVM.ViewModels
         readonly Random RandomIdGenerator = new Random();
         readonly DispatcherTimer MediaPositionTracker = new DispatcherTimer();
 
+        private IWindowService WindowService;
+
         private ModelMediaPlayer _modelMediaPlayer;
 
         private ICommand _addMediaCommand;
@@ -51,6 +56,7 @@ namespace MediaPlayer.MVVM.ViewModels
         private ICommand _repeatMediaListCommand;
         private ICommand _shuffleMediaListCommand;
         private ICommand _clearMediaListCommand;
+        private ICommand _openSettingsWindowCommand;
 
         #endregion
 
@@ -200,6 +206,16 @@ namespace MediaPlayer.MVVM.ViewModels
             }
         }
 
+        public ICommand OpenSettingsWindowCommand
+        {
+            get => _openSettingsWindowCommand;
+            set
+            {
+                _openSettingsWindowCommand = value;
+                OnPropertyChanged(nameof(OpenSettingsWindowCommand));
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -231,6 +247,7 @@ namespace MediaPlayer.MVVM.ViewModels
             RepeatMediaListCommand = new RelayCommand(RepeatMediaListCommand_Execute, RepeatMediaListCommand_CanExecute);
             ShuffleMediaListCommand = new RelayCommandWithParameter(ShuffleMediaListCommand_Execute, ShuffleMediaListCommand_CanExecute);
             ClearMediaListCommand = new RelayCommand(ClearMediaListCommand_Execute, ClearMediaListCommand_CanExecute);
+            OpenSettingsWindowCommand = new RelayCommand(OpenSettingsWindowCommand_Execute, OpenSettingsWindowCommand_CanExecute);
         }
 
         private void InitializeEventTriggerCommands()
@@ -244,6 +261,17 @@ namespace MediaPlayer.MVVM.ViewModels
         #endregion
 
         #region Command Methods
+
+        public bool OpenSettingsWindowCommand_CanExecute()
+        {
+            return true;
+        }
+
+        public void OpenSettingsWindowCommand_Execute()
+        {
+            WindowService = new WindowService<ViewApplicationSettings>();
+            WindowService.ShowWindowModal(ApplicationSettings);
+        }
 
         public bool ClearMediaListCommand_CanExecute()
         {

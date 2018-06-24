@@ -7,5 +7,7 @@
         string SelectedTheme { get; }
 
         decimal Opacity { get; }
+
+        void SaveSettings();
     }
 }

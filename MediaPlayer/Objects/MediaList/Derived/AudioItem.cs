@@ -113,8 +113,12 @@ namespace MediaPlayer.Objects
             {
                 _albumArt = value;
                 OnPropertyChanged(nameof(AlbumArt));
-            } 
+                OnPropertyChanged(nameof(HasAlbumArt));
+            }
         }
+
+        public bool HasAlbumArt => _albumArt != null;
+
         public string Album
         {
             get => _album;

@@ -63,15 +63,9 @@
     <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
-    <Reference Include="MoreLinq, Version=2.10.21623.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.2.10.0\lib\net40\MoreLinq.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -97,6 +91,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\Custom Converters\AlbumArtConverter.cs" />
+    <Compile Include="Window Service\Interface Implementations\WindowService.cs" />
+    <Compile Include="Window Service\Interfaces\IWindowService.cs" />
+    <Page Include="MVVM\Views\ViewApplicationSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\Views\ViewMediaPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -108,6 +109,9 @@
     <Compile Include="Helpers\Custom Converters\BooleanToVisibleOrHiddenInverseConverter.cs" />
     <Compile Include="Helpers\Custom Converters\MediaItemSelectedToEnabledConverter.cs" />
     <Compile Include="Helpers\Custom Converters\MediaItemSelectedToVisibilityConverter.cs" />
+    <Compile Include="MVVM\Views\ViewApplicationSettings.xaml.cs">
+      <DependentUpon>ViewApplicationSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\Custom Types\CustomTypes.cs" />
     <Compile Include="Helpers\Custom Command Classes\RelayCommandWithParameter.cs" />
     <Compile Include="Helpers\Custom Converters\MediaVolumeConverter.cs" />
@@ -127,6 +131,14 @@
       <DependentUpon>ViewMediaPlayer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Objects\Collections\Base\BulkObservableCollection.cs" />
@@ -155,6 +167,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -224,6 +237,36 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\WindowsIcons-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Default_AlbumArt\amber.png" />
+    <Resource Include="Resources\Default_AlbumArt\brown.png" />
+    <Resource Include="Resources\Default_AlbumArt\cobalt.png" />
+    <Resource Include="Resources\Default_AlbumArt\crimson.png" />
+    <Resource Include="Resources\Default_AlbumArt\cyan.png" />
+    <Resource Include="Resources\Default_AlbumArt\emerald.png" />
+    <Resource Include="Resources\Default_AlbumArt\green.png" />
+    <Resource Include="Resources\Default_AlbumArt\indigo.png" />
+    <Resource Include="Resources\Default_AlbumArt\lime.png" />
+    <Resource Include="Resources\Default_AlbumArt\magenta.png" />
+    <Resource Include="Resources\Default_AlbumArt\mauve.png" />
+    <Resource Include="Resources\Default_AlbumArt\olive.png" />
+    <Resource Include="Resources\Default_AlbumArt\orange.png" />
+    <Resource Include="Resources\Default_AlbumArt\pink.png" />
+    <Resource Include="Resources\Default_AlbumArt\purple.png" />
+    <Resource Include="Resources\Default_AlbumArt\red.png" />
+    <Resource Include="Resources\Default_AlbumArt\sienna.png" />
+    <Resource Include="Resources\Default_AlbumArt\steel.png" />
+    <Resource Include="Resources\Default_AlbumArt\taupe.png" />
+    <Resource Include="Resources\Default_AlbumArt\teal.png" />
+    <Resource Include="Resources\Default_AlbumArt\violet.png" />
+    <Resource Include="Resources\Default_AlbumArt\yellow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

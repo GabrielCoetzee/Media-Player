@@ -8,6 +8,7 @@
         xmlns:customConverters="clr-namespace:MediaPlayer.Helpers.Custom_Converters"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         Title="{Binding ModelMediaPlayer.SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" ShowMaxRestoreButton="False" Height="768" Width="1366" MinHeight="768" MinWidth="1366" Activated="MetroWindow_Activated">
     <Window.InputBindings>
@@ -16,6 +17,23 @@
     <Controls:MetroWindow.Background>
         <SolidColorBrush Color="Black" Opacity="{Binding ApplicationSettings.Opacity}"/>
     </Controls:MetroWindow.Background>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Command="{Binding OpenSettingsWindowCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20"  Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_settings}" Stretch="Fill" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0"
+                               VerticalAlignment="Center"
+                               Text="SETTINGS" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
 
     <Window.Resources>
         <ImageBrush x:Key="ResourcePlayButtonImage" ImageSource="../../Resources/Button_Images/appbar.control.play.png" />
@@ -33,6 +51,7 @@
         <customConverters:MediaVolumeConverter x:Key="MediaVolumeConverter" />
         <customConverters:MediaItemSelectedToVisibilityConverter x:Key="MediaItemSelectedToVisibilityConverter" />
         <customConverters:MediaItemSelectedToEnabledConverter x:Key="SliderToEnabledWhenMediaItemSelectedConverter" />
+        <customConverters:AlbumArtConverter x:Key="AlbumArtConverter" />
     </Window.Resources>
 
     <Grid x:Name="TopMostGrid" AllowDrop="True" Background="Transparent" DragEnter="TopMostGrid_DragEnter" Drop="TopMostGrid_Drop" ZIndex="999">
@@ -142,7 +161,8 @@
             </StackPanel>-->
             
             <StackPanel Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                <Image Source="{Binding ModelMediaPlayer.SelectedMediaItem.AlbumArt, FallbackValue='../../Resources/Default_AlbumArt/blue.png', TargetNullValue='../../Resources/Default_AlbumArt/blue.png'}" />
+                <Image Visibility="{Binding ModelMediaPlayer.SelectedMediaItem.HasAlbumArt, Converter={StaticResource BooleanToVisibleOrHidden}}" Source="{Binding ModelMediaPlayer.SelectedMediaItem.AlbumArt}" />
+                <Image Visibility="{Binding ModelMediaPlayer.SelectedMediaItem.HasAlbumArt, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" Source="{Binding ApplicationSettings.SelectedTheme, StringFormat=../../Resources/Default_AlbumArt/{0}.png, Converter={StaticResource AlbumArtConverter}}" />
             </StackPanel>
 
             <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding ModelMediaPlayer.ElapsedTime}" IsEnabled="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource SliderToEnabledWhenMediaItemSelectedConverter}}" Maximum="{Binding ModelMediaPlayer.SelectedMediaItem.MediaDuration.TotalSeconds}" PreviewMouseUp="SeekBar_PreviewMouseUp" >
