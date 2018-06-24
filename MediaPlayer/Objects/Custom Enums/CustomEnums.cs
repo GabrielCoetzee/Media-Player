@@ -1,6 +1,6 @@
 ﻿namespace MediaPlayer
 {
-    public static class CustomTypes
+    public static class CustomEnums
     {
         public enum VolumeLevel { FullVolume = 100, Mute = 0 }
     }

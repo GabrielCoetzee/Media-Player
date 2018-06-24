@@ -30,7 +30,7 @@ namespace MediaPlayer.MVVM.Models
         private MediaItemObservableCollection _mediaList;
         private TimeSpan _mediaPosition;
         private MediaState _mediaState;
-        private CustomTypes.VolumeLevel _mediaVolume;
+        private CustomEnums.VolumeLevel _mediaVolume;
         private double _elapsedTime;
         private bool _isDraggingSeekbarThumb = false;
         private string _elapsedTimeFormatted;
@@ -95,7 +95,7 @@ namespace MediaPlayer.MVVM.Models
             }
         }
 
-        public CustomTypes.VolumeLevel MediaVolume
+        public CustomEnums.VolumeLevel MediaVolume
         {
             get => _mediaVolume;
             set

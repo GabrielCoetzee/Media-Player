@@ -233,7 +233,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void InitializeModelInstance()
         {
-            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new MediaItemObservableCollection(), MediaState = MediaState.Pause, MediaVolume = CustomTypes.VolumeLevel.FullVolume};
+            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new MediaItemObservableCollection(), MediaState = MediaState.Pause, MediaVolume = CustomEnums.VolumeLevel.FullVolume};
         }
 
         private void InitializeCommands()
@@ -352,7 +352,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void MuteCommand_Execute()
         {
-            ModelMediaPlayer.MediaVolume = ModelMediaPlayer.MediaVolume == CustomTypes.VolumeLevel.FullVolume ? CustomTypes.VolumeLevel.Mute : CustomTypes.VolumeLevel.FullVolume;
+            ModelMediaPlayer.MediaVolume = ModelMediaPlayer.MediaVolume == CustomEnums.VolumeLevel.FullVolume ? CustomEnums.VolumeLevel.Mute : CustomEnums.VolumeLevel.FullVolume;
         }
 
         public bool PlayPauseCommand_CanExecute()

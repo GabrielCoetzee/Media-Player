@@ -112,7 +112,7 @@
     <Compile Include="MVVM\Views\ViewApplicationSettings.xaml.cs">
       <DependentUpon>ViewApplicationSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\Custom Types\CustomTypes.cs" />
+    <Compile Include="Objects\Custom Enums\CustomEnums.cs" />
     <Compile Include="Helpers\Custom Command Classes\RelayCommandWithParameter.cs" />
     <Compile Include="Helpers\Custom Converters\MediaVolumeConverter.cs" />
     <Compile Include="Helpers\Custom Converters\PlayPauseButtonBackgroundConverter.cs" />
