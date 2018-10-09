@@ -92,6 +92,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\Custom Converters\AlbumArtConverter.cs" />
+    <Compile Include="Helpers\Custom Converters\PriorityMultiValueConverter.cs" />
+    <Compile Include="Objects\MediaList\Derived\VideoItem.cs" />
     <Compile Include="Window Service\Interface Implementations\WindowService.cs" />
     <Compile Include="Window Service\Interfaces\IWindowService.cs" />
     <Page Include="MVVM\Views\ViewApplicationSettings.xaml">
@@ -118,10 +120,10 @@
     <Compile Include="Helpers\Custom Converters\PlayPauseButtonBackgroundConverter.cs" />
     <Compile Include="Helpers\Custom Command Classes\RelayCommand.cs" />
     <Compile Include="Application Settings\Interfaces\IExposeApplicationSettings.cs" />
-    <Compile Include="MP3MetadataReaders\Factory\Mp3MetadataReaderFactory.cs" />
-    <Compile Include="MP3MetadataReaders\Interface Implementations\TaglibMp3MetadataReaderWrapper.cs" />
-    <Compile Include="MP3MetadataReaders\Interfaces\IReadMp3Metadata.cs" />
-    <Compile Include="MP3MetadataReaders\Types\Mp3MetadataReaderTypes.cs" />
+    <Compile Include="MetadataReaders\Factory\MetadataReaderFactory.cs" />
+    <Compile Include="MetadataReaders\Interface Implementations\TaglibMetadataReaderWrapper.cs" />
+    <Compile Include="MetadataReaders\Interfaces\IReadMetadata.cs" />
+    <Compile Include="MetadataReaders\Types\MetadataReaderTypes.cs" />
     <Compile Include="Objects\Collections\Derived\MediaItemObservableCollection.cs" />
     <Compile Include="Objects\MediaList\Base\MediaItem.cs" />
     <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />

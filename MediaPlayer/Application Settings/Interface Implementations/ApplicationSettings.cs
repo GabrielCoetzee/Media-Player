@@ -1,4 +1,6 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
 using MahApps.Metro;
@@ -32,13 +34,13 @@ namespace MediaPlayer.Application_Settings.Interface_Implementations
         private string _selectedTheme = Properties.Settings.Default[nameof(SelectedTheme)].ToString();
         private decimal _opacity = (decimal)Properties.Settings.Default[nameof(Opacity)];
 
-        public string[] SupportedAudioFormats
+        public string[] SupportedFormats
         {
             get
             {
-                var supportedAudioFormats = (StringCollection)Properties.Settings.Default[nameof(SupportedAudioFormats)];
+                var supportedFormats = (StringCollection)Properties.Settings.Default[nameof(SupportedFormats)];
 
-                return supportedAudioFormats.Cast<string>().ToArray<string>();
+                return supportedFormats.Cast<string>().ToArray<string>();
             }
         }
 
@@ -48,6 +50,7 @@ namespace MediaPlayer.Application_Settings.Interface_Implementations
             set
             {
                 _selectedTheme = value;
+
                 ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(SelectedTheme), ThemeManager.GetAppTheme("BaseDark"));
             }
         }

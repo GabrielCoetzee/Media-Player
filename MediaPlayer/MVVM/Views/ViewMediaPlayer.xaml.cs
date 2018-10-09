@@ -8,7 +8,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MediaPlayer.Application_Settings.Interface_Implementations;
@@ -91,7 +93,7 @@ namespace MediaPlayer
 
             vm.ModelMediaPlayer.IsLoadingMediaItems = true;
 
-            mediaListProcessor_background.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent, IReadMp3Metadata = vm.Mp3MetadataReader });
+            mediaListProcessor_background.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent, ReadMetadata = vm.MetadataReader });
         }
 
         private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -156,14 +158,14 @@ namespace MediaPlayer
                 if (isFolder)
                 {
                     supportedFiles.AddRange(Directory.EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
-                        .Where(file => ApplicationSettings.Instance.SupportedAudioFormats.Any(file.ToLower().EndsWith))
-                        .Select((x) => mediaItemArgs.IReadMp3Metadata.GetMp3Metadata(x))
+                        .Where(file => ApplicationSettings.Instance.SupportedFormats.Any(file.ToLower().EndsWith))
+                        .Select((x) =>  mediaItemArgs.ReadMetadata.GetFileMetadata(x))
                         .ToList());
                 }
                 else
                 {
-                    if (ApplicationSettings.Instance.SupportedAudioFormats.Any(x => x.ToLower().Equals(Path.GetExtension(path.ToString().ToLower()))))
-                        supportedFiles.Add(mediaItemArgs.IReadMp3Metadata.GetMp3Metadata(path.ToString()));
+                    if (ApplicationSettings.Instance.SupportedFormats.Any(x => x.ToLower().Equals(Path.GetExtension(path.ToString().ToLower()))))
+                        supportedFiles.Add(mediaItemArgs.ReadMetadata.GetFileMetadata(path.ToString()));
                 }
 
             }

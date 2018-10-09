@@ -5,7 +5,7 @@ namespace MediaPlayer.Objects.MediaList.Processing
 {
     public class MediaItemProcessingArguments
     {
-        public IReadMp3Metadata IReadMp3Metadata { get; set; }
+        public IReadMetadata ReadMetadata { get; set; }
 
         public IEnumerable FilePaths { get; set; }
     }

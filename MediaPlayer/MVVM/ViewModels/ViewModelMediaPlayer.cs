@@ -39,8 +39,6 @@ namespace MediaPlayer.MVVM.ViewModels
         readonly Random RandomIdGenerator = new Random();
         readonly DispatcherTimer MediaPositionTracker = new DispatcherTimer();
 
-        private IWindowService WindowService;
-
         private ModelMediaPlayer _modelMediaPlayer;
 
         private ICommand _addMediaCommand;
@@ -74,7 +72,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public IExposeApplicationSettings ApplicationSettings => Application_Settings.Interface_Implementations.ApplicationSettings.Instance;
 
-        public IReadMp3Metadata Mp3MetadataReader { get; set; } = Mp3MetadataReaderFactory.Instance.GetMp3MetadataReader(Mp3MetadataReaderTypes.Mp3MetadataReaders.Taglib);
+        public IReadMetadata MetadataReader { get; set; } = MetadataReaderFactory.Instance.GetMetadataReader(MetadataReaderTypes.MetadataReaders.Taglib);
 
         public ICommand AddMediaCommand
         {
@@ -269,8 +267,8 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void OpenSettingsWindowCommand_Execute()
         {
-            WindowService = new WindowService<ViewApplicationSettings>();
-            WindowService.ShowWindowModal(ApplicationSettings);
+            var windowService = new WindowService<ViewApplicationSettings>();
+            windowService.ShowWindowModal(ApplicationSettings);
         }
 
         public bool ClearMediaListCommand_CanExecute()
@@ -378,7 +376,7 @@ namespace MediaPlayer.MVVM.ViewModels
             var chooseFiles = new OpenFileDialog
             {
                 Title = "Choose Files",
-                DefaultExt = ApplicationSettings.SupportedAudioFormats.First(),
+                DefaultExt = ApplicationSettings.SupportedFormats.First(),
                 Filter = CreateDialogFilter(),
                 Multiselect = true
             };
@@ -388,7 +386,7 @@ namespace MediaPlayer.MVVM.ViewModels
             if (result != DialogResult.OK)
                 return;
 
-            var mediaItems = chooseFiles.FileNames.Select(file => Mp3MetadataReader.GetMp3Metadata(file)).Cast<MediaItem>().ToList();
+            var mediaItems = chooseFiles.FileNames.Select(file => MetadataReader.GetFileMetadata(file)).Cast<MediaItem>().ToList();
             AddToMediaList(mediaItems);
         }
 
@@ -454,7 +452,7 @@ namespace MediaPlayer.MVVM.ViewModels
         public void AddToMediaList(List<string> files)
         {
             foreach (var file in files)
-                ModelMediaPlayer.MediaList.Add(Mp3MetadataReader.GetMp3Metadata(file));
+                ModelMediaPlayer.MediaList.Add(MetadataReader.GetFileMetadata(file));
 
             if (ModelMediaPlayer.SelectedMediaItem != null || ModelMediaPlayer.MediaList.Count <= 0)
                 return;
@@ -487,12 +485,12 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private string CreateDialogFilter()
         {
-            return string.Join("|", $"Supported Audio Formats ({AppendSupportedAudioFormats(",")})", AppendSupportedAudioFormats(";"));
+            return string.Join("|", $"Supported Formats ({AppendSupportedFormats(",")})", AppendSupportedFormats(";"));
         }
 
-        private string AppendSupportedAudioFormats(string seperator)
+        private string AppendSupportedFormats(string seperator)
         {
-            return ApplicationSettings.SupportedAudioFormats.Aggregate(string.Empty, (current, audioFormat) => current + $"*{audioFormat}{(ApplicationSettings.SupportedAudioFormats.Last() != audioFormat ? seperator : string.Empty)}");
+            return ApplicationSettings.SupportedFormats.Aggregate(string.Empty, (current, format) => current + $"*{format}{(ApplicationSettings.SupportedFormats.Last() != format ? seperator : string.Empty)}");
         }
 
         private void PlayMedia()

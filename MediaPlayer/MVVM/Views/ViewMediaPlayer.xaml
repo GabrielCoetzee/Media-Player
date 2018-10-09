@@ -46,6 +46,7 @@
         <ImageBrush x:Key="ResourceNextTrackButtonImage"  ImageSource="../../Resources/Button_Images/appbar.control.fastforward.png"/>
         <ImageBrush x:Key="ResourceRepeatButtonImage" ImageSource="../../Resources/Button_Images/appbar.repeat.png" />
         <ImageBrush x:Key="ResourceShuffleButtonImage" ImageSource="../../Resources/Button_Images/appbar.shuffle.png"/>
+        
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibleOrHidden" />
         <customConverters:BooleanToVisibleOrHiddenInverseConverter x:Key="BooleanToVisibleOrHiddenInverse" />
@@ -54,6 +55,7 @@
         <customConverters:MediaItemSelectedToVisibilityConverter x:Key="MediaItemSelectedToVisibilityConverter" />
         <customConverters:MediaItemSelectedToEnabledConverter x:Key="SliderToEnabledWhenMediaItemSelectedConverter" />
         <customConverters:AlbumArtConverter x:Key="AlbumArtConverter" />
+        <customConverters:PriorityMultiValueConverter x:Key="PriorityMultiValueConverter" />
     </Window.Resources>
 
     <Grid x:Name="TopMostGrid" AllowDrop="True" Background="Transparent" DragEnter="TopMostGrid_DragEnter" Drop="TopMostGrid_Drop" ZIndex="999">
@@ -163,8 +165,16 @@
             </StackPanel>-->
             
             <StackPanel Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                <Image Visibility="{Binding ModelMediaPlayer.SelectedMediaItem.HasAlbumArt, Converter={StaticResource BooleanToVisibleOrHidden}}" Source="{Binding ModelMediaPlayer.SelectedMediaItem.AlbumArt}" />
-                <Image Visibility="{Binding ModelMediaPlayer.SelectedMediaItem.HasAlbumArt, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" Source="{Binding ApplicationSettings.SelectedTheme, StringFormat=../../Resources/Default_AlbumArt/{0}.png, Converter={StaticResource AlbumArtConverter}}" />
+                <Image>
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource PriorityMultiValueConverter}">
+                            <Binding Path="ModelMediaPlayer.SelectedMediaItem.AlbumArt" />
+                            <Binding Path="ApplicationSettings.SelectedTheme" Converter="{StaticResource AlbumArtConverter}" />
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
+                <!--<Image Visibility="{Binding ModelMediaPlayer.SelectedMediaItem.HasAlbumArt, Converter={StaticResource BooleanToVisibleOrHidden}}" Source="{Binding ModelMediaPlayer.SelectedMediaItem.AlbumArt}" />-->
+                <!--<Image Visibility="{Binding ModelMediaPlayer.SelectedMediaItem.HasAlbumArt, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" Source="{Binding ApplicationSettings.SelectedTheme, Converter={StaticResource AlbumArtConverter}}" />-->
             </StackPanel>
 
             <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding ModelMediaPlayer.ElapsedTime}" IsEnabled="{Binding ModelMediaPlayer.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource SliderToEnabledWhenMediaItemSelectedConverter}}" Maximum="{Binding ModelMediaPlayer.SelectedMediaItem.MediaDuration.TotalSeconds}" PreviewMouseUp="SeekBar_PreviewMouseUp" >

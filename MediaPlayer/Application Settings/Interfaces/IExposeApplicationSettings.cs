@@ -2,7 +2,7 @@
 {
     public interface IExposeApplicationSettings
     {
-        string[] SupportedAudioFormats { get; }
+        string[] SupportedFormats { get; }
 
         string SelectedTheme { get; }
 

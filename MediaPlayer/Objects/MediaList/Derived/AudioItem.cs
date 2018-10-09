@@ -25,66 +25,23 @@ namespace MediaPlayer.Objects
 
         #region Fields
 
-        private int _id;
-        private Uri _filePath;
         private byte[] _albumArt;
         private string _album;
         private string _artist;
         private string _songTitle;
         private string _genre;
         private string _comments;
-        private uint? _trackNumber;
         private uint? _year;
         private string _lyrics;
         private bool _hasLyrics;
         private string _composer;
-        private TimeSpan _mediaDuration;
         private int _bitrate;
-        private string _windowTitle;
 
         #endregion
 
         #region Overridden Properties
 
-        public override int Id
-        {
-            get => _id;
-            set
-            {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
-            }
-        }
-        public override Uri FilePath
-        {
-            get => _filePath;
-            set
-            {
-                _filePath = value;
-                OnPropertyChanged(nameof(FilePath));
-                OnPropertyChanged(nameof(FileName));
-            }
-        }
-
-        public override TimeSpan MediaDuration
-        {
-            get => _mediaDuration;
-            set
-            {
-                _mediaDuration = value;
-                OnPropertyChanged(nameof(MediaDuration));
-            }
-        }
-
-        public override string WindowTitle
-        {
-            get => _windowTitle;
-            set
-            {
-                _windowTitle = value;
-                OnPropertyChanged(nameof(WindowTitle));
-            }
-        }
+        public override string WindowTitle => SetWindowTitle();
 
         public string SongTitle
         {
@@ -96,11 +53,11 @@ namespace MediaPlayer.Objects
                 OnPropertyChanged(nameof(SongTitle));
                 OnPropertyChanged(nameof(MediaTitle));
                 OnPropertyChanged(nameof(MediaTitleTrimmed));
+                OnPropertyChanged(nameof(WindowTitle));
             }
         }
 
         public override string MediaTitle => _songTitle ?? FileName;
-        public override string MediaTitleTrimmed => GetTrimmedMediaTitle();
 
         #endregion
 
@@ -156,15 +113,7 @@ namespace MediaPlayer.Objects
                 OnPropertyChanged(nameof(Comments));
             } 
         }
-        public uint? TrackNumber
-        {
-            get => _trackNumber;
-            set
-            {
-                _trackNumber = value;
-                OnPropertyChanged(nameof(TrackNumber));
-            } 
-        }
+
         public uint? Year
         {
             get => _year;
@@ -230,14 +179,6 @@ namespace MediaPlayer.Objects
             return null;
         }
 
-        internal void SetWindowTitle()
-        {
-            if (!string.IsNullOrEmpty(Artist) && !string.IsNullOrEmpty(MediaTitle))
-                WindowTitle = $"Now Playing : {Artist} - {MediaTitle}";
-            else
-                WindowTitle = $"Now Playing : {FileName}";
-        }
-
         #endregion
 
         #region Private Methods
@@ -254,14 +195,12 @@ namespace MediaPlayer.Objects
             }
         }
 
-        private string GetTrimmedMediaTitle()
+        private string SetWindowTitle()
         {
-            const int charMaxLength = 32;
-
-            if (MediaTitle.Length > charMaxLength)
-                return MediaTitle.Substring(0, charMaxLength) + "...";
-
-            return MediaTitle;
+            if (!string.IsNullOrEmpty(Artist) && !string.IsNullOrEmpty(MediaTitle))
+                return $"Now Playing : {Artist} - {MediaTitle}";
+            else
+                return $"Now Playing : {FileName}";
         }
 
         #endregion
