@@ -1,44 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediaPlayer.MVVM.Models.Base_Types;
+﻿using MediaPlayer.MVVM.Models.Base_Types;
 
 namespace MediaPlayer.Objects.MediaList.Derived
 {
-    public class VideoItem : MediaItem, INotifyPropertyChanged
+    public class VideoItem : MediaItem
     {
         #region Fields
 
         private string _windowTitle;
         private string _videoTitle;
-        private int _videoHeight;
-        private int _videoWidth;
+        private string _videoResolution;
+        private string _mediaTitle;
 
         #endregion
 
         #region Properties
 
-        public int VideoHeight
+        public string VideoResolution
         {
-            get => _videoHeight;
+            get => _videoResolution;
             set
             {
-                _videoHeight = value;
-                OnPropertyChanged(nameof(VideoHeight));
-            }
-        }
-
-        public int VideoWidth
-        {
-            get => _videoWidth;
-            set
-            {
-                _videoWidth = value;
-                OnPropertyChanged(nameof(VideoWidth));
-            }
+                _videoResolution = value;
+                OnPropertyChanged(nameof(VideoResolution));
+            } 
         }
 
         public string VideoTitle
@@ -50,25 +34,28 @@ namespace MediaPlayer.Objects.MediaList.Derived
 
                 OnPropertyChanged(nameof(VideoTitle));
                 OnPropertyChanged(nameof(MediaTitle));
-                OnPropertyChanged(nameof(MediaTitleTrimmed));
             }
         }
 
-        public override string WindowTitle => SetWindowTitle();
-
-        public override string MediaTitle => _videoTitle ?? FileName;
-
-        #endregion
-
-        #region Private Methods
-
-        private string SetWindowTitle()
+        public override string WindowTitle
         {
-            if (!string.IsNullOrEmpty(MediaTitle) && !string.IsNullOrEmpty(MediaTitle))
-                return $"Now Playing : {MediaTitle}";
-            else
-                return  $"Now Playing : {FileName}";
+            get => _windowTitle;
+            set
+            {
+                _windowTitle = value;
+                OnPropertyChanged(nameof(WindowTitle));
+            }
         }
+
+        public override string MediaTitle
+        {
+            get => _mediaTitle;
+            set
+            {
+                _mediaTitle = value;
+                OnPropertyChanged(nameof(MediaTitle));
+            }
+        } 
 
         #endregion
 

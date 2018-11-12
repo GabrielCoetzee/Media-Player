@@ -91,11 +91,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helpers\Custom Converters\AlbumArtConverter.cs" />
-    <Compile Include="Helpers\Custom Converters\PriorityMultiValueConverter.cs" />
+    <Compile Include="Converters\MultiValueConverters\PriorityMultiValueConverter.cs" />
+    <Compile Include="Converters\MultiValueConverters\RowHeightSumMultiValueConverter.cs" />
+    <Compile Include="Objects\MediaList\Builders\AudioItemBuilder.cs" />
+    <Compile Include="Objects\MediaList\Builders\VideoItemBuilder.cs" />
     <Compile Include="Objects\MediaList\Derived\VideoItem.cs" />
-    <Compile Include="Window Service\Interface Implementations\WindowService.cs" />
-    <Compile Include="Window Service\Interfaces\IWindowService.cs" />
+    <Compile Include="Generic Helpers\Window Service\Interface Implementations\WindowService.cs" />
+    <Compile Include="Generic Helpers\Window Service\Interfaces\IWindowService.cs" />
     <Page Include="MVVM\Views\ViewApplicationSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -108,23 +110,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\Custom Converters\BooleanToVisibleOrHiddenInverseConverter.cs" />
-    <Compile Include="Helpers\Custom Converters\MediaItemSelectedToEnabledConverter.cs" />
-    <Compile Include="Helpers\Custom Converters\MediaItemSelectedToVisibilityConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\BooleanToVisibleOrHiddenInverseConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\MediaItemSelectedToEnabledConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\MediaItemSelectedToVisibilityConverter.cs" />
     <Compile Include="MVVM\Views\ViewApplicationSettings.xaml.cs">
       <DependentUpon>ViewApplicationSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\Custom Enums\CustomEnums.cs" />
-    <Compile Include="Helpers\Custom Command Classes\RelayCommandWithParameter.cs" />
-    <Compile Include="Helpers\Custom Converters\MediaVolumeConverter.cs" />
-    <Compile Include="Helpers\Custom Converters\PlayPauseButtonBackgroundConverter.cs" />
-    <Compile Include="Helpers\Custom Command Classes\RelayCommand.cs" />
+    <Compile Include="Application Settings\Enumerations\CustomEnums.cs" />
+    <Compile Include="Generic Helpers\Command Classes\RelayCommandWithParameter.cs" />
+    <Compile Include="Converters\SingleValueConverters\MediaVolumeConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\PlayPauseButtonBackgroundConverter.cs" />
+    <Compile Include="Generic Helpers\Command Classes\RelayCommand.cs" />
     <Compile Include="Application Settings\Interfaces\IExposeApplicationSettings.cs" />
     <Compile Include="MetadataReaders\Factory\MetadataReaderFactory.cs" />
     <Compile Include="MetadataReaders\Interface Implementations\TaglibMetadataReaderWrapper.cs" />
     <Compile Include="MetadataReaders\Interfaces\IReadMetadata.cs" />
     <Compile Include="MetadataReaders\Types\MetadataReaderTypes.cs" />
-    <Compile Include="Objects\Collections\Derived\MediaItemObservableCollection.cs" />
+    <Compile Include="Collections\Derived\MediaItemObservableCollection.cs" />
     <Compile Include="Objects\MediaList\Base\MediaItem.cs" />
     <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />
     <Compile Include="Application Settings\Interface Implementations\ApplicationSettings.cs" />
@@ -143,9 +145,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Objects\Collections\Base\BulkObservableCollection.cs" />
+    <Compile Include="Collections\Base\BulkObservableCollection.cs" />
     <Compile Include="Objects\MediaList\Derived\AudioItem.cs" />
-    <Compile Include="Objects\MediaList\Processing\MediaItemProcessingArguments.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

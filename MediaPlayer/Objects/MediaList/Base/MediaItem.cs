@@ -32,8 +32,9 @@ namespace MediaPlayer.MVVM.Models.Base_Types
 
         private uint? _mediaListNumber;
 
-        #endregion
+        private MediaType _mediaType;
 
+        #endregion
 
         #region Properties
 
@@ -78,37 +79,33 @@ namespace MediaPlayer.MVVM.Models.Base_Types
             }
         }
 
-        public abstract string WindowTitle { get; }
+        public abstract string WindowTitle { get; set; }
 
-        public abstract string MediaTitle { get; }
-        public string MediaTitleTrimmed => GetTrimmedMediaTitle();
+        public abstract string MediaTitle { get; set; }
 
         public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
 
-        public List<MediaTypes> MediaTypes { get; set; } = new List<MediaTypes>();
-
-        public bool IsVideo => MediaTypes.Contains(TagLib.MediaTypes.Video);
-
-
-        #endregion
-
-
-        #region Private Methods
-
-        private string GetTrimmedMediaTitle()
+        public MediaType MediaType
         {
-            const int charMaxLength = 32;
-
-            if (MediaTitle.Length > charMaxLength)
-                return MediaTitle.Substring(0, charMaxLength) + "...";
-
-            return MediaTitle;
+            get => _mediaType;
+            set
+            {
+                _mediaType = value;
+                OnPropertyChanged(nameof(MediaType));
+                OnPropertyChanged(nameof(IsVideo));
+            }
         }
 
+        public bool IsVideo => MediaType == (MediaType.Audio | MediaType.Video);
+
+
         #endregion
+    }
 
-
-
-
+    public enum MediaType
+    {
+        None = 0,
+        Audio = 1,
+        Video = 2
     }
 }

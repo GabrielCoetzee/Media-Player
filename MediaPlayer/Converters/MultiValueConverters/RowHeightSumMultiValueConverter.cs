@@ -8,16 +8,16 @@ using System.Windows.Data;
 
 namespace MediaPlayer.Helpers.Custom_Converters
 {
-    public class PriorityMultiValueConverter : IMultiValueConverter
+    public class RowHeightSumMultiValueConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return values.FirstOrDefault(o => o != null);
+            return values.Cast<double>().Sum();
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

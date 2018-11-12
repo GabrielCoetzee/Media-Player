@@ -9,26 +9,16 @@ using MediaPlayer.MVVM.Models.Base_Types;
 
 namespace MediaPlayer.Objects
 {
-    public class AudioItem : MediaItem, INotifyPropertyChanged
+    public class AudioItem : MediaItem
     {
-        #region Interface Implementations
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
         #region Fields
 
         private byte[] _albumArt;
         private string _album;
         private string _artist;
         private string _songTitle;
+        private string _mediaTitle;
+        private string _windowTitle;
         private string _genre;
         private string _comments;
         private uint? _year;
@@ -41,7 +31,15 @@ namespace MediaPlayer.Objects
 
         #region Overridden Properties
 
-        public override string WindowTitle => SetWindowTitle();
+        public override string WindowTitle
+        {
+            get => _windowTitle;
+            set
+            {
+                _windowTitle = value;
+                OnPropertyChanged(nameof(WindowTitle));
+            }
+        }
 
         public string SongTitle
         {
@@ -52,12 +50,20 @@ namespace MediaPlayer.Objects
 
                 OnPropertyChanged(nameof(SongTitle));
                 OnPropertyChanged(nameof(MediaTitle));
-                OnPropertyChanged(nameof(MediaTitleTrimmed));
                 OnPropertyChanged(nameof(WindowTitle));
             }
         }
 
-        public override string MediaTitle => _songTitle ?? FileName;
+        public override string MediaTitle
+        {
+            get => _mediaTitle;
+            set
+            {
+                _mediaTitle = value;
+                OnPropertyChanged(nameof(MediaTitle));
+            }
+
+        }
 
         #endregion
 
@@ -163,46 +169,5 @@ namespace MediaPlayer.Objects
         }
 
         #endregion Properties
-
-        #region Internal Methods
-        internal byte[] GetAlbumArtFromDirectory(string filePath)
-        {
-            var albumArtFromDirectory = Directory
-                .EnumerateFiles(Path.GetDirectoryName(filePath), "*.*", SearchOption.TopDirectoryOnly)
-                .Where(x => x.ToLower().EndsWith("cover.jpg") || x.ToLower().EndsWith("folder.jpg"));
-
-            if (albumArtFromDirectory.Count() != 0)
-            {
-                return ConvertPathToByteArray(albumArtFromDirectory.First());
-            }
-
-            return null;
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        public byte[] ConvertPathToByteArray(string filePath)
-        {
-            try
-            {
-                return (byte[])new ImageConverter().ConvertTo(Image.FromFile(filePath), typeof(byte[]));
-            }
-            catch (OutOfMemoryException)
-            {
-                return null;
-            }
-        }
-
-        private string SetWindowTitle()
-        {
-            if (!string.IsNullOrEmpty(Artist) && !string.IsNullOrEmpty(MediaTitle))
-                return $"Now Playing : {Artist} - {MediaTitle}";
-            else
-                return $"Now Playing : {FileName}";
-        }
-
-        #endregion
     }
 }

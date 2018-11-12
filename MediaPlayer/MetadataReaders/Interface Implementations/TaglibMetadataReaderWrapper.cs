@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Windows.Forms;
 using MediaPlayer.MetadataReaders.Interfaces;
 using MediaPlayer.MVVM.Models.Base_Types;
 using MediaPlayer.Objects;
+using MediaPlayer.Objects.MediaList.Builders;
 using MediaPlayer.Objects.MediaList.Derived;
 using TagLib;
 using File = TagLib.File;
@@ -13,7 +12,7 @@ namespace MediaPlayer.MetadataReaders.Interface_Implementations
 {
     public class TaglibMetadataReaderWrapper : IReadMetadata
     {
-        #region Properties
+        #region Fields
 
         private File _taglibMetadataReader;
 
@@ -28,52 +27,51 @@ namespace MediaPlayer.MetadataReaders.Interface_Implementations
                 switch (_taglibMetadataReader.Properties.MediaTypes)
                 {
                     case MediaTypes.Audio:
-                        var audioItem = new AudioItem();
 
-                        audioItem.AlbumArt = _taglibMetadataReader.Tag.Pictures.Length >= 1 ? _taglibMetadataReader.Tag.Pictures[0].Data.Data : audioItem.GetAlbumArtFromDirectory(path);
-                        audioItem.Album = _taglibMetadataReader.Tag.Album;
-                        audioItem.Artist = _taglibMetadataReader.Tag.FirstPerformer;
-                        audioItem.Genre = _taglibMetadataReader.Tag.FirstGenre;
-                        audioItem.Comments = _taglibMetadataReader.Tag.Comment;
-                        audioItem.MediaListNumber = _taglibMetadataReader.Tag.Track;
-                        audioItem.Year = _taglibMetadataReader.Tag.Year;
-                        audioItem.Lyrics = _taglibMetadataReader.Tag.Lyrics;
-                        audioItem.Composer = _taglibMetadataReader.Tag.FirstComposer;
-                        audioItem.SongTitle = _taglibMetadataReader.Tag.Title;
-                        audioItem.MediaDuration = _taglibMetadataReader.Properties.Duration;
-                        audioItem.Bitrate = _taglibMetadataReader.Properties.AudioBitrate;
-
-                        audioItem.HasLyrics = !string.IsNullOrEmpty(audioItem.Lyrics);
-                        audioItem.FilePath = new Uri(path);
-
-                        audioItem.MediaTypes.Add(MediaTypes.Audio);
-
-                        Dispose();
+                        var audioItem = new AudioItemBuilder(path)
+                            .ForAlbum(_taglibMetadataReader.Tag.Album)
+                            .WithAlbumArt(_taglibMetadataReader.Tag.Pictures.Length >= 1
+                                ? _taglibMetadataReader.Tag.Pictures[0].Data.Data
+                                : null)
+                            .WithArtist(_taglibMetadataReader.Tag.FirstPerformer)
+                            .WithBitrate(_taglibMetadataReader.Properties.AudioBitrate)
+                            .WithComments(_taglibMetadataReader.Tag.Comment)
+                            .WithComposer(_taglibMetadataReader.Tag.FirstComposer)
+                            .WithGenre(_taglibMetadataReader.Tag.FirstGenre)
+                            .WithLyrics(_taglibMetadataReader.Tag.Lyrics)
+                            .WithMediaDuration(_taglibMetadataReader.Properties.Duration)
+                            .WithSongTitle(_taglibMetadataReader.Tag.Title)
+                            .WithYear(_taglibMetadataReader.Tag.Year)
+                            .AsMediaListNumber(_taglibMetadataReader.Tag.Track)
+                            .AsMediaType(MediaType.Audio)
+                            .Build();
 
                         return audioItem;
+
                     case MediaTypes.Video | MediaTypes.Audio:
-                        var videoItem = new VideoItem();
 
-                        videoItem.VideoHeight = _taglibMetadataReader.Properties.VideoHeight;
-                        videoItem.VideoWidth = _taglibMetadataReader.Properties.VideoWidth;
-                        videoItem.VideoTitle = _taglibMetadataReader.Tag.Title;
-                        videoItem.FilePath = new Uri(path);
-                        videoItem.MediaDuration = _taglibMetadataReader.Properties.Duration;
-
-                        videoItem.MediaTypes.AddRange(new []{ MediaTypes.Video | MediaTypes.Audio });
-
-                        Dispose();
+                        var videoItem = new VideoItemBuilder(path)
+                            .WithVideoResolution($"{_taglibMetadataReader.Properties.VideoWidth} x {_taglibMetadataReader.Properties.VideoHeight}")
+                            .WithVideoTitle(_taglibMetadataReader.Tag.Title)
+                            .WithMediaDuration(_taglibMetadataReader.Properties.Duration)
+                            .AsMediaType(MediaType.Video | MediaType.Audio)
+                            .Build();
 
                         return videoItem;
-                }
 
-                return null;
+                    default:
+                        return null;
+                }
             }
             catch (CorruptFileException)
             {
-                var audioItem = new AudioItem {FilePath = new Uri(path)};
+                var audioItem = new AudioItemBuilder(path).Build();
 
                 return audioItem;
+            }
+            finally
+            {
+                this.Dispose();
             }
         }
 

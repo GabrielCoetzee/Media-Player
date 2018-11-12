@@ -2,22 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MediaPlayer.Application_Settings.Interface_Implementations;
 using MediaPlayer.MetadataReaders.Interfaces;
 using MediaPlayer.MVVM.Models.Base_Types;
 using MediaPlayer.MVVM.ViewModels;
-using MediaPlayer.Objects.MediaList.Processing;
 
 namespace MediaPlayer
 {
@@ -32,12 +28,15 @@ namespace MediaPlayer
         
         #endregion
 
-
         #region Constructor
 
         public ViewMediaPlayer()
         {
             InitializeComponent();
+
+            this.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            this.Arrange(new Rect(0, 0, this.DesiredSize.Width, this.DesiredSize.Height));
+
             InitializeViewModel();
             InitializeMediaListProcessor();
 
@@ -186,5 +185,34 @@ namespace MediaPlayer
         }
 
         #endregion
+
+        private void Button_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+
+            if (button == null)
+                return;
+
+            button.Height = button.ActualHeight;
+            button.Width = button.ActualWidth;
+        }
+
+        private void ToggleButton_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as ToggleButton;
+
+            if (button == null)
+                return;
+
+            button.Height = button.ActualHeight;
+            button.Width = button.ActualWidth;
+        }
+    }
+
+    public class MediaItemProcessingArguments
+    {
+        public IReadMetadata ReadMetadata { get; set; }
+
+        public IEnumerable FilePaths { get; set; }
     }
 }

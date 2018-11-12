@@ -4,6 +4,9 @@ using MediaPlayer.MVVM.Models.Base_Types;
 
 namespace MediaPlayer.Objects.Collections
 {
+    /// <summary>
+    /// This sets each item in the list`s ID to that of it`s index after AddRange. This is important as it is used after shuffle to revert to original position.
+    /// </summary>
     public class MediaItemObservableCollection : BulkObservableCollection<MediaItem>
     {
         public MediaItemObservableCollection()
