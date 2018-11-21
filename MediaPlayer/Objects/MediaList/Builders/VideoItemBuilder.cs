@@ -36,8 +36,8 @@ namespace MediaPlayer.Objects.MediaList.Builders
         public VideoItemBuilder WithVideoTitle(string videoTitle)
         {
             _videoItem.VideoTitle = videoTitle;
-            _videoItem.WindowTitle = GetWindowTitle();
             _videoItem.MediaTitle = GetMediaTitle();
+            _videoItem.WindowTitle = GetWindowTitle();
 
             return this;
         }
@@ -67,7 +67,7 @@ namespace MediaPlayer.Objects.MediaList.Builders
 
         private string GetWindowTitle()
         {
-            if (!string.IsNullOrEmpty(_videoItem.MediaTitle) && !string.IsNullOrEmpty(_videoItem.MediaTitle))
+            if (!string.IsNullOrEmpty(_videoItem.MediaTitle))
                 return $"Now Playing : {_videoItem.MediaTitle}";
             else
                 return $"Now Playing : {_videoItem.FileName}";

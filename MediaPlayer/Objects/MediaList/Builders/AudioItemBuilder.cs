@@ -52,8 +52,8 @@ namespace MediaPlayer.Objects.MediaList.Builders
         public AudioItemBuilder WithSongTitle(string songTitle)
         {
             _audioItem.SongTitle = songTitle;
-            _audioItem.WindowTitle = GetWindowTitle();
             _audioItem.MediaTitle = GetMediaTitle();
+            _audioItem.WindowTitle = GetWindowTitle();
 
             return this;
         }
@@ -146,16 +146,19 @@ namespace MediaPlayer.Objects.MediaList.Builders
 
         private byte[] GetAlbumArtFromDirectory()
         {
-            var albumArtFromDirectory = Directory
-                .EnumerateFiles(Path.GetDirectoryName(_audioItem.FilePath.AbsolutePath), "*.*", SearchOption.TopDirectoryOnly)
-                .Where(x => x.ToLower().EndsWith("cover.jpg") || x.ToLower().EndsWith("folder.jpg"));
-
-            if (albumArtFromDirectory.Count() != 0)
+            try
             {
-                return ConvertPathToByteArray(albumArtFromDirectory.First());
+                var albumArtFromDirectory = Directory
+                    .EnumerateFiles(Path.GetDirectoryName(_audioItem.FilePath.AbsolutePath), "*.*", SearchOption.TopDirectoryOnly)
+                    .Where(x => x.ToLower().EndsWith("cover.jpg") || x.ToLower().EndsWith("folder.jpg"));
+
+                return albumArtFromDirectory.Count() != 0 ? ConvertPathToByteArray(albumArtFromDirectory.First()) : null;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return null;
             }
 
-            return null;
         }
 
         private byte[] ConvertPathToByteArray(string filePath)

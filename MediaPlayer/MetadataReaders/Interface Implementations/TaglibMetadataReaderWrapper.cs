@@ -75,7 +75,7 @@ namespace MediaPlayer.MetadataReaders.Interface_Implementations
             }
         }
 
-        public void Dispose()
+        private void Dispose()
         {
             _taglibMetadataReader.Dispose();
         }

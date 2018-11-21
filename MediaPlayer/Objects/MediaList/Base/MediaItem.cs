@@ -102,6 +102,7 @@ namespace MediaPlayer.MVVM.Models.Base_Types
         #endregion
     }
 
+    [Flags]
     public enum MediaType
     {
         None = 0,
