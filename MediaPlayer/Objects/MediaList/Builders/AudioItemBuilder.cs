@@ -149,7 +149,7 @@ namespace MediaPlayer.Objects.MediaList.Builders
             try
             {
                 var albumArtFromDirectory = Directory
-                    .EnumerateFiles(Path.GetDirectoryName(_audioItem.FilePath.AbsolutePath), "*.*", SearchOption.TopDirectoryOnly)
+                    .EnumerateFiles(Path.GetDirectoryName(_audioItem.FilePath.LocalPath), "*.*", SearchOption.TopDirectoryOnly)
                     .Where(x => x.ToLower().EndsWith("cover.jpg") || x.ToLower().EndsWith("folder.jpg"));
 
                 return albumArtFromDirectory.Count() != 0 ? ConvertPathToByteArray(albumArtFromDirectory.First()) : null;
