@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;
 using MediaPlayer.Annotations;
-using MediaPlayer.MVVM.Models.Base_Types;
-using MediaPlayer.Objects;
-using MediaPlayer.Objects.Collections;
+using MediaPlayer.Common;
 
 namespace MediaPlayer.MVVM.Models
 {
@@ -30,7 +26,7 @@ namespace MediaPlayer.MVVM.Models
         private MediaItemObservableCollection _mediaList;
         private TimeSpan _mediaPosition;
         private MediaState _mediaState;
-        private CustomEnums.VolumeLevel _mediaVolume;
+        private VolumeLevel _mediaVolume;
         private double _elapsedTime;
         private bool _isDraggingSeekbarThumb = false;
         private string _elapsedTimeFormatted;
@@ -95,7 +91,7 @@ namespace MediaPlayer.MVVM.Models
             }
         }
 
-        public CustomEnums.VolumeLevel MediaVolume
+        public VolumeLevel MediaVolume
         {
             get => _mediaVolume;
             set

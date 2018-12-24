@@ -1,4 +1,4 @@
-﻿using MediaPlayer.MVVM.Models.Base_Types;
+﻿using MediaPlayer.Common;
 
 namespace MediaPlayer.MetadataReaders.Interfaces
 {

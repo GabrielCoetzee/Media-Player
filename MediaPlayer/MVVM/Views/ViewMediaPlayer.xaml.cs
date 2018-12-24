@@ -10,10 +10,10 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.Application_Settings.Interface_Implementations;
+using MediaPlayer.Common;
 using MediaPlayer.MetadataReaders.Interfaces;
-using MediaPlayer.MVVM.Models.Base_Types;
 using MediaPlayer.MVVM.ViewModels;
+using MediaPlayer.Settings;
 
 namespace MediaPlayer
 {

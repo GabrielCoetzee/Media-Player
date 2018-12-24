@@ -1,9 +1,5 @@
-﻿using System;
+﻿using MediaPlayer.Common;
 using MediaPlayer.MetadataReaders.Interfaces;
-using MediaPlayer.MVVM.Models.Base_Types;
-using MediaPlayer.Objects;
-using MediaPlayer.Objects.MediaList.Builders;
-using MediaPlayer.Objects.MediaList.Derived;
 using TagLib;
 using File = TagLib.File;
 

@@ -6,17 +6,14 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
-using MediaPlayer.Helpers.Custom_Command_Classes;
-using MediaPlayer.Interfaces;
+using MediaPlayer.Common;
 using MediaPlayer.MetadataReaders.Factory;
 using MediaPlayer.MetadataReaders.Interfaces;
 using MediaPlayer.MetadataReaders.Types;
 using MediaPlayer.MVVM.Models;
-using MediaPlayer.MVVM.Models.Base_Types;
 using MediaPlayer.MVVM.Views;
-using MediaPlayer.Objects.Collections;
-using MediaPlayer.Window_Service.Interfaces;
-using MediaPlayer.Window_Service.Interface_Implementations;
+using MediaPlayer.MVVMHelpers;
+using MediaPlayer.Settings;
 using ListBox = System.Windows.Controls.ListBox;
 
 namespace MediaPlayer.MVVM.ViewModels
@@ -70,7 +67,7 @@ namespace MediaPlayer.MVVM.ViewModels
             }
         }
 
-        public IExposeApplicationSettings ApplicationSettings => Application_Settings.Interface_Implementations.ApplicationSettings.Instance;
+        public IExposeApplicationSettings ApplicationSettings => Settings.ApplicationSettings.Instance;
 
         public IReadMetadata MetadataReader { get; set; } = MetadataReaderFactory.Instance.GetMetadataReader(MetadataReaderTypes.MetadataReaders.Taglib);
 
@@ -231,7 +228,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         private void InitializeModelInstance()
         {
-            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new MediaItemObservableCollection(), MediaState = MediaState.Pause, MediaVolume = CustomEnums.VolumeLevel.FullVolume};
+            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new MediaItemObservableCollection(), MediaState = MediaState.Pause, MediaVolume = VolumeLevel.Full};
         }
 
         private void InitializeCommands()
@@ -350,7 +347,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void MuteCommand_Execute()
         {
-            ModelMediaPlayer.MediaVolume = ModelMediaPlayer.MediaVolume == CustomEnums.VolumeLevel.FullVolume ? CustomEnums.VolumeLevel.Mute : CustomEnums.VolumeLevel.FullVolume;
+            ModelMediaPlayer.MediaVolume = ModelMediaPlayer.MediaVolume == VolumeLevel.Full ? VolumeLevel.Mute : VolumeLevel.Full;
         }
 
         public bool PlayPauseCommand_CanExecute()

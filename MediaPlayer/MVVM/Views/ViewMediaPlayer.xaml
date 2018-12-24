@@ -5,10 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaPlayer"
-        xmlns:customConverters="clr-namespace:MediaPlayer.Helpers.Custom_Converters"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:common="clr-namespace:MediaPlayer.Common;assembly=MediaPlayer.Common"
+        xmlns:converters="clr-namespace:MediaPlayer.Converters;assembly=MediaPlayer.Converters"
         mc:Ignorable="d"
         SaveWindowPosition="True"
         GlowBrush="{DynamicResource AccentColorBrush}"
@@ -49,13 +50,13 @@
         
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibleOrHidden" />
-        <customConverters:BooleanToVisibleOrHiddenInverseConverter x:Key="BooleanToVisibleOrHiddenInverse" />
-        <customConverters:PlayPauseButtonBackgroundConverter x:Key="PlayPauseButtonBackgroundConverter" />
-        <customConverters:MediaVolumeConverter x:Key="MediaVolumeConverter" />
-        <customConverters:MediaItemSelectedToVisibilityConverter x:Key="MediaItemSelectedToVisibilityConverter" />
-        <customConverters:MediaItemSelectedToEnabledConverter x:Key="SliderToEnabledWhenMediaItemSelectedConverter" />
-        <customConverters:PriorityMultiValueConverter x:Key="PriorityMultiValueConverter" />
-        <customConverters:RowHeightSumMultiValueConverter x:Key="RowHeightSumMultiValueConverter" />
+        <converters:BooleanToVisibleOrHiddenInverseConverter x:Key="BooleanToVisibleOrHiddenInverse" />
+        <converters:PlayPauseButtonBackgroundConverter x:Key="PlayPauseButtonBackgroundConverter" />
+        <converters:MediaVolumeConverter x:Key="MediaVolumeConverter" />
+        <converters:MediaItemSelectedToVisibilityConverter x:Key="MediaItemSelectedToVisibilityConverter" />
+        <converters:MediaItemSelectedToEnabledConverter x:Key="SliderToEnabledWhenMediaItemSelectedConverter" />
+        <converters:PriorityMultiValueConverter x:Key="PriorityMultiValueConverter" />
+        <converters:RowHeightSumMultiValueConverter x:Key="RowHeightSumMultiValueConverter" />
     </Window.Resources>
 
     <Grid x:Name="TopMostGrid" AllowDrop="True" Background="Transparent" DragEnter="TopMostGrid_DragEnter" Drop="TopMostGrid_Drop" ZIndex="999">

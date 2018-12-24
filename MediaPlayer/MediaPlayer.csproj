@@ -60,8 +60,8 @@
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -79,7 +79,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="taglib-sharp">
+    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\External_DLL\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -91,13 +92,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\MultiValueConverters\PriorityMultiValueConverter.cs" />
-    <Compile Include="Converters\MultiValueConverters\RowHeightSumMultiValueConverter.cs" />
-    <Compile Include="Objects\MediaList\Builders\AudioItemBuilder.cs" />
-    <Compile Include="Objects\MediaList\Builders\VideoItemBuilder.cs" />
-    <Compile Include="Objects\MediaList\Derived\VideoItem.cs" />
-    <Compile Include="Generic Helpers\Window Service\Interface Implementations\WindowService.cs" />
-    <Compile Include="Generic Helpers\Window Service\Interfaces\IWindowService.cs" />
     <Page Include="MVVM\Views\ViewApplicationSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -110,26 +104,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\SingleValueConverters\BooleanToVisibleOrHiddenInverseConverter.cs" />
-    <Compile Include="Converters\SingleValueConverters\MediaItemSelectedToEnabledConverter.cs" />
-    <Compile Include="Converters\SingleValueConverters\MediaItemSelectedToVisibilityConverter.cs" />
     <Compile Include="MVVM\Views\ViewApplicationSettings.xaml.cs">
       <DependentUpon>ViewApplicationSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Application Settings\Enumerations\CustomEnums.cs" />
-    <Compile Include="Generic Helpers\Command Classes\RelayCommandWithParameter.cs" />
-    <Compile Include="Converters\SingleValueConverters\MediaVolumeConverter.cs" />
-    <Compile Include="Converters\SingleValueConverters\PlayPauseButtonBackgroundConverter.cs" />
-    <Compile Include="Generic Helpers\Command Classes\RelayCommand.cs" />
-    <Compile Include="Application Settings\Interfaces\IExposeApplicationSettings.cs" />
     <Compile Include="MetadataReaders\Factory\MetadataReaderFactory.cs" />
     <Compile Include="MetadataReaders\Interface Implementations\TaglibMetadataReaderWrapper.cs" />
     <Compile Include="MetadataReaders\Interfaces\IReadMetadata.cs" />
     <Compile Include="MetadataReaders\Types\MetadataReaderTypes.cs" />
-    <Compile Include="Collections\Derived\MediaItemObservableCollection.cs" />
-    <Compile Include="Objects\MediaList\Base\MediaItem.cs" />
     <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />
-    <Compile Include="Application Settings\Interface Implementations\ApplicationSettings.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelMediaPlayer.cs" />
     <Compile Include="MVVM\Views\ViewMediaPlayer.xaml.cs">
       <DependentUpon>ViewMediaPlayer.xaml</DependentUpon>
@@ -145,8 +127,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Base\BulkObservableCollection.cs" />
-    <Compile Include="Objects\MediaList\Derived\AudioItem.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -270,6 +250,24 @@
     <Resource Include="Resources\Default_AlbumArt\teal.png" />
     <Resource Include="Resources\Default_AlbumArt\violet.png" />
     <Resource Include="Resources\Default_AlbumArt\yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MediaPlayer.ApplicationSettings\MediaPlayer.ApplicationSettings.csproj">
+      <Project>{C7FE2C80-1DA2-4676-B778-49439D31E475}</Project>
+      <Name>MediaPlayer.ApplicationSettings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj">
+      <Project>{1ef2f39d-44cb-45b8-afd7-47ab178fd91a}</Project>
+      <Name>MediaPlayer.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaPlayer.Converters\MediaPlayer.Converters.csproj">
+      <Project>{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}</Project>
+      <Name>MediaPlayer.Converters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaPlayer.MVVMHelpers\MediaPlayer.MVVMHelpers.csproj">
+      <Project>{817AFF3F-E5E4-40CD-963D-55248AE5961D}</Project>
+      <Name>MediaPlayer.MVVMHelpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
