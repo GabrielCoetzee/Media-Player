@@ -8,8 +8,7 @@ This is a Media Player that I am actively working on. This is made for personal 
 
 Features Include : 
 
-- MP3, FLAC and M4A Audio formats supported as of this moment. It uses Microsoft MediaElement which can technically play anything you have codecs installed for, but I will add support for specific file formats as I t
-  test them and especially start adding video support.
+- MP3, FLAC and M4A Audio formats supported as of this moment. It uses Microsoft MediaElement which can technically play anything you have codecs installed for, but I will add support for specific file formats as I test them and especially start adding video support.
 - You can drag & drop files anywhere in the application. Supported files dropped in, if any found, will be added.
 - Shuffle functionality will re-order the list with currently playing media item moved to the top
 - Hotkeys :
@@ -22,8 +21,7 @@ Features to come :
 - Create Installer
 - Have ability to set media player as default in windows
 - Video playback
-- Download and save album art and lyrics for media items while playing and if not found.
-- Resize window while retaining aspect ratio
+- Download and save album art and lyrics for media items while playing and if not found
 
 Technologies used :
 
@@ -32,6 +30,7 @@ Technologies used :
 - Mahapps Metro 
 - Mahapps Metro Icons
 - FontAwesome.WPF
+- NInject
 
 ![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
 
