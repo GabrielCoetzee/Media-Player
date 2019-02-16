@@ -1,20 +1,24 @@
-﻿using MediaPlayer.Common;
-using MediaPlayer.MetadataReaders.Interfaces;
+﻿using MediaPlayer.BusinessEntities;
 using TagLib;
 using File = TagLib.File;
 
-
-namespace MediaPlayer.MetadataReaders.Interface_Implementations
+namespace MediaPlayer.MetadataReaders
 {
-    public class TaglibMetadataReaderWrapper : IReadMetadata
+    public class TaglibMetadataReaderProvider : MetadataReaderProvider
     {
+        #region Properties
+
+        public override BusinessEntities.MetadataReaders MetadataReader => BusinessEntities.MetadataReaders.Taglib;
+
+        #endregion
+
         #region Fields
 
         private File _taglibMetadataReader;
 
         #endregion
 
-        public MediaItem GetFileMetadata(string path)
+        public override MediaItem GetFileMetadata(string path)
         {
             try
             {
@@ -71,11 +75,10 @@ namespace MediaPlayer.MetadataReaders.Interface_Implementations
             }
         }
 
-        private void Dispose()
+        public override void Dispose()
         {
             _taglibMetadataReader.Dispose();
         }
-
 
     }
 }

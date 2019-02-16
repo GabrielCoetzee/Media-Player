@@ -6,20 +6,29 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
+using MediaPlayer.BusinessEntities;
 using MediaPlayer.Common;
 using MediaPlayer.MetadataReaders.Factory;
-using MediaPlayer.MetadataReaders.Interfaces;
-using MediaPlayer.MetadataReaders.Types;
 using MediaPlayer.MVVM.Models;
 using MediaPlayer.MVVM.Views;
-using MediaPlayer.MVVMHelpers;
 using MediaPlayer.Settings;
+using Ninject;
 using ListBox = System.Windows.Controls.ListBox;
 
 namespace MediaPlayer.MVVM.ViewModels
 {
     public class ViewModelMediaPlayer : INotifyPropertyChanged
     {
+        #region Injected Properties
+
+        [Inject]
+        public IExposeApplicationSettings ApplicationSettings { get; set; }
+
+        [Inject]
+        public MetadataReaderProviderResolver MetadataReaderProviderResolver { get; set; }
+
+        #endregion
+
         #region Interface Implementations
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -33,8 +42,8 @@ namespace MediaPlayer.MVVM.ViewModels
 
         #region Fields
 
-        readonly Random RandomIdGenerator = new Random();
-        readonly DispatcherTimer MediaPositionTracker = new DispatcherTimer();
+        private readonly Random RandomIdGenerator = new Random();
+        private readonly DispatcherTimer MediaPositionTracker = new DispatcherTimer();
 
         private ModelMediaPlayer _modelMediaPlayer;
 
@@ -66,10 +75,6 @@ namespace MediaPlayer.MVVM.ViewModels
                 OnPropertyChanged(nameof(ModelMediaPlayer));
             }
         }
-
-        public IExposeApplicationSettings ApplicationSettings => Settings.ApplicationSettings.Instance;
-
-        public IReadMetadata MetadataReader { get; set; } = MetadataReaderFactory.Instance.GetMetadataReader(MetadataReaderTypes.MetadataReaders.Taglib);
 
         public ICommand AddMediaCommand
         {
@@ -383,7 +388,9 @@ namespace MediaPlayer.MVVM.ViewModels
             if (result != DialogResult.OK)
                 return;
 
-            var mediaItems = chooseFiles.FileNames.Select(file => MetadataReader.GetFileMetadata(file)).Cast<MediaItem>().ToList();
+            var metadataReader = MetadataReaderProviderResolver.Resolve(BusinessEntities.MetadataReaders.Taglib);
+
+            var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
             AddToMediaList(mediaItems);
         }
 
@@ -448,8 +455,10 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void AddToMediaList(List<string> files)
         {
+            var metadataReader = MetadataReaderProviderResolver.Resolve(BusinessEntities.MetadataReaders.Taglib);
+
             foreach (var file in files)
-                ModelMediaPlayer.MediaList.Add(MetadataReader.GetFileMetadata(file));
+                ModelMediaPlayer.MediaList.Add(metadataReader.GetFileMetadata(file));
 
             if (ModelMediaPlayer.SelectedMediaItem != null || ModelMediaPlayer.MediaList.Count <= 0)
                 return;

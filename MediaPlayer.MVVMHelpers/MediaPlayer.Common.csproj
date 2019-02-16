@@ -7,8 +7,8 @@
     <ProjectGuid>{817AFF3F-E5E4-40CD-963D-55248AE5961D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MediaPlayer.MVVMHelpers</RootNamespace>
-    <AssemblyName>MediaPlayer.MVVMHelpers</AssemblyName>
+    <RootNamespace>MediaPlayer.Common</RootNamespace>
+    <AssemblyName>MediaPlayer.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

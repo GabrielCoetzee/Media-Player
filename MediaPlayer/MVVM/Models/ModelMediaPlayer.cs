@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 using MediaPlayer.Annotations;
-using MediaPlayer.Common;
+using MediaPlayer.BusinessEntities;
 
 namespace MediaPlayer.MVVM.Models
 {

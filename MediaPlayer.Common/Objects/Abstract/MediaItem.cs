@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 
-namespace MediaPlayer.Common
+namespace MediaPlayer.BusinessEntities
 {
     public abstract class MediaItem : INotifyPropertyChanged
     {
@@ -95,13 +94,5 @@ namespace MediaPlayer.Common
 
 
         #endregion
-    }
-
-    [Flags]
-    public enum MediaType
-    {
-        None = 0,
-        Audio = 1,
-        Video = 2
     }
 }

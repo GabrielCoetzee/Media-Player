@@ -1,7 +1,6 @@
 ﻿using System;
-using MediaPlayer.Common;
 
-namespace MediaPlayer.Common
+namespace MediaPlayer.BusinessEntities
 {
     public class VideoItemBuilder
     {

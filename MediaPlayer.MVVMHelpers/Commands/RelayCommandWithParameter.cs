@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace MediaPlayer.MVVMHelpers
+namespace MediaPlayer.Common
 {
     public class RelayCommandWithParameter : ICommand
     {

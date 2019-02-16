@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MediaPlayer.MVVMHelpers
+namespace MediaPlayer.Common
 {
     public class WindowService<T> : IWindowService 
         where T : Window, new()

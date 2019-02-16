@@ -1,4 +1,4 @@
-﻿namespace MediaPlayer.MVVMHelpers
+﻿namespace MediaPlayer.Common
 {
     interface IWindowService
     {

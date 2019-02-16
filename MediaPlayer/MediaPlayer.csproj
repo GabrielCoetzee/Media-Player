@@ -63,9 +63,19 @@
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -104,13 +114,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IoC\IocConfiguration.cs" />
     <Compile Include="MVVM\Views\ViewApplicationSettings.xaml.cs">
       <DependentUpon>ViewApplicationSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MetadataReaders\Factory\MetadataReaderFactory.cs" />
-    <Compile Include="MetadataReaders\Interface Implementations\TaglibMetadataReaderWrapper.cs" />
-    <Compile Include="MetadataReaders\Interfaces\IReadMetadata.cs" />
-    <Compile Include="MetadataReaders\Types\MetadataReaderTypes.cs" />
+    <Compile Include="Metadata Readers\MetadataReaderProviderResolver.cs" />
+    <Compile Include="Metadata Readers\TaglibMetadataReaderProvider.cs" />
+    <Compile Include="Metadata Readers\MetadataReaderProvider.cs" />
     <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelMediaPlayer.cs" />
     <Compile Include="MVVM\Views\ViewMediaPlayer.xaml.cs">
@@ -256,17 +266,17 @@
       <Project>{C7FE2C80-1DA2-4676-B778-49439D31E475}</Project>
       <Name>MediaPlayer.ApplicationSettings</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj">
-      <Project>{1ef2f39d-44cb-45b8-afd7-47ab178fd91a}</Project>
-      <Name>MediaPlayer.Common</Name>
+    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.BusinessEntities.csproj">
+      <Project>{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}</Project>
+      <Name>MediaPlayer.BusinessEntities</Name>
     </ProjectReference>
     <ProjectReference Include="..\MediaPlayer.Converters\MediaPlayer.Converters.csproj">
       <Project>{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}</Project>
       <Name>MediaPlayer.Converters</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MediaPlayer.MVVMHelpers\MediaPlayer.MVVMHelpers.csproj">
+    <ProjectReference Include="..\MediaPlayer.MVVMHelpers\MediaPlayer.Common.csproj">
       <Project>{817AFF3F-E5E4-40CD-963D-55248AE5961D}</Project>
-      <Name>MediaPlayer.MVVMHelpers</Name>
+      <Name>MediaPlayer.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj">
+    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.BusinessEntities.csproj">
       <Project>{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}</Project>
-      <Name>MediaPlayer.Common</Name>
+      <Name>MediaPlayer.BusinessEntities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

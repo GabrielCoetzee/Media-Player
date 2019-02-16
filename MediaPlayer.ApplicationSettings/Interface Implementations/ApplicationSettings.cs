@@ -7,27 +7,6 @@ namespace MediaPlayer.Settings
 {
     public class ApplicationSettings : IExposeApplicationSettings
     {
-        private ApplicationSettings()
-        {
-        }
-
-        private static readonly object padlock = new object();
-        private static ApplicationSettings _instance;
-
-        public static ApplicationSettings Instance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    if (_instance == null)
-                        _instance = new ApplicationSettings();
-
-                    return _instance;
-                }
-            }
-        }
-
         private string _selectedTheme = Properties.Settings.Default[nameof(SelectedTheme)].ToString();
         private decimal _opacity = (decimal)Properties.Settings.Default[nameof(Opacity)];
 

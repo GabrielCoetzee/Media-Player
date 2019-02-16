@@ -1,4 +1,4 @@
-﻿namespace MediaPlayer.Common
+﻿namespace MediaPlayer.BusinessEntities
 {
     public class AudioItem : MediaItem
     {

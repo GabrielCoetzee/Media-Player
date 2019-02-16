@@ -8,7 +8,6 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:common="clr-namespace:MediaPlayer.Common;assembly=MediaPlayer.Common"
         xmlns:converters="clr-namespace:MediaPlayer.Converters;assembly=MediaPlayer.Converters"
         mc:Ignorable="d"
         SaveWindowPosition="True"

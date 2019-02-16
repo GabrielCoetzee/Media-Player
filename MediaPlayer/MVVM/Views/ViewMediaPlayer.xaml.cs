@@ -10,10 +10,12 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.Common;
-using MediaPlayer.MetadataReaders.Interfaces;
+using MediaPlayer.BusinessEntities;
+using MediaPlayer.MetadataReaders;
+using MediaPlayer.MetadataReaders.Factory;
 using MediaPlayer.MVVM.ViewModels;
 using MediaPlayer.Settings;
+using Ninject;
 
 namespace MediaPlayer
 {
@@ -22,23 +24,30 @@ namespace MediaPlayer
     /// </summary>
     public partial class ViewMediaPlayer : MetroWindow
     {
+        #region Injected Properties
+
+        [Inject]
+        public IExposeApplicationSettings ApplicationSettings { get; set; }
+
+        [Inject]
+        public MetadataReaderProviderResolver MetadataReaderProviderResolver { get; set; }
+
+        #endregion
+
         #region Properties
 
-        private BackgroundWorker mediaListProcessor_background;
+        private BackgroundWorker backgroundThread;
         
         #endregion
 
         #region Constructor
 
-        public ViewMediaPlayer()
+        public ViewMediaPlayer(ViewModelMediaPlayer vm)
         {
             InitializeComponent();
+            InitializeViewModel(vm);
 
-            this.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            this.Arrange(new Rect(0, 0, this.DesiredSize.Width, this.DesiredSize.Height));
-
-            InitializeViewModel();
-            InitializeMediaListProcessor();
+            InitializeMediaListProcessingThread();
 
             this.AllowsTransparency = true;
         }
@@ -47,17 +56,17 @@ namespace MediaPlayer
 
         #region Initialization
 
-        private void InitializeViewModel()
+        private void InitializeViewModel(ViewModelMediaPlayer vm)
         {
-            DataContext = new ViewModelMediaPlayer();
+            DataContext = vm;
         }
 
-        private void InitializeMediaListProcessor()
+        private void InitializeMediaListProcessingThread()
         {
-            mediaListProcessor_background = new BackgroundWorker();
+            backgroundThread = new BackgroundWorker();
 
-            mediaListProcessor_background.DoWork += MediaListProcessorProcessDroppedContent;
-            mediaListProcessor_background.RunWorkerCompleted += MediaListProcessorCompleted;
+            backgroundThread.DoWork += ProcessDroppedContent;
+            backgroundThread.RunWorkerCompleted += Completed;
         }
 
         #endregion
@@ -92,7 +101,9 @@ namespace MediaPlayer
 
             vm.ModelMediaPlayer.IsLoadingMediaItems = true;
 
-            mediaListProcessor_background.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent, ReadMetadata = vm.MetadataReader });
+            var metadataReader = MetadataReaderProviderResolver.Resolve(BusinessEntities.MetadataReaders.Taglib);
+
+            backgroundThread.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent, MetadataReaderProvider = metadataReader });
         }
 
         private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -103,10 +114,7 @@ namespace MediaPlayer
 
         private void MetroWindow_Activated(object sender, EventArgs e)
         {
-            if (!(DataContext is ViewModelMediaPlayer vm))
-                return;
-
-            LoadTheme(vm.ApplicationSettings.SelectedTheme);
+            LoadTheme(ApplicationSettings.SelectedTheme);
         }
 
         private void LyricsExpander_Collapsed(object sender, RoutedEventArgs e)
@@ -143,7 +151,7 @@ namespace MediaPlayer
 
         #region Background Thread - File Processing
 
-        private void MediaListProcessorProcessDroppedContent(object o, DoWorkEventArgs args)
+        private void ProcessDroppedContent(object o, DoWorkEventArgs args)
         {
             if (!(args.Argument is MediaItemProcessingArguments mediaItemArgs))
                 return;
@@ -157,14 +165,14 @@ namespace MediaPlayer
                 if (isFolder)
                 {
                     supportedFiles.AddRange(Directory.EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
-                        .Where(file => ApplicationSettings.Instance.SupportedFormats.Any(file.ToLower().EndsWith))
-                        .Select((x) =>  mediaItemArgs.ReadMetadata.GetFileMetadata(x))
+                        .Where(file => ApplicationSettings.SupportedFormats.Any(file.ToLower().EndsWith))
+                        .Select((x) =>  mediaItemArgs.MetadataReaderProvider.GetFileMetadata(x))
                         .ToList());
                 }
                 else
                 {
-                    if (ApplicationSettings.Instance.SupportedFormats.Any(x => x.ToLower().Equals(Path.GetExtension(path.ToString().ToLower()))))
-                        supportedFiles.Add(mediaItemArgs.ReadMetadata.GetFileMetadata(path.ToString()));
+                    if (ApplicationSettings.SupportedFormats.Any(x => x.ToLower().Equals(Path.GetExtension(path.ToString().ToLower()))))
+                        supportedFiles.Add(mediaItemArgs.MetadataReaderProvider.GetFileMetadata(path.ToString()));
                 }
 
             }
@@ -172,7 +180,7 @@ namespace MediaPlayer
             args.Result = supportedFiles;
         }
 
-        private void MediaListProcessorCompleted(object o, RunWorkerCompletedEventArgs args)
+        private void Completed(object o, RunWorkerCompletedEventArgs args)
         {
             if (!(DataContext is ViewModelMediaPlayer vm))
                 return;
@@ -211,7 +219,7 @@ namespace MediaPlayer
 
     public class MediaItemProcessingArguments
     {
-        public IReadMetadata ReadMetadata { get; set; }
+        public MetadataReaderProvider MetadataReaderProvider { get; set; }
 
         public IEnumerable FilePaths { get; set; }
     }

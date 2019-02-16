@@ -37,10 +37,10 @@ namespace MediaPlayer.Annotations
   /// so the check for <c>null</c> is necessary before its usage.
   /// </summary>
   /// <example><code>
-  /// [CanBeNull] object Test() => null;
+  /// [CanBeNull] object ApplicationSettings() => null;
   /// 
   /// void UseTest() {
-  ///   var p = Test();
+  ///   var p = ApplicationSettings();
   ///   var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
   /// }
   /// </code></example>
@@ -288,7 +288,7 @@ namespace MediaPlayer.Annotations
   /// class NoEquality { }
   /// 
   /// class UsesNoEquality {
-  ///   void Test() {
+  ///   void ApplicationSettings() {
   ///     var ca1 = new NoEquality();
   ///     var ca2 = new NoEquality();
   ///     if (ca1 != null) { // OK

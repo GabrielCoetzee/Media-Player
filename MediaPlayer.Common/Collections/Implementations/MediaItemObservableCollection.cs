@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace MediaPlayer.Common
+namespace MediaPlayer.BusinessEntities
 {
     /// <inheritdoc />
     /// <summary>
