@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer", "MediaPlayer\MediaPlayer.csproj", "{AFF319F3-32E1-4636-865E-F43AC339219E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.BusinessEntities", "MediaPlayer.Common\MediaPlayer.BusinessEntities.csproj", "{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.BusinessEntities", "MediaPlayer.BusinessEntities\MediaPlayer.BusinessEntities.csproj", "{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Common", "MediaPlayer.MVVMHelpers\MediaPlayer.Common.csproj", "{817AFF3F-E5E4-40CD-963D-55248AE5961D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Common", "MediaPlayer.Common\MediaPlayer.Common.csproj", "{817AFF3F-E5E4-40CD-963D-55248AE5961D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Converters", "MediaPlayer.Converters\MediaPlayer.Converters.csproj", "{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}"
 EndProject

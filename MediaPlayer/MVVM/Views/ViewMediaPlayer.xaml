@@ -46,7 +46,6 @@
         <ImageBrush x:Key="ResourceNextTrackButtonImage"  ImageSource="../../Resources/Button_Images/appbar.control.fastforward.png"/>
         <ImageBrush x:Key="ResourceRepeatButtonImage" ImageSource="../../Resources/Button_Images/appbar.repeat.png" />
         <ImageBrush x:Key="ResourceShuffleButtonImage" ImageSource="../../Resources/Button_Images/appbar.shuffle.png"/>
-        
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibleOrHidden" />
         <converters:BooleanToVisibleOrHiddenInverseConverter x:Key="BooleanToVisibleOrHiddenInverse" />

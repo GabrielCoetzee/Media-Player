@@ -266,17 +266,17 @@
       <Project>{C7FE2C80-1DA2-4676-B778-49439D31E475}</Project>
       <Name>MediaPlayer.ApplicationSettings</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.BusinessEntities.csproj">
+    <ProjectReference Include="..\MediaPlayer.BusinessEntities\MediaPlayer.BusinessEntities.csproj">
       <Project>{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}</Project>
       <Name>MediaPlayer.BusinessEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj">
+      <Project>{817AFF3F-E5E4-40CD-963D-55248AE5961D}</Project>
+      <Name>MediaPlayer.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\MediaPlayer.Converters\MediaPlayer.Converters.csproj">
       <Project>{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}</Project>
       <Name>MediaPlayer.Converters</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MediaPlayer.MVVMHelpers\MediaPlayer.Common.csproj">
-      <Project>{817AFF3F-E5E4-40CD-963D-55248AE5961D}</Project>
-      <Name>MediaPlayer.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
