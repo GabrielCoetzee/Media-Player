@@ -2,10 +2,11 @@
 using System.Windows;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.Settings;
+using MediaPlayer.ApplicationSettings.Interfaces;
 
 namespace MediaPlayer.MVVM.Views
 {
+    /// <inheritdoc cref="" />
     /// <summary>
     /// Interaction logic for ViewApplicationSettings.xaml
     /// </summary>

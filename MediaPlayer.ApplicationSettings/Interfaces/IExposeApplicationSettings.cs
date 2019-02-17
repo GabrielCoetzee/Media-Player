@@ -1,4 +1,4 @@
-﻿namespace MediaPlayer.Settings
+﻿namespace MediaPlayer.ApplicationSettings.Interfaces
 {
     public interface IExposeApplicationSettings
     {

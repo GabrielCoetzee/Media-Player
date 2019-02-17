@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using MediaPlayer.BusinessEntities.Enumerations;
 
-namespace MediaPlayer.BusinessEntities
+namespace MediaPlayer.BusinessEntities.Objects.Abstract
 {
     public abstract class MediaItem : INotifyPropertyChanged
     {

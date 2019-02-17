@@ -3,6 +3,9 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using MediaPlayer.Annotations;
 using MediaPlayer.BusinessEntities;
+using MediaPlayer.BusinessEntities.Collections.Derived;
+using MediaPlayer.BusinessEntities.Enumerations;
+using MediaPlayer.BusinessEntities.Objects.Abstract;
 
 namespace MediaPlayer.MVVM.Models
 {

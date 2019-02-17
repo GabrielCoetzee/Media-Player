@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using MediaPlayer.BusinessEntities;
+using MediaPlayer.BusinessEntities.Enumerations;
 
 namespace MediaPlayer.Converters
 {

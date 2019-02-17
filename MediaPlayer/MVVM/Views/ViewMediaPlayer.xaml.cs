@@ -10,15 +10,17 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.BusinessEntities;
-using MediaPlayer.MetadataReaders;
-using MediaPlayer.MetadataReaders.Factory;
+using MediaPlayer.ApplicationSettings.Interfaces;
+using MediaPlayer.BusinessEntities.Enumerations;
+using MediaPlayer.BusinessEntities.Objects.Abstract;
+using MediaPlayer.Common.Metadata_Readers.Abstract;
+using MediaPlayer.Metadata_Readers;
 using MediaPlayer.MVVM.ViewModels;
-using MediaPlayer.Settings;
 using Ninject;
 
-namespace MediaPlayer
+namespace MediaPlayer.MVVM.Views
 {
+    /// <inheritdoc cref="" />
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -36,17 +38,17 @@ namespace MediaPlayer
 
         #region Properties
 
-        private BackgroundWorker backgroundThread;
+        private BackgroundWorker _backgroundThread;
         
         #endregion
 
         #region Constructor
 
+        [Inject]
         public ViewMediaPlayer(ViewModelMediaPlayer vm)
         {
             InitializeComponent();
             InitializeViewModel(vm);
-
             InitializeMediaListProcessingThread();
 
             this.AllowsTransparency = true;
@@ -63,10 +65,10 @@ namespace MediaPlayer
 
         private void InitializeMediaListProcessingThread()
         {
-            backgroundThread = new BackgroundWorker();
+            _backgroundThread = new BackgroundWorker();
 
-            backgroundThread.DoWork += ProcessDroppedContent;
-            backgroundThread.RunWorkerCompleted += Completed;
+            _backgroundThread.DoWork += ProcessDroppedContent;
+            _backgroundThread.RunWorkerCompleted += Completed;
         }
 
         #endregion
@@ -101,9 +103,9 @@ namespace MediaPlayer
 
             vm.ModelMediaPlayer.IsLoadingMediaItems = true;
 
-            var metadataReader = MetadataReaderProviderResolver.Resolve(BusinessEntities.MetadataReaders.Taglib);
+            var metadataReader = MetadataReaderProviderResolver.Resolve(MetadataReaders.Taglib);
 
-            backgroundThread.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent, MetadataReaderProvider = metadataReader });
+            _backgroundThread.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent, MetadataReaderProvider = metadataReader });
         }
 
         private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

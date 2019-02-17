@@ -1,6 +1,7 @@
 ﻿using System.Windows;
+using MediaPlayer.Generic.Window_Service.Interfaces;
 
-namespace MediaPlayer.Common
+namespace MediaPlayer.Generic.Window_Service.Interface_Implementations
 {
     public class WindowService<T> : IWindowService 
         where T : Window, new()

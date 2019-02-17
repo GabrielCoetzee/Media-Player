@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MediaPlayer.BusinessEntities.Enumerations;
+using MediaPlayer.Common.Metadata_Readers.Abstract;
+using Ninject;
 
-namespace MediaPlayer.MetadataReaders.Factory
+namespace MediaPlayer.Metadata_Readers
 {
     public class MetadataReaderProviderResolver
     {
@@ -13,6 +16,7 @@ namespace MediaPlayer.MetadataReaders.Factory
 
         #region Constructor
 
+        [Inject]
         public MetadataReaderProviderResolver(IEnumerable<MetadataReaderProvider> metadataReaderProviders)
         {
             this._metadataReaderProviders = metadataReaderProviders;
@@ -22,7 +26,7 @@ namespace MediaPlayer.MetadataReaders.Factory
 
         #region Methods
 
-        public MetadataReaderProvider Resolve(BusinessEntities.MetadataReaders selectedMetadataReader)
+        public MetadataReaderProvider Resolve(MetadataReaders selectedMetadataReader)
         {
             return this._metadataReaderProviders
                 .SingleOrDefault(x => x.MetadataReader == selectedMetadataReader);

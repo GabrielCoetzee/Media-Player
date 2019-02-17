@@ -1,33 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using MediaPlayer.IoC;
-using MediaPlayer.Properties;
 using Ninject;
-using Ninject.Modules;
 
 namespace MediaPlayer
 {
+    /// <inheritdoc />
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
-        private IKernel iocKernel;
+        private IKernel _iocKernel;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            iocKernel = new StandardKernel();
-            iocKernel.Load(new IocConfiguration());
+            _iocKernel = new StandardKernel();
+            _iocKernel.Load(new IocConfiguration());
 
-            Current.MainWindow = iocKernel.Get<ViewMediaPlayer>();
+            Current.MainWindow = _iocKernel.Get<MVVM.Views.ViewMediaPlayer>();
             Current.MainWindow.Show();
         }
     }

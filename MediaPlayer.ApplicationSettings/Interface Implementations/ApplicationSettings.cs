@@ -1,20 +1,22 @@
 ﻿using System.Linq;
 using System.Windows;
 using MahApps.Metro;
+using MediaPlayer.ApplicationSettings.Interfaces;
+using MediaPlayer.Settings;
 using StringCollection = System.Collections.Specialized.StringCollection;
 
-namespace MediaPlayer.Settings
+namespace MediaPlayer.ApplicationSettings.Interface_Implementations
 {
     public class ApplicationSettings : IExposeApplicationSettings
     {
-        private string _selectedTheme = Properties.Settings.Default[nameof(SelectedTheme)].ToString();
-        private decimal _opacity = (decimal)Properties.Settings.Default[nameof(Opacity)];
+        private string _selectedTheme = Settings.Properties.Settings.Default[nameof(SelectedTheme)].ToString();
+        private decimal _opacity = (decimal)Settings.Properties.Settings.Default[nameof(Opacity)];
 
         public string[] SupportedFormats
         {
             get
             {
-                var supportedFormats = (StringCollection)Properties.Settings.Default[nameof(SupportedFormats)];
+                var supportedFormats = (StringCollection)Settings.Properties.Settings.Default[nameof(SupportedFormats)];
 
                 return supportedFormats.Cast<string>().ToArray<string>();
             }
@@ -43,10 +45,10 @@ namespace MediaPlayer.Settings
 
         public void SaveSettings()
         {
-            Properties.Settings.Default[nameof(SelectedTheme)] = _selectedTheme;
-            Properties.Settings.Default[nameof(Opacity)] = _opacity;
+            Settings.Properties.Settings.Default[nameof(SelectedTheme)] = _selectedTheme;
+            Settings.Properties.Settings.Default[nameof(Opacity)] = _opacity;
 
-            Properties.Settings.Default.Save();
+            Settings.Properties.Settings.Default.Save();
         }
     }
 }

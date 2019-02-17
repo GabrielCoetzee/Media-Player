@@ -1,4 +1,4 @@
-﻿namespace MediaPlayer.Common
+﻿namespace MediaPlayer.Generic.Window_Service.Interfaces
 {
     interface IWindowService
     {

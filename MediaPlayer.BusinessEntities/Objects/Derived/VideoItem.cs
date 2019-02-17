@@ -1,4 +1,6 @@
-﻿namespace MediaPlayer.BusinessEntities
+﻿using MediaPlayer.BusinessEntities.Objects.Abstract;
+
+namespace MediaPlayer.BusinessEntities.Objects.Derived
 {
     public class VideoItem : MediaItem
     {

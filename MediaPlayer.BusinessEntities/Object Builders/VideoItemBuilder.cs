@@ -1,6 +1,8 @@
 ﻿using System;
+using MediaPlayer.BusinessEntities.Enumerations;
+using MediaPlayer.BusinessEntities.Objects.Derived;
 
-namespace MediaPlayer.BusinessEntities
+namespace MediaPlayer.BusinessEntities.Object_Builders
 {
     public class VideoItemBuilder
     {

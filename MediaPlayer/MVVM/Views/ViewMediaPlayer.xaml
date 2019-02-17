@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="MediaPlayer.ViewMediaPlayer"
+﻿<Controls:MetroWindow x:Class="MediaPlayer.MVVM.Views.ViewMediaPlayer"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"

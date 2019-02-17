@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using MediaPlayer.MetadataReaders;
-using MediaPlayer.Settings;
+using MediaPlayer.ApplicationSettings.Interfaces;
+using MediaPlayer.Common.Metadata_Readers.Abstract;
+using MediaPlayer.Common.Metadata_Readers.Derived;
 using Ninject.Modules;
 
 namespace MediaPlayer.IoC
@@ -9,7 +10,7 @@ namespace MediaPlayer.IoC
     {
         public override void Load()
         {
-            Bind<IExposeApplicationSettings>().To<ApplicationSettings>().InSingletonScope();
+            Bind<IExposeApplicationSettings>().To<ApplicationSettings.Interface_Implementations.ApplicationSettings>().InSingletonScope();
             Bind<MetadataReaderProvider>().To<TaglibMetadataReaderProvider>().Named("TaglibMetadataReaderProvider");
             Bind<IEnumerable<MetadataReaderProvider>>().To<MetadataReaderProvider[]>();
         }

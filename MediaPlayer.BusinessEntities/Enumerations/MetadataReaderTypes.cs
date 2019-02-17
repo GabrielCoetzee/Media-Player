@@ -1,4 +1,4 @@
-﻿namespace MediaPlayer.BusinessEntities
+﻿namespace MediaPlayer.BusinessEntities.Enumerations
 {
     public enum MetadataReaders { Taglib };
 }

@@ -6,12 +6,15 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
-using MediaPlayer.BusinessEntities;
-using MediaPlayer.Common;
-using MediaPlayer.MetadataReaders.Factory;
+using MediaPlayer.ApplicationSettings.Interfaces;
+using MediaPlayer.BusinessEntities.Collections.Derived;
+using MediaPlayer.BusinessEntities.Enumerations;
+using MediaPlayer.BusinessEntities.Objects.Abstract;
+using MediaPlayer.Generic.Commands;
+using MediaPlayer.Generic.Window_Service.Interface_Implementations;
+using MediaPlayer.Metadata_Readers;
 using MediaPlayer.MVVM.Models;
 using MediaPlayer.MVVM.Views;
-using MediaPlayer.Settings;
 using Ninject;
 using ListBox = System.Windows.Controls.ListBox;
 
@@ -42,8 +45,8 @@ namespace MediaPlayer.MVVM.ViewModels
 
         #region Fields
 
-        private readonly Random RandomIdGenerator = new Random();
-        private readonly DispatcherTimer MediaPositionTracker = new DispatcherTimer();
+        private readonly Random _randomIdGenerator = new Random();
+        private readonly DispatcherTimer _mediaPositionTracker = new DispatcherTimer();
 
         private ModelMediaPlayer _modelMediaPlayer;
 
@@ -280,7 +283,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void ClearMediaListCommand_Execute()
         {
-            MediaPositionTracker.Stop();
+            _mediaPositionTracker.Stop();
             InitializeModelInstance();
         }
 
@@ -388,7 +391,7 @@ namespace MediaPlayer.MVVM.ViewModels
             if (result != DialogResult.OK)
                 return;
 
-            var metadataReader = MetadataReaderProviderResolver.Resolve(BusinessEntities.MetadataReaders.Taglib);
+            var metadataReader = MetadataReaderProviderResolver.Resolve(MetadataReaders.Taglib);
 
             var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
             AddToMediaList(mediaItems);
@@ -453,9 +456,9 @@ namespace MediaPlayer.MVVM.ViewModels
 
         #region Public Methods
 
-        public void AddToMediaList(List<string> files)
+        public void AddToMediaList(IEnumerable<string> files)
         {
-            var metadataReader = MetadataReaderProviderResolver.Resolve(BusinessEntities.MetadataReaders.Taglib);
+            var metadataReader = MetadataReaderProviderResolver.Resolve(MetadataReaders.Taglib);
 
             foreach (var file in files)
                 ModelMediaPlayer.MediaList.Add(metadataReader.GetFileMetadata(file));
@@ -467,7 +470,7 @@ namespace MediaPlayer.MVVM.ViewModels
             PlayMedia();
         }
 
-        public void AddToMediaList(List<MediaItem> mediaItems)
+        public void AddToMediaList(IEnumerable<MediaItem> mediaItems)
         {
             ModelMediaPlayer.MediaList.AddRange(mediaItems);
 
@@ -559,17 +562,17 @@ namespace MediaPlayer.MVVM.ViewModels
         {
             ModelMediaPlayer.MediaList = new MediaItemObservableCollection(ModelMediaPlayer.MediaList
                 .OrderBy(x => x != ModelMediaPlayer.SelectedMediaItem)
-                .ThenBy(x => RandomIdGenerator.Next()));
+                .ThenBy(x => _randomIdGenerator.Next()));
         }
 
         private void PollMediaPosition(MediaElement mediaElement)
         {
             if (mediaElement != null)
             {
-                MediaPositionTracker.Tick += (sender, args) => UpdateMediaPosition(mediaElement);
+                _mediaPositionTracker.Tick += (sender, args) => UpdateMediaPosition(mediaElement);
             }
 
-            MediaPositionTracker.Start();
+            _mediaPositionTracker.Start();
         }
 
         private void UpdateMediaPosition(MediaElement mediaElement)

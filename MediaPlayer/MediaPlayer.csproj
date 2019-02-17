@@ -89,10 +89,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Resources\External_DLL\taglib-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -118,9 +114,6 @@
     <Compile Include="MVVM\Views\ViewApplicationSettings.xaml.cs">
       <DependentUpon>ViewApplicationSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Metadata Readers\MetadataReaderProviderResolver.cs" />
-    <Compile Include="Metadata Readers\TaglibMetadataReaderProvider.cs" />
-    <Compile Include="Metadata Readers\MetadataReaderProvider.cs" />
     <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelMediaPlayer.cs" />
     <Compile Include="MVVM\Views\ViewMediaPlayer.xaml.cs">
@@ -271,12 +264,16 @@
       <Name>MediaPlayer.BusinessEntities</Name>
     </ProjectReference>
     <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj">
-      <Project>{817AFF3F-E5E4-40CD-963D-55248AE5961D}</Project>
+      <Project>{78242237-ECF6-4144-A726-07412F1E3FAE}</Project>
       <Name>MediaPlayer.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\MediaPlayer.Converters\MediaPlayer.Converters.csproj">
       <Project>{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}</Project>
       <Name>MediaPlayer.Converters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaPlayer.Generic\MediaPlayer.Generic.csproj">
+      <Project>{817AFF3F-E5E4-40CD-963D-55248AE5961D}</Project>
+      <Name>MediaPlayer.Generic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

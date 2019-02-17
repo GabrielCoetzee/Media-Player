@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MediaPlayer.BusinessEntities.Collections.Abstract;
+using MediaPlayer.BusinessEntities.Objects.Abstract;
 
-namespace MediaPlayer.BusinessEntities
+namespace MediaPlayer.BusinessEntities.Collections.Derived
 {
     /// <inheritdoc />
     /// <summary>
@@ -22,13 +24,15 @@ namespace MediaPlayer.BusinessEntities
         {
             base.AddRange(list);
 
-            SetMediaItemIds();
+            this.SetMediaItemIds();
         }
 
         private void SetMediaItemIds()
         {
             foreach (var mediaItem in Items)
+            {
                 mediaItem.Id = IndexOf(mediaItem);
+            }
         }
     }
 }
