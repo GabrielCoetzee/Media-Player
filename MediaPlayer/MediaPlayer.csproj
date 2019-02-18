@@ -110,6 +110,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\MultiValueConverters\PriorityMultiValueConverter.cs" />
+    <Compile Include="Converters\MultiValueConverters\RowHeightSumMultiValueConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\BooleanToVisibleOrHiddenInverseConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\MediaItemSelectedToEnabledConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\MediaItemSelectedToVisibilityConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\MediaVolumeConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\PlayPauseButtonBackgroundConverter.cs" />
     <Compile Include="IoC\IocConfiguration.cs" />
     <Compile Include="MVVM\Views\ViewApplicationSettings.xaml.cs">
       <DependentUpon>ViewApplicationSettings.xaml</DependentUpon>
@@ -266,10 +273,6 @@
     <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj">
       <Project>{78242237-ECF6-4144-A726-07412F1E3FAE}</Project>
       <Name>MediaPlayer.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MediaPlayer.Converters\MediaPlayer.Converters.csproj">
-      <Project>{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}</Project>
-      <Name>MediaPlayer.Converters</Name>
     </ProjectReference>
     <ProjectReference Include="..\MediaPlayer.Generic\MediaPlayer.Generic.csproj">
       <Project>{817AFF3F-E5E4-40CD-963D-55248AE5961D}</Project>

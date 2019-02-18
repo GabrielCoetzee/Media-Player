@@ -9,11 +9,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.BusinessEntitie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Generic", "MediaPlayer.Generic\MediaPlayer.Generic.csproj", "{817AFF3F-E5E4-40CD-963D-55248AE5961D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Converters", "MediaPlayer.Converters\MediaPlayer.Converters.csproj", "{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.ApplicationSettings", "MediaPlayer.ApplicationSettings\MediaPlayer.ApplicationSettings.csproj", "{C7FE2C80-1DA2-4676-B778-49439D31E475}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Common", "MediaPlayer.Common\MediaPlayer.Common.csproj", "{78242237-ECF6-4144-A726-07412F1E3FAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application Settings", "Application Settings", "{07AD01A1-A10F-4040-AA31-6D756EF149E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generic", "Generic", "{A1CFB51A-5183-4CF8-9132-150F86A8C2A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{DADD99B1-DA69-4003-BD72-2EA866FCD344}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business Entities", "Business Entities", "{006863DE-7F78-4921-840A-28E51E4E99CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +39,6 @@ Global
 		{817AFF3F-E5E4-40CD-963D-55248AE5961D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{817AFF3F-E5E4-40CD-963D-55248AE5961D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{817AFF3F-E5E4-40CD-963D-55248AE5961D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB2E4F6C-09A8-4143-A0C0-75693B951F7F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C7FE2C80-1DA2-4676-B778-49439D31E475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C7FE2C80-1DA2-4676-B778-49439D31E475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7FE2C80-1DA2-4676-B778-49439D31E475}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,6 +50,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A} = {006863DE-7F78-4921-840A-28E51E4E99CE}
+		{817AFF3F-E5E4-40CD-963D-55248AE5961D} = {A1CFB51A-5183-4CF8-9132-150F86A8C2A6}
+		{C7FE2C80-1DA2-4676-B778-49439D31E475} = {07AD01A1-A10F-4040-AA31-6D756EF149E1}
+		{78242237-ECF6-4144-A726-07412F1E3FAE} = {DADD99B1-DA69-4003-BD72-2EA866FCD344}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A89013D-0D79-4FA5-A6B7-06E79F20A905}

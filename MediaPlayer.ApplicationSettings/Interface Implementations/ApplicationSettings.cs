@@ -2,7 +2,6 @@
 using System.Windows;
 using MahApps.Metro;
 using MediaPlayer.ApplicationSettings.Interfaces;
-using MediaPlayer.Settings;
 using StringCollection = System.Collections.Specialized.StringCollection;
 
 namespace MediaPlayer.ApplicationSettings.Interface_Implementations

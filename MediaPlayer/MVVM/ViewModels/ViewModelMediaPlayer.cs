@@ -455,13 +455,14 @@ namespace MediaPlayer.MVVM.ViewModels
         #endregion
 
         #region Public Methods
-
         public void AddToMediaList(IEnumerable<string> files)
         {
             var metadataReader = MetadataReaderProviderResolver.Resolve(MetadataReaders.Taglib);
 
             foreach (var file in files)
+            {
                 ModelMediaPlayer.MediaList.Add(metadataReader.GetFileMetadata(file));
+            }
 
             if (ModelMediaPlayer.SelectedMediaItem != null || ModelMediaPlayer.MediaList.Count <= 0)
                 return;
