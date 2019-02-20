@@ -42,23 +42,23 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="taglib-sharp">
-      <HintPath>..\MediaPlayer\Resources\External_DLL\taglib-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Abstract\BulkObservableCollection.cs" />
     <Compile Include="Collections\Derived\MediaItemObservableCollection.cs" />
-    <Compile Include="Enumerations\MediaType.cs" />
-    <Compile Include="Enumerations\MetadataReaderTypes.cs" />
-    <Compile Include="Enumerations\VolumeLevel.cs" />
     <Compile Include="Object Builders\AudioItemBuilder.cs" />
     <Compile Include="Object Builders\VideoItemBuilder.cs" />
     <Compile Include="Objects\Abstract\MediaItem.cs" />
     <Compile Include="Objects\Derived\AudioItem.cs" />
     <Compile Include="Objects\Derived\VideoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj">
+      <Project>{78242237-ECF6-4144-A726-07412F1E3FAE}</Project>
+      <Name>MediaPlayer.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

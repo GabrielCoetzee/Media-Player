@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using MediaPlayer.BusinessEntities.Enumerations;
+using MediaPlayer.Common.Enumerations;
 
 namespace MediaPlayer.BusinessEntities.Objects.Abstract
 {

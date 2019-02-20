@@ -47,9 +47,16 @@
   <ItemGroup>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandWithParameter.cs" />
+    <Compile Include="Mediator\Mediator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Window Service\Interface Implementations\WindowService.cs" />
     <Compile Include="Window Service\Interfaces\IWindowService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj">
+      <Project>{78242237-ECF6-4144-A726-07412F1E3FAE}</Project>
+      <Name>MediaPlayer.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

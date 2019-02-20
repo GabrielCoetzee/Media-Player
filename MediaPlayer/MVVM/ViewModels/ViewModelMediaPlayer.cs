@@ -8,11 +8,12 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using MediaPlayer.ApplicationSettings.Interfaces;
 using MediaPlayer.BusinessEntities.Collections.Derived;
-using MediaPlayer.BusinessEntities.Enumerations;
 using MediaPlayer.BusinessEntities.Objects.Abstract;
+using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Generic.Commands;
+using MediaPlayer.Generic.Mediator;
 using MediaPlayer.Generic.Window_Service.Interface_Implementations;
-using MediaPlayer.Metadata_Readers;
+using MediaPlayer.MetadataReaders;
 using MediaPlayer.MVVM.Models;
 using MediaPlayer.MVVM.Views;
 using Ninject;
@@ -272,8 +273,7 @@ namespace MediaPlayer.MVVM.ViewModels
 
         public void OpenSettingsWindowCommand_Execute()
         {
-            var windowService = new WindowService<ViewApplicationSettings>();
-            windowService.ShowWindowModal(ApplicationSettings);
+            Mediator<MediatorMessages>.NotifyColleagues(MediatorMessages.OpenApplicationSettings, null);
         }
 
         public bool ClearMediaListCommand_CanExecute()
@@ -391,7 +391,7 @@ namespace MediaPlayer.MVVM.ViewModels
             if (result != DialogResult.OK)
                 return;
 
-            var metadataReader = MetadataReaderProviderResolver.Resolve(MetadataReaders.Taglib);
+            var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
 
             var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
             AddToMediaList(mediaItems);
@@ -457,7 +457,7 @@ namespace MediaPlayer.MVVM.ViewModels
         #region Public Methods
         public void AddToMediaList(IEnumerable<string> files)
         {
-            var metadataReader = MetadataReaderProviderResolver.Resolve(MetadataReaders.Taglib);
+            var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
 
             foreach (var file in files)
             {

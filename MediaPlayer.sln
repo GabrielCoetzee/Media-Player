@@ -21,6 +21,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{DADD99
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business Entities", "Business Entities", "{006863DE-7F78-4921-840A-28E51E4E99CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Shell", "MediaPlayer.Shell\MediaPlayer.Shell.csproj", "{6F3E2B99-20AA-4185-BEDB-37AA838244D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metadata Readers", "Metadata Readers", "{95DFD146-45FA-4B1F-ACF7-CFE74C3BDCEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.MetadataReaders", "MediaPlayer.MetadataReaders\MediaPlayer.MetadataReaders.csproj", "{F440BA23-1A79-4DA6-A935-C3C669E053D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +53,14 @@ Global
 		{78242237-ECF6-4144-A726-07412F1E3FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78242237-ECF6-4144-A726-07412F1E3FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78242237-ECF6-4144-A726-07412F1E3FAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F3E2B99-20AA-4185-BEDB-37AA838244D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F3E2B99-20AA-4185-BEDB-37AA838244D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F3E2B99-20AA-4185-BEDB-37AA838244D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F3E2B99-20AA-4185-BEDB-37AA838244D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +70,7 @@ Global
 		{817AFF3F-E5E4-40CD-963D-55248AE5961D} = {A1CFB51A-5183-4CF8-9132-150F86A8C2A6}
 		{C7FE2C80-1DA2-4676-B778-49439D31E475} = {07AD01A1-A10F-4040-AA31-6D756EF149E1}
 		{78242237-ECF6-4144-A726-07412F1E3FAE} = {DADD99B1-DA69-4003-BD72-2EA866FCD344}
+		{F440BA23-1A79-4DA6-A935-C3C669E053D1} = {95DFD146-45FA-4B1F-ACF7-CFE74C3BDCEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A89013D-0D79-4FA5-A6B7-06E79F20A905}

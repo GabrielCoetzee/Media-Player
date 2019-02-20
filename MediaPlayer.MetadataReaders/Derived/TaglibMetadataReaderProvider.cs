@@ -1,7 +1,7 @@
-﻿using MediaPlayer.BusinessEntities.Enumerations;
-using MediaPlayer.BusinessEntities.Objects.Abstract;
+﻿using MediaPlayer.BusinessEntities.Objects.Abstract;
 using MediaPlayer.BusinessEntities.Object_Builders;
-using MediaPlayer.Common.Metadata_Readers.Abstract;
+using MediaPlayer.Common.Enumerations;
+using MediaPlayer.MetadataReaders.Abstract;
 using TagLib;
 
 namespace MediaPlayer.Common.Metadata_Readers.Derived
@@ -10,7 +10,7 @@ namespace MediaPlayer.Common.Metadata_Readers.Derived
     {
         #region Properties
 
-        public override MetadataReaders MetadataReader => MetadataReaders.Taglib;
+        public override Enumerations.MetadataReaders MetadataReader => Common.Enumerations.MetadataReaders.Taglib;
 
         #endregion
 

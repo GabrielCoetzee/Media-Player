@@ -11,10 +11,10 @@ using System.Windows.Input;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MediaPlayer.ApplicationSettings.Interfaces;
-using MediaPlayer.BusinessEntities.Enumerations;
 using MediaPlayer.BusinessEntities.Objects.Abstract;
-using MediaPlayer.Common.Metadata_Readers.Abstract;
-using MediaPlayer.Metadata_Readers;
+using MediaPlayer.Common.Enumerations;
+using MediaPlayer.MetadataReaders;
+using MediaPlayer.MetadataReaders.Abstract;
 using MediaPlayer.MVVM.ViewModels;
 using Ninject;
 
@@ -103,7 +103,7 @@ namespace MediaPlayer.MVVM.Views
 
             vm.ModelMediaPlayer.IsLoadingMediaItems = true;
 
-            var metadataReader = MetadataReaderProviderResolver.Resolve(MetadataReaders.Taglib);
+            var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
 
             _backgroundThread.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent, MetadataReaderProvider = metadataReader });
         }

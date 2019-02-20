@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using MediaPlayer.Annotations;
 using MediaPlayer.BusinessEntities.Collections.Derived;
-using MediaPlayer.BusinessEntities.Enumerations;
 using MediaPlayer.BusinessEntities.Objects.Abstract;
+using MediaPlayer.Common.Enumerations;
 
 namespace MediaPlayer.MVVM.Models
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MediaPlayer.BusinessEntities.Enumerations
+namespace MediaPlayer.Common.Enumerations
 {
     [Flags]
     public enum MediaType

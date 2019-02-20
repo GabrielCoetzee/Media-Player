@@ -3,6 +3,7 @@ using System.Windows;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MediaPlayer.ApplicationSettings.Interfaces;
+using Ninject;
 
 namespace MediaPlayer.MVVM.Views
 {
@@ -12,9 +13,12 @@ namespace MediaPlayer.MVVM.Views
     /// </summary>
     public partial class ViewApplicationSettings : MetroWindow
     {
-        public ViewApplicationSettings()
+        [Inject]
+        public ViewApplicationSettings(IExposeApplicationSettings vm)
         {
             InitializeComponent();
+
+            DataContext = vm;
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)

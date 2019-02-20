@@ -2,8 +2,8 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using MediaPlayer.BusinessEntities.Enumerations;
 using MediaPlayer.BusinessEntities.Objects.Derived;
+using MediaPlayer.Common.Enumerations;
 
 namespace MediaPlayer.BusinessEntities.Object_Builders
 {
