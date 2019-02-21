@@ -7,6 +7,7 @@ using Ninject;
 
 namespace MediaPlayer.Shell
 {
+    /// <inheritdoc />
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>

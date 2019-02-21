@@ -13,7 +13,6 @@ using MahApps.Metro.Controls;
 using MediaPlayer.ApplicationSettings.Interfaces;
 using MediaPlayer.BusinessEntities.Objects.Abstract;
 using MediaPlayer.MetadataReaders;
-using MediaPlayer.MetadataReaders.Abstract;
 using MediaPlayer.ViewModel;
 using Ninject;
 
@@ -102,9 +101,7 @@ namespace MediaPlayer.View.Views
 
             vm.SetIsLoadingMediaItems(true);
 
-            var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
-
-            _backgroundThread.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent, MetadataReaderProvider = metadataReader });
+            _backgroundThread.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent });
         }
 
         private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -156,6 +153,8 @@ namespace MediaPlayer.View.Views
             if (!(args.Argument is MediaItemProcessingArguments mediaItemArgs))
                 return;
 
+            var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
+
             var supportedFiles = new List<MediaItem>();
 
             foreach (var path in mediaItemArgs.FilePaths)
@@ -166,13 +165,13 @@ namespace MediaPlayer.View.Views
                 {
                     supportedFiles.AddRange(Directory.EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
                         .Where(file => ApplicationSettings.SupportedFormats.Any(file.ToLower().EndsWith))
-                        .Select((x) =>  mediaItemArgs.MetadataReaderProvider.GetFileMetadata(x))
+                        .Select((x) => metadataReader.GetFileMetadata(x))
                         .ToList());
                 }
                 else
                 {
                     if (ApplicationSettings.SupportedFormats.Any(x => x.ToLower().Equals(Path.GetExtension(path.ToString().ToLower()))))
-                        supportedFiles.Add(mediaItemArgs.MetadataReaderProvider.GetFileMetadata(path.ToString()));
+                        supportedFiles.Add(metadataReader.GetFileMetadata(path.ToString()));
                 }
 
             }
@@ -220,7 +219,6 @@ namespace MediaPlayer.View.Views
 
     public class MediaItemProcessingArguments
     {
-        public MetadataReaderProvider MetadataReaderProvider { get; set; }
         public IEnumerable FilePaths { get; set; }
     }
 }
