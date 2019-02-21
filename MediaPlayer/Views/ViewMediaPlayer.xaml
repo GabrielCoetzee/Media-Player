@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="MediaPlayer.MVVM.Views.ViewMediaPlayer"
+﻿<Controls:MetroWindow x:Class="MediaPlayer.View.Views.ViewMediaPlayer"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
@@ -8,7 +8,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:converters="clr-namespace:MediaPlayer.Converters"
+        xmlns:converters="clr-namespace:MediaPlayer.View.Converters"
         mc:Ignorable="d"
         SaveWindowPosition="True"
         GlowBrush="{DynamicResource AccentColorBrush}"
@@ -38,14 +38,14 @@
     </Controls:MetroWindow.RightWindowCommands>
 
     <Window.Resources>
-        <ImageBrush x:Key="ResourcePlayButtonImage" ImageSource="../../Resources/Button_Images/appbar.control.play.png" />
-        <ImageBrush x:Key="ResourcePauseButtonImage" ImageSource="../../Resources/Button_Images/appbar.control.pause.png" />
-        <ImageBrush x:Key="ResourceMuteButtonImage" ImageSource="../../Resources/Button_Images/appbar.sound.mute.png" />
-        <ImageBrush x:Key="ResourcePreviousTrackButtonImage" ImageSource="../../Resources/Button_Images/appbar.control.rewind.png" />
-        <ImageBrush x:Key="ResourceStopButtonImage" ImageSource="../../Resources/Button_Images/appbar.control.stop.png"/>
-        <ImageBrush x:Key="ResourceNextTrackButtonImage"  ImageSource="../../Resources/Button_Images/appbar.control.fastforward.png"/>
-        <ImageBrush x:Key="ResourceRepeatButtonImage" ImageSource="../../Resources/Button_Images/appbar.repeat.png" />
-        <ImageBrush x:Key="ResourceShuffleButtonImage" ImageSource="../../Resources/Button_Images/appbar.shuffle.png"/>
+        <ImageBrush x:Key="ResourcePlayButtonImage" ImageSource="../Resources/Button_Images/appbar.control.play.png" />
+        <ImageBrush x:Key="ResourcePauseButtonImage" ImageSource="../Resources/Button_Images/appbar.control.pause.png" />
+        <ImageBrush x:Key="ResourceMuteButtonImage" ImageSource="../Resources/Button_Images/appbar.sound.mute.png" />
+        <ImageBrush x:Key="ResourcePreviousTrackButtonImage" ImageSource="../Resources/Button_Images/appbar.control.rewind.png" />
+        <ImageBrush x:Key="ResourceStopButtonImage" ImageSource="../Resources/Button_Images/appbar.control.stop.png"/>
+        <ImageBrush x:Key="ResourceNextTrackButtonImage"  ImageSource="../Resources/Button_Images/appbar.control.fastforward.png"/>
+        <ImageBrush x:Key="ResourceRepeatButtonImage" ImageSource="../Resources/Button_Images/appbar.repeat.png" />
+        <ImageBrush x:Key="ResourceShuffleButtonImage" ImageSource="../Resources/Button_Images/appbar.shuffle.png"/>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibleOrHidden" />
         <converters:BooleanToVisibleOrHiddenInverseConverter x:Key="BooleanToVisibleOrHiddenInverse" />

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer", "MediaPlayer\MediaPlayer.csproj", "{AFF319F3-32E1-4636-865E-F43AC339219E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.View", "MediaPlayer\MediaPlayer.View.csproj", "{AFF319F3-32E1-4636-865E-F43AC339219E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.BusinessEntities", "MediaPlayer.BusinessEntities\MediaPlayer.BusinessEntities.csproj", "{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}"
 EndProject
@@ -26,6 +26,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metadata Readers", "Metadata Readers", "{95DFD146-45FA-4B1F-ACF7-CFE74C3BDCEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.MetadataReaders", "MediaPlayer.MetadataReaders\MediaPlayer.MetadataReaders.csproj", "{F440BA23-1A79-4DA6-A935-C3C669E053D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Model", "MediaPlayer.Model\MediaPlayer.Model.csproj", "{E20FBC08-C9C1-40E1-96B5-020115A06E52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.ViewModel", "MediaPlayer.ViewModel\MediaPlayer.ViewModel.csproj", "{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVVM", "MVVM", "{1DFE55F1-29A8-4A37-9B52-9CC5545C6512}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,16 +67,27 @@ Global
 		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E20FBC08-C9C1-40E1-96B5-020115A06E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E20FBC08-C9C1-40E1-96B5-020115A06E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E20FBC08-C9C1-40E1-96B5-020115A06E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E20FBC08-C9C1-40E1-96B5-020115A06E52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{AFF319F3-32E1-4636-865E-F43AC339219E} = {1DFE55F1-29A8-4A37-9B52-9CC5545C6512}
 		{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A} = {006863DE-7F78-4921-840A-28E51E4E99CE}
 		{817AFF3F-E5E4-40CD-963D-55248AE5961D} = {A1CFB51A-5183-4CF8-9132-150F86A8C2A6}
 		{C7FE2C80-1DA2-4676-B778-49439D31E475} = {07AD01A1-A10F-4040-AA31-6D756EF149E1}
 		{78242237-ECF6-4144-A726-07412F1E3FAE} = {DADD99B1-DA69-4003-BD72-2EA866FCD344}
 		{F440BA23-1A79-4DA6-A935-C3C669E053D1} = {95DFD146-45FA-4B1F-ACF7-CFE74C3BDCEC}
+		{E20FBC08-C9C1-40E1-96B5-020115A06E52} = {1DFE55F1-29A8-4A37-9B52-9CC5545C6512}
+		{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E} = {1DFE55F1-29A8-4A37-9B52-9CC5545C6512}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A89013D-0D79-4FA5-A6B7-06E79F20A905}

@@ -1,8 +1,9 @@
 ﻿using System.Windows;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Generic.Mediator;
-using MediaPlayer.MVVM.Views;
 using Ninject;
+using ViewApplicationSettings = MediaPlayer.View.Views.ViewApplicationSettings;
+using ViewMediaPlayer = MediaPlayer.View.Views.ViewMediaPlayer;
 
 namespace MediaPlayer.Shell.Mediator_Registrations
 {
@@ -23,8 +24,8 @@ namespace MediaPlayer.Shell.Mediator_Registrations
             Mediator<MediatorMessages>.Register(MediatorMessages.OpenApplicationSettings, (vm) =>
             {
                 //ViewModel injected to ViewApplicationSettings Constructor using NInject IKernal
-                Application.Current.MainWindow = iocKernal.Get<ViewApplicationSettings>();
-                Application.Current.MainWindow.ShowDialog();
+                var window = iocKernal.Get<ViewApplicationSettings>();
+                window.ShowDialog();
             });
         }
     }

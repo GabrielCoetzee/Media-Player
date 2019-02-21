@@ -5,7 +5,7 @@ using MahApps.Metro.Controls;
 using MediaPlayer.ApplicationSettings.Interfaces;
 using Ninject;
 
-namespace MediaPlayer.MVVM.Views
+namespace MediaPlayer.View.Views
 {
     /// <inheritdoc cref="" />
     /// <summary>

@@ -4,13 +4,13 @@ using MediaPlayer.Common.Enumerations;
 using MediaPlayer.MetadataReaders.Abstract;
 using TagLib;
 
-namespace MediaPlayer.Common.Metadata_Readers.Derived
+namespace MediaPlayer.MetadataReaders.Derived
 {
     public class TaglibMetadataReaderProvider : MetadataReaderProvider
     {
         #region Properties
 
-        public override Enumerations.MetadataReaders MetadataReader => Common.Enumerations.MetadataReaders.Taglib;
+        public override Common.Enumerations.MetadataReaders MetadataReader => Common.Enumerations.MetadataReaders.Taglib;
 
         #endregion
 

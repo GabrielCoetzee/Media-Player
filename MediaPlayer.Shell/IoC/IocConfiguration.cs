@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MediaPlayer.ApplicationSettings.Interfaces;
-using MediaPlayer.Common.Metadata_Readers.Derived;
 using MediaPlayer.MetadataReaders.Abstract;
+using MediaPlayer.MetadataReaders.Derived;
 using Ninject.Modules;
 
 namespace MediaPlayer.Shell.IoC

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace MediaPlayer.Converters
+namespace MediaPlayer.View.Converters
 {
     public class BooleanToVisibleOrHiddenInverseConverter : IValueConverter
     {

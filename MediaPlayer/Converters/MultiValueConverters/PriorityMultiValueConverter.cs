@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace MediaPlayer.Converters
+namespace MediaPlayer.View.Converters
 {
     public class PriorityMultiValueConverter : IMultiValueConverter
     {
@@ -14,7 +14,7 @@ namespace MediaPlayer.Converters
             var value = values.FirstOrDefault(o => (o != null && o != DependencyProperty.UnsetValue));
 
             if (value is string)
-                return new BitmapImage(new Uri($"../../Resources/Default_AlbumArt/{value}.png", UriKind.Relative));
+                return new BitmapImage(new Uri($"../Resources/Default_AlbumArt/{value}.png", UriKind.Relative));
 
             if (value is byte[])
                 return ToImage((byte[])value);

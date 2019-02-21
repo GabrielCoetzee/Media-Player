@@ -12,13 +12,12 @@ using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MediaPlayer.ApplicationSettings.Interfaces;
 using MediaPlayer.BusinessEntities.Objects.Abstract;
-using MediaPlayer.Common.Enumerations;
 using MediaPlayer.MetadataReaders;
 using MediaPlayer.MetadataReaders.Abstract;
-using MediaPlayer.MVVM.ViewModels;
+using MediaPlayer.ViewModel;
 using Ninject;
 
-namespace MediaPlayer.MVVM.Views
+namespace MediaPlayer.View.Views
 {
     /// <inheritdoc cref="" />
     /// <summary>
@@ -101,7 +100,7 @@ namespace MediaPlayer.MVVM.Views
             if (!(DataContext is ViewModelMediaPlayer vm))
                 return;
 
-            vm.ModelMediaPlayer.IsLoadingMediaItems = true;
+            vm.SetIsLoadingMediaItems(true);
 
             var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
 
@@ -137,7 +136,6 @@ namespace MediaPlayer.MVVM.Views
         {
             this.MediaElement.Position = seekToPosition;
         }
-
 
         private void LoadTheme(string accentName)
         {
@@ -191,7 +189,8 @@ namespace MediaPlayer.MVVM.Views
                 return;
 
             vm.AddToMediaList(mediaItems);
-            vm.ModelMediaPlayer.IsLoadingMediaItems = false;
+
+            vm.SetIsLoadingMediaItems(false);
         }
 
         #endregion
@@ -222,7 +221,6 @@ namespace MediaPlayer.MVVM.Views
     public class MediaItemProcessingArguments
     {
         public MetadataReaderProvider MetadataReaderProvider { get; set; }
-
         public IEnumerable FilePaths { get; set; }
     }
 }

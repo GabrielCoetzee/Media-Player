@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using MediaPlayer.BusinessEntities.Objects.Abstract;
 
-namespace MediaPlayer.Converters
+namespace MediaPlayer.View.Converters
 {
     public class MediaItemSelectedToVisibilityConverter : IValueConverter
     {

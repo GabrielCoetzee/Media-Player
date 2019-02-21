@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace MediaPlayer.Converters
+namespace MediaPlayer.View.Converters
 {
     public class PlayPauseButtonBackgroundConverter : IValueConverter
     {

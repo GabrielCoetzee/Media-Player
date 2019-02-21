@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using MediaPlayer.ApplicationSettings.Interfaces;
@@ -12,14 +11,14 @@ using MediaPlayer.BusinessEntities.Objects.Abstract;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Generic.Commands;
 using MediaPlayer.Generic.Mediator;
-using MediaPlayer.Generic.Window_Service.Interface_Implementations;
 using MediaPlayer.MetadataReaders;
-using MediaPlayer.MVVM.Models;
-using MediaPlayer.MVVM.Views;
+using MediaPlayer.Model;
 using Ninject;
+using System.Windows.Forms;
 using ListBox = System.Windows.Controls.ListBox;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
-namespace MediaPlayer.MVVM.ViewModels
+namespace MediaPlayer.ViewModel
 {
     public class ViewModelMediaPlayer : INotifyPropertyChanged
     {
@@ -482,6 +481,11 @@ namespace MediaPlayer.MVVM.ViewModels
             PlayMedia();
 
             RefreshUIBindings();
+        }
+
+        public void SetIsLoadingMediaItems(bool isLoadingMediaItems)
+        {
+            ModelMediaPlayer.IsLoadingMediaItems = isLoadingMediaItems;
         }
 
         #endregion

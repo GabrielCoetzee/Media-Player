@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AFF319F3-32E1-4636-865E-F43AC339219E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MediaPlayer</RootNamespace>
-    <AssemblyName>MediaPlayer</AssemblyName>
+    <RootNamespace>MediaPlayer.View</RootNamespace>
+    <AssemblyName>MediaPlayer.View</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -71,12 +71,6 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -99,11 +93,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MVVM\Views\ViewApplicationSettings.xaml">
+    <Page Include="Views\ViewApplicationSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MVVM\Views\ViewMediaPlayer.xaml">
+    <Page Include="Views\ViewMediaPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -118,12 +112,10 @@
     <Compile Include="Converters\SingleValueConverters\MediaItemSelectedToVisibilityConverter.cs" />
     <Compile Include="Converters\SingleValueConverters\MediaVolumeConverter.cs" />
     <Compile Include="Converters\SingleValueConverters\PlayPauseButtonBackgroundConverter.cs" />
-    <Compile Include="MVVM\Views\ViewApplicationSettings.xaml.cs">
+    <Compile Include="Views\ViewApplicationSettings.xaml.cs">
       <DependentUpon>ViewApplicationSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MVVM\Models\ModelMediaPlayer.cs" />
-    <Compile Include="MVVM\ViewModels\ViewModelMediaPlayer.cs" />
-    <Compile Include="MVVM\Views\ViewMediaPlayer.xaml.cs">
+    <Compile Include="Views\ViewMediaPlayer.xaml.cs">
       <DependentUpon>ViewMediaPlayer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -278,6 +270,10 @@
     <ProjectReference Include="..\MediaPlayer.MetadataReaders\MediaPlayer.MetadataReaders.csproj">
       <Project>{F440BA23-1A79-4DA6-A935-C3C669E053D1}</Project>
       <Name>MediaPlayer.MetadataReaders</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaPlayer.ViewModel\MediaPlayer.ViewModel.csproj">
+      <Project>{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E}</Project>
+      <Name>MediaPlayer.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

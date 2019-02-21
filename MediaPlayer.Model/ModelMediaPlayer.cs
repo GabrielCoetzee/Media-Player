@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Controls;
-using MediaPlayer.Annotations;
 using MediaPlayer.BusinessEntities.Collections.Derived;
 using MediaPlayer.BusinessEntities.Objects.Abstract;
 using MediaPlayer.Common.Enumerations;
 
-namespace MediaPlayer.MVVM.Models
+namespace MediaPlayer.Model
 {
     public class ModelMediaPlayer : INotifyPropertyChanged
     {
@@ -39,7 +38,6 @@ namespace MediaPlayer.MVVM.Models
 
         #region Properties
 
-        [CanBeNull]
         public MediaItem SelectedMediaItem
         {
             get => _selectedMediaItem;

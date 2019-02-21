@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 
-namespace MediaPlayer.Converters
+namespace MediaPlayer.View.Converters
 {
     public class RowHeightSumMultiValueConverter : IMultiValueConverter
     {

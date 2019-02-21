@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using MediaPlayer.BusinessEntities.Objects.Abstract;
 
-namespace MediaPlayer.Converters
+namespace MediaPlayer.View.Converters
 {
     public class MediaItemSelectedToEnabledConverter : IValueConverter
     {

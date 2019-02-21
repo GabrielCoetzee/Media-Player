@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using MediaPlayer.Common.Enumerations;
 
-namespace MediaPlayer.Converters
+namespace MediaPlayer.View.Converters
 {
     public class MediaVolumeConverter : IValueConverter
     {
