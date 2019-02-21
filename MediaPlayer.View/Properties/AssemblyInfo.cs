@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MediaPlayer")]
+[assembly: AssemblyTitle("MediaPlayer.View")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("rg-adguard")]
-[assembly: AssemblyProduct("MediaPlayer")]
+[assembly: AssemblyProduct("MediaPlayer.View")]
 [assembly: AssemblyCopyright("Copyright © rg-adguard 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
