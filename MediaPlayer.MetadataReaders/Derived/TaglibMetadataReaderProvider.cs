@@ -62,7 +62,8 @@ namespace MediaPlayer.MetadataReaders.Derived
             }
             catch (CorruptFileException)
             {
-                var audioItem = new AudioItemBuilder(path).Build();
+                var audioItem = new AudioItemBuilder(path)
+                    .Build();
 
                 return audioItem;
             }

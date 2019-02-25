@@ -454,21 +454,6 @@ namespace MediaPlayer.ViewModel
         #endregion
 
         #region Public Methods
-        public void AddToMediaList(IEnumerable<string> files)
-        {
-            var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
-
-            foreach (var file in files)
-            {
-                ModelMediaPlayer.MediaList.Add(metadataReader.GetFileMetadata(file));
-            }
-
-            if (ModelMediaPlayer.SelectedMediaItem != null || ModelMediaPlayer.MediaList.Count <= 0)
-                return;
-
-            SelectMediaItem(GetFirstMediaItemIndex());
-            PlayMedia();
-        }
 
         public void AddToMediaList(IEnumerable<MediaItem> mediaItems)
         {
@@ -592,15 +577,15 @@ namespace MediaPlayer.ViewModel
                 SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
             }
 
-            if (IsEndOfCurrentMedia(mediaElement))
-            {
-                if (NextTrackCommand_CanExecute())
-                {
-                    NextTrackCommand_Execute();
-                }
+            if (!IsEndOfCurrentMedia(mediaElement))
+                return;
 
-                RefreshUIBindings();
+            if (NextTrackCommand_CanExecute())
+            {
+                NextTrackCommand_Execute();
             }
+
+            RefreshUIBindings();
         }
 
         private void SetAccurateCurrentMediaDuration(TimeSpan mediaDuration)

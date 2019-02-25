@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -34,20 +35,13 @@ namespace MediaPlayer.View.Views
 
         #endregion
 
-        #region Properties
-
-        private BackgroundWorker _backgroundThread;
-        
-        #endregion
-
         #region Constructor
 
         [Inject]
         public ViewMediaPlayer(ViewModelMediaPlayer vm)
         {
-            InitializeComponent();
-            InitializeViewModel(vm);
-            InitializeMediaListProcessingThread();
+            this.InitializeComponent();
+            this.InitializeViewModel(vm);
 
             this.AllowsTransparency = true;
         }
@@ -61,22 +55,15 @@ namespace MediaPlayer.View.Views
             DataContext = vm;
         }
 
-        private void InitializeMediaListProcessingThread()
-        {
-            _backgroundThread = new BackgroundWorker();
-
-            _backgroundThread.DoWork += ProcessDroppedContent;
-            _backgroundThread.RunWorkerCompleted += Completed;
-        }
-
         #endregion
 
         #region UI Event Handlers
 
         private void SeekBar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            var pointerLocation = (e.GetPosition(SeekBar).X / SeekBar.ActualWidth) * (SeekBar.Maximum - SeekBar.Minimum);
-            SeekMediaPosition(TimeSpan.FromSeconds(pointerLocation));
+            var pointerLocation = (e.GetPosition(this.SeekBar).X / SeekBar.ActualWidth) * (SeekBar.Maximum - SeekBar.Minimum);
+
+            this.SeekMediaPosition(TimeSpan.FromSeconds(pointerLocation));
         }
 
         private void TopMostGrid_DragEnter(object sender, DragEventArgs e)
@@ -84,45 +71,46 @@ namespace MediaPlayer.View.Views
             e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Move : DragDropEffects.None;
         }
 
-        private void TopMostGrid_Drop(object sender, DragEventArgs e)
+        private async void TopMostGrid_Drop(object sender, DragEventArgs e)
         {
+            if (!(DataContext is ViewModelMediaPlayer vm))
+                return;
+
             var droppedContent = ((IEnumerable)e.Data.GetData(DataFormats.FileDrop));
 
             if (droppedContent == null)
                 return;
 
-            ProcessDroppedFilesAndFolders(droppedContent);
-        }
-    
-        private void ProcessDroppedFilesAndFolders(IEnumerable droppedContent)
-        {
-            if (!(DataContext is ViewModelMediaPlayer vm))
-                return;
-
             vm.SetIsLoadingMediaItems(true);
 
-            _backgroundThread.RunWorkerAsync(new MediaItemProcessingArguments() { FilePaths = droppedContent });
+            var mediaItems = await ProcessDroppedContentAsync(droppedContent);
+
+            vm.AddToMediaList(mediaItems);
+
+            vm.SetIsLoadingMediaItems(false);
+
         }
 
         private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             MediaListBox.ScrollIntoView(MediaListBox.SelectedItem);
-            FocusOnPlayPauseButton();
+
+            this.FocusOnPlayPauseButton();
         }
 
         private void MetroWindow_Activated(object sender, EventArgs e)
         {
-            LoadTheme(ApplicationSettings.SelectedTheme);
+            this.LoadTheme(ApplicationSettings.SelectedTheme);
         }
 
         private void LyricsExpander_Collapsed(object sender, RoutedEventArgs e)
         {
-            FocusOnPlayPauseButton();
+            this.FocusOnPlayPauseButton();
         }
 
         private void LyricsExpander_Expanded(object sender, RoutedEventArgs e)
         {
-            FocusOnPlayPauseButton();
+            this.FocusOnPlayPauseButton();
         }
 
         #endregion
@@ -148,48 +136,37 @@ namespace MediaPlayer.View.Views
 
         #region Background Thread - File Processing
 
-        private void ProcessDroppedContent(object o, DoWorkEventArgs args)
+        private async Task<IEnumerable<MediaItem>> ProcessDroppedContentAsync(IEnumerable filePaths)
         {
-            if (!(args.Argument is MediaItemProcessingArguments mediaItemArgs))
-                return;
-
-            var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
-
             var supportedFiles = new List<MediaItem>();
 
-            foreach (var path in mediaItemArgs.FilePaths)
+            await Task.Run(() =>
             {
-                bool isFolder = !Path.HasExtension(path.ToString());
+                var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
 
-                if (isFolder)
+                foreach (var path in filePaths)
                 {
-                    supportedFiles.AddRange(Directory.EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
-                        .Where(file => ApplicationSettings.SupportedFormats.Any(file.ToLower().EndsWith))
-                        .Select((x) => metadataReader.GetFileMetadata(x))
-                        .ToList());
+                    var isFolder = !Path.HasExtension(path.ToString());
+
+                    if (isFolder)
+                    {
+                        supportedFiles.AddRange(Directory
+                            .EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
+                            .Where(file => ApplicationSettings.SupportedFormats.Any(file.ToLower().EndsWith))
+                            .Select((x) => metadataReader.GetFileMetadata(x))
+                            .ToList());
+                    }
+                    else
+                    {
+                        if (ApplicationSettings.SupportedFormats.Any(x =>
+                            x.ToLower().Equals(Path.GetExtension(path.ToString().ToLower()))))
+                            supportedFiles.Add(metadataReader.GetFileMetadata(path.ToString()));
+                    }
+
                 }
-                else
-                {
-                    if (ApplicationSettings.SupportedFormats.Any(x => x.ToLower().Equals(Path.GetExtension(path.ToString().ToLower()))))
-                        supportedFiles.Add(metadataReader.GetFileMetadata(path.ToString()));
-                }
+            });
 
-            }
-
-            args.Result = supportedFiles;
-        }
-
-        private void Completed(object o, RunWorkerCompletedEventArgs args)
-        {
-            if (!(DataContext is ViewModelMediaPlayer vm))
-                return;
-
-            if (!(args.Result is List<MediaItem> mediaItems))
-                return;
-
-            vm.AddToMediaList(mediaItems);
-
-            vm.SetIsLoadingMediaItems(false);
+            return supportedFiles;
         }
 
         #endregion
@@ -215,10 +192,5 @@ namespace MediaPlayer.View.Views
             button.Height = button.ActualHeight;
             button.Width = button.ActualWidth;
         }
-    }
-
-    public class MediaItemProcessingArguments
-    {
-        public IEnumerable FilePaths { get; set; }
     }
 }
