@@ -153,14 +153,14 @@ namespace MediaPlayer.View.Views
                         supportedFiles.AddRange(Directory
                             .EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
                             .Where(file => ApplicationSettings.SupportedFormats.Any(file.ToLower().EndsWith))
-                            .Select((x) => metadataReader.GetFileMetadata(x))
-                            .ToList());
+                            .Select((x) => metadataReader.GetFileMetadata(x)));
                     }
                     else
                     {
-                        if (ApplicationSettings.SupportedFormats.Any(x =>
-                            x.ToLower().Equals(Path.GetExtension(path.ToString().ToLower()))))
+                        if (ApplicationSettings.SupportedFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
+                        {
                             supportedFiles.Add(metadataReader.GetFileMetadata(path.ToString()));
+                        }
                     }
 
                 }
