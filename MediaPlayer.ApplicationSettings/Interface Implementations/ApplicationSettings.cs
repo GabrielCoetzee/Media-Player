@@ -8,14 +8,14 @@ namespace MediaPlayer.ApplicationSettings.Interface_Implementations
 {
     public class ApplicationSettings : IExposeApplicationSettings
     {
-        private string _selectedTheme = Settings.Properties.Settings.Default[nameof(SelectedTheme)].ToString();
-        private decimal _opacity = (decimal)Settings.Properties.Settings.Default[nameof(Opacity)];
+        private string _selectedTheme = Properties.Settings.Default[nameof(SelectedTheme)].ToString();
+        private decimal _opacity = (decimal)Properties.Settings.Default[nameof(Opacity)];
 
         public string[] SupportedFormats
         {
             get
             {
-                var supportedFormats = (StringCollection)Settings.Properties.Settings.Default[nameof(SupportedFormats)];
+                var supportedFormats = (StringCollection)Properties.Settings.Default[nameof(SupportedFormats)];
 
                 return supportedFormats.Cast<string>().ToArray<string>();
             }
@@ -44,10 +44,10 @@ namespace MediaPlayer.ApplicationSettings.Interface_Implementations
 
         public void SaveSettings()
         {
-            Settings.Properties.Settings.Default[nameof(SelectedTheme)] = _selectedTheme;
-            Settings.Properties.Settings.Default[nameof(Opacity)] = _opacity;
+            Properties.Settings.Default[nameof(SelectedTheme)] = _selectedTheme;
+            Properties.Settings.Default[nameof(Opacity)] = _opacity;
 
-            Settings.Properties.Settings.Default.Save();
+            Properties.Settings.Default.Save();
         }
     }
 }

@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MediaPlayer.MetadataReaders</RootNamespace>
     <AssemblyName>MediaPlayer.MetadataReaders</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,9 +57,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MediaPlayer.BusinessEntities\MediaPlayer.BusinessEntities.csproj">
       <Project>{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}</Project>
       <Name>MediaPlayer.BusinessEntities</Name>
@@ -67,6 +65,9 @@
       <Project>{78242237-ECF6-4144-A726-07412F1E3FAE}</Project>
       <Name>MediaPlayer.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
