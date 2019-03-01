@@ -29,7 +29,7 @@ namespace MediaPlayer.Model
         private MediaState _mediaState;
         private VolumeLevel _mediaVolume;
         private double _elapsedTime;
-        private bool _isDraggingSeekbarThumb = false;
+        private bool _isDraggingSeekbarThumb;
         private string _elapsedTimeFormatted;
         private bool _isRepeatMediaListEnabled;
         private bool _isShuffled;

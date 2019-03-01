@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Settings" MinHeight="250" MinWidth="300" Height="250" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="MetroWindow_Loaded">
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="Black" Opacity="{Binding Opacity}"/>
+        <SolidColorBrush Color="Black" Opacity="{Binding ModelApplicationSettings.Opacity}"/>
     </Controls:MetroWindow.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -37,10 +37,10 @@
                     </Grid.RowDefinitions>
                     
                     <Label Grid.Column="0" Grid.Row="2" Content="Opacity :" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Value="{Binding Opacity, Mode=TwoWay}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="1" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.0" Maximum="1.0" Ticks="0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0" TickFrequency="0.1" />
+                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Value="{Binding ModelApplicationSettings.Opacity, Mode=TwoWay}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="1" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.0" Maximum="1.0" Ticks="0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0" TickFrequency="0.1" />
 
                     <Label Grid.Column="0" Grid.Row="0" Content="Themes :" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" />
+                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding ModelApplicationSettings.SelectedTheme, Mode=TwoWay}" />
 
                     <Button x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource AccentColorBrush}" Content="Close" Click="ButtonCloseSettings_Click" />
                 </Grid>

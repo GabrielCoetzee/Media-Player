@@ -2,7 +2,7 @@
 using System.Windows;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.ApplicationSettings.Interfaces;
+using MediaPlayer.ViewModel;
 using Ninject;
 
 namespace MediaPlayer.View.Views
@@ -14,7 +14,7 @@ namespace MediaPlayer.View.Views
     public partial class ViewApplicationSettings : MetroWindow
     {
         [Inject]
-        public ViewApplicationSettings(IExposeApplicationSettings vm)
+        public ViewApplicationSettings(ViewModelApplicationSettings vm)
         {
             InitializeComponent();
 
@@ -36,10 +36,10 @@ namespace MediaPlayer.View.Views
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (!(DataContext is IExposeApplicationSettings settings))
+            if (!(DataContext is ViewModelApplicationSettings vm))
                 return;
 
-            settings.SaveSettings();
+            vm.SettingsProvider.SaveSettings();
 
             base.OnClosing(e);
         }

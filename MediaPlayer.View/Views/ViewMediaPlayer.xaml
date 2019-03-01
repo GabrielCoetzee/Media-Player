@@ -17,7 +17,7 @@
         <KeyBinding Command="{Binding PlayPauseCommand}" Key="Space"/>
     </Window.InputBindings>
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="Black" Opacity="{Binding ApplicationSettings.Opacity}"/>
+        <SolidColorBrush Color="Black" Opacity="{Binding SettingsProvider.Opacity}"/>
     </Controls:MetroWindow.Background>
 
     <Controls:MetroWindow.RightWindowCommands>
@@ -169,7 +169,7 @@
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource PriorityMultiValueConverter}">
                             <Binding Path="ModelMediaPlayer.SelectedMediaItem.AlbumArt"  />
-                            <Binding Path="ApplicationSettings.SelectedTheme" />
+                            <Binding Path="SettingsProvider.SelectedTheme" />
                         </MultiBinding>
                     </Image.Source>
                 </Image>

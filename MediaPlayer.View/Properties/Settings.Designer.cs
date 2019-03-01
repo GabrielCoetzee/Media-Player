@@ -59,7 +59,7 @@ namespace MediaPlayer.View.Properties {
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection SupportedFormats {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["SupportedFormats"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["SupportedFileFormats"]));
             }
         }
     }

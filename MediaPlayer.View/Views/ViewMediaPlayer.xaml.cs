@@ -11,7 +11,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.ApplicationSettings.Interfaces;
+using MediaPlayer.ApplicationSettings.Settings_Provider;
 using MediaPlayer.BusinessEntities.Objects.Abstract;
 using MediaPlayer.MetadataReaders;
 using MediaPlayer.ViewModel;
@@ -28,7 +28,7 @@ namespace MediaPlayer.View.Views
         #region Injected Properties
 
         [Inject]
-        public IExposeApplicationSettings ApplicationSettings { get; set; }
+        public ISettingsProvider SettingsProvider { get; set; }
 
         [Inject]
         public MetadataReaderProviderResolver MetadataReaderProviderResolver { get; set; }
@@ -100,7 +100,7 @@ namespace MediaPlayer.View.Views
 
         private void MetroWindow_Activated(object sender, EventArgs e)
         {
-            this.LoadTheme(ApplicationSettings.SelectedTheme);
+            this.LoadTheme(this.SettingsProvider.SelectedTheme);
         }
 
         private void LyricsExpander_Collapsed(object sender, RoutedEventArgs e)
@@ -143,6 +143,7 @@ namespace MediaPlayer.View.Views
             await Task.Run(() =>
             {
                 var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
+                var supportedFileFormats = this.SettingsProvider.SupportedFileFormats;
 
                 foreach (var path in filePaths)
                 {
@@ -152,12 +153,12 @@ namespace MediaPlayer.View.Views
                     {
                         supportedFiles.AddRange(Directory
                             .EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
-                            .Where(file => ApplicationSettings.SupportedFormats.Any(file.ToLower().EndsWith))
+                            .Where(file => supportedFileFormats.Any(file.ToLower().EndsWith))
                             .Select((x) => metadataReader.GetFileMetadata(x)));
                     }
                     else
                     {
-                        if (ApplicationSettings.SupportedFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
+                        if (supportedFileFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
                         {
                             supportedFiles.Add(metadataReader.GetFileMetadata(path.ToString()));
                         }

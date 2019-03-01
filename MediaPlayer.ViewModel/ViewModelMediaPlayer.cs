@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using MediaPlayer.ApplicationSettings.Interfaces;
 using MediaPlayer.BusinessEntities.Collections.Derived;
 using MediaPlayer.BusinessEntities.Objects.Abstract;
 using MediaPlayer.Common.Enumerations;
@@ -15,6 +14,7 @@ using MediaPlayer.MetadataReaders;
 using MediaPlayer.Model;
 using Ninject;
 using System.Windows.Forms;
+using MediaPlayer.ApplicationSettings.Settings_Provider;
 using ListBox = System.Windows.Controls.ListBox;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
@@ -25,7 +25,7 @@ namespace MediaPlayer.ViewModel
         #region Injected Properties
 
         [Inject]
-        public IExposeApplicationSettings ApplicationSettings { get; set; }
+        public ISettingsProvider SettingsProvider { get; set; }
 
         [Inject]
         public MetadataReaderProviderResolver MetadataReaderProviderResolver { get; set; }
@@ -236,7 +236,12 @@ namespace MediaPlayer.ViewModel
 
         private void InitializeModelInstance()
         {
-            ModelMediaPlayer = new ModelMediaPlayer() { MediaList = new MediaItemObservableCollection(), MediaState = MediaState.Pause, MediaVolume = VolumeLevel.Full};
+            ModelMediaPlayer = new ModelMediaPlayer()
+            {
+                MediaList = new MediaItemObservableCollection(),
+                MediaState = MediaState.Pause,
+                MediaVolume = VolumeLevel.Full
+            };
         }
 
         private void InitializeCommands()
@@ -380,7 +385,7 @@ namespace MediaPlayer.ViewModel
             var chooseFiles = new OpenFileDialog
             {
                 Title = "Choose Files",
-                DefaultExt = ApplicationSettings.SupportedFormats.First(),
+                DefaultExt = this.SettingsProvider.SupportedFileFormats.First(),
                 Filter = CreateDialogFilter(),
                 Multiselect = true
             };
@@ -489,7 +494,7 @@ namespace MediaPlayer.ViewModel
 
         private string AppendSupportedFormats(string seperator)
         {
-            return ApplicationSettings.SupportedFormats.Aggregate(string.Empty, (current, format) => current + $"*{format}{(ApplicationSettings.SupportedFormats.Last() != format ? seperator : string.Empty)}");
+            return this.SettingsProvider.SupportedFileFormats.Aggregate(string.Empty, (current, format) => current + $"*{format}{(this.SettingsProvider.SupportedFileFormats.Last() != format ? seperator : string.Empty)}");
         }
 
         private void PlayMedia()
