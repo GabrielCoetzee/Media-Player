@@ -204,11 +204,6 @@
     <Resource Include="Resources\Icon\Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\External_DLL\taglib-sharp.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.2 %28x86 and x64%29</ProductName>

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
@@ -23,10 +24,7 @@ namespace MediaPlayer.View.Views
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (var accent in ThemeManager.Accents)
-            {
-                ComboBoxAccents.Items.Add(accent.Name);
-            }
+            ThemeManager.Accents.ToList().ForEach(accent => ComboBoxAccents.Items.Add(accent.Name));
         }
 
         private void ButtonCloseSettings_Click(object sender, RoutedEventArgs e)
