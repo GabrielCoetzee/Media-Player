@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -88,7 +87,6 @@ namespace MediaPlayer.View.Views
             vm.AddToMediaList(mediaItems);
 
             vm.SetIsLoadingMediaItems(false);
-
         }
 
         private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

@@ -398,6 +398,7 @@ namespace MediaPlayer.ViewModel
             var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
 
             var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
+
             AddToMediaList(mediaItems);
         }
 
