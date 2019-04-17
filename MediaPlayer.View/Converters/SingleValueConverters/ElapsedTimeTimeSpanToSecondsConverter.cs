@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
-using MediaPlayer.BusinessEntities.Objects.Abstract;
 
 namespace MediaPlayer.View.Converters
 {
-    public class MediaItemSelectedToVisibilityConverter : IValueConverter
+    internal class ElapsedTimeTimeSpanToSecondsConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is MediaItem mediaItem)
+            if (value is TimeSpan)
             {
-                return mediaItem != null ? Visibility.Visible : Visibility.Hidden;
+                var val = value is TimeSpan ? (TimeSpan) value : new TimeSpan();
+
+                return val.TotalSeconds;
             }
 
-            return Visibility.Hidden;
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value is double)
+            {
+                return TimeSpan.FromSeconds((double)value);
+            }
+
             return null;
         }
     }

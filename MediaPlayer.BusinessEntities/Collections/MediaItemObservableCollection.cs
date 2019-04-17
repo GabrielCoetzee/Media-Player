@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MediaPlayer.BusinessEntities.Collections.Abstract;
-using MediaPlayer.BusinessEntities.Objects.Abstract;
+using MediaPlayer.BusinessEntities.Objects.Base;
+using MediaPlayer.Generic.Collections;
 
-namespace MediaPlayer.BusinessEntities.Collections.Derived
+namespace MediaPlayer.BusinessEntities.Collections
 {
     /// <inheritdoc />
     /// <summary>
@@ -24,14 +24,14 @@ namespace MediaPlayer.BusinessEntities.Collections.Derived
         {
             base.AddRange(list);
 
-            this.SetMediaItemIds();
+            this.SetMediaItemIds(this.Items);
         }
 
-        private void SetMediaItemIds()
+        private void SetMediaItemIds(IEnumerable<MediaItem> mediaItems)
         {
-            foreach (var mediaItem in Items)
+            foreach (var mediaItem in mediaItems)
             {
-                mediaItem.Id = IndexOf(mediaItem);
+                mediaItem.Id = this.IndexOf(mediaItem);
             }
         }
     }

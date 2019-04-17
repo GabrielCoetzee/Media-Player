@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace MediaPlayer.View.Converters
 {
-    public class BooleanToVisibleOrHiddenInverseConverter : IValueConverter
+    internal class BooleanToVisibleOrHiddenInverseConverter : IValueConverter
     {
         private readonly BooleanToVisibilityConverter _converter = new BooleanToVisibilityConverter();
 

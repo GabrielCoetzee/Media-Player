@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls;
-using MediaPlayer.BusinessEntities.Collections.Derived;
-using MediaPlayer.BusinessEntities.Objects.Abstract;
+using MediaPlayer.BusinessEntities.Collections;
+using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.Common.Enumerations;
 
 namespace MediaPlayer.Model
@@ -22,17 +23,17 @@ namespace MediaPlayer.Model
 
         #region Fields
 
+        private readonly Random _randomIdGenerator = new Random();
+
         private MediaItem _selectedMediaItem;
+        private MediaItemObservableCollection _mediaItems;
         private bool _isLoadingMediaItems;
-        private MediaItemObservableCollection _mediaList;
         private TimeSpan _mediaPosition;
         private MediaState _mediaState;
         private VolumeLevel _mediaVolume;
-        private double _elapsedTime;
-        private bool _isDraggingSeekbarThumb;
-        private string _elapsedTimeFormatted;
-        private bool _isRepeatMediaListEnabled;
-        private bool _isShuffled;
+        private bool _isUserDraggingSeekbarThumb;
+        private bool _isRepeatEnabled;
+        private bool _isMediaItemsShuffled;
 
         #endregion
 
@@ -48,6 +49,16 @@ namespace MediaPlayer.Model
             }
         }
 
+        public MediaItemObservableCollection MediaItems
+        {
+            get => _mediaItems;
+            set
+            {
+                _mediaItems = value;
+                OnPropertyChanged(nameof(MediaItems));
+            }
+        }
+
         public bool IsLoadingMediaItems
         {
             get => _isLoadingMediaItems;
@@ -58,24 +69,13 @@ namespace MediaPlayer.Model
             }
         }
 
-        public MediaItemObservableCollection MediaList
-        {
-            get => _mediaList;
-            set
-            {
-                _mediaList = value;
-                OnPropertyChanged(nameof(MediaList));
-            }
-        }
-
         public TimeSpan MediaPosition
         {
             set
             {
                 _mediaPosition = value;
 
-                ElapsedTime = _mediaPosition.TotalSeconds;
-                ElapsedTimeFormatted = $"{_mediaPosition.Minutes:00}:{_mediaPosition.Seconds:00;00}";
+                this.SelectedMediaItem.ElapsedTime = _mediaPosition;
 
                 OnPropertyChanged(nameof(MediaPosition));
             }
@@ -101,58 +101,151 @@ namespace MediaPlayer.Model
             }
         }
 
-        public double ElapsedTime
+        public bool IsUserDraggingSeekbarThumb
         {
-            get => _elapsedTime;
+            get => _isUserDraggingSeekbarThumb;
             set
             {
-                _elapsedTime = value;
-                OnPropertyChanged(nameof(ElapsedTime));
+                _isUserDraggingSeekbarThumb = value;
+                OnPropertyChanged(nameof(IsUserDraggingSeekbarThumb));
             }
         }
 
-        public string ElapsedTimeFormatted
+        public bool IsRepeatEnabled
         {
-            get => _elapsedTimeFormatted;
+            get => _isRepeatEnabled;
             set
             {
-                _elapsedTimeFormatted = value;
-                OnPropertyChanged(nameof(ElapsedTimeFormatted));
+                _isRepeatEnabled = value;
+                OnPropertyChanged(nameof(IsRepeatEnabled));
             }
         }
 
-        public bool IsDraggingSeekbarThumb
+        public bool IsMediaItemsShuffled
         {
-            get => _isDraggingSeekbarThumb;
+            get => _isMediaItemsShuffled;
             set
             {
-                _isDraggingSeekbarThumb = value;
-                OnPropertyChanged(nameof(IsDraggingSeekbarThumb));
+                _isMediaItemsShuffled = value;
+                OnPropertyChanged(nameof(IsMediaItemsShuffled));
             }
         }
-
-        public bool IsRepeatMediaListEnabled
-        {
-            get => _isRepeatMediaListEnabled;
-            set
-            {
-                _isRepeatMediaListEnabled = value;
-                OnPropertyChanged(nameof(IsRepeatMediaListEnabled));
-            }
-        }
-
-        public bool IsShuffled
-        {
-            get => _isShuffled;
-            set
-            {
-                _isShuffled = value;
-                OnPropertyChanged(nameof(IsShuffled));
-            }
-        }
-
 
         #endregion
 
+        #region Model Business Logic
+
+        public bool IsMediaListEmpty()
+        {
+            return this.MediaItems.Count <= 0;
+        }
+
+        public void PlayMedia()
+        {
+            this.MediaState = MediaState.Play;
+        }
+
+        public void PauseMedia()
+        {
+            this.MediaState = MediaState.Pause;
+        }
+
+        public void StopMedia()
+        {
+            this.MediaState = MediaState.Stop;
+        }
+
+        public void SelectMediaItem(int index)
+        {
+            this.SelectedMediaItem = this.MediaItems[index];
+        }
+
+        public bool IsPreviousMediaItemAvailable()
+        {
+            return (!this.IsMediaListEmpty()) && this.MediaItems.Any(x => this.MediaItems.IndexOf(x) == this.MediaItems.IndexOf(this.SelectedMediaItem) - 1);
+        }
+        public bool IsNextMediaItemAvailable()
+        {
+            return (!this.IsMediaListEmpty()) && this.MediaItems.Any(x => this.MediaItems.IndexOf(x) == this.MediaItems.IndexOf(this.SelectedMediaItem) + 1);
+        }
+
+        public int GetPreviousMediaItemIndex()
+        {
+            return this.MediaItems.IndexOf(this.SelectedMediaItem) - 1;
+        }
+
+        public int GetNextMediaItemIndex()
+        {
+            return this.MediaItems.IndexOf(this.SelectedMediaItem) + 1;
+        }
+
+        public int GetFirstMediaItemIndex()
+        {
+            return this.MediaItems.IndexOf(this.MediaItems.First());
+        }
+
+        public int GetLastMediaItemIndex()
+        {
+            return this.MediaItems.IndexOf(this.MediaItems.Last());
+        }
+
+        public bool IsFirstMediaItemSelected()
+        {
+            return this.MediaItems.IndexOf(this.SelectedMediaItem) == this.MediaItems.IndexOf(this.MediaItems.First());
+        }
+
+        public bool IsLastMediaItemSelected()
+        {
+            return this.MediaItems.IndexOf(this.SelectedMediaItem) == this.MediaItems.IndexOf(this.MediaItems.Last());
+        }
+
+        public void SetAccurateCurrentMediaDuration(TimeSpan mediaDuration)
+        {
+            this.SelectedMediaItem.MediaDuration = mediaDuration;
+        }
+
+        public bool IsEndOfCurrentMedia(TimeSpan elapsedTime)
+        {
+            return elapsedTime == this.SelectedMediaItem.MediaDuration;
+        }
+
+        public bool IsCurrentMediaDurationAccurate(TimeSpan mediaElementNaturalDuration)
+        {
+            return this.SelectedMediaItem?.MediaDuration == mediaElementNaturalDuration;
+        }
+
+        public void PlayPreviousMediaItem()
+        {
+            if (this.IsRepeatEnabled && this.IsFirstMediaItemSelected())
+                this.SelectMediaItem(this.GetLastMediaItemIndex());
+            else
+                this.SelectMediaItem(this.GetPreviousMediaItemIndex());
+
+            this.PlayMedia();
+        }
+
+        public void PlayNextMediaItem()
+        {
+            if (this.IsRepeatEnabled && this.IsLastMediaItemSelected())
+                this.SelectMediaItem(this.GetFirstMediaItemIndex());
+            else
+                this.SelectMediaItem(this.GetNextMediaItemIndex());
+
+            this.PlayMedia();
+        }
+
+        public void OrderMediaList()
+        {
+            this.MediaItems = new MediaItemObservableCollection(this.MediaItems.OrderBy(x => x.Id));
+        }
+
+        public void ShuffleMediaList()
+        {
+            this.MediaItems = new MediaItemObservableCollection(this.MediaItems
+                .OrderBy(x => x != this.SelectedMediaItem)
+                .ThenBy(x => _randomIdGenerator.Next()));
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿using MediaPlayer.BusinessEntities.Objects.Abstract;
+﻿using MediaPlayer.BusinessEntities.Objects.Base;
 
 namespace MediaPlayer.BusinessEntities.Objects.Derived
 {

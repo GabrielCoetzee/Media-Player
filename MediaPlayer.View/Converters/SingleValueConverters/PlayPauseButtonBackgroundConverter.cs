@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace MediaPlayer.View.Converters
 {
-    public class PlayPauseButtonBackgroundConverter : IValueConverter
+    internal class PlayPauseButtonBackgroundConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -25,13 +25,7 @@ namespace MediaPlayer.View.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is MediaState mediaState)
-            {
-                if (mediaState == MediaState.Pause)
-                    return Application.Current.MainWindow?.Resources["ResourcePlayButtonImage"] as ImageBrush;
-            }
-
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

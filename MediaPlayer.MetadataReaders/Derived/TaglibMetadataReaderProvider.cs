@@ -1,4 +1,4 @@
-﻿using MediaPlayer.BusinessEntities.Objects.Abstract;
+﻿using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.BusinessEntities.Object_Builders;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.MetadataReaders.Abstract;

@@ -49,7 +49,7 @@
     <Compile Include="Collections\MediaItemObservableCollection.cs" />
     <Compile Include="Object Builders\AudioItemBuilder.cs" />
     <Compile Include="Object Builders\VideoItemBuilder.cs" />
-    <Compile Include="Objects\Abstract\MediaItem.cs" />
+    <Compile Include="Objects\Base\MediaItem.cs" />
     <Compile Include="Objects\Derived\AudioItem.cs" />
     <Compile Include="Objects\Derived\VideoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

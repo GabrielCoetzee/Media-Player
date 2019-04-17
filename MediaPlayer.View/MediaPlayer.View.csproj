@@ -113,13 +113,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\MultiValueConverters\PriorityMultiValueConverter.cs" />
+    <Compile Include="Converters\MultiValueConverters\AlbumArtMultiValueConverter.cs" />
     <Compile Include="Converters\MultiValueConverters\RowHeightSumMultiValueConverter.cs" />
     <Compile Include="Converters\SingleValueConverters\BooleanToVisibleOrHiddenInverseConverter.cs" />
-    <Compile Include="Converters\SingleValueConverters\MediaItemSelectedToEnabledConverter.cs" />
-    <Compile Include="Converters\SingleValueConverters\MediaItemSelectedToVisibilityConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\MediaItemIsSelectedToEnabledStateConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\MediaItemIsSelectedToVisibilityConverter.cs" />
     <Compile Include="Converters\SingleValueConverters\MediaVolumeConverter.cs" />
     <Compile Include="Converters\SingleValueConverters\PlayPauseButtonBackgroundConverter.cs" />
+    <Compile Include="Converters\SingleValueConverters\ElapsedTimeTimeSpanToSecondsConverter.cs" />
     <Compile Include="Views\ViewApplicationSettings.xaml.cs">
       <DependentUpon>ViewApplicationSettings.xaml</DependentUpon>
     </Compile>

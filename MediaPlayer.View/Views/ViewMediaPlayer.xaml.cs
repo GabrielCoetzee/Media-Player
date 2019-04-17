@@ -11,7 +11,7 @@ using System.Windows.Input;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MediaPlayer.ApplicationSettings.Settings_Provider;
-using MediaPlayer.BusinessEntities.Objects.Abstract;
+using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.MetadataReaders;
 using MediaPlayer.ViewModel;
 using Ninject;
@@ -145,7 +145,7 @@ namespace MediaPlayer.View.Views
 
                 foreach (var path in filePaths)
                 {
-                    var isFolder = !Path.HasExtension(path.ToString());
+                    var isFolder = Directory.Exists(path.ToString());
 
                     if (isFolder)
                     {

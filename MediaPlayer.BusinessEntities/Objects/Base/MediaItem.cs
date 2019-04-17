@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using MediaPlayer.Common.Enumerations;
 
-namespace MediaPlayer.BusinessEntities.Objects.Abstract
+namespace MediaPlayer.BusinessEntities.Objects.Base
 {
     public abstract class MediaItem : INotifyPropertyChanged
     {
@@ -20,14 +20,11 @@ namespace MediaPlayer.BusinessEntities.Objects.Abstract
         #region Fields
 
         private int _id;
-
         private TimeSpan _mediaDuration { get; set; }
-
         private Uri _filePath;
-
         private uint? _mediaListNumber;
-
         private MediaType _mediaType;
+        private TimeSpan _elapsedTime;
 
         #endregion
 
@@ -93,6 +90,15 @@ namespace MediaPlayer.BusinessEntities.Objects.Abstract
 
         public bool IsVideo => MediaType == (MediaType.Audio | MediaType.Video);
 
+        public TimeSpan ElapsedTime
+        {
+            get => _elapsedTime;
+            set
+            {
+                _elapsedTime = value;
+                OnPropertyChanged(nameof(ElapsedTime));
+            }
+        }
 
         #endregion
     }

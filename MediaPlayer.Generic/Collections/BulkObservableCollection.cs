@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 
-namespace MediaPlayer.BusinessEntities.Collections.Abstract
+namespace MediaPlayer.Generic.Collections
 {
     /// <inheritdoc />
     /// <summary>

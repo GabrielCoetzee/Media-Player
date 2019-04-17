@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using MediaPlayer.Common.Enumerations;
+using MediaPlayer.BusinessEntities.Objects.Base;
 
 namespace MediaPlayer.View.Converters
 {
-    internal class MediaVolumeConverter : IValueConverter
+    internal class MediaItemIsSelectedToEnabledStateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is VolumeLevel volumeLevel)
+            if (value is MediaItem mediaItem)
             {
-                if (volumeLevel == VolumeLevel.Full)
-                    return 100;
-                else if (volumeLevel == VolumeLevel.Mute)
-                    return 0;
+                return mediaItem != null;
             }
 
-            return null;
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }

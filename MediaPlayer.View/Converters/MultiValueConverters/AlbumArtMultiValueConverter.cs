@@ -7,17 +7,19 @@ using System.Windows.Media.Imaging;
 
 namespace MediaPlayer.View.Converters
 {
-    public class PriorityMultiValueConverter : IMultiValueConverter
+    internal class AlbumArtMultiValueConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             var value = values.FirstOrDefault(o => (o != null && o != DependencyProperty.UnsetValue));
 
-            if (value is string)
-                return new BitmapImage(new Uri($"../Resources/Default_AlbumArt/{value}.png", UriKind.Relative));
-
-            if (value is byte[])
-                return ToImage((byte[])value);
+            switch (value)
+            {
+                case string _:
+                    return new BitmapImage(new Uri($"../Resources/Default_AlbumArt/{value}.png", UriKind.Relative));
+                case byte[] _:
+                    return this.ToImage((byte[])value);
+            }
 
             return null;
         }

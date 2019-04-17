@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace MediaPlayer.View.Converters
 {
-    public class RowHeightSumMultiValueConverter : IMultiValueConverter
+    internal class RowHeightSumMultiValueConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
