@@ -57,7 +57,7 @@ namespace MediaPlayer.View.Properties {
   <string>.wma</string>
   <string>.mp4</string>
 </ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection SupportedFormats {
+        public global::System.Collections.Specialized.StringCollection SupportedFileFormats {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["SupportedFileFormats"]));
             }
