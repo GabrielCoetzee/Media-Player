@@ -76,6 +76,5 @@ namespace MediaPlayer.ApplicationSettings.SettingsProvider
             Properties.Settings.Default.Save();
         }
     }
-
         #endregion
 }
