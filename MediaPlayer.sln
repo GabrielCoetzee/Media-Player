@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.ViewModel", "Me
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVVM", "MVVM", "{1DFE55F1-29A8-4A37-9B52-9CC5545C6512}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.ThemeChanger", "ThemeManager\MediaPlayer.ThemeChanger.csproj", "{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.ThemeChanger", "MediaPlayer.ThemeChanger\MediaPlayer.ThemeChanger.csproj", "{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

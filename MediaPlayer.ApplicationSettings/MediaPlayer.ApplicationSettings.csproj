@@ -57,7 +57,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ThemeManager\MediaPlayer.ThemeChanger.csproj">
+    <ProjectReference Include="..\MediaPlayer.ThemeChanger\MediaPlayer.ThemeChanger.csproj">
       <Project>{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}</Project>
       <Name>MediaPlayer.ThemeChanger</Name>
     </ProjectReference>
