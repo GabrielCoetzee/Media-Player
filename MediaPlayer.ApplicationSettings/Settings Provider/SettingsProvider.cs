@@ -2,11 +2,11 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows;
-using MahApps.Metro;
 using MediaPlayer.ApplicationSettings.Annotations;
+using MediaPlayer.ApplicationSettings.ThemeChanger;
+using Ninject;
 
-namespace MediaPlayer.ApplicationSettings.Settings_Provider
+namespace MediaPlayer.ApplicationSettings.SettingsProvider
 {
     public class SettingsProvider : ISettingsProvider
     {
@@ -30,6 +30,10 @@ namespace MediaPlayer.ApplicationSettings.Settings_Provider
         #endregion
 
         #region Properties
+
+        [Inject]
+        public IThemeChanger ThemeChanger { get; set; }
+
         public string[] SupportedFileFormats => ((StringCollection)Properties.Settings.Default[nameof(SupportedFileFormats)]).Cast<string>().ToArray();
 
         public string SelectedTheme
@@ -40,7 +44,9 @@ namespace MediaPlayer.ApplicationSettings.Settings_Provider
                 _selectedTheme = value;
                 OnPropertyChanged(nameof(SelectedTheme));
 
-                ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(value), ThemeManager.GetAppTheme("BaseDark"));
+                Properties.Settings.Default[nameof(SelectedTheme)] = _selectedTheme;
+
+                this.ThemeChanger.ChangeTheme(value);
             }
         }
 
@@ -52,7 +58,9 @@ namespace MediaPlayer.ApplicationSettings.Settings_Provider
                 _opacity = value;
                 OnPropertyChanged(nameof(Opacity));
 
-                Application.Current.MainWindow.Background.Opacity = (double)value;
+                Properties.Settings.Default[nameof(Opacity)] = _opacity;
+
+                this.ThemeChanger.ChangeOpacity((double)value);
             }
         }
 
@@ -67,7 +75,7 @@ namespace MediaPlayer.ApplicationSettings.Settings_Provider
 
             Properties.Settings.Default.Save();
         }
+    }
 
         #endregion
-    }
 }

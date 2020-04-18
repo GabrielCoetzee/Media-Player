@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MediaPlayer.ApplicationSettings.Settings_Provider
+namespace MediaPlayer.ApplicationSettings.SettingsProvider
 {
     public interface ISettingsProvider : INotifyPropertyChanged
     {

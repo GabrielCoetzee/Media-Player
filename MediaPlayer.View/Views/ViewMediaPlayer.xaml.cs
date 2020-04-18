@@ -10,7 +10,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.ApplicationSettings.Settings_Provider;
+using MediaPlayer.ApplicationSettings.SettingsProvider;
 using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.MetadataReaders;
 using MediaPlayer.ViewModel;

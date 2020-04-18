@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using MediaPlayer.ApplicationSettings.Settings_Provider;
+using MediaPlayer.ApplicationSettings.SettingsProvider;
 using MediaPlayer.Model;
 using MediaPlayer.Model.Annotations;
 using Ninject;

@@ -12,7 +12,7 @@ using MediaPlayer.MetadataReaders;
 using MediaPlayer.Model;
 using Ninject;
 using System.Windows.Forms;
-using MediaPlayer.ApplicationSettings.Settings_Provider;
+using MediaPlayer.ApplicationSettings.SettingsProvider;
 using MediaPlayer.BusinessEntities.Collections;
 using MediaPlayer.BusinessEntities.Objects.Base;
 using ListBox = System.Windows.Controls.ListBox;
