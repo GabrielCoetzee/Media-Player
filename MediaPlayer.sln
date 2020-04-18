@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Shell", "MediaP
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business Logic", "Business Logic", "{95DFD146-45FA-4B1F-ACF7-CFE74C3BDCEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.MetadataReaders", "MediaPlayer.MetadataReaders\MediaPlayer.MetadataReaders.csproj", "{F440BA23-1A79-4DA6-A935-C3C669E053D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.BusinessLogic", "MediaPlayer.MetadataReaders\MediaPlayer.BusinessLogic.csproj", "{F440BA23-1A79-4DA6-A935-C3C669E053D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Model", "MediaPlayer.Model\MediaPlayer.Model.csproj", "{E20FBC08-C9C1-40E1-96B5-020115A06E52}"
 EndProject

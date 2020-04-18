@@ -7,8 +7,8 @@
     <ProjectGuid>{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ThemeManager</RootNamespace>
-    <AssemblyName>ThemeManager</AssemblyName>
+    <RootNamespace>MediaPlayer.ThemeManager</RootNamespace>
+    <AssemblyName>MediaPlayer.ThemeManager</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

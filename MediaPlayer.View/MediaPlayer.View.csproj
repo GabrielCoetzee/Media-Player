@@ -257,9 +257,9 @@
       <Project>{817AFF3F-E5E4-40CD-963D-55248AE5961D}</Project>
       <Name>MediaPlayer.Generic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MediaPlayer.MetadataReaders\MediaPlayer.MetadataReaders.csproj">
+    <ProjectReference Include="..\MediaPlayer.MetadataReaders\MediaPlayer.BusinessLogic.csproj">
       <Project>{F440BA23-1A79-4DA6-A935-C3C669E053D1}</Project>
-      <Name>MediaPlayer.MetadataReaders</Name>
+      <Name>MediaPlayer.BusinessLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\MediaPlayer.ViewModel\MediaPlayer.ViewModel.csproj">
       <Project>{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E}</Project>
