@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Settings" MinHeight="250" MinWidth="300" Height="250" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="MetroWindow_Loaded">
+        Title="Settings" MinHeight="250" MinWidth="300" Height="250" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="MetroWindow_Loaded" Activated="MetroWindow_Activated">
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="Black" Opacity="{Binding ModelApplicationSettings.Opacity}"/>
+        <SolidColorBrush Color="Black" Opacity="{Binding SettingsProvider.SelectedOpacity}"/>
     </Controls:MetroWindow.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -37,12 +37,12 @@
                     </Grid.RowDefinitions>
                     
                     <Label Grid.Column="0" Grid.Row="2" Content="Opacity :" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Value="{Binding ModelApplicationSettings.Opacity, Mode=TwoWay}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.5" Maximum="1.0" Ticks="0,50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0" TickFrequency="0.05" />
+                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Value="{Binding SettingsProvider.SelectedOpacity, Mode=TwoWay}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.5" Maximum="1.0" Ticks="0,50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0" TickFrequency="0.05" />
 
                     <Label Grid.Column="0" Grid.Row="0" Content="Themes :" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding ModelApplicationSettings.SelectedTheme, Mode=TwoWay}" />
+                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsProvider.SelectedAccent, Mode=TwoWay}" />
 
-                    <Button x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource AccentColorBrush}" Content="Close" Click="ButtonCloseSettings_Click" />
+                    <Button x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Foreground="{DynamicResource MahApps.Brushes.Accent}" Content="Close" Click="ButtonCloseSettings_Click" />
                 </Grid>
             </TabItem>
         </TabControl>

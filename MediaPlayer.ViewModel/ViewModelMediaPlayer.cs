@@ -6,17 +6,18 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Generic.Commands;
-using MediaPlayer.Generic.Mediator;
-using MediaPlayer.MetadataReaders;
 using MediaPlayer.Model;
-using Ninject;
 using System.Windows.Forms;
-using MediaPlayer.ApplicationSettings.SettingsProvider;
 using MediaPlayer.BusinessEntities.Collections;
 using MediaPlayer.BusinessEntities.Objects.Base;
 using ListBox = System.Windows.Controls.ListBox;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using MediaPlayer.BusinessLogic;
+using MediaPlayer.ApplicationSettings.Config;
+using Microsoft.Extensions.Options;
+using MediaPlayer.ApplicationSettings;
+using Generic.Commands;
+using Generic.Mediator;
 
 namespace MediaPlayer.ViewModel
 {
@@ -24,10 +25,8 @@ namespace MediaPlayer.ViewModel
     {
         #region Injected Properties
 
-        [Inject]
         public ISettingsProvider SettingsProvider { get; set; }
 
-        [Inject]
         public MetadataReaderProviderResolver MetadataReaderProviderResolver { get; set; }
 
         #endregion
@@ -222,18 +221,22 @@ namespace MediaPlayer.ViewModel
 
         #region Constructor
 
-        public ViewModelMediaPlayer()
+        public ViewModelMediaPlayer(ISettingsProvider settingsProvider, MetadataReaderProviderResolver metadataReaderProviderResolver)
         {
+            this.SettingsProvider = settingsProvider;
+
+            this.MetadataReaderProviderResolver = metadataReaderProviderResolver;
+
             InitializeCommands();
             InitializeEventTriggerCommands();
-            InitializeModelInstance();
+            InitializeModel();
         }
 
         #endregion
 
         #region Initialization
 
-        private void InitializeModelInstance()
+        private void InitializeModel()
         {
             ModelMediaPlayer = new ModelMediaPlayer()
             {
@@ -276,7 +279,7 @@ namespace MediaPlayer.ViewModel
 
         public void OpenSettingsWindowCommand_Execute()
         {
-            Mediator<MediatorMessages>.NotifyColleagues(MediatorMessages.OpenApplicationSettings, null);
+            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.OpenApplicationSettings);
         }
 
         public bool ClearMediaListCommand_CanExecute()
@@ -288,7 +291,7 @@ namespace MediaPlayer.ViewModel
         {
             _mediaPositionTracker.Stop();
 
-            this.InitializeModelInstance();
+            this.InitializeModel();
         }
 
         public bool ShuffleMediaListCommand_CanExecute()

@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using ControlzEx.Theming;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
+using MediaPlayer.ApplicationSettings;
+using MediaPlayer.Theming;
 using MediaPlayer.ViewModel;
-using Ninject;
 
 namespace MediaPlayer.View.Views
 {
@@ -14,32 +16,44 @@ namespace MediaPlayer.View.Views
     /// </summary>
     public partial class ViewApplicationSettings : MetroWindow
     {
-        [Inject]
-        public ViewApplicationSettings(ViewModelApplicationSettings vm)
+        #region Bindable Properties
+
+        readonly ISettingsProvider SettingsProvider;
+
+        #endregion
+
+        readonly IThemeSelector _themeSelector;
+
+        public ViewApplicationSettings(ViewModelApplicationSettings vm, ISettingsProvider settingsProvider, IThemeSelector themeSelector)
         {
             InitializeComponent();
+
+            SettingsProvider = settingsProvider;
+            _themeSelector = themeSelector;
 
             DataContext = vm;
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            ThemeManager.Accents.ToList().ForEach(accent => ComboBoxAccents.Items.Add(accent.Name));
+            ThemeManager.Current.ColorSchemes.ToList().ForEach(accent => ComboBoxAccents.Items.Add(accent));
         }
 
         private void ButtonCloseSettings_Click(object sender, RoutedEventArgs e)
         {
+            this.SettingsProvider.SaveSettings();
+
             this.Close();
         }
 
-        protected override void OnClosing(CancelEventArgs e)
+        private void MetroWindow_Activated(object sender, System.EventArgs e)
         {
-            if (!(DataContext is ViewModelApplicationSettings vm))
-                return;
+            this.LoadTheme();
+        }
 
-            vm.SettingsProvider.SaveSettings();
-
-            base.OnClosing(e);
+        private void LoadTheme()
+        {
+            this._themeSelector.ChangeAccent(this.SettingsProvider.SelectedAccent);
         }
     }
 }

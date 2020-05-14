@@ -8,13 +8,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using ControlzEx.Theming;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.ApplicationSettings.SettingsProvider;
+using MediaPlayer.ApplicationSettings;
+using MediaPlayer.ApplicationSettings.Config;
 using MediaPlayer.BusinessEntities.Objects.Base;
-using MediaPlayer.MetadataReaders;
+using MediaPlayer.BusinessLogic;
+using MediaPlayer.Theming;
 using MediaPlayer.ViewModel;
-using Ninject;
+using Microsoft.Extensions.Options;
 
 namespace MediaPlayer.View.Views
 {
@@ -24,21 +27,24 @@ namespace MediaPlayer.View.Views
     /// </summary>
     public partial class ViewMediaPlayer : MetroWindow
     {
-        #region Injected Properties
+        #region Bindable Properties
 
-        [Inject]
-        public ISettingsProvider SettingsProvider { get; set; }
-
-        [Inject]
-        public MetadataReaderProviderResolver MetadataReaderProviderResolver { get; set; }
+        readonly ISettingsProvider SettingsProvider;
 
         #endregion
 
+        readonly IThemeSelector _themeSelector;
+        readonly MetadataReaderProviderResolver _metadataReaderProviderResolver;
+
         #region Constructor
 
-        [Inject]
-        public ViewMediaPlayer(ViewModelMediaPlayer vm)
+        public ViewMediaPlayer(ViewModelMediaPlayer vm, ISettingsProvider settingsProvider, IThemeSelector themeSelector, MetadataReaderProviderResolver metadataReaderProviderResolver)
         {
+            this.SettingsProvider = settingsProvider;
+            this._themeSelector = themeSelector;
+
+            this._metadataReaderProviderResolver = metadataReaderProviderResolver;
+
             this.InitializeComponent();
             this.InitializeViewModel(vm);
 
@@ -98,7 +104,7 @@ namespace MediaPlayer.View.Views
 
         private void MetroWindow_Activated(object sender, EventArgs e)
         {
-            this.LoadTheme(this.SettingsProvider.SelectedTheme);
+            this.LoadTheme();
         }
 
         private void LyricsExpander_Collapsed(object sender, RoutedEventArgs e)
@@ -120,9 +126,9 @@ namespace MediaPlayer.View.Views
             this.MediaElement.Position = seekToPosition;
         }
 
-        private void LoadTheme(string accentName)
+        private void LoadTheme()
         {
-            ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(accentName), ThemeManager.GetAppTheme("BaseDark"));
+            this._themeSelector.ChangeAccent(this.SettingsProvider.SelectedAccent);
         }
 
         private void FocusOnPlayPauseButton()
@@ -140,7 +146,7 @@ namespace MediaPlayer.View.Views
 
             await Task.Run(() =>
             {
-                var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
+                var metadataReader = _metadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
                 var supportedFileFormats = this.SettingsProvider.SupportedFileFormats;
 
                 foreach (var path in filePaths)

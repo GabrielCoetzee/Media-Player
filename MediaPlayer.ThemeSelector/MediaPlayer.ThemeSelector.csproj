@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MediaPlayer.ThemeSelector</RootNamespace>
+    <AssemblyName>MediaPlayer.ThemeSelector</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ControlzEx">
+      <Version>4.3.0-alpha0107</Version>
+    </PackageReference>
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0821" />
+  </ItemGroup>
+</Project>

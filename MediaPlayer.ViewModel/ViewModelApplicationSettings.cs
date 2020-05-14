@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using MediaPlayer.ApplicationSettings.SettingsProvider;
-using MediaPlayer.Model;
+using MediaPlayer.ApplicationSettings;
 using MediaPlayer.Model.Annotations;
-using Ninject;
 
 namespace MediaPlayer.ViewModel
 {
@@ -22,49 +20,17 @@ namespace MediaPlayer.ViewModel
 
         #endregion
 
-        #region Fields
-
-        private ModelApplicationSettings _modelApplicationSettings;
-
-        #endregion
-
         #region Properties
 
-        public ModelApplicationSettings ModelApplicationSettings
-        {
-            get => _modelApplicationSettings;
-            set
-            {
-                _modelApplicationSettings = value;
-                OnPropertyChanged(nameof(ModelApplicationSettings));
-            }
-        }
-
-        public ISettingsProvider SettingsProvider { get; }
+        public ISettingsProvider SettingsProvider { get; set; }
 
         #endregion
 
         #region Constructor
 
-        [Inject]
         public ViewModelApplicationSettings(ISettingsProvider settingsProvider)
         {
-            this.SettingsProvider = settingsProvider;
-
-            InitializeModelInstance();
-        }
-
-        #endregion
-
-        #region Initialization
-
-        private void InitializeModelInstance()
-        {
-            ModelApplicationSettings = new ModelApplicationSettings(this.SettingsProvider)
-            {
-                SelectedTheme = this.SettingsProvider.SelectedTheme,
-                Opacity = this.SettingsProvider.Opacity
-            };
+            SettingsProvider = settingsProvider;
         }
 
         #endregion

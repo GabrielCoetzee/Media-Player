@@ -1,58 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}</ProjectGuid>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MediaPlayer.BusinessEntities</RootNamespace>
-    <AssemblyName>MediaPlayer.BusinessEntities</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Collections\MediaItemObservableCollection.cs" />
-    <Compile Include="Object Builders\AudioItemBuilder.cs" />
-    <Compile Include="Object Builders\VideoItemBuilder.cs" />
-    <Compile Include="Objects\Base\MediaItem.cs" />
-    <Compile Include="Objects\Derived\AudioItem.cs" />
-    <Compile Include="Objects\Derived\VideoItem.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <ProjectReference Include="..\Generic\Generic.csproj" />
+    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj">
-      <Project>{78242237-ECF6-4144-A726-07412F1E3FAE}</Project>
-      <Name>MediaPlayer.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MediaPlayer.Generic\MediaPlayer.Generic.csproj">
-      <Project>{817AFF3F-E5E4-40CD-963D-55248AE5961D}</Project>
-      <Name>MediaPlayer.Generic</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

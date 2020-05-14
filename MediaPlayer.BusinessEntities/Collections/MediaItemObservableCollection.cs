@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Generic.Collections;
 using MediaPlayer.BusinessEntities.Objects.Base;
-using MediaPlayer.Generic.Collections;
 
 namespace MediaPlayer.BusinessEntities.Collections
 {

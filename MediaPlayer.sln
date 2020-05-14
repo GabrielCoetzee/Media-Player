@@ -3,17 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.View", "MediaPlayer.View\MediaPlayer.View.csproj", "{AFF319F3-32E1-4636-865E-F43AC339219E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.View", "MediaPlayer.View\MediaPlayer.View.csproj", "{AFF319F3-32E1-4636-865E-F43AC339219E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.BusinessEntities", "MediaPlayer.BusinessEntities\MediaPlayer.BusinessEntities.csproj", "{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.BusinessEntities", "MediaPlayer.BusinessEntities\MediaPlayer.BusinessEntities.csproj", "{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Generic", "MediaPlayer.Generic\MediaPlayer.Generic.csproj", "{817AFF3F-E5E4-40CD-963D-55248AE5961D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.ApplicationSettings", "MediaPlayer.ApplicationSettings\MediaPlayer.ApplicationSettings.csproj", "{C7FE2C80-1DA2-4676-B778-49439D31E475}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Common", "MediaPlayer.Common\MediaPlayer.Common.csproj", "{78242237-ECF6-4144-A726-07412F1E3FAE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application Settings", "Application Settings", "{07AD01A1-A10F-4040-AA31-6D756EF149E1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Settings", "Settings", "{07AD01A1-A10F-4040-AA31-6D756EF149E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generic", "Generic", "{A1CFB51A-5183-4CF8-9132-150F86A8C2A6}"
 EndProject
@@ -21,19 +15,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{DADD99
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business Entities", "Business Entities", "{006863DE-7F78-4921-840A-28E51E4E99CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Shell", "MediaPlayer.Shell\MediaPlayer.Shell.csproj", "{6F3E2B99-20AA-4185-BEDB-37AA838244D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.Shell", "MediaPlayer.Shell\MediaPlayer.Shell.csproj", "{6F3E2B99-20AA-4185-BEDB-37AA838244D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business Logic", "Business Logic", "{95DFD146-45FA-4B1F-ACF7-CFE74C3BDCEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.BusinessLogic", "MediaPlayer.MetadataReaders\MediaPlayer.BusinessLogic.csproj", "{F440BA23-1A79-4DA6-A935-C3C669E053D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.Model", "MediaPlayer.Model\MediaPlayer.Model.csproj", "{E20FBC08-C9C1-40E1-96B5-020115A06E52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.Model", "MediaPlayer.Model\MediaPlayer.Model.csproj", "{E20FBC08-C9C1-40E1-96B5-020115A06E52}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.ViewModel", "MediaPlayer.ViewModel\MediaPlayer.ViewModel.csproj", "{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.ViewModel", "MediaPlayer.ViewModel\MediaPlayer.ViewModel.csproj", "{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVVM", "MVVM", "{1DFE55F1-29A8-4A37-9B52-9CC5545C6512}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.ThemeChanger", "MediaPlayer.ThemeChanger\MediaPlayer.ThemeChanger.csproj", "{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.ThemeSelector", "MediaPlayer.ThemeSelector\MediaPlayer.ThemeSelector.csproj", "{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.Common", "MediaPlayer.Common\MediaPlayer.Common.csproj", "{210A1E95-A8F3-4DE2-84D4-4950C9ECAE5B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.Settings", "MediaPlayer.Settings\MediaPlayer.Settings.csproj", "{BF7C8403-1538-454B-92F3-8E53E90245F7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.BusinessLogic", "MediaPlayer.BusinessLogic\MediaPlayer.BusinessLogic.csproj", "{C0C846A3-7489-4C6C-B95D-F00DF88920DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generic", "Generic\Generic.csproj", "{1AA7279F-AFBF-4197-AE1A-F47A7F40AFFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,26 +49,10 @@ Global
 		{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{817AFF3F-E5E4-40CD-963D-55248AE5961D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{817AFF3F-E5E4-40CD-963D-55248AE5961D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{817AFF3F-E5E4-40CD-963D-55248AE5961D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{817AFF3F-E5E4-40CD-963D-55248AE5961D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7FE2C80-1DA2-4676-B778-49439D31E475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7FE2C80-1DA2-4676-B778-49439D31E475}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7FE2C80-1DA2-4676-B778-49439D31E475}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7FE2C80-1DA2-4676-B778-49439D31E475}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78242237-ECF6-4144-A726-07412F1E3FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78242237-ECF6-4144-A726-07412F1E3FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78242237-ECF6-4144-A726-07412F1E3FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78242237-ECF6-4144-A726-07412F1E3FAE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6F3E2B99-20AA-4185-BEDB-37AA838244D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F3E2B99-20AA-4185-BEDB-37AA838244D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F3E2B99-20AA-4185-BEDB-37AA838244D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F3E2B99-20AA-4185-BEDB-37AA838244D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F440BA23-1A79-4DA6-A935-C3C669E053D1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E20FBC08-C9C1-40E1-96B5-020115A06E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E20FBC08-C9C1-40E1-96B5-020115A06E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E20FBC08-C9C1-40E1-96B5-020115A06E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -81,6 +65,22 @@ Global
 		{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{210A1E95-A8F3-4DE2-84D4-4950C9ECAE5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{210A1E95-A8F3-4DE2-84D4-4950C9ECAE5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{210A1E95-A8F3-4DE2-84D4-4950C9ECAE5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{210A1E95-A8F3-4DE2-84D4-4950C9ECAE5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF7C8403-1538-454B-92F3-8E53E90245F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF7C8403-1538-454B-92F3-8E53E90245F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF7C8403-1538-454B-92F3-8E53E90245F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF7C8403-1538-454B-92F3-8E53E90245F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C846A3-7489-4C6C-B95D-F00DF88920DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C846A3-7489-4C6C-B95D-F00DF88920DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C846A3-7489-4C6C-B95D-F00DF88920DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C846A3-7489-4C6C-B95D-F00DF88920DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AA7279F-AFBF-4197-AE1A-F47A7F40AFFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AA7279F-AFBF-4197-AE1A-F47A7F40AFFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AA7279F-AFBF-4197-AE1A-F47A7F40AFFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AA7279F-AFBF-4197-AE1A-F47A7F40AFFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,13 +88,13 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{AFF319F3-32E1-4636-865E-F43AC339219E} = {1DFE55F1-29A8-4A37-9B52-9CC5545C6512}
 		{1EF2F39D-44CB-45B8-AFD7-47AB178FD91A} = {006863DE-7F78-4921-840A-28E51E4E99CE}
-		{817AFF3F-E5E4-40CD-963D-55248AE5961D} = {A1CFB51A-5183-4CF8-9132-150F86A8C2A6}
-		{C7FE2C80-1DA2-4676-B778-49439D31E475} = {07AD01A1-A10F-4040-AA31-6D756EF149E1}
-		{78242237-ECF6-4144-A726-07412F1E3FAE} = {DADD99B1-DA69-4003-BD72-2EA866FCD344}
-		{F440BA23-1A79-4DA6-A935-C3C669E053D1} = {95DFD146-45FA-4B1F-ACF7-CFE74C3BDCEC}
 		{E20FBC08-C9C1-40E1-96B5-020115A06E52} = {1DFE55F1-29A8-4A37-9B52-9CC5545C6512}
 		{C112CD31-5FD7-4E45-AD5F-DFC2E357FB9E} = {1DFE55F1-29A8-4A37-9B52-9CC5545C6512}
 		{055D9499-2AE0-4C6D-B6C6-A79DF8112E74} = {07AD01A1-A10F-4040-AA31-6D756EF149E1}
+		{210A1E95-A8F3-4DE2-84D4-4950C9ECAE5B} = {DADD99B1-DA69-4003-BD72-2EA866FCD344}
+		{BF7C8403-1538-454B-92F3-8E53E90245F7} = {07AD01A1-A10F-4040-AA31-6D756EF149E1}
+		{C0C846A3-7489-4C6C-B95D-F00DF88920DC} = {95DFD146-45FA-4B1F-ACF7-CFE74C3BDCEC}
+		{1AA7279F-AFBF-4197-AE1A-F47A7F40AFFE} = {A1CFB51A-5183-4CF8-9132-150F86A8C2A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A89013D-0D79-4FA5-A6B7-06E79F20A905}
