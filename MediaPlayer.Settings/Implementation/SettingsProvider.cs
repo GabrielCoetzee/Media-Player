@@ -1,24 +1,12 @@
 ﻿using Generic.Configuration.Abstract;
+using Generic.Property_Notify;
 using MediaPlayer.ApplicationSettings.Config;
 using MediaPlayer.Theming;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace MediaPlayer.ApplicationSettings
 {
-    public class SettingsProvider : ISettingsProvider
+    public class SettingsProvider : PropertyNotifyBase, ISettingsProvider
     {
-        #region Interface Implementations
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
         readonly IWritableOptions<Settings> _options;
         readonly IThemeSelector _themeSelector;
 

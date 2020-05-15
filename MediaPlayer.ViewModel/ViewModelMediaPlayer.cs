@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,35 +8,22 @@ using MediaPlayer.Model;
 using System.Windows.Forms;
 using MediaPlayer.BusinessEntities.Collections;
 using MediaPlayer.BusinessEntities.Objects.Base;
-using ListBox = System.Windows.Controls.ListBox;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using MediaPlayer.BusinessLogic;
-using MediaPlayer.ApplicationSettings.Config;
-using Microsoft.Extensions.Options;
 using MediaPlayer.ApplicationSettings;
 using Generic.Commands;
 using Generic.Mediator;
+using Generic.Property_Notify;
 
 namespace MediaPlayer.ViewModel
 {
-    public class ViewModelMediaPlayer : INotifyPropertyChanged
+    public class ViewModelMediaPlayer : PropertyNotifyBase
     {
         #region Injected Properties
 
         public ISettingsProvider SettingsProvider { get; set; }
 
-        public MetadataReaderProviderResolver MetadataReaderProviderResolver { get; set; }
-
-        #endregion
-
-        #region Interface Implementations
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
+        public MetadataReaderResolver MetadataReaderResolver { get; set; }
 
         #endregion
 
@@ -221,11 +206,11 @@ namespace MediaPlayer.ViewModel
 
         #region Constructor
 
-        public ViewModelMediaPlayer(ISettingsProvider settingsProvider, MetadataReaderProviderResolver metadataReaderProviderResolver)
+        public ViewModelMediaPlayer(ISettingsProvider settingsProvider, MetadataReaderResolver metadataReaderResolver)
         {
             this.SettingsProvider = settingsProvider;
 
-            this.MetadataReaderProviderResolver = metadataReaderProviderResolver;
+            this.MetadataReaderResolver = metadataReaderResolver;
 
             InitializeCommands();
             InitializeEventTriggerCommands();
@@ -394,7 +379,7 @@ namespace MediaPlayer.ViewModel
             if (result != DialogResult.OK)
                 return;
 
-            var metadataReader = MetadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
+            var metadataReader = MetadataReaderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
 
             var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
 

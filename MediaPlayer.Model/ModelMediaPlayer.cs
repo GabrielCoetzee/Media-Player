@@ -1,26 +1,15 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
+using Generic.Property_Notify;
 using MediaPlayer.BusinessEntities.Collections;
 using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.Common.Enumerations;
 
 namespace MediaPlayer.Model
 {
-    public class ModelMediaPlayer : INotifyPropertyChanged
+    public class ModelMediaPlayer : PropertyNotifyBase
     {
-        #region Interface Implemenations
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        #endregion
-
         #region Fields
 
         private readonly Random _randomIdGenerator = new Random();

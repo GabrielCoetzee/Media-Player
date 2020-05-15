@@ -29,21 +29,21 @@ namespace MediaPlayer.View.Views
     {
         #region Bindable Properties
 
-        readonly ISettingsProvider SettingsProvider;
+        readonly ISettingsProvider _settingsProvider;
 
         #endregion
 
         readonly IThemeSelector _themeSelector;
-        readonly MetadataReaderProviderResolver _metadataReaderProviderResolver;
+        readonly MetadataReaderResolver _metadataReaderResolver;
 
         #region Constructor
 
-        public ViewMediaPlayer(ViewModelMediaPlayer vm, ISettingsProvider settingsProvider, IThemeSelector themeSelector, MetadataReaderProviderResolver metadataReaderProviderResolver)
+        public ViewMediaPlayer(ViewModelMediaPlayer vm, ISettingsProvider settingsProvider, IThemeSelector themeSelector, MetadataReaderResolver metadataReaderResolver)
         {
-            this.SettingsProvider = settingsProvider;
+            this._settingsProvider = settingsProvider;
             this._themeSelector = themeSelector;
 
-            this._metadataReaderProviderResolver = metadataReaderProviderResolver;
+            this._metadataReaderResolver = metadataReaderResolver;
 
             this.InitializeComponent();
             this.InitializeViewModel(vm);
@@ -128,7 +128,7 @@ namespace MediaPlayer.View.Views
 
         private void LoadTheme()
         {
-            this._themeSelector.ChangeAccent(this.SettingsProvider.SelectedAccent);
+            this._themeSelector.ChangeAccent(this._settingsProvider.SelectedAccent);
         }
 
         private void FocusOnPlayPauseButton()
@@ -146,8 +146,8 @@ namespace MediaPlayer.View.Views
 
             await Task.Run(() =>
             {
-                var metadataReader = _metadataReaderProviderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
-                var supportedFileFormats = this.SettingsProvider.SupportedFileFormats;
+                var metadataReader = _metadataReaderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
+                var supportedFileFormats = this._settingsProvider.SupportedFileFormats;
 
                 foreach (var path in filePaths)
                 {

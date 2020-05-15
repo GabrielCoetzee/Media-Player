@@ -5,7 +5,7 @@ using MediaPlayer.Common.Enumerations;
 
 namespace MediaPlayer.BusinessLogic
 {
-    public class MetadataReaderProviderResolver
+    public class MetadataReaderResolver
     {
         #region Fields
 
@@ -15,7 +15,7 @@ namespace MediaPlayer.BusinessLogic
 
         #region Constructor
 
-        public MetadataReaderProviderResolver(IEnumerable<MetadataReaderProvider> metadataReaderProviders)
+        public MetadataReaderResolver(IEnumerable<MetadataReaderProvider> metadataReaderProviders)
         {
             this._metadataReaderProviders = metadataReaderProviders;
         }

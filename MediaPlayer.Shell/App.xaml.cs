@@ -56,7 +56,7 @@ namespace MediaPlayer.Shell
             services.AddSingleton<IThemeSelector, ThemeSelector>();
 
             services.AddTransient<MetadataReaderProvider, TaglibMetadataReaderProvider>();
-            services.AddTransient<MetadataReaderProviderResolver>();
+            services.AddTransient<MetadataReaderResolver>();
 
             services.AddTransient(typeof(ViewMediaPlayer));
             services.AddTransient<ViewModelMediaPlayer>();

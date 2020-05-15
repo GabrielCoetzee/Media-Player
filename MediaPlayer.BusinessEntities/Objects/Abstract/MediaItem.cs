@@ -1,22 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using Generic.Property_Notify;
 using MediaPlayer.Common.Enumerations;
 
 namespace MediaPlayer.BusinessEntities.Objects.Base
 {
-    public abstract class MediaItem : INotifyPropertyChanged
+    public abstract class MediaItem : PropertyNotifyBase
     {
-        #region Interface Implementations
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        #endregion
-
         #region Fields
 
         private int _id;
