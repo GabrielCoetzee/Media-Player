@@ -59,7 +59,7 @@ namespace MediaPlayer.BusinessLogic.Implementation
                     }
                 }
             }
-            catch (CorruptFileException)
+            catch (CorruptFileException ex)
             {
                 var audioItem = new AudioItemBuilder(path)
                     .Build();
