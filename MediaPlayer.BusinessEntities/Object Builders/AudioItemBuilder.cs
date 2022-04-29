@@ -53,8 +53,8 @@ namespace MediaPlayer.BusinessEntities.Object_Builders
         public AudioItemBuilder WithSongTitle(string songTitle)
         {
             _audioItem.SongTitle = songTitle;
-            _audioItem.MediaTitle = GetMediaTitle();
-            _audioItem.WindowTitle = GetWindowTitle();
+            _audioItem.MediaTitle = _audioItem.SongTitle ?? _audioItem.FileName;
+            _audioItem.WindowTitle += $"{(!string.IsNullOrEmpty(_audioItem.Artist) ? $"{_audioItem.Artist} - {_audioItem.MediaTitle}" : $"{_audioItem.FileName}")}";
 
             return this;
         }
@@ -69,7 +69,6 @@ namespace MediaPlayer.BusinessEntities.Object_Builders
         public AudioItemBuilder WithLyrics(string lyrics)
         {
             _audioItem.Lyrics = lyrics;
-            _audioItem.HasLyrics = !string.IsNullOrEmpty(_audioItem.Lyrics);
 
             return this;
         }
@@ -116,13 +115,6 @@ namespace MediaPlayer.BusinessEntities.Object_Builders
             return this;
         }
 
-        public AudioItemBuilder AsMediaListNumber(uint? mediaListNumber)
-        {
-            _audioItem.MediaListNumber = mediaListNumber;
-
-            return this;
-        }
-
         public AudioItem Build()
         {
             return _audioItem;
@@ -131,19 +123,6 @@ namespace MediaPlayer.BusinessEntities.Object_Builders
         #endregion
 
         #region Private Methods
-
-        private string GetMediaTitle()
-        {
-            return _audioItem.SongTitle ?? _audioItem.FileName;
-        }
-
-        private string GetWindowTitle()
-        {
-            if (!string.IsNullOrEmpty(_audioItem.Artist) && !string.IsNullOrEmpty(_audioItem.MediaTitle))
-                return $"Now Playing : {_audioItem.Artist} - {_audioItem.MediaTitle}";
-            else
-                return $"Now Playing : {_audioItem.FileName}";
-        }
 
         private byte[] GetAlbumArtFromDirectory()
         {

@@ -9,13 +9,13 @@ namespace MediaPlayer.BusinessLogic
     {
         #region Fields
 
-        private readonly IEnumerable<MetadataReaderProvider> _metadataReaderProviders;
+        private readonly IEnumerable<IMetadataReaderProvider> _metadataReaderProviders;
 
         #endregion
 
         #region Constructor
 
-        public MetadataReaderResolver(IEnumerable<MetadataReaderProvider> metadataReaderProviders)
+        public MetadataReaderResolver(IEnumerable<IMetadataReaderProvider> metadataReaderProviders)
         {
             this._metadataReaderProviders = metadataReaderProviders;
         }
@@ -24,10 +24,9 @@ namespace MediaPlayer.BusinessLogic
 
         #region Methods
 
-        public MetadataReaderProvider Resolve(MetadataReaders selectedMetadataReader)
+        public IMetadataReaderProvider Resolve(MetadataReaders selectedMetadataReader)
         {
-            return this._metadataReaderProviders
-                .SingleOrDefault(x => x.MetadataReader == selectedMetadataReader);
+            return this._metadataReaderProviders.SingleOrDefault(x => x.MetadataReader == selectedMetadataReader);
         }
 
         #endregion

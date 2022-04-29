@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
-using Generic.Property_Notify;
+using Generic.PropertyNotify;
 using MediaPlayer.Common.Enumerations;
 
 namespace MediaPlayer.BusinessEntities.Objects.Base
@@ -13,7 +12,6 @@ namespace MediaPlayer.BusinessEntities.Objects.Base
         private int _id;
         private TimeSpan _mediaDuration { get; set; }
         private Uri _filePath;
-        private uint? _mediaListNumber;
         private MediaType _mediaType;
         private TimeSpan _elapsedTime;
 
@@ -28,16 +26,6 @@ namespace MediaPlayer.BusinessEntities.Objects.Base
             {
                 _id = value;
                 OnPropertyChanged(nameof(Id));
-            }
-        }
-
-        public uint? MediaListNumber
-        {
-            get => _mediaListNumber;
-            set
-            {
-                _mediaListNumber = value;
-                OnPropertyChanged(nameof(MediaListNumber));
             }
         }
 

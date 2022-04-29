@@ -36,8 +36,8 @@ namespace MediaPlayer.BusinessEntities.Object_Builders
         public VideoItemBuilder WithVideoTitle(string videoTitle)
         {
             _videoItem.VideoTitle = videoTitle;
-            _videoItem.MediaTitle = GetMediaTitle();
-            _videoItem.WindowTitle = GetWindowTitle();
+            _videoItem.MediaTitle = _videoItem.VideoTitle ?? _videoItem.FileName;
+            _videoItem.WindowTitle += $"{(!string.IsNullOrEmpty(_videoItem.MediaTitle) ? $"{_videoItem.MediaTitle}" : $"{_videoItem.FileName}")}";
 
             return this;
         }
@@ -63,21 +63,5 @@ namespace MediaPlayer.BusinessEntities.Object_Builders
 
         #endregion
 
-        #region Private Methods
-
-        private string GetWindowTitle()
-        {
-            if (!string.IsNullOrEmpty(_videoItem.MediaTitle))
-                return $"Now Playing : {_videoItem.MediaTitle}";
-            else
-                return $"Now Playing : {_videoItem.FileName}";
-        }
-
-        private string GetMediaTitle()
-        {
-            return _videoItem.VideoTitle ?? _videoItem.FileName;
-        }
-
-        #endregion
     }
 }

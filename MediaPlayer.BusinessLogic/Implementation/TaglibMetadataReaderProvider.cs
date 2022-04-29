@@ -6,28 +6,29 @@ using TagLib;
 
 namespace MediaPlayer.BusinessLogic.Implementation
 {
-    public class TaglibMetadataReaderProvider : MetadataReaderProvider
+    public class TaglibMetadataReaderProvider : IMetadataReaderProvider
     {
         #region Properties
-        public override MetadataReaders MetadataReader => MetadataReaders.Taglib;
+        public MetadataReaders MetadataReader => MetadataReaders.Taglib;
 
         #endregion
 
-        public override MediaItem GetFileMetadata(string path)
+        public MediaItem GetFileMetadata(string path)
         {
             try
             {
                 using (var taglibMetadataReader = File.Create(path))
                 {
+                    var albumArt = taglibMetadataReader.Tag.Pictures.Length >= 1 ? taglibMetadataReader.Tag.Pictures[0].Data.Data : null;
+
                     switch (taglibMetadataReader.Properties.MediaTypes)
                     {
                         case MediaTypes.Audio:
 
                             var audioItem = new AudioItemBuilder(path)
+                                .AsMediaType(MediaType.Audio)
                                 .ForAlbum(taglibMetadataReader.Tag.Album)
-                                .WithAlbumArt(taglibMetadataReader.Tag.Pictures.Length >= 1
-                                    ? taglibMetadataReader.Tag.Pictures[0].Data.Data
-                                    : null)
+                                .WithAlbumArt(albumArt)
                                 .WithArtist(taglibMetadataReader.Tag.FirstPerformer)
                                 .WithBitrate(taglibMetadataReader.Properties.AudioBitrate)
                                 .WithComments(taglibMetadataReader.Tag.Comment)
@@ -37,8 +38,7 @@ namespace MediaPlayer.BusinessLogic.Implementation
                                 .WithMediaDuration(taglibMetadataReader.Properties.Duration)
                                 .WithSongTitle(taglibMetadataReader.Tag.Title)
                                 .WithYear(taglibMetadataReader.Tag.Year)
-                                .AsMediaListNumber(taglibMetadataReader.Tag.Track)
-                                .AsMediaType(MediaType.Audio)
+                                //.AsMediaListNumber(taglibMetadataReader.Tag.Track)
                                 .Build();
 
                             return audioItem;
@@ -46,10 +46,10 @@ namespace MediaPlayer.BusinessLogic.Implementation
                         case MediaTypes.Video | MediaTypes.Audio:
 
                             var videoItem = new VideoItemBuilder(path)
+                                .AsMediaType(MediaType.Video | MediaType.Audio)
                                 .WithVideoResolution($"{taglibMetadataReader.Properties.VideoWidth} x {taglibMetadataReader.Properties.VideoHeight}")
                                 .WithVideoTitle(taglibMetadataReader.Tag.Title)
                                 .WithMediaDuration(taglibMetadataReader.Properties.Duration)
-                                .AsMediaType(MediaType.Video | MediaType.Audio)
                                 .Build();
 
                             return videoItem;
@@ -59,7 +59,7 @@ namespace MediaPlayer.BusinessLogic.Implementation
                     }
                 }
             }
-            catch (CorruptFileException ex)
+            catch (CorruptFileException)
             {
                 var audioItem = new AudioItemBuilder(path)
                     .Build();

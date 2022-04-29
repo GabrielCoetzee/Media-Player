@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Controls;
-using Generic.Property_Notify;
+using Generic.PropertyNotify;
 using MediaPlayer.BusinessEntities.Collections;
 using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.Common.Enumerations;

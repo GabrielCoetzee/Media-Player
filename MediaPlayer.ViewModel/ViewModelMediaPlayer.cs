@@ -13,7 +13,7 @@ using MediaPlayer.BusinessLogic;
 using MediaPlayer.ApplicationSettings;
 using Generic.Commands;
 using Generic.Mediator;
-using Generic.Property_Notify;
+using Generic.PropertyNotify;
 
 namespace MediaPlayer.ViewModel
 {
@@ -379,7 +379,7 @@ namespace MediaPlayer.ViewModel
             if (result != DialogResult.OK)
                 return;
 
-            var metadataReader = MetadataReaderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
+            var metadataReader = MetadataReaderResolver.Resolve(MetadataReaders.Taglib);
 
             var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
 

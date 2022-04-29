@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 
-namespace Generic.Property_Notify
+namespace Generic.PropertyNotify
 {
     public class PropertyNotifyBase : INotifyPropertyChanged
     {

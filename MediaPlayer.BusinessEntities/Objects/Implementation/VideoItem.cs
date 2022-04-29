@@ -6,7 +6,7 @@ namespace MediaPlayer.BusinessEntities.Objects.Derived
     {
         #region Fields
 
-        private string _windowTitle;
+        private string _windowTitle = "Now Playing: ";
         private string _videoTitle;
         private string _videoResolution;
         private string _mediaTitle;

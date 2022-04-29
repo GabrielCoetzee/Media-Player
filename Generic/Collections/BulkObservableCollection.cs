@@ -38,9 +38,7 @@ namespace Generic.Collections
             _suppressNotification = true;
 
             foreach (T item in list)
-            {
                 Add(item);
-            }
 
             _suppressNotification = false;
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));

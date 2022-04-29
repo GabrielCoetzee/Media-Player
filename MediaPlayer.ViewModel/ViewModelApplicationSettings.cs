@@ -1,4 +1,4 @@
-﻿using Generic.Property_Notify;
+﻿using Generic.PropertyNotify;
 using MediaPlayer.ApplicationSettings;
 
 namespace MediaPlayer.ViewModel

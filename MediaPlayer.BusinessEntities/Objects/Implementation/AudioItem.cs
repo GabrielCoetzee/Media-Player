@@ -11,7 +11,7 @@ namespace MediaPlayer.BusinessEntities.Objects.Derived
         private string _artist;
         private string _songTitle;
         private string _mediaTitle;
-        private string _windowTitle;
+        private string _windowTitle = "Now Playing: ";
         private string _genre;
         private string _comments;
         private uint? _year;
@@ -69,11 +69,11 @@ namespace MediaPlayer.BusinessEntities.Objects.Derived
             {
                 _albumArt = value;
                 OnPropertyChanged(nameof(AlbumArt));
-                OnPropertyChanged(nameof(HasAlbumArt));
+                //OnPropertyChanged(nameof(HasAlbumArt));
             }
         }
 
-        public bool HasAlbumArt => _albumArt != null;
+        //public bool HasAlbumArt => _albumArt != null;
 
         public string Album
         {
@@ -128,6 +128,7 @@ namespace MediaPlayer.BusinessEntities.Objects.Derived
             set
             {
                 _lyrics = value;
+                HasLyrics = !string.IsNullOrEmpty(value);
                 OnPropertyChanged(nameof(Lyrics));
             } 
         }
@@ -141,6 +142,7 @@ namespace MediaPlayer.BusinessEntities.Objects.Derived
                 OnPropertyChanged(nameof(HasLyrics));
             }
         }
+
         public string Composer
         {
             get => _composer;

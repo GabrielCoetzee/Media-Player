@@ -1,5 +1,5 @@
 ﻿using Generic.Configuration.Abstract;
-using Generic.Property_Notify;
+using Generic.PropertyNotify;
 using MediaPlayer.ApplicationSettings.Config;
 using MediaPlayer.Theming;
 
