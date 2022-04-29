@@ -9,8 +9,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ControlzEx">
-      <Version>4.3.0</Version>
+      <Version>5.0.1</Version>
     </PackageReference>
-    <PackageReference Include="MahApps.Metro" Version="2.1.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
   </ItemGroup>
 </Project>
