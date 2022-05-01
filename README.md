@@ -1,9 +1,9 @@
 # Media-Player
 
 Features Recently added : 
-- Themes! :-)
+- Themes! - Thanks to the amazing Mahapps Metro library :-) 
 - Enable / Disable Transparency and slider to select preferred opacity
-- Recently ported to .NET Core 3.1
+- Recently ported to .NET 6
 
 This is a Media Player that I am actively working on. This is made for personal use only. I do not own any of the images used in this software, and this software will not be distributed.
 
@@ -26,7 +26,7 @@ Features to come :
 
 Technologies used :
 
-- Visual Studio 2019
+- Visual Studio 2022
 - C# with MVVM Design Pattern
 - Mahapps Metro 
 - Mahapps Metro Icons
