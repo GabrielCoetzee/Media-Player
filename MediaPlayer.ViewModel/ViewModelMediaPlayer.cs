@@ -5,21 +5,12 @@ using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.ApplicationSettings;
 using Generic.PropertyNotify;
 using MediaPlayer.BusinessLogic.Commands.Abstract;
+using MediaPlayer.BusinessLogic.Services.Abstract;
 
 namespace MediaPlayer.ViewModel
 {
     public class ViewModelMediaPlayer : PropertyNotifyBase
     {
-        private ModelMediaPlayer _model;
-        public ModelMediaPlayer Model
-        {
-            get => _model;
-            set
-            {
-                _model = value;
-                OnPropertyChanged(nameof(Model));
-            }
-        }
         public ISettingsProvider SettingsProvider { get; set; }
         public IOpenSettingsWindowCommand OpenSettingsWindowCommand { get; set; }
         public IShuffleCommand ShuffleCommand { get; set; }
@@ -36,6 +27,19 @@ namespace MediaPlayer.ViewModel
         public ISeekbarThumbStartedDraggingCommand SeekbarThumbStartedDraggingCommand { get; set; }
         public ISeekbarThumbCompletedDraggingCommand SeekbarThumbCompletedDraggingCommand { get; set; }
 
+        private readonly IMediaListService _mediaListService;
+
+        private ModelMediaPlayer _model;
+        public ModelMediaPlayer Model
+        {
+            get => _model;
+            set
+            {
+                _model = value;
+                OnPropertyChanged(nameof(Model));
+            }
+        }
+
         public ViewModelMediaPlayer(ModelMediaPlayer model,
             ISettingsProvider settingsProvider,
             IOpenSettingsWindowCommand openSettingsWindowCommand,
@@ -51,7 +55,8 @@ namespace MediaPlayer.ViewModel
             IClearMediaListCommand clearMediaListCommand,
             ISeekbarValueChangedCommand seekbarValueChangedCommand,
             ISeekbarThumbStartedDraggingCommand seekbarThumbStartedDraggingCommand,
-            ISeekbarThumbCompletedDraggingCommand seekbarThumbCompletedDraggingCommand)
+            ISeekbarThumbCompletedDraggingCommand seekbarThumbCompletedDraggingCommand,
+            IMediaListService mediaListService)
         {
             SettingsProvider = settingsProvider;
 
@@ -70,6 +75,8 @@ namespace MediaPlayer.ViewModel
             SeekbarThumbStartedDraggingCommand = seekbarThumbStartedDraggingCommand;
             SeekbarThumbCompletedDraggingCommand = seekbarThumbCompletedDraggingCommand;
 
+            _mediaListService = mediaListService;
+
             _model = model;
         }
 
@@ -77,29 +84,12 @@ namespace MediaPlayer.ViewModel
 
         public void AddToMediaList(IEnumerable<MediaItem> mediaItems)
         {
-            this._model.MediaItems.AddRange(mediaItems);
-
-            if (_model.SelectedMediaItem != null || this._model.IsMediaListEmpty())
-                return;
-
-            this._model.SelectMediaItem(this._model.GetFirstMediaItemIndex());
-            this._model.PlayMedia();
-
-            this.RefreshUIBindings();
+            this._mediaListService.AddRange(mediaItems);
         }
 
         public void SetIsLoadingMediaItems(bool isLoadingMediaItems)
         {
             _model.IsLoadingMediaItems = isLoadingMediaItems;
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private void RefreshUIBindings()
-        {
-            CommandManager.InvalidateRequerySuggested();
         }
 
         #endregion

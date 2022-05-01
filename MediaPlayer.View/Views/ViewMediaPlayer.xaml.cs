@@ -12,6 +12,8 @@ using MahApps.Metro.Controls;
 using MediaPlayer.ApplicationSettings;
 using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.BusinessLogic;
+using MediaPlayer.BusinessLogic.Services.Abstract;
+using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Theming;
 using MediaPlayer.ViewModel;
 
@@ -34,7 +36,10 @@ namespace MediaPlayer.View.Views
 
         #region Constructor
 
-        public ViewMediaPlayer(ViewModelMediaPlayer vm, ISettingsProvider settingsProvider, IThemeSelector themeSelector, MetadataReaderResolver metadataReaderResolver)
+        public ViewMediaPlayer(ViewModelMediaPlayer vm, 
+            ISettingsProvider settingsProvider, 
+            IThemeSelector themeSelector, 
+            MetadataReaderResolver metadataReaderResolver)
         {
             this._settingsProvider = settingsProvider;
             this._themeSelector = themeSelector;
@@ -42,18 +47,9 @@ namespace MediaPlayer.View.Views
             this._metadataReaderResolver = metadataReaderResolver;
 
             this.InitializeComponent();
-            this.InitializeViewModel(vm);
+            DataContext = vm;
 
             this.AllowsTransparency = true;
-        }
-
-        #endregion
-
-        #region Initialization
-
-        private void InitializeViewModel(ViewModelMediaPlayer vm)
-        {
-            DataContext = vm;
         }
 
         #endregion
@@ -142,7 +138,7 @@ namespace MediaPlayer.View.Views
 
             await Task.Run(() =>
             {
-                var metadataReader = _metadataReaderResolver.Resolve(Common.Enumerations.MetadataReaders.Taglib);
+                var metadataReader = _metadataReaderResolver.Resolve(MetadataReaders.Taglib);
                 var supportedFileFormats = this._settingsProvider.SupportedFileFormats;
 
                 foreach (var path in filePaths)

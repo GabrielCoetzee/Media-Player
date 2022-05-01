@@ -1,6 +1,7 @@
 ﻿using MediaPlayer.ApplicationSettings;
 using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.BusinessLogic.Commands.Abstract;
+using MediaPlayer.BusinessLogic.Services.Abstract;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model;
 using System;
@@ -16,12 +17,17 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
         readonly ModelMediaPlayer _model;
         readonly ISettingsProvider _settingsProvider;
         readonly MetadataReaderResolver _metadataReaderResolver;
+        readonly IMediaListService _mediaListService;
 
-        public AddMediaCommand(ModelMediaPlayer model, ISettingsProvider settingsProvider, MetadataReaderResolver metadataReaderResolver)
+        public AddMediaCommand(ModelMediaPlayer model, 
+            ISettingsProvider settingsProvider, 
+            MetadataReaderResolver metadataReaderResolver,
+            IMediaListService mediaListService)
         {
             _model = model;
             _settingsProvider = settingsProvider;
             _metadataReaderResolver = metadataReaderResolver;
+            _mediaListService = mediaListService;
         }
 
         public event EventHandler CanExecuteChanged
@@ -54,7 +60,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
             var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
 
-            AddToMediaList(mediaItems);
+            _mediaListService.AddRange(mediaItems);
         }
 
         private string CreateDialogFilter()
@@ -65,23 +71,6 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
         private string AppendSupportedFormats(string seperator)
         {
             return this._settingsProvider.SupportedFileFormats.Aggregate(string.Empty, (current, format) => current + $"*{format}{(this._settingsProvider.SupportedFileFormats.Last() != format ? seperator : string.Empty)}");
-        }
-
-        public void AddToMediaList(IEnumerable<MediaItem> mediaItems)
-        {
-            this._model.MediaItems.AddRange(mediaItems);
-
-            if (_model.SelectedMediaItem != null || this._model.IsMediaListEmpty())
-                return;
-
-            this._model.SelectMediaItem(this._model.GetFirstMediaItemIndex());
-            this._model.PlayMedia();
-
-            RefreshUIBindings();
-        }
-        private void RefreshUIBindings()
-        {
-            CommandManager.InvalidateRequerySuggested();
         }
     }
 }
