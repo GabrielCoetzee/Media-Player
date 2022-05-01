@@ -70,10 +70,10 @@ namespace MediaPlayer.View.Views
 
         private async void TopMostGrid_Drop(object sender, DragEventArgs e)
         {
-            if (!(DataContext is ViewModelMediaPlayer vm))
+            if (DataContext is not ViewModelMediaPlayer vm)
                 return;
 
-            var droppedContent = ((IEnumerable)e.Data.GetData(DataFormats.FileDrop));
+            var droppedContent = (IEnumerable)e.Data.GetData(DataFormats.FileDrop);
 
             if (droppedContent == null)
                 return;

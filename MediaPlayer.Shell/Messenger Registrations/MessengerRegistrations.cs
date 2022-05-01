@@ -14,7 +14,6 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.OpenMediaPlayerMainWindow, (vm) =>
             {
-                //ViewModel injected to ViewMediaPlayer Constructor 
                 serviceProvider.GetRequiredService<ViewMediaPlayer>().Show();
             });
         }
@@ -23,7 +22,6 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.OpenApplicationSettings, (vm) =>
             {
-                //ViewModel injected to ViewApplicationSettings Constructor
                 serviceProvider.GetRequiredService<ViewApplicationSettings>().Show();
             });
         }
