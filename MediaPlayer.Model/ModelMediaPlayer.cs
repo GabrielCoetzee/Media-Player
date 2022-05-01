@@ -79,16 +79,16 @@ namespace MediaPlayer.Model
         }
 
         /// <summary>
-        ///  The Media element 'Position' dependency property cannot be bound to by default, so I created a custom dependency property.
-        ///  Unfortunately it is finnicky and two-way binding doesn't work as expected, the position doesn't update by itself from the media element, 
-        ///  even with two-way binding set up.
-        ///  Once MediaElementPosition is updated, the media element updates to where user dragged the slider,
-        ///  this cannot be done using CurrentPosition property due to that property not being bound to media element position and is being tracked manually by
-        ///  a DispatcherTimer.
-        ///  Trade-off of having both CurrentPosition and MediaElementPosition properties is necessary right now, though it would've been nice to have just one of the two.
-        ///  This might be best for user experience after all, the way it is now means while the user is dragging the seekbar, the song will continue playing until they
-        ///  release the mouse button where,
-        ///  if we had everything bound to 'CurrentPosition' and bound as expected, dragging the seekbar would've sounded like scrambling.
+        /// The Media element 'Position' dependency property cannot be bound to by default, so I created a custom dependency property.
+        /// Unfortunately it is finnicky and two-way binding doesn't work as expected, the position doesn't update by itself from the media element, 
+        /// even with two-way binding set up.
+        /// Once MediaElementPosition is updated, the media element updates to where user dragged the slider,
+        /// this cannot be done using CurrentPosition property due to that property not being bound to media element position and is being tracked manually by
+        /// a DispatcherTimer.
+        /// Trade-off of having both CurrentPosition and MediaElementPosition properties is necessary right now, though it would've been nice to have just one of the two.
+        /// This might be best for user experience after all, the way it is now means while the user is dragging the seekbar, the song will continue playing until they
+        /// release the mouse button where,
+        /// if we had everything bound to 'CurrentPosition' and bound as expected, dragging the seekbar would've sounded like scrambling.
         /// </summary>
         public TimeSpan MediaElementPosition
         {
