@@ -28,7 +28,7 @@
         <Controls:WindowCommands>
             <Button Command="{Binding OpenSettingsWindowCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="4 0 4 0"
+                    <TextBlock Margin="5 0 5 0"
                                VerticalAlignment="Center"
                                Text="SETTINGS" />
                     <fa5:ImageAwesome Width="15"  Height="15" Icon="Solid_Cog" Foreground="#FFFFFF"/>
@@ -145,12 +145,12 @@
             </Grid>
            
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Label Visibility="{Binding Model.SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" Content="{Binding Model.SelectedMediaItem.Bitrate}" ContentStringFormat="Bitrate : {0} kbps"   />
-                <Label Visibility="{Binding Model.SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHidden}}" Content="{Binding Model.SelectedMediaItem.VideoResolution}" ContentStringFormat="Resolution : {0}"   />
+                <Label Visibility="{Binding Model.SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" Content="{Binding Model.SelectedMediaItem.Bitrate}" ContentStringFormat="Bitrate: {0} kbps"   />
+                <Label Visibility="{Binding Model.SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHidden}}" Content="{Binding Model.SelectedMediaItem.VideoResolution}" ContentStringFormat="Resolution: {0}"   />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Text="Elapsed : " />
+                <TextBlock Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Text="Elapsed: " />
                 <TextBlock Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
