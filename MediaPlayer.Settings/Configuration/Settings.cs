@@ -3,8 +3,8 @@
     public class Settings
     {
         public string[] SupportedFileFormats { get; set; }
-        public string SelectedTheme { get; set; }
-        public decimal SelectedOpacity { get; set; }
+        public string Theme { get; set; }
+        public decimal Opacity { get; set; }
 
     }
 }

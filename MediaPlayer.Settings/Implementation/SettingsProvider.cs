@@ -14,8 +14,8 @@ namespace MediaPlayer.ApplicationSettings
         {
             _options = options;
 
-            _selectedOpacity = _options.Value.SelectedOpacity;
-            _selectedTheme = _options.Value.SelectedTheme;
+            _selectedOpacity = _options.Value.Opacity;
+            _selectedTheme = _options.Value.Theme;
 
             _themeSelector = themeSelector;
         }
@@ -58,8 +58,8 @@ namespace MediaPlayer.ApplicationSettings
         public void SaveSettings()
         {
             this._options.Update(opt => {
-                opt.SelectedOpacity = _selectedOpacity;
-                opt.SelectedTheme = _selectedTheme;
+                opt.Opacity = _selectedOpacity;
+                opt.Theme = _selectedTheme;
             });
         }
 
