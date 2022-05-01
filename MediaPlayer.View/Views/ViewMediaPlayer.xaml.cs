@@ -8,16 +8,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using ControlzEx.Theming;
-using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MediaPlayer.ApplicationSettings;
-using MediaPlayer.ApplicationSettings.Config;
 using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.BusinessLogic;
 using MediaPlayer.Theming;
 using MediaPlayer.ViewModel;
-using Microsoft.Extensions.Options;
 
 namespace MediaPlayer.View.Views
 {

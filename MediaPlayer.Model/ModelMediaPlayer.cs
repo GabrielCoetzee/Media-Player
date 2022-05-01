@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Generic.PropertyNotify;
 using MediaPlayer.BusinessEntities.Collections;
 using MediaPlayer.BusinessEntities.Objects.Base;
@@ -15,14 +16,15 @@ namespace MediaPlayer.Model
         private readonly Random _randomIdGenerator = new Random();
 
         private MediaItem _selectedMediaItem;
-        private MediaItemObservableCollection _mediaItems;
+        private MediaItemObservableCollection _mediaItems = new MediaItemObservableCollection();
         private bool _isLoadingMediaItems;
         private TimeSpan _mediaPosition;
-        private MediaState _mediaState;
-        private VolumeLevel _mediaVolume;
+        private MediaState _mediaState = MediaState.Pause;
+        private VolumeLevel _mediaVolume = VolumeLevel.Full;
         private bool _isUserDraggingSeekbarThumb;
         private bool _isRepeatEnabled;
         private bool _isMediaItemsShuffled;
+        public readonly DispatcherTimer _mediaPositionTracker = new DispatcherTimer();
 
         #endregion
 

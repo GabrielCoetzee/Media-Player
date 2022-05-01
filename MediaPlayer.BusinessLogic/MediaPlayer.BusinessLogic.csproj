@@ -11,6 +11,8 @@
   <ItemGroup>
     <ProjectReference Include="..\MediaPlayer.BusinessEntities\MediaPlayer.BusinessEntities.csproj" />
     <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj" />
+    <ProjectReference Include="..\MediaPlayer.Model\MediaPlayer.Model.csproj" />
+    <ProjectReference Include="..\MediaPlayer.Settings\MediaPlayer.Settings.csproj" />
   </ItemGroup>
 
 </Project>

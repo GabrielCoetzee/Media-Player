@@ -1,14 +1,19 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using Generic.Configuration.Extensions;
 using Generic.Mediator;
 using MediaPlayer.ApplicationSettings;
 using MediaPlayer.ApplicationSettings.Config;
 using MediaPlayer.BusinessLogic;
 using MediaPlayer.BusinessLogic.Abstract;
+using MediaPlayer.BusinessLogic.Commands;
+using MediaPlayer.BusinessLogic.Commands.Abstract;
+using MediaPlayer.BusinessLogic.Commands.Concrete;
 using MediaPlayer.BusinessLogic.Implementation;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model;
 using MediaPlayer.Shell.MessengerRegs;
 using MediaPlayer.Theming;
 using MediaPlayer.View.Views;
@@ -63,6 +68,24 @@ namespace MediaPlayer.Shell
 
             services.AddTransient(typeof(ViewApplicationSettings));
             services.AddTransient<ViewModelApplicationSettings>();
+
+            services.AddSingleton<ModelMediaPlayer>();
+
+            //Commands
+            services.AddTransient<IOpenSettingsWindowCommand, OpenSettingsWindowCommand>();
+            services.AddTransient<IShuffleCommand, ShuffleCommand>();
+            services.AddTransient<IAddMediaCommand, AddMediaCommand>();
+            services.AddTransient<IPlayPauseCommand, PlayPauseCommand>();
+            services.AddTransient<IMuteCommand, MuteCommand>();
+            services.AddTransient<IPreviousTrackCommand, PreviousTrackCommand>();
+            services.AddTransient<IStopCommand, StopCommand>();
+            services.AddTransient<INextTrackCommand, NextTrackCommand>();
+            services.AddTransient<IRepeatMediaListCommand, RepeatMediaListCommand>();
+            services.AddTransient<IMediaOpenedCommand, MediaOpenedCommand>();
+            services.AddTransient<IClearMediaListCommand, ClearMediaListCommand>();
+            services.AddTransient<ISeekbarValueChangedCommand, SeekbarValueChangedCommand>();
+            services.AddTransient<ISeekbarThumbStartedDraggingCommand, SeekbarThumbStartedDraggingCommand>();
+            services.AddTransient<ISeekbarThumbCompletedDraggingCommand, SeekbarThumbCompletedDraggingCommand>();
         }
     }
 }
