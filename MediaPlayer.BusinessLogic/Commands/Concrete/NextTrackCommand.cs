@@ -23,7 +23,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return !this._model.IsMediaListEmpty() && this._model.IsNextMediaItemAvailable() || _model.IsRepeatEnabled;
+            return !this._model.IsMediaListEmpty() && (this._model.IsNextMediaItemAvailable() || _model.IsRepeatEnabled);
         }
 
         public void Execute(object parameter)

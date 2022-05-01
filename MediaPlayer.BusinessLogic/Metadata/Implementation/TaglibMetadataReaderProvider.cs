@@ -38,7 +38,6 @@ namespace MediaPlayer.BusinessLogic.Implementation
                                 .WithMediaDuration(taglibMetadataReader.Properties.Duration)
                                 .WithSongTitle(taglibMetadataReader.Tag.Title)
                                 .WithYear(taglibMetadataReader.Tag.Year)
-                                //.AsMediaListNumber(taglibMetadataReader.Tag.Track)
                                 .Build();
 
                             return audioItem;

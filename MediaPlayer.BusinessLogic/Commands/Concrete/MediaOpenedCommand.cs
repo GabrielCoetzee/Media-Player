@@ -39,9 +39,6 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         private void PollMediaPosition(MediaElement mediaElement)
         {
-            if (mediaElement == null)
-                return;
-
             this._model.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
 
             this._model.MediaPositionTracker.Tick += (sender, args) => UpdateMediaPosition(mediaElement);

@@ -1,11 +1,8 @@
 ﻿using MediaPlayer.ApplicationSettings;
-using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.BusinessLogic.Commands.Abstract;
 using MediaPlayer.BusinessLogic.Services.Abstract;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -14,17 +11,14 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 {
     public class AddMediaCommand : IAddMediaCommand
     {
-        readonly ModelMediaPlayer _model;
         readonly ISettingsProvider _settingsProvider;
         readonly MetadataReaderResolver _metadataReaderResolver;
         readonly IMediaListService _mediaListService;
 
-        public AddMediaCommand(ModelMediaPlayer model, 
-            ISettingsProvider settingsProvider, 
+        public AddMediaCommand(ISettingsProvider settingsProvider, 
             MetadataReaderResolver metadataReaderResolver,
             IMediaListService mediaListService)
         {
-            _model = model;
             _settingsProvider = settingsProvider;
             _metadataReaderResolver = metadataReaderResolver;
             _mediaListService = mediaListService;
@@ -65,10 +59,10 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         private string CreateDialogFilter()
         {
-            return string.Join("|", $"Supported Formats ({AppendSupportedFormats(",")})", AppendSupportedFormats(";"));
+            return string.Join("|", $"Supported Formats ({AppendedSupportedFormats(",")})", AppendedSupportedFormats(";"));
         }
 
-        private string AppendSupportedFormats(string seperator)
+        private string AppendedSupportedFormats(string seperator)
         {
             return this._settingsProvider.SupportedFileFormats.Aggregate(string.Empty, (current, format) => current + $"*{format}{(this._settingsProvider.SupportedFileFormats.Last() != format ? seperator : string.Empty)}");
         }
