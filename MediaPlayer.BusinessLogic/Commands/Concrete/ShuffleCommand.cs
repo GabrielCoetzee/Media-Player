@@ -30,13 +30,11 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
             if (!_model.IsMediaItemsShuffled)
             {
                 this._model.ShuffleMediaList();
-                _model.IsMediaItemsShuffled = true;
 
                 return;
             }
 
             this._model.OrderMediaList();
-            _model.IsMediaItemsShuffled = false;
         }
     }
 }

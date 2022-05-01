@@ -231,20 +231,29 @@ namespace MediaPlayer.Model
 
         public void PlayPreviousMediaItem()
         {
-            if (this.IsRepeatEnabled && this.IsFirstMediaItemSelected())
+            if (IsRepeatEnabled && IsFirstMediaItemSelected())
+            {
                 this.SelectMediaItem(this.GetLastMediaItemIndex());
-            else
-                this.SelectMediaItem(this.GetPreviousMediaItemIndex());
+                this.PlayMedia();
 
+                return;
+            }
+
+            this.SelectMediaItem(this.GetPreviousMediaItemIndex());
             this.PlayMedia();
         }
 
         public void PlayNextMediaItem()
         {
-            if (this.IsRepeatEnabled && this.IsLastMediaItemSelected())
+            if (IsRepeatEnabled && IsLastMediaItemSelected())
+            {
                 this.SelectMediaItem(this.GetFirstMediaItemIndex());
-            else
-                this.SelectMediaItem(this.GetNextMediaItemIndex());
+                this.PlayMedia();
+
+                return;
+            }
+
+            this.SelectMediaItem(this.GetNextMediaItemIndex());
 
             this.PlayMedia();
         }
@@ -252,6 +261,8 @@ namespace MediaPlayer.Model
         public void OrderMediaList()
         {
             this.MediaItems = new MediaItemObservableCollection(this.MediaItems.OrderBy(x => x.Id));
+
+            IsMediaItemsShuffled = false;
         }
 
         public void ShuffleMediaList()
@@ -259,6 +270,8 @@ namespace MediaPlayer.Model
             this.MediaItems = new MediaItemObservableCollection(this.MediaItems
                 .OrderBy(x => x != this.SelectedMediaItem)
                 .ThenBy(x => _randomIdGenerator.Next()));
+
+            IsMediaItemsShuffled = true;
         }
 
         #endregion
