@@ -7,17 +7,11 @@ namespace MediaPlayer.BusinessEntities.Objects.Base
 {
     public abstract class MediaItem : PropertyNotifyBase
     {
-        #region Fields
-
         private int _id;
         private TimeSpan _mediaDuration { get; set; }
         private Uri _filePath;
         private MediaType _mediaType;
         private TimeSpan _elapsedTime;
-
-        #endregion
-
-        #region Properties
 
         public int Id
         {
@@ -78,7 +72,5 @@ namespace MediaPlayer.BusinessEntities.Objects.Base
                 OnPropertyChanged(nameof(ElapsedTime));
             }
         }
-
-        #endregion
     }
 }

@@ -36,7 +36,6 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
             }
 
             this._model.OrderMediaList();
-
             _model.IsMediaItemsShuffled = false;
         }
     }

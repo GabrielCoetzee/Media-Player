@@ -201,10 +201,10 @@ namespace MediaPlayer.Model
             return elapsedTime == this.SelectedMediaItem.MediaDuration;
         }
 
-        public bool IsCurrentMediaDurationAccurate(TimeSpan mediaElementNaturalDuration)
-        {
-            return this.SelectedMediaItem?.MediaDuration == mediaElementNaturalDuration;
-        }
+        //public bool IsCurrentMediaDurationAccurate(TimeSpan mediaElementNaturalDuration)
+        //{
+        //    return this.SelectedMediaItem?.MediaDuration == mediaElementNaturalDuration;
+        //}
 
         public void PlayPreviousMediaItem()
         {

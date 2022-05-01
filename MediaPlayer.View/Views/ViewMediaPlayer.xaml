@@ -109,7 +109,7 @@
 
                 <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding Model.IsLoadingMediaItems, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibleOrHidden}}" Foreground="White" Spin="True" />
                 <Label Content="Media List Loading..." Visibility="{Binding Model.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
-                <Label Content="Media List " Visibility="{Binding Model.IsLoadingMediaItems, TargetNullValue=Hidden, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
+                <!--<Label Content="Media List " Visibility="{Binding Model.IsLoadingMediaItems, TargetNullValue=Hidden, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />-->
                 <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding Model.MediaItems}" SelectedItem="{Binding Model.SelectedMediaItem}" SelectionChanged="MediaListBox_SelectionChanged" >
                     <genericControls:AutoScrollListView.ItemTemplate>
                         <DataTemplate>

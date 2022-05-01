@@ -31,7 +31,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (!(parameter is MediaElement UI_MediaElement))
+            if (parameter is not MediaElement UI_MediaElement)
                 return;
 
             PollMediaPosition(UI_MediaElement);
