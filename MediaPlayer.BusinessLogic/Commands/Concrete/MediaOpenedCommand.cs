@@ -31,27 +31,25 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not MediaElement UI_MediaElement)
+            if (parameter is not MediaElement ui_mediaElement)
                 return;
 
-            PollMediaPosition(UI_MediaElement);
+            PollMediaPosition(ui_mediaElement);
         }
 
         private void PollMediaPosition(MediaElement mediaElement)
         {
             this._model.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
 
-            this._model.MediaPositionTracker.Tick += (sender, args) => UpdateMediaPosition(mediaElement);
+            this._model.MediaPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaElement);
 
             this._model.MediaPositionTracker.Start();
         }
 
-        private void UpdateMediaPosition(MediaElement mediaElement)
+        private void TrackMediaPosition(MediaElement mediaElement)
         {
             if (!_model.IsUserDraggingSeekbarThumb)
-            {
                 this._model.MediaPosition = mediaElement.Position;
-            }
 
             if (!this._model.IsEndOfCurrentMedia(this._model.SelectedMediaItem.ElapsedTime))
                 return;
@@ -61,10 +59,10 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
                 _nextTrackCommand.Execute(null);
             }
 
-            this.RefreshUIBindings();
+            RefreshUIBindings();
         }
 
-        private void RefreshUIBindings()
+        private static void RefreshUIBindings()
         {
             CommandManager.InvalidateRequerySuggested();
         }

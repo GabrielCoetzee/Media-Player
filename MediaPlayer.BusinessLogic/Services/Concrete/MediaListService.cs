@@ -25,10 +25,10 @@ namespace MediaPlayer.BusinessLogic.Services.Concrete
             this._modelMediaPlayer.SelectMediaItem(this._modelMediaPlayer.GetFirstMediaItemIndex());
             this._modelMediaPlayer.PlayMedia();
 
-            this.RefreshUIBindings();
+            RefreshUIBindings();
         }
 
-        private void RefreshUIBindings()
+        private static void RefreshUIBindings()
         {
             CommandManager.InvalidateRequerySuggested();
         }

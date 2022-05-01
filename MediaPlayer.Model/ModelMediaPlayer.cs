@@ -16,7 +16,7 @@ namespace MediaPlayer.Model
         private readonly Random _randomIdGenerator = new Random();
 
         private MediaItem _selectedMediaItem;
-        private MediaItemObservableCollection _mediaItems = new MediaItemObservableCollection();
+        private MediaItemObservableCollection _mediaItems = new();
         private bool _isLoadingMediaItems;
         private TimeSpan _mediaPosition;
         private MediaState _mediaState = MediaState.Pause;
@@ -25,7 +25,7 @@ namespace MediaPlayer.Model
         private bool _isRepeatEnabled;
         private bool _isMediaItemsShuffled;
 
-        public readonly DispatcherTimer MediaPositionTracker = new DispatcherTimer();
+        public readonly DispatcherTimer MediaPositionTracker = new();
 
         #endregion
 
