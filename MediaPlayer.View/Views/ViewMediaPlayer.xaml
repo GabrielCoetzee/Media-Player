@@ -190,9 +190,6 @@
                     <i1:EventTrigger EventName="PreviewMouseUp" >
                         <i1:InvokeCommandAction Command="{Binding SeekbarPreviewMouseUpCommand}" PassEventArgsToCommand="True" />
                     </i1:EventTrigger>
-                    <i1:EventTrigger EventName="ValueChanged" >
-                        <i1:InvokeCommandAction Command="{Binding SeekbarValueChangedCommand}" CommandParameter="{Binding ElementName=SeekBar}" />
-                    </i1:EventTrigger>
                     <i1:EventTrigger EventName="GotMouseCapture" >
                         <i1:InvokeCommandAction Command="{Binding SeekbarThumbStartedDraggingCommand}" />
                     </i1:EventTrigger>

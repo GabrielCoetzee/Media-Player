@@ -49,7 +49,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
         private void TrackMediaPosition(MediaElement mediaElement)
         {
             if (!_model.IsUserDraggingSeekbarThumb)
-                this._model.CurrentPosition = mediaElement.Position;
+                this._model.SelectedMediaItem.ElapsedTime = mediaElement.Position;
 
             if (!this._model.IsEndOfCurrentMedia(this._model.SelectedMediaItem.ElapsedTime))
                 return;

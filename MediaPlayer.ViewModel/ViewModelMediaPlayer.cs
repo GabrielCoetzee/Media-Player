@@ -23,7 +23,6 @@ namespace MediaPlayer.ViewModel
         public IRepeatMediaListCommand RepeatMediaListCommand { get; set; }
         public IMediaOpenedCommand MediaOpenedCommand { get; set; }
         public IClearMediaListCommand ClearMediaListCommand { get; set; }
-        public ISeekbarValueChangedCommand SeekbarValueChangedCommand { get; set; }
         public ISeekbarThumbStartedDraggingCommand SeekbarThumbStartedDraggingCommand { get; set; }
         public ISeekbarThumbCompletedDraggingCommand SeekbarThumbCompletedDraggingCommand { get; set; }
         public ISeekbarPreviewMouseUpCommand SeekbarPreviewMouseUpCommand { get; set; }
@@ -54,7 +53,6 @@ namespace MediaPlayer.ViewModel
             IRepeatMediaListCommand repeatMediaListCommand,
             IMediaOpenedCommand mediaOpenedCommand,
             IClearMediaListCommand clearMediaListCommand,
-            ISeekbarValueChangedCommand seekbarValueChangedCommand,
             ISeekbarThumbStartedDraggingCommand seekbarThumbStartedDraggingCommand,
             ISeekbarThumbCompletedDraggingCommand seekbarThumbCompletedDraggingCommand,
             IMediaListService mediaListService,
@@ -73,7 +71,6 @@ namespace MediaPlayer.ViewModel
             RepeatMediaListCommand = repeatMediaListCommand;
             MediaOpenedCommand = mediaOpenedCommand;
             ClearMediaListCommand = clearMediaListCommand;
-            SeekbarValueChangedCommand = seekbarValueChangedCommand;
             SeekbarThumbStartedDraggingCommand = seekbarThumbStartedDraggingCommand;
             SeekbarThumbCompletedDraggingCommand = seekbarThumbCompletedDraggingCommand;
             SeekbarPreviewMouseUpCommand = seekbarPreviewMouseUpCommand;
