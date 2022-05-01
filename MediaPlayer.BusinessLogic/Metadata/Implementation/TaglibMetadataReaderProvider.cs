@@ -35,7 +35,7 @@ namespace MediaPlayer.BusinessLogic.Implementation
                                 .WithComposer(taglibMetadataReader.Tag.FirstComposer)
                                 .WithGenre(taglibMetadataReader.Tag.FirstGenre)
                                 .WithLyrics(taglibMetadataReader.Tag.Lyrics)
-                                .WithMediaDuration(taglibMetadataReader.Properties.Duration)
+                                .WithDuration(taglibMetadataReader.Properties.Duration)
                                 .WithSongTitle(taglibMetadataReader.Tag.Title)
                                 .WithYear(taglibMetadataReader.Tag.Year)
                                 .Build();

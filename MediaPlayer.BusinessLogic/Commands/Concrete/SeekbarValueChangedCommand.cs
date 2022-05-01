@@ -29,7 +29,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
         public void Execute(object parameter)
         {
             if (_model.IsUserDraggingSeekbarThumb)
-                this._model.CurrentPosition = this._model.SelectedMediaItem.ElapsedTime;
+                _model.CurrentPosition = _model.SelectedMediaItem.ElapsedTime;
         }
     }
 }

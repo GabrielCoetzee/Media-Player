@@ -44,7 +44,7 @@ namespace MediaPlayer.BusinessEntities.Object_Builders
 
         public VideoItemBuilder WithMediaDuration(TimeSpan mediaDuration)
         {
-            _videoItem.MediaDuration = mediaDuration;
+            _videoItem.Duration = mediaDuration;
 
             return this;
         }

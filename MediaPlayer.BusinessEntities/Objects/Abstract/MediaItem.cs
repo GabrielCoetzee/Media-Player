@@ -8,7 +8,7 @@ namespace MediaPlayer.BusinessEntities.Objects.Base
     public abstract class MediaItem : PropertyNotifyBase
     {
         private int _id;
-        private TimeSpan _mediaDuration { get; set; }
+        private TimeSpan _duration { get; set; }
         private Uri _filePath;
         private MediaType _mediaType;
         private TimeSpan _elapsedTime;
@@ -34,13 +34,13 @@ namespace MediaPlayer.BusinessEntities.Objects.Base
             }
         }
 
-        public TimeSpan MediaDuration
+        public TimeSpan Duration
         {
-            get => _mediaDuration;
+            get => _duration;
             set
             {
-                _mediaDuration = value;
-                OnPropertyChanged(nameof(MediaDuration));
+                _duration = value;
+                OnPropertyChanged(nameof(Duration));
             }
         }
 

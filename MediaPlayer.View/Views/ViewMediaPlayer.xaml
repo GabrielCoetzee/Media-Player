@@ -127,8 +127,8 @@
                                 <TextBlock Grid.Column="1" HorizontalAlignment="Right" >
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
-                                            <Binding Path="MediaDuration.Minutes" />
-                                            <Binding Path="MediaDuration.Seconds" />
+                                            <Binding Path="Duration.Minutes" />
+                                            <Binding Path="Duration.Seconds" />
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
@@ -163,8 +163,8 @@
                 <TextBlock Visibility="{Binding Model.IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" >
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
-                            <Binding Path="Model.SelectedMediaItem.MediaDuration.Minutes" />
-                            <Binding Path="Model.SelectedMediaItem.MediaDuration.Seconds" />
+                            <Binding Path="Model.SelectedMediaItem.Duration.Minutes" />
+                            <Binding Path="Model.SelectedMediaItem.Duration.Seconds" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
@@ -185,7 +185,7 @@
                 </Image>
             </StackPanel>
 
-            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding Model.SelectedMediaItem.ElapsedTime, Converter={StaticResource TimeSpanToSecondsConverter}}" IsEnabled="{Binding Model.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource SliderToEnabledWhenMediaItemSelectedConverter}}" Maximum="{Binding Model.SelectedMediaItem.MediaDuration.TotalSeconds}" >
+            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding Model.SelectedMediaItem.ElapsedTime, Converter={StaticResource TimeSpanToSecondsConverter}}" IsEnabled="{Binding Model.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource SliderToEnabledWhenMediaItemSelectedConverter}}" Maximum="{Binding Model.SelectedMediaItem.Duration.TotalSeconds}" >
                 <i1:Interaction.Triggers>
                     <i1:EventTrigger EventName="PreviewMouseUp" >
                         <i1:InvokeCommandAction Command="{Binding SeekbarPreviewMouseUpCommand}" PassEventArgsToCommand="True" />

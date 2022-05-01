@@ -43,9 +43,9 @@ namespace MediaPlayer.BusinessEntities.Object_Builders
             return this;
         }
 
-        public AudioItemBuilder WithMediaDuration(TimeSpan mediaDuration)
+        public AudioItemBuilder WithDuration(TimeSpan mediaDuration)
         {
-            _audioItem.MediaDuration = mediaDuration;
+            _audioItem.Duration = mediaDuration;
 
             return this;
         }

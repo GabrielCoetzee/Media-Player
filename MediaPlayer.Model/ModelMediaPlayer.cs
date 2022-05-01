@@ -219,14 +219,14 @@ namespace MediaPlayer.Model
             return this.MediaItems.IndexOf(this.SelectedMediaItem) == this.MediaItems.IndexOf(this.MediaItems.Last());
         }
 
-        public void SetAccurateCurrentMediaDuration(TimeSpan mediaDuration)
+        public void SetAccurateCurrentMediaDuration(TimeSpan duration)
         {
-            this.SelectedMediaItem.MediaDuration = mediaDuration;
+            this.SelectedMediaItem.Duration = duration;
         }
 
         public bool IsEndOfCurrentMedia(TimeSpan elapsedTime)
         {
-            return elapsedTime == this.SelectedMediaItem.MediaDuration;
+            return elapsedTime == this.SelectedMediaItem.Duration;
         }
 
         public void PlayPreviousMediaItem()
