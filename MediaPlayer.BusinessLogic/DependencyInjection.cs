@@ -29,6 +29,7 @@ namespace MediaPlayer.BusinessLogic
             services.AddTransient<ISeekbarValueChangedCommand, SeekbarValueChangedCommand>();
             services.AddTransient<ISeekbarThumbStartedDraggingCommand, SeekbarThumbStartedDraggingCommand>();
             services.AddTransient<ISeekbarThumbCompletedDraggingCommand, SeekbarThumbCompletedDraggingCommand>();
+            services.AddTransient<ISeekbarPreviewMouseUpCommand, SeekbarPreviewMouseUpCommand>();
 
             //Services
 

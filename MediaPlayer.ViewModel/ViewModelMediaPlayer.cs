@@ -26,6 +26,7 @@ namespace MediaPlayer.ViewModel
         public ISeekbarValueChangedCommand SeekbarValueChangedCommand { get; set; }
         public ISeekbarThumbStartedDraggingCommand SeekbarThumbStartedDraggingCommand { get; set; }
         public ISeekbarThumbCompletedDraggingCommand SeekbarThumbCompletedDraggingCommand { get; set; }
+        public ISeekbarPreviewMouseUpCommand SeekbarPreviewMouseUpCommand { get; set; }
 
         private readonly IMediaListService _mediaListService;
 
@@ -56,7 +57,8 @@ namespace MediaPlayer.ViewModel
             ISeekbarValueChangedCommand seekbarValueChangedCommand,
             ISeekbarThumbStartedDraggingCommand seekbarThumbStartedDraggingCommand,
             ISeekbarThumbCompletedDraggingCommand seekbarThumbCompletedDraggingCommand,
-            IMediaListService mediaListService)
+            IMediaListService mediaListService,
+            ISeekbarPreviewMouseUpCommand seekbarPreviewMouseUpCommand)
         {
             SettingsProvider = settingsProvider;
 
@@ -74,6 +76,7 @@ namespace MediaPlayer.ViewModel
             SeekbarValueChangedCommand = seekbarValueChangedCommand;
             SeekbarThumbStartedDraggingCommand = seekbarThumbStartedDraggingCommand;
             SeekbarThumbCompletedDraggingCommand = seekbarThumbCompletedDraggingCommand;
+            SeekbarPreviewMouseUpCommand = seekbarPreviewMouseUpCommand;
 
             _mediaListService = mediaListService;
 

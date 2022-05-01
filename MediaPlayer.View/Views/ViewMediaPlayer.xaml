@@ -8,8 +8,11 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:converters="clr-namespace:MediaPlayer.View.Converters"
+        xmlns:extensions="clr-namespace:MediaPlayer.View.Extensions"
         xmlns:genericControls="clr-namespace:Generic.Controls;assembly=Generic" 
         xmlns:i1="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:ViewModelMediaPlayer}"
         mc:Ignorable="d"
         SaveWindowPosition="True"
         GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
@@ -93,7 +96,7 @@
                 </Grid>
             </Expander>
 
-            <MediaElement Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="12" Source="{Binding Model.SelectedMediaItem.FilePath}" LoadedBehavior="{Binding Model.MediaState}" Name="MediaElement" Volume="{Binding Model.MediaVolume, Converter={StaticResource MediaVolumeConverter}}">
+            <MediaElement Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="12" extensions:MediaElementExtension.Position="{Binding Model.MediaElementPosition, Mode=TwoWay}" Source="{Binding Model.SelectedMediaItem.FilePath}" LoadedBehavior="{Binding Model.MediaState}" Name="MediaElement" Volume="{Binding Model.MediaVolume, Converter={StaticResource MediaVolumeConverter}}">
                 <i1:Interaction.Triggers>
                     <i1:EventTrigger EventName="MediaOpened" >
                         <i1:InvokeCommandAction Command="{Binding MediaOpenedCommand}" CommandParameter="{Binding ElementName=MediaElement}" />
@@ -182,8 +185,11 @@
                 </Image>
             </StackPanel>
 
-            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding Model.SelectedMediaItem.ElapsedTime, Converter={StaticResource TimeSpanToSecondsConverter}}" IsEnabled="{Binding Model.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource SliderToEnabledWhenMediaItemSelectedConverter}}" Maximum="{Binding Model.SelectedMediaItem.MediaDuration.TotalSeconds}" PreviewMouseUp="SeekBar_PreviewMouseUp" >
+            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding Model.SelectedMediaItem.ElapsedTime, Converter={StaticResource TimeSpanToSecondsConverter}}" IsEnabled="{Binding Model.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource SliderToEnabledWhenMediaItemSelectedConverter}}" Maximum="{Binding Model.SelectedMediaItem.MediaDuration.TotalSeconds}" >
                 <i1:Interaction.Triggers>
+                    <i1:EventTrigger EventName="PreviewMouseUp" >
+                        <i1:InvokeCommandAction Command="{Binding SeekbarPreviewMouseUpCommand}" PassEventArgsToCommand="True" />
+                    </i1:EventTrigger>
                     <i1:EventTrigger EventName="ValueChanged" >
                         <i1:InvokeCommandAction Command="{Binding SeekbarValueChangedCommand}" CommandParameter="{Binding ElementName=SeekBar}" />
                     </i1:EventTrigger>
@@ -196,10 +202,10 @@
                 </i1:Interaction.Triggers>
             </Slider>
 
-            <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="10" Grid.RowSpan="2" Loaded="ToggleButton_OnLoaded" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding ShuffleCommand}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
-            <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="9" Grid.RowSpan="2" Loaded="ToggleButton_OnLoaded"  Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding RepeatMediaListCommand}" Background="{StaticResource ResourceRepeatButtonImage}"  Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
-            <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="8" Grid.RowSpan="2" Loaded="Button_OnLoaded" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding NextTrackCommand}" Background="{StaticResource ResourceNextTrackButtonImage}"  Style="{DynamicResource MahApps.Styles.Button.Circle}" />
-            <Button Margin="4 4 4 4" Name="ButtonPlayPause" Grid.Row="4" Grid.Column="7" Grid.RowSpan="2" Loaded="Button_OnLoaded" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding PlayPauseCommand}" Background="{Binding Model.MediaState, Converter={StaticResource PlayPauseButtonBackgroundConverter}, FallbackValue={StaticResource ResourcePlayButtonImage}}" Style="{DynamicResource MahApps.Styles.Button.Circle}" >
+            <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="10" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding ShuffleCommand}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
+            <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="9" Grid.RowSpan="2"  Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding RepeatMediaListCommand}" Background="{StaticResource ResourceRepeatButtonImage}"  Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
+            <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="8" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding NextTrackCommand}" Background="{StaticResource ResourceNextTrackButtonImage}"  Style="{DynamicResource MahApps.Styles.Button.Circle}" />
+            <Button Margin="4 4 4 4" Name="ButtonPlayPause" Grid.Row="4" Grid.Column="7" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding PlayPauseCommand}" Background="{Binding Model.MediaState, Converter={StaticResource PlayPauseButtonBackgroundConverter}, FallbackValue={StaticResource ResourcePlayButtonImage}}" Style="{DynamicResource MahApps.Styles.Button.Circle}" >
                 <!--<Button.Width>
                     <MultiBinding Converter="{StaticResource RowHeightSumMultiValueConverter}">
                         <Binding Path="ActualHeight" ElementName="RowButtons1" Mode="OneWay" />
@@ -207,9 +213,9 @@
                     </MultiBinding>
                 </Button.Width>-->
             </Button>
-            <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="6" Grid.RowSpan="2" Loaded="Button_OnLoaded" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding StopCommand}" Background="{StaticResource ResourceStopButtonImage}" Style="{DynamicResource MahApps.Styles.Button.Circle}" />
-            <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="5" Grid.RowSpan="2" Loaded="Button_OnLoaded" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding PreviousTrackCommand}" Background="{StaticResource ResourcePreviousTrackButtonImage}"  Style="{DynamicResource MahApps.Styles.Button.Circle}" />
-            <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="4" Grid.RowSpan="2" Loaded="ToggleButton_OnLoaded" Foreground="{DynamicResource MahApps.Brushes.Accent}" Name="ButtonMute" Command="{Binding MuteCommand}" Background="{StaticResource ResourceMuteButtonImage}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
+            <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="6" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding StopCommand}" Background="{StaticResource ResourceStopButtonImage}" Style="{DynamicResource MahApps.Styles.Button.Circle}" />
+            <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="5" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding PreviousTrackCommand}" Background="{StaticResource ResourcePreviousTrackButtonImage}"  Style="{DynamicResource MahApps.Styles.Button.Circle}" />
+            <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="4" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Name="ButtonMute" Command="{Binding MuteCommand}" Background="{StaticResource ResourceMuteButtonImage}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
             <Button Focusable="False" Grid.Row="5" Grid.Column="1" Content="Add File(s)" FontWeight="Regular" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding AddMediaCommand}" />
             <Button Focusable="False" Grid.Row="5" Grid.Column="13" Content="Clear Media List" FontWeight="Regular" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding ClearMediaListCommand}" />
         </Grid>

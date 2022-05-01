@@ -16,5 +16,12 @@ namespace Generic.Controls
 
             base.OnItemsChanged(e);
         }
+
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            this.ScrollIntoView(this.SelectedItem);
+
+            base.OnSelectionChanged(e);
+        }
     }
 }

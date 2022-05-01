@@ -28,10 +28,10 @@ namespace MediaPlayer.View.Views
         {
             InitializeComponent();
 
+            DataContext = vm;
+
             SettingsProvider = settingsProvider;
             _themeSelector = themeSelector;
-
-            DataContext = vm;
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)

@@ -25,43 +25,26 @@ namespace MediaPlayer.View.Views
     /// </summary>
     public partial class ViewMediaPlayer : MetroWindow
     {
-        #region Bindable Properties
-
         readonly ISettingsProvider _settingsProvider;
-
-        #endregion
-
         readonly IThemeSelector _themeSelector;
         readonly MetadataReaderResolver _metadataReaderResolver;
-
-        #region Constructor
 
         public ViewMediaPlayer(ViewModelMediaPlayer vm, 
             ISettingsProvider settingsProvider, 
             IThemeSelector themeSelector, 
             MetadataReaderResolver metadataReaderResolver)
         {
-            this._settingsProvider = settingsProvider;
-            this._themeSelector = themeSelector;
+            InitializeComponent();
 
-            this._metadataReaderResolver = metadataReaderResolver;
-
-            this.InitializeComponent();
             DataContext = vm;
 
+            this._settingsProvider = settingsProvider;
+            this._themeSelector = themeSelector;
+            this._metadataReaderResolver = metadataReaderResolver;
             this.AllowsTransparency = true;
         }
 
-        #endregion
-
         #region UI Event Handlers
-
-        private void SeekBar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            var pointerLocation = (e.GetPosition(this.SeekBar).X / SeekBar.ActualWidth) * (SeekBar.Maximum - SeekBar.Minimum);
-
-            this.SeekMediaPosition(TimeSpan.FromSeconds(pointerLocation));
-        }
 
         private void TopMostGrid_DragEnter(object sender, DragEventArgs e)
         {
@@ -89,8 +72,6 @@ namespace MediaPlayer.View.Views
 
         private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            MediaListBox.ScrollIntoView(MediaListBox.SelectedItem);
-
             this.FocusOnPlayPauseButton();
         }
 
@@ -112,11 +93,6 @@ namespace MediaPlayer.View.Views
         #endregion
 
         #region Private Methods
-
-        private void SeekMediaPosition(TimeSpan seekToPosition)
-        {
-            this.MediaElement.Position = seekToPosition;
-        }
 
         private void LoadTheme()
         {
@@ -167,27 +143,5 @@ namespace MediaPlayer.View.Views
         }
 
         #endregion
-
-        private void Button_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-
-            if (button == null)
-                return;
-
-            button.Height = button.ActualHeight;
-            button.Width = button.ActualWidth;
-        }
-
-        private void ToggleButton_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            var button = sender as ToggleButton;
-
-            if (button == null)
-                return;
-
-            button.Height = button.ActualHeight;
-            button.Width = button.ActualWidth;
-        }
     }
 }

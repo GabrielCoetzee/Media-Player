@@ -41,15 +41,15 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
         {
             this._model.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
 
-            this._model.MediaPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaElement);
+            this._model.CurrentPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaElement);
 
-            this._model.MediaPositionTracker.Start();
+            this._model.CurrentPositionTracker.Start();
         }
 
         private void TrackMediaPosition(MediaElement mediaElement)
         {
             if (!_model.IsUserDraggingSeekbarThumb)
-                this._model.MediaPosition = mediaElement.Position;
+                this._model.CurrentPosition = mediaElement.Position;
 
             if (!this._model.IsEndOfCurrentMedia(this._model.SelectedMediaItem.ElapsedTime))
                 return;

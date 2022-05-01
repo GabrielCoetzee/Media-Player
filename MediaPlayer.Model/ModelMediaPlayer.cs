@@ -13,19 +13,20 @@ namespace MediaPlayer.Model
     {
         #region Fields
 
-        private readonly Random _randomIdGenerator = new Random();
+        private readonly Random _randomIdGenerator = new();
 
         private MediaItem _selectedMediaItem;
         private MediaItemObservableCollection _mediaItems = new();
         private bool _isLoadingMediaItems;
-        private TimeSpan _mediaPosition;
+        private TimeSpan _currentPosition;
+        private TimeSpan _mediaElementPosition;
         private MediaState _mediaState = MediaState.Pause;
         private VolumeLevel _mediaVolume = VolumeLevel.Full;
         private bool _isUserDraggingSeekbarThumb;
         private bool _isRepeatEnabled;
         private bool _isMediaItemsShuffled;
 
-        public readonly DispatcherTimer MediaPositionTracker = new();
+        public readonly DispatcherTimer CurrentPositionTracker = new();
 
         #endregion
 
@@ -61,15 +62,42 @@ namespace MediaPlayer.Model
             }
         }
 
-        public TimeSpan MediaPosition
+        /// <summary>
+        /// Custom DispatcherTimer keeps track of media output and this binds to seekbar etc.
+        /// </summary>
+        public TimeSpan CurrentPosition
         {
+            get => _currentPosition;
             set
             {
-                _mediaPosition = value;
+                _currentPosition = value;
 
-                this.SelectedMediaItem.ElapsedTime = _mediaPosition;
+                this.SelectedMediaItem.ElapsedTime = value;
 
-                OnPropertyChanged(nameof(MediaPosition));
+                OnPropertyChanged(nameof(CurrentPosition));
+            }
+        }
+
+        /// <summary>
+        ///  The Media element 'Position' dependency property cannot be bound to by default, so I created a custom dependency property.
+        ///  Unfortunately it is finnicky and two-way binding doesn't work as expected, the position doesn't update by itself from the media element, 
+        ///  even with two-way binding set up.
+        ///  Once MediaElementPosition is updated, the media element updates to where user dragged the slider,
+        ///  this cannot be done using CurrentPosition property due to that property not being bound to media element position and is being tracked manually by
+        ///  a DispatcherTimer.
+        ///  Trade-off of having both CurrentPosition and MediaElementPosition properties is necessary right now, though it would've been nice to have just one of the two.
+        ///  This might be best for user experience after all, the way it is now means while the user is dragging the seekbar, the song will continue playing until they
+        ///  release the mouse button where,
+        ///  if we had everything bound to 'CurrentPosition' and bound as expected, dragging the seekbar would've sounded like scrambling.
+        /// </summary>
+        public TimeSpan MediaElementPosition
+        {
+            get => _mediaElementPosition;
+            set
+            {
+                _mediaElementPosition = value;
+
+                OnPropertyChanged(nameof(MediaElementPosition));
             }
         }
 
@@ -200,11 +228,6 @@ namespace MediaPlayer.Model
         {
             return elapsedTime == this.SelectedMediaItem.MediaDuration;
         }
-
-        //public bool IsCurrentMediaDurationAccurate(TimeSpan mediaElementNaturalDuration)
-        //{
-        //    return this.SelectedMediaItem?.MediaDuration == mediaElementNaturalDuration;
-        //}
 
         public void PlayPreviousMediaItem()
         {
