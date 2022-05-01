@@ -30,7 +30,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            this._model._mediaPositionTracker.Stop();
+            this._model.MediaPositionTracker.Stop();
 
             this._model.MediaVolume = VolumeLevel.Full;
             this._model.MediaState = MediaState.Stop;

@@ -44,9 +44,9 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
             this._model.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
 
-            this._model._mediaPositionTracker.Tick += (sender, args) => UpdateMediaPosition(mediaElement);
+            this._model.MediaPositionTracker.Tick += (sender, args) => UpdateMediaPosition(mediaElement);
 
-            this._model._mediaPositionTracker.Start();
+            this._model.MediaPositionTracker.Start();
         }
 
         private void UpdateMediaPosition(MediaElement mediaElement)

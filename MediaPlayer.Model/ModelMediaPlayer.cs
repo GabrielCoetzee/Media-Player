@@ -24,7 +24,8 @@ namespace MediaPlayer.Model
         private bool _isUserDraggingSeekbarThumb;
         private bool _isRepeatEnabled;
         private bool _isMediaItemsShuffled;
-        public readonly DispatcherTimer _mediaPositionTracker = new DispatcherTimer();
+
+        public readonly DispatcherTimer MediaPositionTracker = new DispatcherTimer();
 
         #endregion
 
