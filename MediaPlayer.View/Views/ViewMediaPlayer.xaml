@@ -5,7 +5,6 @@
         xmlns:CustomViews="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MediaPlayer"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:converters="clr-namespace:MediaPlayer.View.Converters"
