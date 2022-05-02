@@ -16,26 +16,11 @@ namespace MediaPlayer.View.Views
     /// </summary>
     public partial class ViewApplicationSettings : MetroWindow
     {
-        #region Bindable Properties
-
-        readonly ISettingsProvider SettingsProvider;
-
-        #endregion
-
-        public ViewApplicationSettings(ViewModelApplicationSettings vm, ISettingsProvider settingsProvider)
+        public ViewApplicationSettings(ViewModelApplicationSettings vm)
         {
             InitializeComponent();
 
             DataContext = vm;
-
-            SettingsProvider = settingsProvider;
-        }
-
-        private void ButtonCloseSettings_Click(object sender, RoutedEventArgs e)
-        {
-            this.SettingsProvider.SaveSettings();
-
-            this.Close();
         }
     }
 }

@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" xmlns:i1="http://schemas.microsoft.com/xaml/behaviors"
-        mc:Ignorable="d"
-        Title="Settings" MinHeight="250" MinWidth="300" Height="250" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" xmlns:i1="http://schemas.microsoft.com/xaml/behaviors" xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ViewModelApplicationSettings}"
+                      mc:Ignorable="d"
+        Title="Settings" MinHeight="250" MinWidth="300" Height="250" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" x:Name="ApplicationSettingsWindow">
     <i1:Interaction.Triggers>
         <i1:EventTrigger EventName="Loaded" >
             <i1:InvokeCommandAction Command="{Binding LoadThemeOnWindowLoadedCommand}" CommandParameter="{Binding ElementName=ComboBoxAccents}" />
@@ -47,7 +47,13 @@
                     <Label Grid.Column="0" Grid.Row="0" Content="Themes:" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsProvider.SelectedAccent, Mode=TwoWay}" />
 
-                    <Button x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Foreground="{DynamicResource MahApps.Brushes.Accent}" Content="Close" Click="ButtonCloseSettings_Click" />
+                    <Button x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Foreground="{DynamicResource MahApps.Brushes.Accent}" Content="Close">
+                        <i1:Interaction.Triggers>
+                            <i1:EventTrigger EventName="Click" >
+                                <i1:InvokeCommandAction Command="{Binding SaveSettingsCommand}" CommandParameter="{Binding ElementName=ApplicationSettingsWindow}" />
+                            </i1:EventTrigger>
+                        </i1:Interaction.Triggers>
+                    </Button>
                 </Grid>
             </TabItem>
         </TabControl>

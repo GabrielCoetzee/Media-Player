@@ -33,33 +33,5 @@ namespace MediaPlayer.View.Views
 
             this.AllowsTransparency = true;
         }
-
-        #region UI Event Handlers
-
-        private void MediaListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            this.FocusOnPlayPauseButton();
-        }
-
-        private void LyricsExpander_Collapsed(object sender, RoutedEventArgs e)
-        {
-            this.FocusOnPlayPauseButton();
-        }
-
-        private void LyricsExpander_Expanded(object sender, RoutedEventArgs e)
-        {
-            this.FocusOnPlayPauseButton();
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private void FocusOnPlayPauseButton()
-        {
-            ButtonPlayPause.Focus();
-        }
-
-        #endregion
     }
 }

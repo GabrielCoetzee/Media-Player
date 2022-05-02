@@ -26,6 +26,7 @@ namespace MediaPlayer.ViewModel
         public ITopMostGridDragEnterCommand TopMostGridDragEnterCommand { get; set; }
         public ITopMostGridDropCommand TopMostGridDropCommand { get; set; }
         public ILoadThemeOnWindowLoadedCommand LoadThemeOnWindowLoadedCommand { get; set; }
+        public IFocusOnPlayPauseButtonCommand FocusOnPlayPauseButtonCommand { get; set; }
 
         private ModelMediaPlayer _model;
         public ModelMediaPlayer Model
@@ -56,7 +57,8 @@ namespace MediaPlayer.ViewModel
             ISeekbarPreviewMouseUpCommand seekbarPreviewMouseUpCommand,
             ITopMostGridDragEnterCommand topMostGridDragEnterCommand,
             ITopMostGridDropCommand topMostGridDropCommand,
-            ILoadThemeOnWindowLoadedCommand loadThemeOnWindowLoadedCommand)
+            ILoadThemeOnWindowLoadedCommand loadThemeOnWindowLoadedCommand,
+            IFocusOnPlayPauseButtonCommand focusOnPlayPauseButtonCommand)
         {
             SettingsProvider = settingsProvider;
 
@@ -77,6 +79,7 @@ namespace MediaPlayer.ViewModel
             TopMostGridDragEnterCommand = topMostGridDragEnterCommand;
             TopMostGridDropCommand = topMostGridDropCommand;
             LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
+            FocusOnPlayPauseButtonCommand = focusOnPlayPauseButtonCommand;
 
             _model = model;
         }

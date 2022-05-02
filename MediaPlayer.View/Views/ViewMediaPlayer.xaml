@@ -100,7 +100,15 @@
                 <ColumnDefinition Width="0.1*" />
             </Grid.ColumnDefinitions>
 
-            <Expander Focusable="False" Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding Model.SelectedMediaItem.HasLyrics, FallbackValue=Hidden, Mode=TwoWay,  Converter={StaticResource BooleanToVisibleOrHidden}}" Collapsed="LyricsExpander_Collapsed" Expanded="LyricsExpander_Expanded">
+            <Expander Focusable="False" Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding Model.SelectedMediaItem.HasLyrics, FallbackValue=Hidden, Mode=TwoWay,  Converter={StaticResource BooleanToVisibleOrHidden}}" >
+                <i1:Interaction.Triggers>
+                    <i1:EventTrigger EventName="Collapsed" >
+                        <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
+                    </i1:EventTrigger>
+                    <i1:EventTrigger EventName="Expanded" >
+                        <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
+                    </i1:EventTrigger>
+                </i1:Interaction.Triggers>
                 <Grid Background="#FFE5E5E5">
                     <TextBox Name="TextboxLyrics" Text="{Binding Model.SelectedMediaItem.Lyrics}" ContextMenu="{x:Null}" Cursor="Arrow" CaretBrush="Transparent" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" Focusable="False" IsTabStop="False" AllowDrop="False"/>
                 </Grid>
@@ -123,7 +131,15 @@
                 <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding Model.IsLoadingMediaItems, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibleOrHidden}}" Foreground="White" Spin="True" />
                 <Label Content="Media List Loading..." Visibility="{Binding Model.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
                 <Label Content="Media List " Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
-                <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding Model.MediaItems}" SelectedItem="{Binding Model.SelectedMediaItem}" SelectionChanged="MediaListBox_SelectionChanged" >
+                <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding Model.MediaItems}" SelectedItem="{Binding Model.SelectedMediaItem}">
+                    <i1:Interaction.Triggers>
+                        <i1:EventTrigger EventName="SelectionChanged" >
+                            <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
+                        </i1:EventTrigger>
+                        <i1:EventTrigger EventName="PreviewMouseUp" >
+                            <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
+                        </i1:EventTrigger>
+                    </i1:Interaction.Triggers>
                     <genericControls:AutoScrollListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>

@@ -22,7 +22,7 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.OpenApplicationSettings, (vm) =>
             {
-                serviceProvider.GetRequiredService<ViewApplicationSettings>().Show();
+                serviceProvider.GetRequiredService<ViewApplicationSettings>().ShowDialog();
             });
         }
     }

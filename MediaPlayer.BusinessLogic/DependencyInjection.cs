@@ -23,14 +23,20 @@ namespace MediaPlayer.BusinessLogic
             services.AddTransient<IStopCommand, StopCommand>();
             services.AddTransient<INextTrackCommand, NextTrackCommand>();
             services.AddTransient<IRepeatMediaListCommand, RepeatMediaListCommand>();
-            services.AddTransient<IMediaOpenedCommand, MediaOpenedCommand>();
             services.AddTransient<IClearMediaListCommand, ClearMediaListCommand>();
+
+            //Event Trigger Commands
+
+            services.AddTransient<IMediaOpenedCommand, MediaOpenedCommand>();
             services.AddTransient<ISeekbarThumbStartedDraggingCommand, SeekbarThumbStartedDraggingCommand>();
             services.AddTransient<ISeekbarThumbCompletedDraggingCommand, SeekbarThumbCompletedDraggingCommand>();
             services.AddTransient<ISeekbarPreviewMouseUpCommand, SeekbarPreviewMouseUpCommand>();
             services.AddTransient<ITopMostGridDragEnterCommand, TopMostGridDragEnterCommand>();
             services.AddTransient<ITopMostGridDropCommand, TopMostGridDropCommand>();
             services.AddTransient<ILoadThemeOnWindowLoadedCommand, LoadThemeOnWindowLoadedCommand>();
+            services.AddTransient<IFocusOnPlayPauseButtonCommand, FocusOnPlayPauseButtonCommand>();
+            services.AddTransient<ISaveSettingsCommand, SaveSettingsCommand>();
+
 
             //Services
 
