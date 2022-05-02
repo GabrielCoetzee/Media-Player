@@ -36,7 +36,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
             return true;
         }
 
-        public async void Execute(object parameter)
+        public void Execute(object parameter)
         {
             if (parameter is not MetroWindow applicationSettingsWindow)
                 return;
