@@ -37,7 +37,6 @@ namespace MediaPlayer.BusinessLogic
             services.AddTransient<IFocusOnPlayPauseButtonCommand, FocusOnPlayPauseButtonCommand>();
             services.AddTransient<ISaveSettingsCommand, SaveSettingsCommand>();
 
-
             //Services
 
             services.AddTransient<IMediaListService, MediaListService>();
