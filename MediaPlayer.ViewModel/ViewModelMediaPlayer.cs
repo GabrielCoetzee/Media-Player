@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Windows.Input;
-using MediaPlayer.Model;
-using MediaPlayer.BusinessEntities.Objects.Base;
+﻿using MediaPlayer.Model;
 using MediaPlayer.ApplicationSettings;
 using Generic.PropertyNotify;
 using MediaPlayer.BusinessLogic.Commands.Abstract;
-using MediaPlayer.BusinessLogic.Services.Abstract;
+using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
 
 namespace MediaPlayer.ViewModel
 {
@@ -26,8 +23,9 @@ namespace MediaPlayer.ViewModel
         public ISeekbarThumbStartedDraggingCommand SeekbarThumbStartedDraggingCommand { get; set; }
         public ISeekbarThumbCompletedDraggingCommand SeekbarThumbCompletedDraggingCommand { get; set; }
         public ISeekbarPreviewMouseUpCommand SeekbarPreviewMouseUpCommand { get; set; }
-
-        private readonly IMediaListService _mediaListService;
+        public ITopMostGridDragEnterCommand TopMostGridDragEnterCommand { get; set; }
+        public ITopMostGridDropCommand TopMostGridDropCommand { get; set; }
+        public ILoadThemeOnWindowLoadedCommand LoadThemeOnWindowLoadedCommand { get; set; }
 
         private ModelMediaPlayer _model;
         public ModelMediaPlayer Model
@@ -55,8 +53,10 @@ namespace MediaPlayer.ViewModel
             IClearMediaListCommand clearMediaListCommand,
             ISeekbarThumbStartedDraggingCommand seekbarThumbStartedDraggingCommand,
             ISeekbarThumbCompletedDraggingCommand seekbarThumbCompletedDraggingCommand,
-            IMediaListService mediaListService,
-            ISeekbarPreviewMouseUpCommand seekbarPreviewMouseUpCommand)
+            ISeekbarPreviewMouseUpCommand seekbarPreviewMouseUpCommand,
+            ITopMostGridDragEnterCommand topMostGridDragEnterCommand,
+            ITopMostGridDropCommand topMostGridDropCommand,
+            ILoadThemeOnWindowLoadedCommand loadThemeOnWindowLoadedCommand)
         {
             SettingsProvider = settingsProvider;
 
@@ -74,24 +74,11 @@ namespace MediaPlayer.ViewModel
             SeekbarThumbStartedDraggingCommand = seekbarThumbStartedDraggingCommand;
             SeekbarThumbCompletedDraggingCommand = seekbarThumbCompletedDraggingCommand;
             SeekbarPreviewMouseUpCommand = seekbarPreviewMouseUpCommand;
-
-            _mediaListService = mediaListService;
+            TopMostGridDragEnterCommand = topMostGridDragEnterCommand;
+            TopMostGridDropCommand = topMostGridDropCommand;
+            LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
 
             _model = model;
         }
-
-        #region Public Methods
-
-        public void AddToMediaList(IEnumerable<MediaItem> mediaItems)
-        {
-            this._mediaListService.AddRange(mediaItems);
-        }
-
-        public void SetIsLoadingMediaItems(bool isLoadingMediaItems)
-        {
-            _model.IsLoadingMediaItems = isLoadingMediaItems;
-        }
-
-        #endregion
     }
 }

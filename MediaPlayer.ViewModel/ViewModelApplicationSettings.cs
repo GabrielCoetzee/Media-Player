@@ -1,5 +1,6 @@
 ﻿using Generic.PropertyNotify;
 using MediaPlayer.ApplicationSettings;
+using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
 
 namespace MediaPlayer.ViewModel
 {
@@ -8,14 +9,17 @@ namespace MediaPlayer.ViewModel
         #region Properties
 
         public ISettingsProvider SettingsProvider { get; set; }
+        public ILoadThemeOnWindowLoadedCommand LoadThemeOnWindowLoadedCommand { get; set; }
 
         #endregion
 
         #region Constructor
 
-        public ViewModelApplicationSettings(ISettingsProvider settingsProvider)
+        public ViewModelApplicationSettings(ISettingsProvider settingsProvider,
+            ILoadThemeOnWindowLoadedCommand loadThemeOnWindowLoadedCommand)
         {
             SettingsProvider = settingsProvider;
+            LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
         }
 
         #endregion

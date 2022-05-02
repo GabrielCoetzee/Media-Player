@@ -1,12 +1,10 @@
-﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
-using MediaPlayer.Common.Enumerations;
+﻿using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
 using MediaPlayer.Model;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MediaPlayer.BusinessLogic.Commands.Concrete
+namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 {
     public class SeekbarPreviewMouseUpCommand : ISeekbarPreviewMouseUpCommand
     {

@@ -5,7 +5,7 @@ using MediaPlayer.BusinessEntities.Objects.Base;
 
 namespace MediaPlayer.View.Converters
 {
-    internal class MediaItemIsSelectedToEnabledStateConverter : IValueConverter
+    internal class SliderToEnabledWhenMediaItemSelectedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -15,8 +15,9 @@ namespace MediaPlayer.View.Converters
             {
                 if (mediaState == MediaState.Play)
                     return Application.Current.MainWindow?.Resources["ResourcePauseButtonImage"] as ImageBrush;
-                else
-                    return Application.Current.MainWindow?.Resources["ResourcePlayButtonImage"] as ImageBrush;
+
+
+                return Application.Current.MainWindow?.Resources["ResourcePlayButtonImage"] as ImageBrush;
 
             }
 

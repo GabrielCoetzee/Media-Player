@@ -1,11 +1,10 @@
 ﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
+using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
 using MediaPlayer.BusinessLogic.Commands.Concrete;
+using MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers;
 using MediaPlayer.BusinessLogic.Services.Abstract;
 using MediaPlayer.BusinessLogic.Services.Concrete;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MediaPlayer.BusinessLogic
 {
@@ -29,6 +28,9 @@ namespace MediaPlayer.BusinessLogic
             services.AddTransient<ISeekbarThumbStartedDraggingCommand, SeekbarThumbStartedDraggingCommand>();
             services.AddTransient<ISeekbarThumbCompletedDraggingCommand, SeekbarThumbCompletedDraggingCommand>();
             services.AddTransient<ISeekbarPreviewMouseUpCommand, SeekbarPreviewMouseUpCommand>();
+            services.AddTransient<ITopMostGridDragEnterCommand, TopMostGridDragEnterCommand>();
+            services.AddTransient<ITopMostGridDropCommand, TopMostGridDropCommand>();
+            services.AddTransient<ILoadThemeOnWindowLoadedCommand, LoadThemeOnWindowLoadedCommand>();
 
             //Services
 

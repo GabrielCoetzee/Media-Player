@@ -13,8 +13,8 @@ namespace MediaPlayer.View.Converters
             {
                 if (volumeLevel == VolumeLevel.Full)
                     return 100;
-                else if (volumeLevel == VolumeLevel.Mute)
-                    return 0;
+
+                return 0;
             }
 
             return null;

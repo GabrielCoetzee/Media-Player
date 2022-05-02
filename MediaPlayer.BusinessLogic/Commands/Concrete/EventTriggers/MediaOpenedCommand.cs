@@ -1,11 +1,11 @@
 ﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
-using MediaPlayer.Common.Enumerations;
+using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
 using MediaPlayer.Model;
 using System;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MediaPlayer.BusinessLogic.Commands.Concrete
+namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 {
     public class MediaOpenedCommand : IMediaOpenedCommand
     {
@@ -55,9 +55,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
                 return;
 
             if (_nextTrackCommand.CanExecute(null))
-            {
                 _nextTrackCommand.Execute(null);
-            }
 
             RefreshUIBindings();
         }

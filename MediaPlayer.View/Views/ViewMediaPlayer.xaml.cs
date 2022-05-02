@@ -25,59 +25,20 @@ namespace MediaPlayer.View.Views
     /// </summary>
     public partial class ViewMediaPlayer : MetroWindow
     {
-        readonly ISettingsProvider _settingsProvider;
-        readonly IThemeSelector _themeSelector;
-        readonly MetadataReaderResolver _metadataReaderResolver;
-
-        public ViewMediaPlayer(ViewModelMediaPlayer vm, 
-            ISettingsProvider settingsProvider, 
-            IThemeSelector themeSelector, 
-            MetadataReaderResolver metadataReaderResolver)
+        public ViewMediaPlayer(ViewModelMediaPlayer vm)
         {
             InitializeComponent();
 
             DataContext = vm;
 
-            this._settingsProvider = settingsProvider;
-            this._themeSelector = themeSelector;
-            this._metadataReaderResolver = metadataReaderResolver;
             this.AllowsTransparency = true;
         }
 
         #region UI Event Handlers
 
-        private void TopMostGrid_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Move : DragDropEffects.None;
-        }
-
-        private async void TopMostGrid_Drop(object sender, DragEventArgs e)
-        {
-            if (DataContext is not ViewModelMediaPlayer vm)
-                return;
-
-            var droppedContent = (IEnumerable)e.Data.GetData(DataFormats.FileDrop);
-
-            if (droppedContent == null)
-                return;
-
-            vm.SetIsLoadingMediaItems(true);
-
-            var mediaItems = await ProcessDroppedContentAsync(droppedContent);
-
-            vm.AddToMediaList(mediaItems);
-
-            vm.SetIsLoadingMediaItems(false);
-        }
-
-        private void MediaListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void MediaListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             this.FocusOnPlayPauseButton();
-        }
-
-        private void MetroWindow_Activated(object sender, EventArgs e)
-        {
-            this.LoadTheme();
         }
 
         private void LyricsExpander_Collapsed(object sender, RoutedEventArgs e)
@@ -94,52 +55,9 @@ namespace MediaPlayer.View.Views
 
         #region Private Methods
 
-        private void LoadTheme()
-        {
-            this._themeSelector.ChangeAccent(this._settingsProvider.SelectedAccent);
-        }
-
         private void FocusOnPlayPauseButton()
         {
             ButtonPlayPause.Focus();
-        }
-
-        #endregion
-
-        #region Background Thread - File Processing
-
-        private async Task<IEnumerable<MediaItem>> ProcessDroppedContentAsync(IEnumerable filePaths)
-        {
-            var supportedFiles = new List<MediaItem>();
-
-            await Task.Run(() =>
-            {
-                var metadataReader = _metadataReaderResolver.Resolve(MetadataReaders.Taglib);
-                var supportedFileFormats = this._settingsProvider.SupportedFileFormats;
-
-                foreach (var path in filePaths)
-                {
-                    var isFolder = Directory.Exists(path.ToString());
-
-                    if (isFolder)
-                    {
-                        supportedFiles.AddRange(Directory
-                            .EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
-                            .Where(file => supportedFileFormats.Any(file.ToLower().EndsWith))
-                            .Select((x) => metadataReader.GetFileMetadata(x)));
-                    }
-                    else
-                    {
-                        if (supportedFileFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
-                        {
-                            supportedFiles.Add(metadataReader.GetFileMetadata(path.ToString()));
-                        }
-                    }
-
-                }
-            });
-
-            return supportedFiles;
         }
 
         #endregion

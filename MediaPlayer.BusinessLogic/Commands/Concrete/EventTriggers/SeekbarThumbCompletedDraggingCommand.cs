@@ -1,16 +1,15 @@
-﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
-using MediaPlayer.Common.Enumerations;
+﻿using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
 using MediaPlayer.Model;
 using System;
 using System.Windows.Input;
 
-namespace MediaPlayer.BusinessLogic.Commands.Concrete
+namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 {
-    public class SeekbarThumbStartedDraggingCommand : ISeekbarThumbStartedDraggingCommand
+    public class SeekbarThumbCompletedDraggingCommand : ISeekbarThumbCompletedDraggingCommand
     {
         readonly ModelMediaPlayer _model;
 
-        public SeekbarThumbStartedDraggingCommand(ModelMediaPlayer model)
+        public SeekbarThumbCompletedDraggingCommand(ModelMediaPlayer model)
         {
             _model = model;
         }
@@ -23,12 +22,12 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return _model.SelectedMediaItem != null;
+            return _model.IsUserDraggingSeekbarThumb;
         }
 
         public void Execute(object parameter)
         {
-            _model.IsUserDraggingSeekbarThumb = true;
+            _model.IsUserDraggingSeekbarThumb = false;
         }
     }
 }
