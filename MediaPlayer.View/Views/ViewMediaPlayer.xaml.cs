@@ -31,7 +31,7 @@ namespace MediaPlayer.View.Views
 
             DataContext = vm;
 
-            this.AllowsTransparency = true;
+            AllowsTransparency = true;
         }
     }
 }

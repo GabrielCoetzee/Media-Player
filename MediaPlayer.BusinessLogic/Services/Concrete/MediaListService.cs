@@ -17,13 +17,13 @@ namespace MediaPlayer.BusinessLogic.Services.Concrete
 
         public void AddRange(IEnumerable<MediaItem> mediaItems)
         {
-            this._modelMediaPlayer.MediaItems.AddRange(mediaItems);
+            _modelMediaPlayer.MediaItems.AddRange(mediaItems);
 
-            if (_modelMediaPlayer.SelectedMediaItem != null || this._modelMediaPlayer.IsMediaListEmpty())
+            if (_modelMediaPlayer.SelectedMediaItem != null || _modelMediaPlayer.IsMediaListEmpty())
                 return;
 
-            this._modelMediaPlayer.SelectMediaItem(this._modelMediaPlayer.GetFirstMediaItemIndex());
-            this._modelMediaPlayer.PlayMedia();
+            _modelMediaPlayer.SelectMediaItem(_modelMediaPlayer.GetFirstMediaItemIndex());
+            _modelMediaPlayer.PlayMedia();
 
             RefreshUIBindings();
         }

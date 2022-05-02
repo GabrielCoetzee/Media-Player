@@ -24,14 +24,14 @@ namespace MediaPlayer.BusinessEntities.Collections
         {
             base.AddRange(list);
 
-            this.SetMediaItemIds(this.Items);
+            SetMediaItemIds(Items);
         }
 
         private void SetMediaItemIds(IEnumerable<MediaItem> mediaItems)
         {
             foreach (var mediaItem in mediaItems)
             {
-                mediaItem.Id = this.IndexOf(mediaItem);
+                mediaItem.Id = IndexOf(mediaItem);
             }
         }
     }

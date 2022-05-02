@@ -23,12 +23,12 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return !this._model.IsMediaListEmpty() && (this._model.IsPreviousMediaItemAvailable() || _model.IsRepeatEnabled);
+            return !_model.IsMediaListEmpty() && (_model.IsPreviousMediaItemAvailable() || _model.IsRepeatEnabled);
         }
 
         public void Execute(object parameter)
         {
-            this._model.PlayPreviousMediaItem();
+            _model.PlayPreviousMediaItem();
         }
     }
 }

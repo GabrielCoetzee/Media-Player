@@ -12,14 +12,14 @@ namespace Generic.Controls
     {
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
         {
-            this.ScrollIntoView(this.SelectedItem);
+            ScrollIntoView(SelectedItem);
 
             base.OnItemsChanged(e);
         }
 
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
-            this.ScrollIntoView(this.SelectedItem);
+            ScrollIntoView(SelectedItem);
 
             base.OnSelectionChanged(e);
         }

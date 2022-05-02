@@ -32,11 +32,11 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
         {
             if (_model.MediaState != MediaState.Play)
             {
-                this._model.PlayMedia();
+                _model.PlayMedia();
                 return;
             }
 
-            this._model.PauseMedia();
+            _model.PauseMedia();
         }
     }
 }

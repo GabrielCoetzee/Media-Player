@@ -70,7 +70,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
             await Task.Run(() =>
             {
                 var metadataReader = _metadataReaderResolver.Resolve(MetadataReaders.Taglib);
-                var supportedFileFormats = this._settingsProvider.SupportedFileFormats;
+                var supportedFileFormats = _settingsProvider.SupportedFileFormats;
 
                 foreach (var path in filePaths)
                 {

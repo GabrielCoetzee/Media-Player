@@ -40,7 +40,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
             var chooseFiles = new OpenFileDialog
             {
                 Title = "Choose Files",
-                DefaultExt = this._settingsProvider.SupportedFileFormats.First(),
+                DefaultExt = _settingsProvider.SupportedFileFormats.First(),
                 Filter = CreateDialogFilter(),
                 Multiselect = true
             };
@@ -64,7 +64,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         private string AppendedSupportedFormats(string seperator)
         {
-            return this._settingsProvider.SupportedFileFormats.Aggregate(string.Empty, (current, format) => current + $"*{format}{(this._settingsProvider.SupportedFileFormats.Last() != format ? seperator : string.Empty)}");
+            return _settingsProvider.SupportedFileFormats.Aggregate(string.Empty, (current, format) => current + $"*{format}{(_settingsProvider.SupportedFileFormats.Last() != format ? seperator : string.Empty)}");
         }
     }
 }

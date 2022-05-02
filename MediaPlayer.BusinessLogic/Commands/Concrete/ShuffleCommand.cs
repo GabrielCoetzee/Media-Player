@@ -29,12 +29,12 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
         {
             if (!_model.IsMediaItemsShuffled)
             {
-                this._model.ShuffleMediaList();
+                _model.ShuffleMediaList();
 
                 return;
             }
 
-            this._model.OrderMediaList();
+            _model.OrderMediaList();
         }
     }
 }

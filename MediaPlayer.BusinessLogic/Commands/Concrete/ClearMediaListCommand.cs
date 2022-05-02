@@ -25,16 +25,16 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return !this._model.IsMediaListEmpty();
+            return !_model.IsMediaListEmpty();
         }
 
         public void Execute(object parameter)
         {
-            this._model.CurrentPositionTracker.Stop();
+            _model.CurrentPositionTracker.Stop();
 
-            this._model.MediaVolume = VolumeLevel.Full;
-            this._model.MediaState = MediaState.Stop;
-            this._model.MediaItems = new MediaItemObservableCollection();
+            _model.MediaVolume = VolumeLevel.Full;
+            _model.MediaState = MediaState.Stop;
+            _model.MediaItems = new MediaItemObservableCollection();
         }
     }
 }

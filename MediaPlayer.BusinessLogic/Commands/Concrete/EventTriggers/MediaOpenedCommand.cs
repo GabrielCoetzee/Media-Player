@@ -26,7 +26,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 
         public bool CanExecute(object parameter)
         {
-            return !this._model.IsMediaListEmpty() && _model.SelectedMediaItem != null;
+            return !_model.IsMediaListEmpty() && _model.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
@@ -39,19 +39,19 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 
         private void PollMediaPosition(MediaElement mediaElement)
         {
-            this._model.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
+            _model.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
 
-            this._model.CurrentPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaElement);
+            _model.CurrentPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaElement);
 
-            this._model.CurrentPositionTracker.Start();
+            _model.CurrentPositionTracker.Start();
         }
 
         private void TrackMediaPosition(MediaElement mediaElement)
         {
             if (!_model.IsUserDraggingSeekbarThumb)
-                this._model.SelectedMediaItem.ElapsedTime = mediaElement.Position;
+                _model.SelectedMediaItem.ElapsedTime = mediaElement.Position;
 
-            if (!this._model.IsEndOfCurrentMedia(this._model.SelectedMediaItem.ElapsedTime))
+            if (!_model.IsEndOfCurrentMedia(_model.SelectedMediaItem.ElapsedTime))
                 return;
 
             if (_nextTrackCommand.CanExecute(null))

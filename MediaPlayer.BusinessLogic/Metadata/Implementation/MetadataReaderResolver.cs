@@ -11,12 +11,12 @@ namespace MediaPlayer.BusinessLogic
 
         public MetadataReaderResolver(IEnumerable<IMetadataReaderProvider> metadataReaderProviders)
         {
-            this._metadataReaderProviders = metadataReaderProviders;
+            _metadataReaderProviders = metadataReaderProviders;
         }
 
         public IMetadataReaderProvider Resolve(MetadataReaders selectedMetadataReader)
         {
-            return this._metadataReaderProviders.SingleOrDefault(x => x.MetadataReader == selectedMetadataReader);
+            return _metadataReaderProviders.SingleOrDefault(x => x.MetadataReader == selectedMetadataReader);
         }
     }
 }

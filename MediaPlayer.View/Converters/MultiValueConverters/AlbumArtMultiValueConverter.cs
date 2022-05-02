@@ -18,7 +18,7 @@ namespace MediaPlayer.View.Converters
                 case string _:
                     return new BitmapImage(new Uri($"../Resources/Default_AlbumArt/{value}.png", UriKind.Relative));
                 case byte[] _:
-                    return this.ToImage((byte[])value);
+                    return ToImage((byte[])value);
             }
 
             return null;

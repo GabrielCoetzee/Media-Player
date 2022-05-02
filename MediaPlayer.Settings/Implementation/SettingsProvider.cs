@@ -29,7 +29,7 @@ namespace MediaPlayer.ApplicationSettings
 
         #region Properties
 
-        public string[] SupportedFileFormats => this._options.Value.SupportedFileFormats;
+        public string[] SupportedFileFormats => _options.Value.SupportedFileFormats;
 
         public string SelectedAccent
         {
@@ -39,7 +39,7 @@ namespace MediaPlayer.ApplicationSettings
                 _selectedTheme = value;
                 OnPropertyChanged(nameof(SelectedAccent));
 
-                this._themeSelector.ChangeAccent(value);
+                _themeSelector.ChangeAccent(value);
             }
         }
 
@@ -51,13 +51,13 @@ namespace MediaPlayer.ApplicationSettings
                 _selectedOpacity = value;
                 OnPropertyChanged(nameof(SelectedOpacity));
 
-                this._themeSelector.ChangeOpacity((double)value);
+                _themeSelector.ChangeOpacity((double)value);
             }
         }
 
         public void SaveSettings()
         {
-            this._options.Update(opt => {
+            _options.Update(opt => {
                 opt.Opacity = _selectedOpacity;
                 opt.Theme = _selectedTheme;
             });
