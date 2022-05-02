@@ -8,8 +8,6 @@ using MediaPlayer.ApplicationSettings.Config;
 using MediaPlayer.BusinessLogic;
 using MediaPlayer.BusinessLogic.Abstract;
 using MediaPlayer.BusinessLogic.Implementation;
-using MediaPlayer.BusinessLogic.Services.Abstract;
-using MediaPlayer.BusinessLogic.Services.Concrete;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model;
 using MediaPlayer.Shell.MessengerRegs;
