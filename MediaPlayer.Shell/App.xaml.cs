@@ -54,7 +54,7 @@ namespace MediaPlayer.Shell
             services.ConfigureWritable<Settings>(_configuration.GetSection(nameof(Settings)));
 
             services.AddSingleton<ISettingsProvider, SettingsProvider>();
-            services.AddSingleton<IThemeSelector, ThemeSelector>();
+            services.AddTransient<IThemeSelector, ThemeSelector>();
 
             services.AddTransient<IMetadataReaderProvider, TaglibMetadataReaderProvider>();
             services.AddTransient<MetadataReaderResolver>();
