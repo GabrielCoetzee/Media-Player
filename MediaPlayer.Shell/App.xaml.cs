@@ -5,11 +5,9 @@ using Generic.Configuration.Extensions;
 using Generic.Mediator;
 using MediaPlayer.ApplicationSettings;
 using MediaPlayer.ApplicationSettings.Config;
-using MediaPlayer.BusinessLogic;
-using MediaPlayer.BusinessLogic.Abstract;
-using MediaPlayer.BusinessLogic.Implementation;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model;
+using MediaPlayer.Model.Abstract;
+using MediaPlayer.Model.Implementation;
 using MediaPlayer.Shell.MessengerRegs;
 using MediaPlayer.Theming;
 using MediaPlayer.View.Views;
@@ -65,9 +63,7 @@ namespace MediaPlayer.Shell
             services.AddTransient(typeof(ViewApplicationSettings));
             services.AddTransient<ViewModelApplicationSettings>();
 
-            services.AddSingleton<ModelMediaPlayer>();
-
-            BusinessLogic.DependencyInjection.AddServices(services);
+            ViewModel.DependencyInjection.AddServices(services);
         }
     }
 }

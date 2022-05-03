@@ -106,7 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic\Generic.csproj" />
-    <ProjectReference Include="..\MediaPlayer.BusinessEntities\MediaPlayer.BusinessEntities.csproj" />
     <ProjectReference Include="..\MediaPlayer.ViewModel\MediaPlayer.ViewModel.csproj" />
   </ItemGroup>
   <ItemGroup>
