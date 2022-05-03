@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using MediaPlayer.BusinessEntities.Objects.Base;
+using MediaPlayer.Model.Objects.Base;
 
 namespace MediaPlayer.View.Converters
 {

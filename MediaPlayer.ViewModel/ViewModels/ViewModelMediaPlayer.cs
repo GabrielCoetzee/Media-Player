@@ -1,18 +1,20 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Threading;
+﻿using MediaPlayer.Model;
+using MediaPlayer.ApplicationSettings;
 using Generic.PropertyNotify;
-using MediaPlayer.Model.Collections;
+using MediaPlayer.ViewModel.Commands.Abstract;
+using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
+using System;
 using MediaPlayer.Model.Objects.Base;
+using MediaPlayer.Model.Collections;
+using System.Windows.Controls;
 using MediaPlayer.Common.Enumerations;
+using System.Windows.Threading;
+using System.Linq;
 
-namespace MediaPlayer.Model
+namespace MediaPlayer.ViewModel
 {
-    public class ModelMediaPlayer : PropertyNotifyBase
+    public class ViewModelMediaPlayer : PropertyNotifyBase
     {
-        #region Fields
-
         private readonly Random _randomIdGenerator = new();
 
         private MediaItem _selectedMediaItem;
@@ -26,10 +28,6 @@ namespace MediaPlayer.Model
         private bool _isMediaItemsShuffled;
 
         public readonly DispatcherTimer CurrentPositionTracker = new();
-
-        #endregion
-
-        #region Properties
 
         public MediaItem SelectedMediaItem
         {
@@ -121,10 +119,67 @@ namespace MediaPlayer.Model
                 OnPropertyChanged(nameof(IsMediaItemsShuffled));
             }
         }
+        public ISettingsProvider SettingsProvider { get; set; }
+        public IOpenSettingsWindowCommand OpenSettingsWindowCommand { get; set; }
+        public IShuffleCommand ShuffleCommand { get; set; }
+        public IAddMediaCommand AddMediaCommand { get; set; }
+        public IPlayPauseCommand PlayPauseCommand { get; set; }
+        public IMuteCommand MuteCommand { get; set; }
+        public IPreviousTrackCommand PreviousTrackCommand { get; set; }
+        public IStopCommand StopCommand { get; set; }
+        public INextTrackCommand NextTrackCommand { get; set; }
+        public IRepeatMediaListCommand RepeatMediaListCommand { get; set; }
+        public IMediaOpenedCommand MediaOpenedCommand { get; set; }
+        public IClearMediaListCommand ClearMediaListCommand { get; set; }
+        public ISeekbarThumbStartedDraggingCommand SeekbarThumbStartedDraggingCommand { get; set; }
+        public ISeekbarThumbCompletedDraggingCommand SeekbarThumbCompletedDraggingCommand { get; set; }
+        public ISeekbarPreviewMouseUpCommand SeekbarPreviewMouseUpCommand { get; set; }
+        public ITopMostGridDragEnterCommand TopMostGridDragEnterCommand { get; set; }
+        public ITopMostGridDropCommand TopMostGridDropCommand { get; set; }
+        public ILoadThemeOnWindowLoadedCommand LoadThemeOnWindowLoadedCommand { get; set; }
+        public IFocusOnPlayPauseButtonCommand FocusOnPlayPauseButtonCommand { get; set; }
 
-        #endregion
+        public ViewModelMediaPlayer(ISettingsProvider settingsProvider,
+            IOpenSettingsWindowCommand openSettingsWindowCommand,
+            IShuffleCommand shuffleCommand,
+            IAddMediaCommand addMediaCommand,
+            IPlayPauseCommand playPauseCommand,
+            IMuteCommand muteCommand,
+            IPreviousTrackCommand previousTrackCommand,
+            IStopCommand stopCommand,
+            INextTrackCommand nextTrackCommand,
+            IRepeatMediaListCommand repeatMediaListCommand,
+            IMediaOpenedCommand mediaOpenedCommand,
+            IClearMediaListCommand clearMediaListCommand,
+            ISeekbarThumbStartedDraggingCommand seekbarThumbStartedDraggingCommand,
+            ISeekbarThumbCompletedDraggingCommand seekbarThumbCompletedDraggingCommand,
+            ISeekbarPreviewMouseUpCommand seekbarPreviewMouseUpCommand,
+            ITopMostGridDragEnterCommand topMostGridDragEnterCommand,
+            ITopMostGridDropCommand topMostGridDropCommand,
+            ILoadThemeOnWindowLoadedCommand loadThemeOnWindowLoadedCommand,
+            IFocusOnPlayPauseButtonCommand focusOnPlayPauseButtonCommand)
+        {
+            SettingsProvider = settingsProvider;
 
-        #region Model Business Logic
+            OpenSettingsWindowCommand = openSettingsWindowCommand;
+            ShuffleCommand = shuffleCommand;
+            AddMediaCommand = addMediaCommand;
+            PlayPauseCommand = playPauseCommand;
+            MuteCommand = muteCommand;
+            PreviousTrackCommand = previousTrackCommand;
+            StopCommand = stopCommand;
+            NextTrackCommand = nextTrackCommand;
+            RepeatMediaListCommand = repeatMediaListCommand;
+            MediaOpenedCommand = mediaOpenedCommand;
+            ClearMediaListCommand = clearMediaListCommand;
+            SeekbarThumbStartedDraggingCommand = seekbarThumbStartedDraggingCommand;
+            SeekbarThumbCompletedDraggingCommand = seekbarThumbCompletedDraggingCommand;
+            SeekbarPreviewMouseUpCommand = seekbarPreviewMouseUpCommand;
+            TopMostGridDragEnterCommand = topMostGridDragEnterCommand;
+            TopMostGridDropCommand = topMostGridDropCommand;
+            LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
+            FocusOnPlayPauseButtonCommand = focusOnPlayPauseButtonCommand;
+        }
 
         public bool IsMediaListEmpty()
         {
@@ -244,7 +299,5 @@ namespace MediaPlayer.Model
 
             IsMediaItemsShuffled = true;
         }
-
-        #endregion
     }
 }

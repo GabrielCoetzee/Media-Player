@@ -6,8 +6,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Generic\Generic.csproj" />
-    <ProjectReference Include="..\MediaPlayer.BusinessEntities\MediaPlayer.BusinessEntities.csproj" />
     <ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj" />
   </ItemGroup>
 </Project>

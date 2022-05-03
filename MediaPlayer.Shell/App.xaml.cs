@@ -67,6 +67,7 @@ namespace MediaPlayer.Shell
 
             services.AddSingleton<ModelMediaPlayer>();
 
+            ViewModel.DependencyInjection.AddServices(services);
             BusinessLogic.DependencyInjection.AddServices(services);
         }
     }

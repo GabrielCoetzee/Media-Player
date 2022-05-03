@@ -1,5 +1,5 @@
-﻿using MediaPlayer.BusinessEntities.Objects.Base;
-using MediaPlayer.BusinessEntities.Object_Builders;
+﻿using MediaPlayer.Model.Objects.Base;
+using MediaPlayer.Model.ObjectBuilders;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.BusinessLogic.Abstract;
 using TagLib;
