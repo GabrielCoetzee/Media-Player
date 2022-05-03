@@ -1,9 +1,5 @@
-﻿using ControlzEx.Theming;
-using MediaPlayer.ApplicationSettings;
-using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
-using MediaPlayer.Theming;
+﻿using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
 using System;
-using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 

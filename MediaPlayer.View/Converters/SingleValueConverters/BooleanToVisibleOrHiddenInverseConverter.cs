@@ -12,6 +12,7 @@ namespace MediaPlayer.View.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var result = _converter.Convert(value, targetType, parameter, culture) as Visibility?;
+
             return result == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
         }
 

@@ -7,13 +7,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     public class ShuffleCommand : IShuffleCommand
     {
-        readonly ModelMediaPlayer _model;
-
-        public ShuffleCommand(ModelMediaPlayer model)
-        {
-            _model = model;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -22,19 +15,25 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return _model.MediaItems.Count > 2;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return false;
+
+            return vm.MediaItems.Count > 2;
         }
 
         public void Execute(object parameter)
         {
-            if (!_model.IsMediaItemsShuffled)
+            if (parameter is not ViewModelMediaPlayer vm)
+                return;
+
+            if (!vm.IsMediaItemsShuffled)
             {
-                _model.ShuffleMediaList();
+                vm.ShuffleMediaList();
 
                 return;
             }
 
-            _model.OrderMediaList();
+            vm.OrderMediaList();
         }
     }
 }

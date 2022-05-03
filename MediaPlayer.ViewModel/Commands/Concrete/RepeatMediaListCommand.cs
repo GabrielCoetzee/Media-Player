@@ -7,13 +7,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     public class RepeatMediaListCommand : IRepeatMediaListCommand
     {
-        readonly ModelMediaPlayer _model;
-
-        public RepeatMediaListCommand(ModelMediaPlayer model)
-        {
-            _model = model;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -22,12 +15,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return !_model.IsMediaListEmpty() && _model.SelectedMediaItem != null;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return false;
+
+            return !vm.IsMediaListEmpty() && vm.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            _model.IsRepeatEnabled = !_model.IsRepeatEnabled;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return;
+
+            vm.IsRepeatEnabled = !vm.IsRepeatEnabled;
         }
     }
 }

@@ -10,6 +10,13 @@ using System.Windows.Controls;
 using MediaPlayer.Common.Enumerations;
 using System.Windows.Threading;
 using System.Linq;
+using MediaPlayer.ViewModel.Commands.Concrete.EventTriggers;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections;
+using System.IO;
+using System.Windows.Input;
+using MediaPlayer.Model.Implementation;
 
 namespace MediaPlayer.ViewModel
 {
@@ -119,7 +126,9 @@ namespace MediaPlayer.ViewModel
                 OnPropertyChanged(nameof(IsMediaItemsShuffled));
             }
         }
+
         public ISettingsProvider SettingsProvider { get; set; }
+        public MetadataReaderResolver MetadataReaderResolver { get; set; }
         public IOpenSettingsWindowCommand OpenSettingsWindowCommand { get; set; }
         public IShuffleCommand ShuffleCommand { get; set; }
         public IAddMediaCommand AddMediaCommand { get; set; }
@@ -140,6 +149,7 @@ namespace MediaPlayer.ViewModel
         public IFocusOnPlayPauseButtonCommand FocusOnPlayPauseButtonCommand { get; set; }
 
         public ViewModelMediaPlayer(ISettingsProvider settingsProvider,
+            MetadataReaderResolver metadataReaderResolver,
             IOpenSettingsWindowCommand openSettingsWindowCommand,
             IShuffleCommand shuffleCommand,
             IAddMediaCommand addMediaCommand,
@@ -160,6 +170,7 @@ namespace MediaPlayer.ViewModel
             IFocusOnPlayPauseButtonCommand focusOnPlayPauseButtonCommand)
         {
             SettingsProvider = settingsProvider;
+            MetadataReaderResolver = metadataReaderResolver;
 
             OpenSettingsWindowCommand = openSettingsWindowCommand;
             ShuffleCommand = shuffleCommand;
@@ -179,6 +190,74 @@ namespace MediaPlayer.ViewModel
             TopMostGridDropCommand = topMostGridDropCommand;
             LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
             FocusOnPlayPauseButtonCommand = focusOnPlayPauseButtonCommand;
+
+            SeekbarPreviewMouseUpCommand.ChangeMediaPosition += SeekbarPreviewMouseUpCommand_ChangeMediaPosition;
+            TopMostGridDropCommand.ProcessDroppedContent += TopMostGridDropCommand_ProcessDroppedContent;
+        }
+
+        private async void TopMostGridDropCommand_ProcessDroppedContent(object sender, ProcessDroppedContentEventArgs e)
+        {
+            IsLoadingMediaItems = true;
+
+            var mediaItems = await ProcessDroppedContentAsync(e.FilePaths);
+
+            MediaItems.AddRange(mediaItems);
+
+            if (SelectedMediaItem != null || IsMediaListEmpty())
+            {
+                IsLoadingMediaItems = false;
+                return;
+            }
+
+            SelectMediaItem(GetFirstMediaItemIndex());
+            PlayMedia();
+
+            RefreshUIBindings();
+
+            IsLoadingMediaItems = false;
+        }
+
+        private void SeekbarPreviewMouseUpCommand_ChangeMediaPosition(object sender, SliderPositionEventArgs e)
+        {
+            MediaElementPosition = TimeSpan.FromSeconds(e.Position);
+        }
+
+        private async Task<IEnumerable<MediaItem>> ProcessDroppedContentAsync(IEnumerable filePaths)
+        {
+            var supportedFiles = new List<MediaItem>();
+
+            await Task.Run(() =>
+            {
+                var metadataReader = MetadataReaderResolver.Resolve(MetadataReaders.Taglib);
+                var supportedFileFormats = SettingsProvider.SupportedFileFormats;
+
+                foreach (var path in filePaths)
+                {
+                    var isFolder = Directory.Exists(path.ToString());
+
+                    if (isFolder)
+                    {
+                        supportedFiles.AddRange(Directory
+                            .EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
+                            .Where(file => supportedFileFormats.Any(file.ToLower().EndsWith))
+                            .Select((x) => metadataReader.GetFileMetadata(x)));
+                    }
+                    else
+                    {
+                        if (supportedFileFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
+                        {
+                            supportedFiles.Add(metadataReader.GetFileMetadata(path.ToString()));
+                        }
+                    }
+
+                }
+            });
+
+            return supportedFiles;
+        }
+        private static void RefreshUIBindings()
+        {
+            CommandManager.InvalidateRequerySuggested();
         }
 
         public bool IsMediaListEmpty()

@@ -1,7 +1,6 @@
 ﻿using MediaPlayer.ApplicationSettings;
-using MediaPlayer.BusinessLogic;
-using MediaPlayer.BusinessLogic.Services.Abstract;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model.Implementation;
 using MediaPlayer.ViewModel.Commands.Abstract;
 using System;
 using System.Linq;
@@ -14,15 +13,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     {
         readonly ISettingsProvider _settingsProvider;
         readonly MetadataReaderResolver _metadataReaderResolver;
-        readonly IMediaService _mediaService;
 
         public AddMediaCommand(ISettingsProvider settingsProvider, 
-            MetadataReaderResolver metadataReaderResolver,
-            IMediaService mediaService)
+            MetadataReaderResolver metadataReaderResolver)
         {
             _settingsProvider = settingsProvider;
             _metadataReaderResolver = metadataReaderResolver;
-            _mediaService = mediaService;
         }
 
         public event EventHandler CanExecuteChanged
@@ -38,6 +34,9 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
+            if (parameter is not ViewModelMediaPlayer vm)
+                return;
+
             var chooseFiles = new OpenFileDialog
             {
                 Title = "Choose Files",
@@ -55,7 +54,27 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
 
-            _mediaService.AddMediaItems(mediaItems);
+
+            //// service
+
+            vm.MediaItems.AddRange(mediaItems);
+
+            if (vm.SelectedMediaItem != null || vm.IsMediaListEmpty())
+                return;
+
+            vm.SelectMediaItem(vm.GetFirstMediaItemIndex());
+            vm.PlayMedia();
+
+            RefreshUIBindings();
+
+            ///
+
+            //_mediaService.AddMediaItems(mediaItems);
+        }
+
+        private static void RefreshUIBindings()
+        {
+            CommandManager.InvalidateRequerySuggested();
         }
 
         private string CreateDialogFilter()

@@ -7,13 +7,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
 {
     public class SeekbarThumbStartedDraggingCommand : ISeekbarThumbStartedDraggingCommand
     {
-        readonly ModelMediaPlayer _model;
-
-        public SeekbarThumbStartedDraggingCommand(ModelMediaPlayer model)
-        {
-            _model = model;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -22,12 +15,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
 
         public bool CanExecute(object parameter)
         {
-            return _model.SelectedMediaItem != null;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return false;
+
+            return vm.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            _model.IsUserDraggingSeekbarThumb = true;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return;
+
+            vm.IsUserDraggingSeekbarThumb = true;
         }
     }
 }

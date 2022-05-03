@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MediaPlayer.BusinessLogic.Abstract;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model.Abstract;
 
-namespace MediaPlayer.BusinessLogic
+namespace MediaPlayer.Model.Implementation
 {
     public class MetadataReaderResolver
     {

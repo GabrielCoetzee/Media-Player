@@ -1,20 +1,17 @@
 ﻿using MediaPlayer.ViewModel.Commands.Abstract;
 using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
-using MediaPlayer.Model;
 using System;
-using System.Windows.Controls;
 using System.Windows.Input;
+using MediaPlayer.ViewModel.ConverterObject;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
 {
     public class MediaOpenedCommand : IMediaOpenedCommand
     {
-        readonly ModelMediaPlayer _model;
         readonly INextTrackCommand _nextTrackCommand;
 
-        public MediaOpenedCommand(ModelMediaPlayer model, INextTrackCommand nextTrackCommand)
+        public MediaOpenedCommand(INextTrackCommand nextTrackCommand)
         {
-            _model = model;
             _nextTrackCommand = nextTrackCommand;
         }
 
@@ -26,32 +23,43 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
 
         public bool CanExecute(object parameter)
         {
-            return !_model.IsMediaListEmpty() && _model.SelectedMediaItem != null;
+            if (parameter is not MediaOpenedConverterModel mediaOpened)
+                return false;
+
+            var vm = mediaOpened.ViewModelMediaPlayer;
+
+            return !vm.IsMediaListEmpty() && vm.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            if (parameter is not MediaElement ui_mediaElement)
+            if (parameter is not MediaOpenedConverterModel mediaOpened)
                 return;
 
-            PollMediaPosition(ui_mediaElement);
+            PollMediaPosition(mediaOpened);
         }
 
-        private void PollMediaPosition(MediaElement mediaElement)
+        private void PollMediaPosition(MediaOpenedConverterModel mediaOpenedModel)
         {
-            _model.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
+            var mediaElement = mediaOpenedModel.MediaElement;
+            var vm = mediaOpenedModel.ViewModelMediaPlayer;
 
-            _model.CurrentPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaElement);
+            vm.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
 
-            _model.CurrentPositionTracker.Start();
+            vm.CurrentPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaOpenedModel);
+
+            vm.CurrentPositionTracker.Start();
         }
 
-        private void TrackMediaPosition(MediaElement mediaElement)
+        private void TrackMediaPosition(MediaOpenedConverterModel mediaOpenedModel)
         {
-            if (!_model.IsUserDraggingSeekbarThumb)
-                _model.SelectedMediaItem.ElapsedTime = mediaElement.Position;
+            var mediaElement = mediaOpenedModel.MediaElement;
+            var vm = mediaOpenedModel.ViewModelMediaPlayer;
 
-            if (!_model.IsEndOfCurrentMedia(_model.SelectedMediaItem.ElapsedTime))
+            if (!vm.IsUserDraggingSeekbarThumb)
+                vm.SelectedMediaItem.ElapsedTime = mediaElement.Position;
+
+            if (!vm.IsEndOfCurrentMedia(vm.SelectedMediaItem.ElapsedTime))
                 return;
 
             if (_nextTrackCommand.CanExecute(null))

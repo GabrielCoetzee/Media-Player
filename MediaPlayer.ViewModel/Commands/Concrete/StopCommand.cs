@@ -7,13 +7,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     public class StopCommand : IStopCommand
     {
-        readonly ModelMediaPlayer _model;
-
-        public StopCommand(ModelMediaPlayer model)
-        {
-            _model = model;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -22,14 +15,20 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return !_model.IsMediaListEmpty() && _model.SelectedMediaItem != null;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return false;
+
+            return !vm.IsMediaListEmpty() && vm.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            _model.SelectMediaItem(_model.GetFirstMediaItemIndex());
+            if (parameter is not ViewModelMediaPlayer vm)
+                return;
 
-            _model.StopMedia();
+            vm.SelectMediaItem(vm.GetFirstMediaItemIndex());
+
+            vm.StopMedia();
         }
     }
 }

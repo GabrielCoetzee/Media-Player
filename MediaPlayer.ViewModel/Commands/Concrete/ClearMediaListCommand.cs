@@ -10,11 +10,8 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     public class ClearMediaListCommand : IClearMediaListCommand
     {
-        readonly ModelMediaPlayer _model;
-
-        public ClearMediaListCommand(ModelMediaPlayer model)
+        public ClearMediaListCommand()
         {
-            _model = model;
         }
 
         public event EventHandler CanExecuteChanged
@@ -25,16 +22,22 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return !_model.IsMediaListEmpty();
+            if (parameter is not ViewModelMediaPlayer vm)
+                return false;
+
+            return !vm.IsMediaListEmpty();
         }
 
         public void Execute(object parameter)
         {
-            _model.CurrentPositionTracker.Stop();
+            if (parameter is not ViewModelMediaPlayer vm)
+                return;
 
-            _model.MediaVolume = VolumeLevel.Full;
-            _model.MediaState = MediaState.Stop;
-            _model.MediaItems = new MediaItemObservableCollection();
+            vm.CurrentPositionTracker.Stop();
+
+            vm.MediaVolume = VolumeLevel.Full;
+            vm.MediaState = MediaState.Stop;
+            vm.MediaItems.Clear();
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using MediaPlayer.ViewModel;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace MediaPlayer.View.Models
+namespace MediaPlayer.ViewModel.ConverterObject
 {
-    public class MediaOpenedModel
+    public class MediaOpenedConverterModel
     {
         public MediaElement MediaElement { get; set; }
 

@@ -7,11 +7,8 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
 {
     public class SeekbarThumbCompletedDraggingCommand : ISeekbarThumbCompletedDraggingCommand
     {
-        readonly ModelMediaPlayer _model;
-
-        public SeekbarThumbCompletedDraggingCommand(ModelMediaPlayer model)
+        public SeekbarThumbCompletedDraggingCommand()
         {
-            _model = model;
         }
 
         public event EventHandler CanExecuteChanged
@@ -22,12 +19,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
 
         public bool CanExecute(object parameter)
         {
-            return _model.IsUserDraggingSeekbarThumb;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return false;
+
+            return vm.IsUserDraggingSeekbarThumb;
         }
 
         public void Execute(object parameter)
         {
-            _model.IsUserDraggingSeekbarThumb = false;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return;
+
+            vm.IsUserDraggingSeekbarThumb = false;
         }
     }
 }

@@ -7,13 +7,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     public class PreviousTrackCommand : IPreviousTrackCommand
     {
-        readonly ModelMediaPlayer _model;
-
-        public PreviousTrackCommand(ModelMediaPlayer model)
-        {
-            _model = model;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -22,12 +15,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return !_model.IsMediaListEmpty() && (_model.IsPreviousMediaItemAvailable() || _model.IsRepeatEnabled);
+            if (parameter is not ViewModelMediaPlayer vm)
+                return false;
+
+            return !vm.IsMediaListEmpty() && (vm.IsPreviousMediaItemAvailable() || vm.IsRepeatEnabled);
         }
 
         public void Execute(object parameter)
         {
-            _model.PlayPreviousMediaItem();
+            if (parameter is not ViewModelMediaPlayer vm)
+                return;
+
+            vm.PlayPreviousMediaItem();
         }
     }
 }

@@ -8,22 +8,27 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
 {
     public class SeekbarPreviewMouseUpCommand : ISeekbarPreviewMouseUpCommand
     {
-        readonly ModelMediaPlayer _model;
-
-        public SeekbarPreviewMouseUpCommand(ModelMediaPlayer model)
-        {
-            _model = model;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;
         }
 
+        public event EventHandler<SliderPositionEventArgs> ChangeMediaPosition;
+
+        public virtual void OnChangeMediaPosition(SliderPositionEventArgs e)
+        {
+            ChangeMediaPosition?.Invoke(this, e);
+        }
+
         public bool CanExecute(object parameter)
         {
-            return _model.SelectedMediaItem != null;
+            if (parameter is not MouseButtonEventArgs e)
+                return false;
+
+            var seekbar = e.Source as Slider;
+
+            return seekbar.Value != default;
         }
 
         public void Execute(object parameter)
@@ -35,7 +40,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
 
             var pointerLocation = (e.GetPosition(seekbar).X / seekbar.ActualWidth) * (seekbar.Maximum - seekbar.Minimum);
 
-            _model.MediaElementPosition = TimeSpan.FromSeconds(pointerLocation);
+            OnChangeMediaPosition(new SliderPositionEventArgs() { Position = pointerLocation });
         }
+    }
+
+    public class SliderPositionEventArgs : EventArgs
+    {
+        public double Position { get; set; }
     }
 }

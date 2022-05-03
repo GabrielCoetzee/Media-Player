@@ -8,13 +8,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     public class PlayPauseCommand : IPlayPauseCommand
     {
-        readonly ModelMediaPlayer _model;
-
-        public PlayPauseCommand(ModelMediaPlayer model)
-        {
-            _model = model;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -23,18 +16,24 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return _model.SelectedMediaItem != null;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return false;
+
+            return vm.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            if (_model.MediaState != MediaState.Play)
+            if (parameter is not ViewModelMediaPlayer vm)
+                return;
+
+            if (vm.MediaState != MediaState.Play)
             {
-                _model.PlayMedia();
+                vm.PlayMedia();
                 return;
             }
 
-            _model.PauseMedia();
+            vm.PauseMedia();
         }
     }
 }

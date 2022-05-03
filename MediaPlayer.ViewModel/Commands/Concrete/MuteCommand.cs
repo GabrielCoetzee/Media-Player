@@ -8,13 +8,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     public class MuteCommand : IMuteCommand
     {
-        readonly ModelMediaPlayer _model;
-
-        public MuteCommand(ModelMediaPlayer model)
-        {
-            _model = model;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -23,12 +16,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return _model.SelectedMediaItem != null;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return false;
+
+            return vm.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            _model.MediaVolume = _model.MediaVolume == VolumeLevel.Full ? VolumeLevel.Mute : VolumeLevel.Full;
+            if (parameter is not ViewModelMediaPlayer vm)
+                return;
+
+            vm.MediaVolume = vm.MediaVolume == VolumeLevel.Full ? VolumeLevel.Mute : VolumeLevel.Full;
         }
     }
 }
