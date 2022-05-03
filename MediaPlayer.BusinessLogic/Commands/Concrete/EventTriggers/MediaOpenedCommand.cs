@@ -1,5 +1,6 @@
 ﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
 using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using MediaPlayer.Model;
 using System;
 using System.Windows.Controls;
@@ -9,12 +10,12 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 {
     public class MediaOpenedCommand : IMediaOpenedCommand
     {
-        readonly ModelMediaPlayer _model;
+        readonly IState _state;
         readonly INextTrackCommand _nextTrackCommand;
 
-        public MediaOpenedCommand(ModelMediaPlayer model, INextTrackCommand nextTrackCommand)
+        public MediaOpenedCommand(IState state, INextTrackCommand nextTrackCommand)
         {
-            _model = model;
+            _state = state;
             _nextTrackCommand = nextTrackCommand;
         }
 
@@ -26,7 +27,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 
         public bool CanExecute(object parameter)
         {
-            return !_model.IsMediaListEmpty() && _model.SelectedMediaItem != null;
+            return !_state.IsMediaListEmpty() && _state.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
@@ -39,19 +40,19 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 
         private void PollMediaPosition(MediaElement mediaElement)
         {
-            _model.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
+            _state.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
 
-            _model.CurrentPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaElement);
+            _state.CurrentPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaElement);
 
-            _model.CurrentPositionTracker.Start();
+            _state.CurrentPositionTracker.Start();
         }
 
         private void TrackMediaPosition(MediaElement mediaElement)
         {
-            if (!_model.IsUserDraggingSeekbarThumb)
-                _model.SelectedMediaItem.ElapsedTime = mediaElement.Position;
+            if (!_state.IsUserDraggingSeekbarThumb)
+                _state.SelectedMediaItem.ElapsedTime = mediaElement.Position;
 
-            if (!_model.IsEndOfCurrentMedia(_model.SelectedMediaItem.ElapsedTime))
+            if (!_state.IsEndOfCurrentMedia(_state.SelectedMediaItem.ElapsedTime))
                 return;
 
             if (_nextTrackCommand.CanExecute(null))

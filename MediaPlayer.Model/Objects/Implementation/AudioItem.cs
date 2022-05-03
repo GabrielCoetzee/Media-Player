@@ -1,6 +1,6 @@
-﻿using MediaPlayer.BusinessEntities.Objects.Base;
+﻿using MediaPlayer.Model.Objects.Base;
 
-namespace MediaPlayer.BusinessEntities.Objects.Derived
+namespace MediaPlayer.Model.Objects.Derived
 {
     public class AudioItem : MediaItem
     {

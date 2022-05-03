@@ -1,4 +1,5 @@
 ﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using MediaPlayer.Model;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 {
     public class PlayPauseCommand : IPlayPauseCommand
     {
-        readonly ModelMediaPlayer _model;
+        readonly IState _state;
 
-        public PlayPauseCommand(ModelMediaPlayer model)
+        public PlayPauseCommand(IState state)
         {
-            _model = model;
+            _state = state;
         }
 
         public event EventHandler CanExecuteChanged
@@ -25,18 +26,18 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return _model.SelectedMediaItem != null;
+            return _state.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            if (_model.MediaState != MediaState.Play)
+            if (_state.MediaState != MediaState.Play)
             {
-                _model.PlayMedia();
+                _state.PlayMedia();
                 return;
             }
 
-            _model.PauseMedia();
+            _state.PauseMedia();
         }
     }
 }

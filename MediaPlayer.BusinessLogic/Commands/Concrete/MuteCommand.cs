@@ -1,6 +1,6 @@
 ﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model;
 using System;
 using System.Windows.Input;
 
@@ -8,11 +8,11 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 {
     public class MuteCommand : IMuteCommand
     {
-        readonly ModelMediaPlayer _model;
+        readonly IState _state;
 
-        public MuteCommand(ModelMediaPlayer model)
+        public MuteCommand(IState state)
         {
-            _model = model;
+            _state = state;
         }
 
         public event EventHandler CanExecuteChanged
@@ -23,12 +23,12 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return _model.SelectedMediaItem != null;
+            return _state.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            _model.MediaVolume = _model.MediaVolume == VolumeLevel.Full ? VolumeLevel.Mute : VolumeLevel.Full;
+            _state.MediaVolume = _state.MediaVolume == VolumeLevel.Full ? VolumeLevel.Mute : VolumeLevel.Full;
         }
     }
 }

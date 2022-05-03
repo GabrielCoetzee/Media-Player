@@ -1,4 +1,4 @@
-﻿using MediaPlayer.BusinessEntities.Objects.Base;
+﻿using MediaPlayer.Model.Objects.Base;
 using System.Collections.Generic;
 
 namespace MediaPlayer.BusinessLogic.Services.Abstract

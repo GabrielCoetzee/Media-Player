@@ -1,5 +1,5 @@
 ﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
-using MediaPlayer.Model;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using System;
 using System.Windows.Input;
 
@@ -7,11 +7,11 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 {
     public class StopCommand : IStopCommand
     {
-        readonly ModelMediaPlayer _model;
+        readonly IState _state;
 
-        public StopCommand(ModelMediaPlayer model)
+        public StopCommand(IState state)
         {
-            _model = model;
+            _state = state;
         }
 
         public event EventHandler CanExecuteChanged
@@ -22,14 +22,14 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return !_model.IsMediaListEmpty() && _model.SelectedMediaItem != null;
+            return !_state.IsMediaListEmpty() && _state.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            _model.SelectMediaItem(_model.GetFirstMediaItemIndex());
+            _state.SelectMediaItem(_state.GetFirstMediaItemIndex());
 
-            _model.StopMedia();
+            _state.StopMedia();
         }
     }
 }

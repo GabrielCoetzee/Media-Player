@@ -1,4 +1,5 @@
 ﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using MediaPlayer.Model;
 using System;
 using System.Windows.Input;
@@ -7,11 +8,11 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 {
     public class ShuffleCommand : IShuffleCommand
     {
-        readonly ModelMediaPlayer _model;
+        readonly IState _state;
 
-        public ShuffleCommand(ModelMediaPlayer model)
+        public ShuffleCommand(IState state)
         {
-            _model = model;
+            _state = state;
         }
 
         public event EventHandler CanExecuteChanged
@@ -22,19 +23,19 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return _model.MediaItems.Count > 2;
+            return _state.MediaItems.Count > 2;
         }
 
         public void Execute(object parameter)
         {
-            if (!_model.IsMediaItemsShuffled)
+            if (!_state.IsMediaItemsShuffled)
             {
-                _model.ShuffleMediaList();
+                _state.ShuffleMediaList();
 
                 return;
             }
 
-            _model.OrderMediaList();
+            _state.OrderMediaList();
         }
     }
 }

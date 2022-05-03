@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Generic.Collections;
-using MediaPlayer.BusinessEntities.Objects.Base;
+using MediaPlayer.Model.Objects.Base;
 
-namespace MediaPlayer.BusinessEntities.Collections
+namespace MediaPlayer.Model.Collections
 {
     /// <inheritdoc />
     /// <summary>

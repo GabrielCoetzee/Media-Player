@@ -3,7 +3,7 @@ using System.IO;
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Enumerations;
 
-namespace MediaPlayer.BusinessEntities.Objects.Base
+namespace MediaPlayer.Model.Objects.Base
 {
     public abstract class MediaItem : PropertyNotifyBase
     {

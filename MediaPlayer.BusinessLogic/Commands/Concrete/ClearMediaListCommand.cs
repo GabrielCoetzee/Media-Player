@@ -1,7 +1,8 @@
-﻿using MediaPlayer.BusinessEntities.Collections;
-using MediaPlayer.BusinessLogic.Commands.Abstract;
+﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model;
+using MediaPlayer.Model.Collections;
 using System;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,11 +11,11 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 {
     public class ClearMediaListCommand : IClearMediaListCommand
     {
-        readonly ModelMediaPlayer _model;
+        readonly IState _state;
 
-        public ClearMediaListCommand(ModelMediaPlayer model)
+        public ClearMediaListCommand(IState state)
         {
-            _model = model;
+            _state = state;
         }
 
         public event EventHandler CanExecuteChanged
@@ -25,16 +26,16 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return !_model.IsMediaListEmpty();
+            return !_state.IsMediaListEmpty();
         }
 
         public void Execute(object parameter)
         {
-            _model.CurrentPositionTracker.Stop();
+            _state.CurrentPositionTracker.Stop();
 
-            _model.MediaVolume = VolumeLevel.Full;
-            _model.MediaState = MediaState.Stop;
-            _model.MediaItems = new MediaItemObservableCollection();
+            _state.MediaVolume = VolumeLevel.Full;
+            _state.MediaState = MediaState.Stop;
+            _state.MediaItems = new MediaItemObservableCollection();
         }
     }
 }

@@ -14,7 +14,7 @@
         mc:Ignorable="d"
         SaveWindowPosition="True"
         GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
-        Title="{Binding Model.SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" ShowMaxRestoreButton="False" Height="768" Width="1366" MinHeight="768" MinWidth="1366">
+        Title="{Binding State.SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" ShowMaxRestoreButton="False" Height="768" Width="1366" MinHeight="768" MinWidth="1366">
     <i1:Interaction.Triggers>
         <i1:EventTrigger EventName="Loaded" >
             <i1:InvokeCommandAction Command="{Binding LoadThemeOnWindowLoadedCommand}" />
@@ -100,7 +100,7 @@
                 <ColumnDefinition Width="0.1*" />
             </Grid.ColumnDefinitions>
 
-            <Expander Focusable="False" Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding Model.SelectedMediaItem.HasLyrics, FallbackValue=Hidden, Mode=TwoWay,  Converter={StaticResource BooleanToVisibleOrHidden}}" >
+            <Expander Focusable="False" Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding State.SelectedMediaItem.HasLyrics, FallbackValue=Hidden, Mode=TwoWay,  Converter={StaticResource BooleanToVisibleOrHidden}}" >
                 <i1:Interaction.Triggers>
                     <i1:EventTrigger EventName="Collapsed" >
                         <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
@@ -110,11 +110,11 @@
                     </i1:EventTrigger>
                 </i1:Interaction.Triggers>
                 <Grid Background="#FFE5E5E5">
-                    <TextBox Name="TextboxLyrics" Text="{Binding Model.SelectedMediaItem.Lyrics}" ContextMenu="{x:Null}" Cursor="Arrow" CaretBrush="Transparent" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" Focusable="False" IsTabStop="False" AllowDrop="False"/>
+                    <TextBox Name="TextboxLyrics" Text="{Binding State.SelectedMediaItem.Lyrics}" ContextMenu="{x:Null}" Cursor="Arrow" CaretBrush="Transparent" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" Focusable="False" IsTabStop="False" AllowDrop="False"/>
                 </Grid>
             </Expander>
 
-            <MediaElement Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="12" extensions:MediaElementExtension.Position="{Binding Model.MediaElementPosition, Mode=TwoWay}" Source="{Binding Model.SelectedMediaItem.FilePath}" LoadedBehavior="{Binding Model.MediaState}" Name="MediaElement" Volume="{Binding Model.MediaVolume, Converter={StaticResource MediaVolumeConverter}}">
+            <MediaElement Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="12" extensions:MediaElementExtension.Position="{Binding State.MediaElementPosition, Mode=TwoWay}" Source="{Binding State.SelectedMediaItem.FilePath}" LoadedBehavior="{Binding State.MediaState}" Name="MediaElement" Volume="{Binding State.MediaVolume, Converter={StaticResource MediaVolumeConverter}}">
                 <i1:Interaction.Triggers>
                     <i1:EventTrigger EventName="MediaOpened" >
                         <i1:InvokeCommandAction Command="{Binding MediaOpenedCommand}" CommandParameter="{Binding ElementName=MediaElement}" />
@@ -128,10 +128,10 @@
                     <RowDefinition Height="0.95*" />
                 </Grid.RowDefinitions>
 
-                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding Model.IsLoadingMediaItems, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibleOrHidden}}" Foreground="White" Spin="True" />
-                <Label Content="Media List Loading..." Visibility="{Binding Model.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
-                <Label Content="Media List " Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
-                <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding Model.MediaItems}" SelectedItem="{Binding Model.SelectedMediaItem}">
+                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding State.IsLoadingMediaItems, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibleOrHidden}}" Foreground="White" Spin="True" />
+                <Label Content="Media List Loading..." Visibility="{Binding State.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
+                <Label Content="Media List " Visibility="{Binding State.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
+                <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding State.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding State.MediaItems}" SelectedItem="{Binding State.SelectedMediaItem}">
                     <i1:Interaction.Triggers>
                         <i1:EventTrigger EventName="SelectionChanged" >
                             <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
@@ -171,26 +171,26 @@
             </Grid>
            
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Label Visibility="{Binding Model.SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" Content="{Binding Model.SelectedMediaItem.Bitrate}" ContentStringFormat="Bitrate: {0} kbps"   />
-                <Label Visibility="{Binding Model.SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHidden}}" Content="{Binding Model.SelectedMediaItem.VideoResolution}" ContentStringFormat="Resolution: {0}"   />
+                <Label Visibility="{Binding State.SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" Content="{Binding State.SelectedMediaItem.Bitrate}" ContentStringFormat="Bitrate: {0} kbps"   />
+                <Label Visibility="{Binding State.SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHidden}}" Content="{Binding State.SelectedMediaItem.VideoResolution}" ContentStringFormat="Resolution: {0}"   />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Text="Elapsed: " />
-                <TextBlock Visibility="{Binding Model.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}">
+                <TextBlock Visibility="{Binding State.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Text="Elapsed: " />
+                <TextBlock Visibility="{Binding State.SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
-                            <Binding Path="Model.SelectedMediaItem.ElapsedTime.Minutes" />
-                            <Binding Path="Model.SelectedMediaItem.ElapsedTime.Seconds" />
+                            <Binding Path="State.SelectedMediaItem.ElapsedTime.Minutes" />
+                            <Binding Path="State.SelectedMediaItem.ElapsedTime.Seconds" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <TextBlock Visibility="{Binding Model.IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" Text=" / " />
-                <TextBlock Visibility="{Binding Model.IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" >
+                <TextBlock Visibility="{Binding State.IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" Text=" / " />
+                <TextBlock Visibility="{Binding State.IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" >
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
-                            <Binding Path="Model.SelectedMediaItem.Duration.Minutes" />
-                            <Binding Path="Model.SelectedMediaItem.Duration.Seconds" />
+                            <Binding Path="State.SelectedMediaItem.Duration.Minutes" />
+                            <Binding Path="State.SelectedMediaItem.Duration.Seconds" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
@@ -201,17 +201,17 @@
             </StackPanel>-->
             
             <StackPanel Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                <Image Visibility="{Binding Model.SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}">
+                <Image Visibility="{Binding State.SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}">
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource PriorityMultiValueConverter}">
-                            <Binding Path="Model.SelectedMediaItem.AlbumArt"  />
+                            <Binding Path="State.SelectedMediaItem.AlbumArt"  />
                             <Binding Path="SettingsProvider.SelectedAccent" />
                         </MultiBinding>
                     </Image.Source>
                 </Image>
             </StackPanel>
 
-            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding Model.SelectedMediaItem.ElapsedTime, Converter={StaticResource TimeSpanToSecondsConverter}}" IsEnabled="{Binding Model.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource SliderToEnabledWhenMediaItemSelectedConverter}}" Maximum="{Binding Model.SelectedMediaItem.Duration.TotalSeconds}" >
+            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding State.SelectedMediaItem.ElapsedTime, Converter={StaticResource TimeSpanToSecondsConverter}}" IsEnabled="{Binding State.SelectedMediaItem, TargetNullValue=False, Converter={StaticResource SliderToEnabledWhenMediaItemSelectedConverter}}" Maximum="{Binding State.SelectedMediaItem.Duration.TotalSeconds}" >
                 <i1:Interaction.Triggers>
                     <i1:EventTrigger EventName="PreviewMouseUp" >
                         <i1:InvokeCommandAction Command="{Binding SeekbarPreviewMouseUpCommand}" PassEventArgsToCommand="True" />
@@ -228,7 +228,7 @@
             <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="10" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding ShuffleCommand}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
             <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="9" Grid.RowSpan="2"  Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding RepeatMediaListCommand}" Background="{StaticResource ResourceRepeatButtonImage}"  Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
             <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="8" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding NextTrackCommand}" Background="{StaticResource ResourceNextTrackButtonImage}"  Style="{DynamicResource MahApps.Styles.Button.Circle}" />
-            <Button Margin="4 4 4 4" Name="ButtonPlayPause" Grid.Row="4" Grid.Column="7" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding PlayPauseCommand}" Background="{Binding Model.MediaState, Converter={StaticResource PlayPauseButtonBackgroundConverter}, FallbackValue={StaticResource ResourcePlayButtonImage}}" Style="{DynamicResource MahApps.Styles.Button.Circle}" />
+            <Button Margin="4 4 4 4" Name="ButtonPlayPause" Grid.Row="4" Grid.Column="7" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding PlayPauseCommand}" Background="{Binding State.MediaState, Converter={StaticResource PlayPauseButtonBackgroundConverter}, FallbackValue={StaticResource ResourcePlayButtonImage}}" Style="{DynamicResource MahApps.Styles.Button.Circle}" />
             <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="6" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding StopCommand}" Background="{StaticResource ResourceStopButtonImage}" Style="{DynamicResource MahApps.Styles.Button.Circle}" />
             <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="5" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding PreviousTrackCommand}" Background="{StaticResource ResourcePreviousTrackButtonImage}"  Style="{DynamicResource MahApps.Styles.Button.Circle}" />
             <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="4" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Name="ButtonMute" Command="{Binding MuteCommand}" Background="{StaticResource ResourceMuteButtonImage}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />

@@ -1,6 +1,5 @@
-﻿using MediaPlayer.BusinessEntities.Objects.Base;
-using MediaPlayer.Common.Enumerations;
-using System;
+﻿using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model.Objects.Base;
 
 namespace MediaPlayer.BusinessLogic.Abstract
 {

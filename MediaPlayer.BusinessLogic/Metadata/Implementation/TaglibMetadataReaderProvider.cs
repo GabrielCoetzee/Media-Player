@@ -1,8 +1,8 @@
-﻿using MediaPlayer.BusinessEntities.Objects.Base;
-using MediaPlayer.BusinessEntities.Object_Builders;
-using MediaPlayer.Common.Enumerations;
+﻿using MediaPlayer.Common.Enumerations;
 using MediaPlayer.BusinessLogic.Abstract;
 using TagLib;
+using MediaPlayer.Model.Objects.Base;
+using MediaPlayer.Model.ObjectBuilders;
 
 namespace MediaPlayer.BusinessLogic.Implementation
 {

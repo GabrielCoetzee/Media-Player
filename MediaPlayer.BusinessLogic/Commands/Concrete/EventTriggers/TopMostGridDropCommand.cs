@@ -1,9 +1,10 @@
 ﻿using MediaPlayer.ApplicationSettings;
-using MediaPlayer.BusinessEntities.Objects.Base;
 using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
 using MediaPlayer.BusinessLogic.Services.Abstract;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model;
+using MediaPlayer.Model.Objects.Base;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,17 +18,17 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 {
     public class TopMostGridDropCommand : ITopMostGridDropCommand
     {
-        readonly ModelMediaPlayer _model;
+        readonly IState _state;
         readonly MetadataReaderResolver _metadataReaderResolver;
         readonly ISettingsProvider _settingsProvider;
         readonly IMediaListService _mediaListService;
 
-        public TopMostGridDropCommand(ModelMediaPlayer model, 
+        public TopMostGridDropCommand(IState state, 
             MetadataReaderResolver metadataReaderResolver, 
             ISettingsProvider settingsProvider,
             IMediaListService mediaListService)
         {
-            _model = model;
+            _state = state;
             _metadataReaderResolver = metadataReaderResolver;
             _settingsProvider = settingsProvider;
             _mediaListService = mediaListService;
@@ -54,13 +55,13 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
             if (droppedContent == null)
                 return;
 
-            _model.IsLoadingMediaItems = true;
+            _state.IsLoadingMediaItems = true;
 
             var mediaItems = await ProcessDroppedContentAsync(droppedContent);
 
             _mediaListService.AddRange(mediaItems);
 
-            _model.IsLoadingMediaItems = false;
+            _state.IsLoadingMediaItems = false;
         }
 
         private async Task<IEnumerable<MediaItem>> ProcessDroppedContentAsync(IEnumerable filePaths)

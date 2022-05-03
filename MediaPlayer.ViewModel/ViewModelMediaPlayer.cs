@@ -3,6 +3,7 @@ using MediaPlayer.ApplicationSettings;
 using Generic.PropertyNotify;
 using MediaPlayer.BusinessLogic.Commands.Abstract;
 using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
+using MediaPlayer.BusinessLogic.State.Abstract;
 
 namespace MediaPlayer.ViewModel
 {
@@ -28,18 +29,18 @@ namespace MediaPlayer.ViewModel
         public ILoadThemeOnWindowLoadedCommand LoadThemeOnWindowLoadedCommand { get; set; }
         public IFocusOnPlayPauseButtonCommand FocusOnPlayPauseButtonCommand { get; set; }
 
-        private ModelMediaPlayer _model;
-        public ModelMediaPlayer Model
+        private IState _state;
+        public IState State
         {
-            get => _model;
+            get => _state;
             set
             {
-                _model = value;
+                _state = value;
                 OnPropertyChanged(nameof(Model));
             }
         }
 
-        public ViewModelMediaPlayer(ModelMediaPlayer model,
+        public ViewModelMediaPlayer(IState state,
             ISettingsProvider settingsProvider,
             IOpenSettingsWindowCommand openSettingsWindowCommand,
             IShuffleCommand shuffleCommand,
@@ -81,7 +82,7 @@ namespace MediaPlayer.ViewModel
             LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
             FocusOnPlayPauseButtonCommand = focusOnPlayPauseButtonCommand;
 
-            _model = model;
+            _state = state;
         }
     }
 }

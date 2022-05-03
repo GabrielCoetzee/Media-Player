@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MediaPlayer.Model.Objects.Base;
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using MediaPlayer.BusinessEntities.Objects.Base;
 
 namespace MediaPlayer.View.Converters
 {

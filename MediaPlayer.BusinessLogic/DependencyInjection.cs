@@ -4,6 +4,7 @@ using MediaPlayer.BusinessLogic.Commands.Concrete;
 using MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers;
 using MediaPlayer.BusinessLogic.Services.Abstract;
 using MediaPlayer.BusinessLogic.Services.Concrete;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MediaPlayer.BusinessLogic
@@ -12,6 +13,10 @@ namespace MediaPlayer.BusinessLogic
     {
         public static void AddServices(IServiceCollection services)
         {
+            // State
+
+            services.AddSingleton<IState, State.Concrete.State>();
+
             //Commands
 
             services.AddTransient<IOpenSettingsWindowCommand, OpenSettingsWindowCommand>();

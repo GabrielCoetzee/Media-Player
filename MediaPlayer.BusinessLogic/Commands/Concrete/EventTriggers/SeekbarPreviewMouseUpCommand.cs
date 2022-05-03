@@ -1,4 +1,5 @@
 ﻿using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using MediaPlayer.Model;
 using System;
 using System.Windows.Controls;
@@ -8,11 +9,11 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 {
     public class SeekbarPreviewMouseUpCommand : ISeekbarPreviewMouseUpCommand
     {
-        readonly ModelMediaPlayer _model;
+        readonly IState _state;
 
-        public SeekbarPreviewMouseUpCommand(ModelMediaPlayer model)
+        public SeekbarPreviewMouseUpCommand(IState state)
         {
-            _model = model;
+            _state = state;
         }
 
         public event EventHandler CanExecuteChanged
@@ -23,7 +24,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 
         public bool CanExecute(object parameter)
         {
-            return _model.SelectedMediaItem != null;
+            return _state.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
@@ -35,7 +36,7 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 
             var pointerLocation = (e.GetPosition(seekbar).X / seekbar.ActualWidth) * (seekbar.Maximum - seekbar.Minimum);
 
-            _model.MediaElementPosition = TimeSpan.FromSeconds(pointerLocation);
+            _state.MediaElementPosition = TimeSpan.FromSeconds(pointerLocation);
         }
     }
 }

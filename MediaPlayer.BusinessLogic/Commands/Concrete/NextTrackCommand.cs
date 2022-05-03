@@ -1,4 +1,5 @@
 ﻿using MediaPlayer.BusinessLogic.Commands.Abstract;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model;
 using System;
@@ -8,11 +9,11 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 {
     public class NextTrackCommand : INextTrackCommand
     {
-        readonly ModelMediaPlayer _model;
+        readonly IState _state;
 
-        public NextTrackCommand(ModelMediaPlayer model)
+        public NextTrackCommand(IState state)
         {
-            _model = model;
+            _state = state;
         }
 
         public event EventHandler CanExecuteChanged
@@ -23,12 +24,12 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            return !_model.IsMediaListEmpty() && (_model.IsNextMediaItemAvailable() || _model.IsRepeatEnabled);
+            return !_state.IsMediaListEmpty() && (_state.IsNextMediaItemAvailable() || _state.IsRepeatEnabled);
         }
 
         public void Execute(object parameter)
         {
-            _model.PlayNextMediaItem();
+            _state.PlayNextMediaItem();
         }
     }
 }

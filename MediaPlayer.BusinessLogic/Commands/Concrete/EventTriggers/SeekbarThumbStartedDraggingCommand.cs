@@ -1,4 +1,5 @@
 ﻿using MediaPlayer.BusinessLogic.Commands.Abstract.EventTriggers;
+using MediaPlayer.BusinessLogic.State.Abstract;
 using MediaPlayer.Model;
 using System;
 using System.Windows.Input;
@@ -7,11 +8,11 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 {
     public class SeekbarThumbStartedDraggingCommand : ISeekbarThumbStartedDraggingCommand
     {
-        readonly ModelMediaPlayer _model;
+        readonly IState _state;
 
-        public SeekbarThumbStartedDraggingCommand(ModelMediaPlayer model)
+        public SeekbarThumbStartedDraggingCommand(IState state)
         {
-            _model = model;
+            _state = state;
         }
 
         public event EventHandler CanExecuteChanged
@@ -22,12 +23,12 @@ namespace MediaPlayer.BusinessLogic.Commands.Concrete.EventTriggers
 
         public bool CanExecute(object parameter)
         {
-            return _model.SelectedMediaItem != null;
+            return _state.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            _model.IsUserDraggingSeekbarThumb = true;
+            _state.IsUserDraggingSeekbarThumb = true;
         }
     }
 }

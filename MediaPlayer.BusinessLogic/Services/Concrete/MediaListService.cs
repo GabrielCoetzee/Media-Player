@@ -1,6 +1,6 @@
-﻿using MediaPlayer.BusinessEntities.Objects.Base;
-using MediaPlayer.BusinessLogic.Services.Abstract;
-using MediaPlayer.Model;
+﻿using MediaPlayer.BusinessLogic.Services.Abstract;
+using MediaPlayer.BusinessLogic.State.Abstract;
+using MediaPlayer.Model.Objects.Base;
 using System.Collections.Generic;
 using System.Windows.Input;
 
@@ -8,22 +8,22 @@ namespace MediaPlayer.BusinessLogic.Services.Concrete
 {
     public class MediaListService : IMediaListService
     {
-        readonly ModelMediaPlayer _modelMediaPlayer;
+        readonly IState _state;
 
-        public MediaListService(ModelMediaPlayer modelMediaPlayer)
+        public MediaListService(IState state)
         {
-            _modelMediaPlayer = modelMediaPlayer;
+            _state = state;
         }
 
         public void AddRange(IEnumerable<MediaItem> mediaItems)
         {
-            _modelMediaPlayer.MediaItems.AddRange(mediaItems);
+            _state.MediaItems.AddRange(mediaItems);
 
-            if (_modelMediaPlayer.SelectedMediaItem != null || _modelMediaPlayer.IsMediaListEmpty())
+            if (_state.SelectedMediaItem != null || _state.IsMediaListEmpty())
                 return;
 
-            _modelMediaPlayer.SelectMediaItem(_modelMediaPlayer.GetFirstMediaItemIndex());
-            _modelMediaPlayer.PlayMedia();
+            _state.SelectMediaItem(_state.GetFirstMediaItemIndex());
+            _state.PlayMedia();
 
             RefreshUIBindings();
         }

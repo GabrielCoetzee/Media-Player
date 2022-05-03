@@ -9,7 +9,6 @@ using MediaPlayer.BusinessLogic;
 using MediaPlayer.BusinessLogic.Abstract;
 using MediaPlayer.BusinessLogic.Implementation;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model;
 using MediaPlayer.Shell.MessengerRegs;
 using MediaPlayer.Theming;
 using MediaPlayer.View.Views;
@@ -64,8 +63,6 @@ namespace MediaPlayer.Shell
 
             services.AddTransient(typeof(ViewApplicationSettings));
             services.AddTransient<ViewModelApplicationSettings>();
-
-            services.AddSingleton<ModelMediaPlayer>();
 
             BusinessLogic.DependencyInjection.AddServices(services);
         }

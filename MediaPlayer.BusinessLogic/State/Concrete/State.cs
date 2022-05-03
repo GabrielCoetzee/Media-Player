@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Generic.PropertyNotify;
+using MediaPlayer.BusinessLogic.State.Abstract;
+using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model.Collections;
+using MediaPlayer.Model.Objects.Base;
+using System;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using Generic.PropertyNotify;
-using MediaPlayer.BusinessEntities.Collections;
-using MediaPlayer.BusinessEntities.Objects.Base;
-using MediaPlayer.Common.Enumerations;
 
-namespace MediaPlayer.Model
+namespace MediaPlayer.BusinessLogic.State.Concrete
 {
-    public class ModelMediaPlayer : PropertyNotifyBase
+    public class State : PropertyNotifyBase, IState
     {
         #region Fields
 
@@ -25,11 +26,11 @@ namespace MediaPlayer.Model
         private bool _isRepeatEnabled;
         private bool _isMediaItemsShuffled;
 
-        public readonly DispatcherTimer CurrentPositionTracker = new();
-
         #endregion
 
         #region Properties
+
+        public DispatcherTimer CurrentPositionTracker { get; set; } = new();
 
         public MediaItem SelectedMediaItem
         {
