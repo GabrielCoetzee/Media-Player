@@ -4,8 +4,6 @@ namespace MediaPlayer.Model.Objects.Derived
 {
     public class AudioItem : MediaItem
     {
-        #region Fields
-
         private byte[] _albumArt;
         private string _album;
         private string _artist;
@@ -19,10 +17,6 @@ namespace MediaPlayer.Model.Objects.Derived
         private bool _hasLyrics;
         private string _composer;
         private int _bitrate;
-
-        #endregion
-
-        #region Overridden Properties
 
         public override string WindowTitle
         {
@@ -58,10 +52,6 @@ namespace MediaPlayer.Model.Objects.Derived
 
         }
 
-        #endregion
-
-        #region Properties
-
         public byte[] AlbumArt
         {
             get => _albumArt;
@@ -69,11 +59,8 @@ namespace MediaPlayer.Model.Objects.Derived
             {
                 _albumArt = value;
                 OnPropertyChanged(nameof(AlbumArt));
-                //OnPropertyChanged(nameof(HasAlbumArt));
             }
         }
-
-        //public bool HasAlbumArt => _albumArt != null;
 
         public string Album
         {
@@ -162,7 +149,5 @@ namespace MediaPlayer.Model.Objects.Derived
                 OnPropertyChanged(nameof(Bitrate));
             } 
         }
-
-        #endregion Properties
     }
 }

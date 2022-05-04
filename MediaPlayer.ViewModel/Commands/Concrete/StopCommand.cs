@@ -26,7 +26,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not ViewModelMediaPlayer vm)
                 return;
 
-            vm.SelectMediaItem(vm.GetFirstMediaItemIndex());
+            vm.SelectMediaItem(vm.FirstMediaItemIndex());
 
             vm.StopMedia();
         }

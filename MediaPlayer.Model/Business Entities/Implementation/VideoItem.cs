@@ -4,16 +4,10 @@ namespace MediaPlayer.Model.Objects.Derived
 {
     public class VideoItem : MediaItem
     {
-        #region Fields
-
         private string _windowTitle = "Now Playing: ";
         private string _videoTitle;
         private string _videoResolution;
         private string _mediaTitle;
-
-        #endregion
-
-        #region Properties
 
         public string VideoResolution
         {
@@ -56,8 +50,5 @@ namespace MediaPlayer.Model.Objects.Derived
                 OnPropertyChanged(nameof(MediaTitle));
             }
         } 
-
-        #endregion
-
     }
 }

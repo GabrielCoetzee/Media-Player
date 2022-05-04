@@ -1,11 +1,11 @@
-﻿using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
+﻿using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using System;
-using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
+namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
-    public class FocusOnPlayPauseButtonCommand : IFocusOnPlayPauseButtonCommand
+    public class TopMostGridDragEnterCommand : ITopMostGridDragEnterCommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -20,10 +20,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
 
         public void Execute(object parameter)
         {
-            if (parameter is not Button playPauseButton)
+            if (parameter is not DragEventArgs e)
                 return;
 
-            playPauseButton.Focus();
+            e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Move : DragDropEffects.None;
         }
     }
 }

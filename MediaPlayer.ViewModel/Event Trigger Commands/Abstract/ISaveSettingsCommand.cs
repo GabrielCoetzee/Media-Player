@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.Commands.Abstract.EventTriggers
+namespace MediaPlayer.ViewModel.EventTriggers.Abstract
 {
     public interface ISaveSettingsCommand : ICommand
     {

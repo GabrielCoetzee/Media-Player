@@ -1,16 +1,11 @@
-﻿using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
-using MediaPlayer.Model;
-using System;
+﻿using System;
 using System.Windows.Input;
+using MediaPlayer.ViewModel.EventTriggers.Abstract;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
+namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
-    public class SeekbarThumbCompletedDraggingCommand : ISeekbarThumbCompletedDraggingCommand
+    public class SeekbarThumbStartedDraggingCommand : ISeekbarThumbStartedDraggingCommand
     {
-        public SeekbarThumbCompletedDraggingCommand()
-        {
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -22,7 +17,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
             if (parameter is not ViewModelMediaPlayer vm)
                 return false;
 
-            return vm.IsUserDraggingSeekbarThumb;
+            return vm.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
@@ -30,7 +25,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
             if (parameter is not ViewModelMediaPlayer vm)
                 return;
 
-            vm.IsUserDraggingSeekbarThumb = false;
+            vm.IsUserDraggingSeekbarThumb = true;
         }
     }
 }

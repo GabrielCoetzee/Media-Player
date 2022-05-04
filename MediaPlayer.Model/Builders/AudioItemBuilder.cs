@@ -9,13 +9,7 @@ namespace MediaPlayer.Model.ObjectBuilders
 {
     public class AudioItemBuilder
     {
-        #region Fields
-
         private readonly AudioItem _audioItem;
-
-        #endregion
-
-        #region Constructor
 
         public AudioItemBuilder(string filePath)
         {
@@ -24,10 +18,6 @@ namespace MediaPlayer.Model.ObjectBuilders
                 FilePath = new Uri(filePath)
             };
         }
-
-        #endregion
-
-        #region Public Methods
 
         public AudioItemBuilder AsMediaType(MediaType mediaType)
         {
@@ -82,7 +72,7 @@ namespace MediaPlayer.Model.ObjectBuilders
 
         public AudioItemBuilder WithAlbumArt(byte[] albumArt)
         {
-            _audioItem.AlbumArt = albumArt ?? GetAlbumArtFromDirectory();
+            _audioItem.AlbumArt = albumArt ?? GetAlbumArtFromDirectory(_audioItem.FilePath.LocalPath);
 
             return this;
         }
@@ -120,16 +110,12 @@ namespace MediaPlayer.Model.ObjectBuilders
             return _audioItem;
         }
 
-        #endregion
-
-        #region Private Methods
-
-        private byte[] GetAlbumArtFromDirectory()
+        private byte[] GetAlbumArtFromDirectory(string path)
         {
             try
             {
                 var albumArtFromDirectory = Directory
-                    .EnumerateFiles(Path.GetDirectoryName(_audioItem.FilePath.LocalPath), "*.*", SearchOption.TopDirectoryOnly)
+                    .EnumerateFiles(Path.GetDirectoryName(path), "*.*", SearchOption.TopDirectoryOnly)
                     .Where(x => x.ToLower().EndsWith("cover.jpg") || x.ToLower().EndsWith("folder.jpg"));
 
                 return albumArtFromDirectory.Count() != 0 ? ConvertPathToByteArray(albumArtFromDirectory.First()) : null;
@@ -152,8 +138,5 @@ namespace MediaPlayer.Model.ObjectBuilders
                 return null;
             }
         }
-
-        #endregion
-
     }
 }

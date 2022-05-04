@@ -1,13 +1,13 @@
 ﻿using ControlzEx.Theming;
 using MediaPlayer.ApplicationSettings;
-using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
 using MediaPlayer.Theming;
 using System;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MediaPlayer.ViewModel.EventTriggers.Abstract;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
+namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
     public class LoadThemeOnWindowLoadedCommand : ILoadThemeOnWindowLoadedCommand
     {

@@ -1,8 +1,6 @@
-﻿using MediaPlayer.Model;
-using MediaPlayer.ApplicationSettings;
+﻿using MediaPlayer.ApplicationSettings;
 using Generic.PropertyNotify;
 using MediaPlayer.ViewModel.Commands.Abstract;
-using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
 using System;
 using MediaPlayer.Model.Objects.Base;
 using MediaPlayer.Model.Collections;
@@ -10,20 +8,19 @@ using System.Windows.Controls;
 using MediaPlayer.Common.Enumerations;
 using System.Windows.Threading;
 using System.Linq;
-using MediaPlayer.ViewModel.Commands.Concrete.EventTriggers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
 using System.Windows.Input;
 using MediaPlayer.Model.Implementation;
+using MediaPlayer.ViewModel.EventTriggers.Concrete;
+using MediaPlayer.ViewModel.EventTriggers.Abstract;
 
 namespace MediaPlayer.ViewModel
 {
     public class ViewModelMediaPlayer : PropertyNotifyBase
     {
-        private readonly Random _randomIdGenerator = new();
-
         private MediaItem _selectedMediaItem;
         private MediaItemObservableCollection _mediaItems = new();
         private bool _isLoadingMediaItems;
@@ -201,18 +198,7 @@ namespace MediaPlayer.ViewModel
 
             var mediaItems = await ProcessDroppedContentAsync(e.FilePaths);
 
-            MediaItems.AddRange(mediaItems);
-
-            if (SelectedMediaItem != null || IsMediaListEmpty())
-            {
-                IsLoadingMediaItems = false;
-                return;
-            }
-
-            SelectMediaItem(GetFirstMediaItemIndex());
-            PlayMedia();
-
-            RefreshUIBindings();
+            AddMediaItems(mediaItems);
 
             IsLoadingMediaItems = false;
         }
@@ -260,9 +246,20 @@ namespace MediaPlayer.ViewModel
             CommandManager.InvalidateRequerySuggested();
         }
 
-        public bool IsMediaListEmpty()
+        public void AddMediaItems(IEnumerable<MediaItem> mediaItems)
         {
-            return MediaItems.Count <= 0;
+            MediaItems.AddRange(mediaItems);
+
+            if (SelectedMediaItem != null || IsMediaListEmpty())
+            {
+                IsLoadingMediaItems = false;
+                return;
+            }
+
+            SelectMediaItem(FirstMediaItemIndex());
+            PlayMedia();
+
+            RefreshUIBindings();
         }
 
         public void PlayMedia()
@@ -285,98 +282,24 @@ namespace MediaPlayer.ViewModel
             SelectedMediaItem = MediaItems[index];
         }
 
-        public bool IsPreviousMediaItemAvailable()
-        {
-            return (!IsMediaListEmpty()) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) - 1);
-        }
-        public bool IsNextMediaItemAvailable()
-        {
-            return (!IsMediaListEmpty()) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) + 1);
-        }
+        public bool IsMediaListEmpty() => MediaItems.Count == 0;
 
-        public int GetPreviousMediaItemIndex()
-        {
-            return MediaItems.IndexOf(SelectedMediaItem) - 1;
-        }
+        public bool IsPreviousMediaItemAvailable() => (!IsMediaListEmpty()) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) - 1);
 
-        public int GetNextMediaItemIndex()
-        {
-            return MediaItems.IndexOf(SelectedMediaItem) + 1;
-        }
+        public bool IsNextMediaItemAvailable() => (!IsMediaListEmpty()) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) + 1);
 
-        public int GetFirstMediaItemIndex()
-        {
-            return MediaItems.IndexOf(MediaItems.First());
-        }
+        public int PreviousMediaItemIndex() => MediaItems.IndexOf(SelectedMediaItem) - 1;
 
-        public int GetLastMediaItemIndex()
-        {
-            return MediaItems.IndexOf(MediaItems.Last());
-        }
+        public int NextMediaItemIndex() => MediaItems.IndexOf(SelectedMediaItem) + 1;
 
-        public bool IsFirstMediaItemSelected()
-        {
-            return MediaItems.IndexOf(SelectedMediaItem) == MediaItems.IndexOf(MediaItems.First());
-        }
+        public int FirstMediaItemIndex() => MediaItems.IndexOf(MediaItems.First());
 
-        public bool IsLastMediaItemSelected()
-        {
-            return MediaItems.IndexOf(SelectedMediaItem) == MediaItems.IndexOf(MediaItems.Last());
-        }
+        public int LastMediaItemIndex() => MediaItems.IndexOf(MediaItems.Last());
 
-        public void SetAccurateCurrentMediaDuration(TimeSpan duration)
-        {
-            SelectedMediaItem.Duration = duration;
-        }
+        public bool IsFirstMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == MediaItems.IndexOf(MediaItems.First());
 
-        public bool IsEndOfCurrentMedia(TimeSpan elapsedTime)
-        {
-            return elapsedTime == SelectedMediaItem.Duration;
-        }
+        public bool IsLastMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == MediaItems.IndexOf(MediaItems.Last());
 
-        public void PlayPreviousMediaItem()
-        {
-            if (IsRepeatEnabled && IsFirstMediaItemSelected())
-            {
-                SelectMediaItem(GetLastMediaItemIndex());
-                PlayMedia();
-
-                return;
-            }
-
-            SelectMediaItem(GetPreviousMediaItemIndex());
-            PlayMedia();
-        }
-
-        public void PlayNextMediaItem()
-        {
-            if (IsRepeatEnabled && IsLastMediaItemSelected())
-            {
-                SelectMediaItem(GetFirstMediaItemIndex());
-                PlayMedia();
-
-                return;
-            }
-
-            SelectMediaItem(GetNextMediaItemIndex());
-
-            PlayMedia();
-        }
-
-        public void OrderMediaList()
-        {
-            MediaItems = new MediaItemObservableCollection(MediaItems.OrderBy(x => x.Id));
-
-            IsMediaItemsShuffled = false;
-        }
-
-        public void ShuffleMediaList()
-        {
-            MediaItems = new MediaItemObservableCollection(MediaItems
-                .OrderBy(x => x != SelectedMediaItem)
-                .ThenBy(x => _randomIdGenerator.Next()));
-
-            IsMediaItemsShuffled = true;
-        }
+        public bool IsEndOfCurrentMedia() => SelectedMediaItem.ElapsedTime == SelectedMediaItem.Duration;
     }
 }

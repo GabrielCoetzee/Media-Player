@@ -1,10 +1,10 @@
 ﻿using MahApps.Metro.Controls;
 using MediaPlayer.ApplicationSettings;
-using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
+using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using System;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
+namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
     public class SaveSettingsCommand : ISaveSettingsCommand
     {

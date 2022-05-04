@@ -1,10 +1,10 @@
 ﻿using MediaPlayer.ViewModel.Commands.Abstract;
-using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
 using System;
 using System.Windows.Input;
 using MediaPlayer.ViewModel.ConverterObject;
+using MediaPlayer.ViewModel.EventTriggers.Abstract;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
+namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
     public class MediaOpenedCommand : IMediaOpenedCommand
     {
@@ -44,11 +44,16 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
             var mediaElement = mediaOpenedModel.MediaElement;
             var vm = mediaOpenedModel.ViewModelMediaPlayer;
 
-            vm.SetAccurateCurrentMediaDuration(mediaElement.NaturalDuration.TimeSpan);
+            SetAccurateCurrentMediaDuration(mediaOpenedModel.ViewModelMediaPlayer, mediaElement.NaturalDuration.TimeSpan);
 
             vm.CurrentPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaOpenedModel);
 
             vm.CurrentPositionTracker.Start();
+        }
+
+        private void SetAccurateCurrentMediaDuration(ViewModelMediaPlayer vm, TimeSpan duration)
+        {
+            vm.SelectedMediaItem.Duration = duration;
         }
 
         private void TrackMediaPosition(MediaOpenedConverterModel mediaOpenedModel)
@@ -59,11 +64,11 @@ namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
             if (!vm.IsUserDraggingSeekbarThumb)
                 vm.SelectedMediaItem.ElapsedTime = mediaElement.Position;
 
-            if (!vm.IsEndOfCurrentMedia(vm.SelectedMediaItem.ElapsedTime))
+            if (!vm.IsEndOfCurrentMedia())
                 return;
 
-            if (_nextTrackCommand.CanExecute(null))
-                _nextTrackCommand.Execute(null);
+            if (_nextTrackCommand.CanExecute(vm))
+                _nextTrackCommand.Execute(vm);
 
             RefreshUIBindings();
         }

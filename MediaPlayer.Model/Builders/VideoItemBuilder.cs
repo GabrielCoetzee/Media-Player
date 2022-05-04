@@ -6,13 +6,7 @@ namespace MediaPlayer.Model.ObjectBuilders
 {
     public class VideoItemBuilder
     {
-        #region Fields
-
         private readonly VideoItem _videoItem;
-
-        #endregion
-
-        #region Constructor
 
         public VideoItemBuilder(string filePath)
         {
@@ -21,10 +15,6 @@ namespace MediaPlayer.Model.ObjectBuilders
                 FilePath = new Uri(filePath)
             };
         }
-
-        #endregion
-
-        #region Public Methods
 
         public VideoItemBuilder WithVideoResolution(string resolution)
         {
@@ -60,8 +50,5 @@ namespace MediaPlayer.Model.ObjectBuilders
         {
             return _videoItem;
         }
-
-        #endregion
-
     }
 }

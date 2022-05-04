@@ -1,25 +1,13 @@
-﻿using MediaPlayer.ApplicationSettings;
-using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
-using System;
+﻿using System;
 using System.Collections;
 using System.Windows;
 using System.Windows.Input;
-using MediaPlayer.Model.Implementation;
+using MediaPlayer.ViewModel.EventTriggers.Abstract;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete.EventTriggers
+namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
     public class TopMostGridDropCommand : ITopMostGridDropCommand
     {
-        readonly MetadataReaderResolver _metadataReaderResolver;
-        readonly ISettingsProvider _settingsProvider;
-
-        public TopMostGridDropCommand(MetadataReaderResolver metadataReaderResolver, 
-            ISettingsProvider settingsProvider)
-        {
-            _metadataReaderResolver = metadataReaderResolver;
-            _settingsProvider = settingsProvider;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;

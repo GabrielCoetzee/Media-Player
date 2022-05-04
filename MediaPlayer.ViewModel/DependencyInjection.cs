@@ -1,13 +1,8 @@
 ﻿using MediaPlayer.ViewModel.Commands.Abstract;
-using MediaPlayer.ViewModel.Commands.Abstract.EventTriggers;
 using MediaPlayer.ViewModel.Commands.Concrete;
-using MediaPlayer.ViewModel.Commands.Concrete.EventTriggers;
+using MediaPlayer.ViewModel.EventTriggers.Abstract;
+using MediaPlayer.ViewModel.EventTriggers.Concrete;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaPlayer.ViewModel
 {

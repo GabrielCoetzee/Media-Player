@@ -54,27 +54,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
 
-
-            //// service
-
-            vm.MediaItems.AddRange(mediaItems);
-
-            if (vm.SelectedMediaItem != null || vm.IsMediaListEmpty())
-                return;
-
-            vm.SelectMediaItem(vm.GetFirstMediaItemIndex());
-            vm.PlayMedia();
-
-            RefreshUIBindings();
-
-            ///
-
-            //_mediaService.AddMediaItems(mediaItems);
-        }
-
-        private static void RefreshUIBindings()
-        {
-            CommandManager.InvalidateRequerySuggested();
+            vm.AddMediaItems(mediaItems);
         }
 
         private string CreateDialogFilter()

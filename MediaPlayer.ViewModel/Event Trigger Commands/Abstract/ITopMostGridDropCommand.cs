@@ -1,8 +1,8 @@
-﻿using MediaPlayer.ViewModel.Commands.Concrete.EventTriggers;
+﻿using MediaPlayer.ViewModel.EventTriggers.Concrete;
 using System;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.Commands.Abstract.EventTriggers
+namespace MediaPlayer.ViewModel.EventTriggers.Abstract
 {
     public interface ITopMostGridDropCommand : ICommand
     {

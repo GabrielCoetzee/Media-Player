@@ -26,7 +26,21 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not ViewModelMediaPlayer vm)
                 return;
 
-            vm.PlayPreviousMediaItem();
+            PlayPreviousMediaItem(vm);
+        }
+
+        private void PlayPreviousMediaItem(ViewModelMediaPlayer vm)
+        {
+            if (vm.IsRepeatEnabled && vm.IsFirstMediaItemSelected())
+            {
+                vm.SelectMediaItem(vm.LastMediaItemIndex());
+                vm.PlayMedia();
+
+                return;
+            }
+
+            vm.SelectMediaItem(vm.PreviousMediaItemIndex());
+            vm.PlayMedia();
         }
     }
 }
