@@ -181,6 +181,7 @@ namespace MediaPlayer.ViewModel
             TopMostGridDropCommand = topMostGridDropCommand;
             LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
             FocusOnPlayPauseButtonCommand = focusOnPlayPauseButtonCommand;
+
             BusyViewModel = busyViewModel;
 
             SeekbarPreviewMouseUpCommand.ChangeMediaPosition += SeekbarPreviewMouseUpCommand_ChangeMediaPosition;
