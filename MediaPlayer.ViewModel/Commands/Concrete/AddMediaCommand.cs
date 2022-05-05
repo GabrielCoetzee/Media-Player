@@ -1,6 +1,6 @@
 ﻿using MediaPlayer.ApplicationSettings;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model.Implementation;
+using MediaPlayer.Model.Metadata.Concrete;
 using MediaPlayer.ViewModel.Commands.Abstract;
 using System;
 using System.Linq;

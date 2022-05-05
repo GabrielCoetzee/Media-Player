@@ -8,13 +8,6 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
     public class SaveSettingsCommand : ISaveSettingsCommand
     {
-        readonly ISettingsProviderViewModel _settingsProvider;
-
-        public SaveSettingsCommand(ISettingsProviderViewModel settingsProvider)
-        {
-            _settingsProvider = settingsProvider;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -31,7 +24,10 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
             if (parameter is not MetroWindow applicationSettingsWindow)
                 return;
 
-            _settingsProvider.SaveSettings();
+            if (applicationSettingsWindow.DataContext is not ApplicationSettingsViewModel vm)
+                return;
+
+            vm.SettingsProviderViewModel.SaveSettings();
 
             applicationSettingsWindow.Close();
         }

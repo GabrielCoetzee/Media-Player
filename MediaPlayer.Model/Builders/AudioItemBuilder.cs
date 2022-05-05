@@ -2,8 +2,8 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using MediaPlayer.Model.Objects.Derived;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model.BusinessEntities.Concrete;
 
 namespace MediaPlayer.Model.ObjectBuilders
 {
@@ -42,8 +42,7 @@ namespace MediaPlayer.Model.ObjectBuilders
 
         public AudioItemBuilder WithSongTitle(string songTitle)
         {
-            _audioItem.SongTitle = songTitle;
-            _audioItem.MediaTitle = _audioItem.SongTitle ?? _audioItem.FileName;
+            _audioItem.MediaTitle = songTitle ?? _audioItem.FileName;
             _audioItem.WindowTitle += $"{(!string.IsNullOrEmpty(_audioItem.Artist) ? $"{_audioItem.Artist} - {_audioItem.MediaTitle}" : $"{_audioItem.FileName}")}";
 
             return this;

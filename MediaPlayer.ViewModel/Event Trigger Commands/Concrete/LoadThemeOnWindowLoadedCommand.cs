@@ -1,11 +1,11 @@
 ﻿using ControlzEx.Theming;
 using MediaPlayer.ApplicationSettings;
-using MediaPlayer.Theming;
 using System;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MediaPlayer.ViewModel.EventTriggers.Abstract;
+using MediaPlayer.Theming.Abstract;
 
 namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {

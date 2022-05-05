@@ -1,6 +1,6 @@
 ﻿using System;
-using MediaPlayer.Model.Objects.Derived;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model.BusinessEntities.Concrete;
 
 namespace MediaPlayer.Model.ObjectBuilders
 {
@@ -25,8 +25,7 @@ namespace MediaPlayer.Model.ObjectBuilders
 
         public VideoItemBuilder WithVideoTitle(string videoTitle)
         {
-            _videoItem.VideoTitle = videoTitle;
-            _videoItem.MediaTitle = _videoItem.VideoTitle ?? _videoItem.FileName;
+            _videoItem.MediaTitle = videoTitle ?? _videoItem.FileName;
             _videoItem.WindowTitle += $"{(!string.IsNullOrEmpty(_videoItem.MediaTitle) ? $"{_videoItem.MediaTitle}" : $"{_videoItem.FileName}")}";
 
             return this;

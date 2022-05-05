@@ -2,7 +2,6 @@
 using Generic.PropertyNotify;
 using MediaPlayer.ViewModel.Commands.Abstract;
 using System;
-using MediaPlayer.Model.Objects.Base;
 using MediaPlayer.Model.Collections;
 using System.Windows.Controls;
 using MediaPlayer.Common.Enumerations;
@@ -13,10 +12,11 @@ using System.Collections.Generic;
 using System.Collections;
 using System.IO;
 using System.Windows.Input;
-using MediaPlayer.Model.Implementation;
 using MediaPlayer.ViewModel.EventTriggers.Concrete;
 using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using MediaPlayer.ViewModel.ViewModels;
+using MediaPlayer.Model.BusinessEntities.Abstract;
+using MediaPlayer.Model.Metadata.Concrete;
 
 namespace MediaPlayer.ViewModel
 {

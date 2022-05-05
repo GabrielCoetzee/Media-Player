@@ -1,9 +1,8 @@
 ﻿using System.Windows;
-using System.Windows.Input;
 using ControlzEx.Theming;
-using MahApps.Metro;
+using MediaPlayer.Theming.Abstract;
 
-namespace MediaPlayer.Theming
+namespace MediaPlayer.Theming.Concrete
 {
     public class ThemeSelector : IThemeSelector
     {

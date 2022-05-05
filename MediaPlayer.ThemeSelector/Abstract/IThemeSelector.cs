@@ -1,4 +1,4 @@
-﻿namespace MediaPlayer.Theming
+﻿namespace MediaPlayer.Theming.Abstract
 {
     public interface IThemeSelector
     {

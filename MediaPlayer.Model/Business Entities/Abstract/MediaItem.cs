@@ -3,15 +3,17 @@ using System.IO;
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Enumerations;
 
-namespace MediaPlayer.Model.Objects.Base
+namespace MediaPlayer.Model.BusinessEntities.Abstract
 {
     public abstract class MediaItem : PropertyNotifyBase
     {
         private int _id;
-        private TimeSpan _duration { get; set; }
+        private TimeSpan _duration;
         private Uri _filePath;
         private MediaType _mediaType;
         private TimeSpan _elapsedTime;
+        private string _mediaTitle;
+        private string _windowTitle = "Now Playing: ";
 
         public int Id
         {
@@ -44,9 +46,26 @@ namespace MediaPlayer.Model.Objects.Base
             }
         }
 
-        public abstract string WindowTitle { get; set; }
+        public string WindowTitle
+        {
+            get => _windowTitle;
+            set
+            {
+                _windowTitle = value;
+                OnPropertyChanged(nameof(WindowTitle));
+            }
+        }
 
-        public abstract string MediaTitle { get; set; }
+        public string MediaTitle
+        {
+            get => _mediaTitle;
+            set
+            {
+                _mediaTitle = value;
+                OnPropertyChanged(nameof(MediaTitle));
+            }
+
+        }
 
         public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
 

@@ -1,7 +1,7 @@
-﻿using Generic.WindowInterfaces;
+﻿using Generic.Abstract;
 using System.Windows;
 
-namespace Generic.WindowImplementations
+namespace Generic.Concrete
 {
     public class WindowService<T> : IWindowService 
         where T : Window, new()

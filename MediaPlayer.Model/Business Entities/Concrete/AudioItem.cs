@@ -1,56 +1,20 @@
-﻿using MediaPlayer.Model.Objects.Base;
+﻿using MediaPlayer.Model.BusinessEntities.Abstract;
 
-namespace MediaPlayer.Model.Objects.Derived
+namespace MediaPlayer.Model.BusinessEntities.Concrete
 {
     public class AudioItem : MediaItem
     {
         private byte[] _albumArt;
         private string _album;
         private string _artist;
-        private string _songTitle;
-        private string _mediaTitle;
-        private string _windowTitle = "Now Playing: ";
         private string _genre;
         private string _comments;
         private uint? _year;
         private string _lyrics;
-        private bool _hasLyrics;
         private string _composer;
         private int _bitrate;
 
-        public override string WindowTitle
-        {
-            get => _windowTitle;
-            set
-            {
-                _windowTitle = value;
-                OnPropertyChanged(nameof(WindowTitle));
-            }
-        }
-
-        public string SongTitle
-        {
-            get => _songTitle;
-            set
-            {
-                _songTitle = value;
-
-                OnPropertyChanged(nameof(SongTitle));
-                OnPropertyChanged(nameof(MediaTitle));
-                OnPropertyChanged(nameof(WindowTitle));
-            }
-        }
-
-        public override string MediaTitle
-        {
-            get => _mediaTitle;
-            set
-            {
-                _mediaTitle = value;
-                OnPropertyChanged(nameof(MediaTitle));
-            }
-
-        }
+        public bool HasLyrics => !string.IsNullOrEmpty(_lyrics);
 
         public byte[] AlbumArt
         {
@@ -115,20 +79,11 @@ namespace MediaPlayer.Model.Objects.Derived
             set
             {
                 _lyrics = value;
-                HasLyrics = !string.IsNullOrEmpty(value);
                 OnPropertyChanged(nameof(Lyrics));
+                OnPropertyChanged(nameof(HasLyrics));
             } 
         }
 
-        public bool HasLyrics
-        {
-            get => _hasLyrics;
-            set
-            {
-                _hasLyrics = value;
-                OnPropertyChanged(nameof(HasLyrics));
-            }
-        }
 
         public string Composer
         {

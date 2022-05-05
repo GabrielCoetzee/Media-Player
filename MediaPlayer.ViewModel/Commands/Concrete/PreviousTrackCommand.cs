@@ -31,15 +31,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         private void PlayPreviousMediaItem(MainViewModel vm)
         {
+            var index = vm.PreviousMediaItemIndex();
+
             if (vm.IsRepeatEnabled && vm.IsFirstMediaItemSelected())
-            {
-                vm.SelectMediaItem(vm.LastMediaItemIndex());
-                vm.PlayMedia();
+                index = vm.LastMediaItemIndex();
 
-                return;
-            }
-
-            vm.SelectMediaItem(vm.PreviousMediaItemIndex());
+            vm.SelectMediaItem(index);
             vm.PlayMedia();
         }
     }

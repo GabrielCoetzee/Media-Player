@@ -1,4 +1,4 @@
-﻿namespace Generic.WindowInterfaces
+﻿namespace Generic.Abstract
 {
     interface IWindowService
     {

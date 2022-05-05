@@ -1,10 +1,10 @@
-﻿using MediaPlayer.Model.Objects.Base;
-using MediaPlayer.Model.ObjectBuilders;
+﻿using MediaPlayer.Model.ObjectBuilders;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model.Metadata.Abstract;
+using MediaPlayer.Model.BusinessEntities.Abstract;
 using TagLib;
-using MediaPlayer.Model.Abstract;
 
-namespace MediaPlayer.Model.Implementation
+namespace MediaPlayer.Model.Metadata.Concrete
 {
     public class TaglibMetadataReaderProvider : IMetadataReaderProvider
     {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-// ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace Generic.Mediator
 {

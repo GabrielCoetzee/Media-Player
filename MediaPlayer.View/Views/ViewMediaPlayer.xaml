@@ -100,7 +100,7 @@
                 <ColumnDefinition Width="0.1*" />
             </Grid.ColumnDefinitions>
 
-            <Expander Focusable="False" Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding SelectedMediaItem.HasLyrics, FallbackValue=Hidden, Mode=TwoWay,  Converter={StaticResource BooleanToVisibilityConverter}}" >
+            <Expander Focusable="False" Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding SelectedMediaItem.HasLyrics, FallbackValue=Hidden,  Converter={StaticResource BooleanToVisibilityConverter}}" >
                 <i1:Interaction.Triggers>
                     <i1:EventTrigger EventName="Collapsed" >
                         <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />

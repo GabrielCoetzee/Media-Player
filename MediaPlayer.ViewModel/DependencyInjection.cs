@@ -2,6 +2,7 @@
 using MediaPlayer.ViewModel.Commands.Concrete;
 using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using MediaPlayer.ViewModel.EventTriggers.Concrete;
+using MediaPlayer.ViewModel.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MediaPlayer.ViewModel

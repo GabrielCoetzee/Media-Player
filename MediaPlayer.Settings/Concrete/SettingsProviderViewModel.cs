@@ -2,8 +2,9 @@
 using Generic.PropertyNotify;
 using MediaPlayer.ApplicationSettings.Config;
 using MediaPlayer.Theming;
+using MediaPlayer.Theming.Abstract;
 
-namespace MediaPlayer.ApplicationSettings
+namespace MediaPlayer.ApplicationSettings.Concrete
 {
     public class SettingsProviderViewModel : PropertyNotifyBase, ISettingsProviderViewModel
     {
@@ -20,16 +21,10 @@ namespace MediaPlayer.ApplicationSettings
             _themeSelector = themeSelector;
         }
 
-        #region Fields
+        public string[] SupportedFileFormats => _options.Value.SupportedFileFormats;
 
         private decimal _selectedOpacity;
         private string _selectedTheme;
-
-        #endregion
-
-        #region Properties
-
-        public string[] SupportedFileFormats => _options.Value.SupportedFileFormats;
 
         public string SelectedAccent
         {
@@ -62,8 +57,6 @@ namespace MediaPlayer.ApplicationSettings
                 opt.Theme = _selectedTheme;
             });
         }
-
-        #endregion
 
     }
 }

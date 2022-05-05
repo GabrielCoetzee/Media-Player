@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 
-namespace Generic.Configuration.Implementation
+namespace Generic.Configuration.Concrete
 {
     public class WritableOptions<T> : IWritableOptions<T> where T : class, new()
     {
