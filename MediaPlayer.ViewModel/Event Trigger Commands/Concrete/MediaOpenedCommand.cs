@@ -69,13 +69,6 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 
             if (_nextTrackCommand.CanExecute(vm))
                 _nextTrackCommand.Execute(vm);
-
-            RefreshUIBindings();
-        }
-
-        private static void RefreshUIBindings()
-        {
-            CommandManager.InvalidateRequerySuggested();
         }
     }
 }

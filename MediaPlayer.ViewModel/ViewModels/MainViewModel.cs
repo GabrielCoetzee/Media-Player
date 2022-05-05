@@ -238,11 +238,6 @@ namespace MediaPlayer.ViewModel
             return supportedFiles;
         }
 
-        private static void RefreshUIBindings()
-        {
-            CommandManager.InvalidateRequerySuggested();
-        }
-
         public void AddMediaItems(IEnumerable<MediaItem> mediaItems)
         {
             MediaItems.AddRange(mediaItems);
@@ -255,8 +250,6 @@ namespace MediaPlayer.ViewModel
 
             SelectMediaItem(FirstMediaItemIndex());
             PlayMedia();
-
-            RefreshUIBindings();
         }
 
         public void PlayMedia()
