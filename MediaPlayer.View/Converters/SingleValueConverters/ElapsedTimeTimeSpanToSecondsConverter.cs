@@ -8,24 +8,18 @@ namespace MediaPlayer.View.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is TimeSpan)
-            {
-                var val = value is TimeSpan ? (TimeSpan) value : new TimeSpan();
+            if (value is not TimeSpan val)
+                return null;
 
-                return val.TotalSeconds;
-            }
-
-            return null;
+            return val.TotalSeconds;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is double)
-            {
-                return TimeSpan.FromSeconds((double)value);
-            }
+            if (value is not double val)
+                return null;
 
-            return null;
+            return TimeSpan.FromSeconds((double)value);
         }
     }
 }

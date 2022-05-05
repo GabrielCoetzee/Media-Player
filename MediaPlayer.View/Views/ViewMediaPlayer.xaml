@@ -34,7 +34,7 @@
                     <TextBlock Margin="5 0 5 0"
                                VerticalAlignment="Center"
                                Text="SETTINGS" />
-                    <fa5:ImageAwesome Width="15"  Height="15" Icon="Solid_Cog" Foreground="#FFFFFF"/>
+                    <fa5:ImageAwesome Width="15"  Height="15" Icon="Solid_Cog" Foreground="#FFFFFF" />
                 </StackPanel>
             </Button>
         </Controls:WindowCommands>
@@ -51,14 +51,12 @@
         <ImageBrush x:Key="ResourceRepeatButtonImage" ImageSource="../Resources/Button_Images/appbar.repeat.png" />
         <ImageBrush x:Key="ResourceShuffleButtonImage" ImageSource="../Resources/Button_Images/appbar.shuffle.png"/>
 
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibleOrHidden" />
-        <converters:BooleanToVisibleOrHiddenInverseConverter x:Key="BooleanToVisibleOrHiddenInverse" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BooleanToVisibleOrHiddenInverseConverter x:Key="BooleanToVisibleOrHiddenInverseConverter" />
         <converters:PlayPauseButtonBackgroundConverter x:Key="PlayPauseButtonBackgroundConverter" />
         <converters:MediaVolumeConverter x:Key="MediaVolumeConverter" />
-        <converters:MediaItemIsSelectedToVisibilityConverter x:Key="MediaItemSelectedToVisibilityConverter" />
-        <converters:SliderToEnabledWhenMediaItemSelectedConverter x:Key="SliderToEnabledWhenMediaItemSelectedConverter" />
         <converters:AlbumArtMultiValueConverter x:Key="AlbumArtMultiValueConverter" />
-        <converters:ElapsedTimeTimeSpanToSecondsConverter x:Key="TimeSpanToSecondsConverter" />
+        <converters:ElapsedTimeTimeSpanToSecondsConverter x:Key="ElapsedTimeTimeSpanToSecondsConverter" />
         <converters:MediaElementOpenedMultiValueConverter x:Key="MediaElementOpenedMultiValueConverter" />
         <converters:NullableBooleanToVisibleOrHiddenConverter x:Key="NullableBooleanToVisibleOrHiddenConverter" />
         
@@ -102,7 +100,7 @@
                 <ColumnDefinition Width="0.1*" />
             </Grid.ColumnDefinitions>
 
-            <Expander Focusable="False" Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding SelectedMediaItem.HasLyrics, FallbackValue=Hidden, Mode=TwoWay,  Converter={StaticResource BooleanToVisibleOrHidden}}" >
+            <Expander Focusable="False" Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding SelectedMediaItem.HasLyrics, FallbackValue=Hidden, Mode=TwoWay,  Converter={StaticResource BooleanToVisibilityConverter}}" >
                 <i1:Interaction.Triggers>
                     <i1:EventTrigger EventName="Collapsed" >
                         <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
@@ -139,9 +137,9 @@
                     <RowDefinition Height="0.95*" />
                 </Grid.RowDefinitions>
 
-                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibleOrHidden}}" Foreground="White" Spin="True" />
+                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="White" Spin="True" />
                 <Label Content="{Binding BusyViewModel.MediaListTitle}" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, Converter={StaticResource NullableBooleanToVisibleOrHiddenConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
-                <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding MediaItems}" SelectedItem="{Binding SelectedMediaItem}">
+                <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding IsMediaListPopulated, Converter={StaticResource BooleanToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding MediaItems}" SelectedItem="{Binding SelectedMediaItem}">
                     <i1:Interaction.Triggers>
                         <i1:EventTrigger EventName="SelectionChanged" >
                             <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
@@ -181,13 +179,13 @@
             </Grid>
            
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Label Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}" Content="{Binding SelectedMediaItem.Bitrate}" ContentStringFormat="Bitrate: {0} kbps"   />
-                <Label Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHidden}}" Content="{Binding SelectedMediaItem.VideoResolution}" ContentStringFormat="Resolution: {0}"   />
+                <Label Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverseConverter}}" Content="{Binding SelectedMediaItem.Bitrate}" ContentStringFormat="Bitrate: {0} kbps"   />
+                <Label Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{Binding SelectedMediaItem.VideoResolution}" ContentStringFormat="Resolution: {0}"   />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Visibility="{Binding SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Text="Elapsed: " />
-                <TextBlock Visibility="{Binding SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}">
+                <TextBlock Visibility="{Binding IsMediaListPopulated, TargetNullValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" Text="Elapsed: " />
+                <TextBlock Visibility="{Binding IsMediaListPopulated, TargetNullValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
                             <Binding Path="SelectedMediaItem.ElapsedTime.Minutes" />
@@ -195,8 +193,8 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <TextBlock Visibility="{Binding IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" Text=" / " />
-                <TextBlock Visibility="{Binding IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" >
+                <TextBlock Visibility="{Binding IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" Text=" / " />
+                <TextBlock Visibility="{Binding IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" >
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
                             <Binding Path="SelectedMediaItem.Duration.Minutes" />
@@ -207,7 +205,7 @@
             </StackPanel>
 
             <StackPanel Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                <Image Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverse}}">
+                <Image Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverseConverter}}">
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource AlbumArtMultiValueConverter}">
                             <Binding Path="SelectedMediaItem.AlbumArt"  />
@@ -217,7 +215,7 @@
                 </Image>
             </StackPanel>
 
-            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding SelectedMediaItem.ElapsedTime, Converter={StaticResource TimeSpanToSecondsConverter}}" IsEnabled="{Binding SelectedMediaItem, TargetNullValue=False, Converter={StaticResource SliderToEnabledWhenMediaItemSelectedConverter}}" Maximum="{Binding SelectedMediaItem.Duration.TotalSeconds}" >
+            <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding SelectedMediaItem.ElapsedTime, Converter={StaticResource ElapsedTimeTimeSpanToSecondsConverter}}" IsEnabled="{Binding IsMediaListPopulated, TargetNullValue=False}" Maximum="{Binding SelectedMediaItem.Duration.TotalSeconds}" >
                 <i1:Interaction.Triggers>
                     <i1:EventTrigger EventName="PreviewMouseUp">
                         <i1:InvokeCommandAction Command="{Binding SeekbarPreviewMouseUpCommand}" PassEventArgsToCommand="True" />

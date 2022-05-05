@@ -40,6 +40,7 @@ namespace MediaPlayer.ViewModel
             {
                 _selectedMediaItem = value;
                 OnPropertyChanged(nameof(SelectedMediaItem));
+                OnPropertyChanged(nameof(IsMediaListPopulated));
             }
         }
 
@@ -234,6 +235,7 @@ namespace MediaPlayer.ViewModel
 
             return supportedFiles;
         }
+
         private static void RefreshUIBindings()
         {
             CommandManager.InvalidateRequerySuggested();
@@ -243,7 +245,7 @@ namespace MediaPlayer.ViewModel
         {
             MediaItems.AddRange(mediaItems);
 
-            if (SelectedMediaItem != null || IsMediaListEmpty())
+            if (SelectedMediaItem != null)
             {
                 BusyViewModel.IsLoadingMediaItems = false;
                 return;
@@ -275,11 +277,11 @@ namespace MediaPlayer.ViewModel
             SelectedMediaItem = MediaItems[index];
         }
 
-        public bool IsMediaListEmpty() => MediaItems.Count == 0;
+        public bool IsMediaListPopulated => MediaItems.Count >= 1;
 
-        public bool IsPreviousMediaItemAvailable() => (!IsMediaListEmpty()) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) - 1);
+        public bool IsPreviousMediaItemAvailable() => (IsMediaListPopulated) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) - 1);
 
-        public bool IsNextMediaItemAvailable() => (!IsMediaListEmpty()) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) + 1);
+        public bool IsNextMediaItemAvailable() => (IsMediaListPopulated) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) + 1);
 
         public int PreviousMediaItemIndex() => MediaItems.IndexOf(SelectedMediaItem) - 1;
 

@@ -28,7 +28,7 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 
             var vm = mediaOpened.ViewModelMediaPlayer;
 
-            return !vm.IsMediaListEmpty() && vm.SelectedMediaItem != null;
+            return vm.IsMediaListPopulated && vm.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)

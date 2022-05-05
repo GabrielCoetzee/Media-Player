@@ -13,19 +13,12 @@ namespace MediaPlayer.View.Converters
         {
             var value = values.FirstOrDefault(o => (o != null && o != DependencyProperty.UnsetValue));
 
-            switch (value)
+            return value switch
             {
-                case string _:
-                    return new BitmapImage(new Uri($"../Resources/Default_AlbumArt/{value}.png", UriKind.Relative));
-
-                case byte[] _:
-                    return ToImage((byte[])value);
-
-                default:
-                    break;
-            }
-
-            return null;
+                string => new BitmapImage(new Uri($"../Resources/Default_AlbumArt/{value}.png", UriKind.Relative)),
+                byte[] => ToImage((byte[])value),
+                _ => null
+            };
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -38,10 +31,12 @@ namespace MediaPlayer.View.Converters
             using (var ms = new System.IO.MemoryStream(array))
             {
                 var image = new BitmapImage();
+
                 image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad; // here
+                image.CacheOption = BitmapCacheOption.OnLoad;
                 image.StreamSource = ms;
                 image.EndInit();
+
                 return image;
             }
         }

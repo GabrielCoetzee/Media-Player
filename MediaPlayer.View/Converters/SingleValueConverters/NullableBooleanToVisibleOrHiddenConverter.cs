@@ -11,9 +11,6 @@ namespace MediaPlayer.View.Converters
         {
             var valueNullable = value as bool?;
 
-            if (valueNullable == null)
-                return Visibility.Hidden;
-
             if (valueNullable is true or false)
                 return Visibility.Visible;
 

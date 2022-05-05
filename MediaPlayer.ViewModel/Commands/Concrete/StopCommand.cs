@@ -18,7 +18,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return false;
 
-            return !vm.IsMediaListEmpty() && vm.SelectedMediaItem != null;
+            return vm.IsMediaListPopulated && vm.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)

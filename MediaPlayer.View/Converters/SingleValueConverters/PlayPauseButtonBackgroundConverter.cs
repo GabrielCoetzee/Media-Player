@@ -11,17 +11,13 @@ namespace MediaPlayer.View.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is MediaState mediaState)
-            {
-                if (mediaState == MediaState.Play)
-                    return Application.Current.MainWindow?.Resources["ResourcePauseButtonImage"] as ImageBrush;
+            if (value is not MediaState mediaState)
+                return null;
 
+            var pauseImage = Application.Current.MainWindow?.Resources["ResourcePauseButtonImage"] as ImageBrush;
+            var playImage = Application.Current.MainWindow?.Resources["ResourcePlayButtonImage"] as ImageBrush;
 
-                return Application.Current.MainWindow?.Resources["ResourcePlayButtonImage"] as ImageBrush;
-
-            }
-
-            return null;
+            return mediaState == MediaState.Play ? pauseImage : playImage;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
