@@ -16,14 +16,14 @@ using System.Windows.Input;
 using MediaPlayer.Model.Implementation;
 using MediaPlayer.ViewModel.EventTriggers.Concrete;
 using MediaPlayer.ViewModel.EventTriggers.Abstract;
+using MediaPlayer.ViewModel.ViewModels;
 
 namespace MediaPlayer.ViewModel
 {
-    public class ViewModelMediaPlayer : PropertyNotifyBase
+    public class MainViewModel : PropertyNotifyBase
     {
         private MediaItem _selectedMediaItem;
         private MediaItemObservableCollection _mediaItems = new();
-        private bool _isLoadingMediaItems;
         private TimeSpan _mediaElementPosition;
         private MediaState _mediaState = MediaState.Pause;
         private VolumeLevel _mediaVolume = VolumeLevel.Full;
@@ -50,16 +50,6 @@ namespace MediaPlayer.ViewModel
             {
                 _mediaItems = value;
                 OnPropertyChanged(nameof(MediaItems));
-            }
-        }
-
-        public bool IsLoadingMediaItems
-        {
-            get => _isLoadingMediaItems;
-            set
-            {
-                _isLoadingMediaItems = value;
-                OnPropertyChanged(nameof(IsLoadingMediaItems));
             }
         }
 
@@ -124,7 +114,7 @@ namespace MediaPlayer.ViewModel
             }
         }
 
-        public ISettingsProvider SettingsProvider { get; set; }
+        public ISettingsProviderViewModel SettingsProviderViewModel { get; set; }
         public MetadataReaderResolver MetadataReaderResolver { get; set; }
         public IOpenSettingsWindowCommand OpenSettingsWindowCommand { get; set; }
         public IShuffleCommand ShuffleCommand { get; set; }
@@ -144,8 +134,9 @@ namespace MediaPlayer.ViewModel
         public ITopMostGridDropCommand TopMostGridDropCommand { get; set; }
         public ILoadThemeOnWindowLoadedCommand LoadThemeOnWindowLoadedCommand { get; set; }
         public IFocusOnPlayPauseButtonCommand FocusOnPlayPauseButtonCommand { get; set; }
+        public BusyViewModel BusyViewModel { get; set; }
 
-        public ViewModelMediaPlayer(ISettingsProvider settingsProvider,
+        public MainViewModel(ISettingsProviderViewModel settingsProviderViewModel,
             MetadataReaderResolver metadataReaderResolver,
             IOpenSettingsWindowCommand openSettingsWindowCommand,
             IShuffleCommand shuffleCommand,
@@ -164,9 +155,10 @@ namespace MediaPlayer.ViewModel
             ITopMostGridDragEnterCommand topMostGridDragEnterCommand,
             ITopMostGridDropCommand topMostGridDropCommand,
             ILoadThemeOnWindowLoadedCommand loadThemeOnWindowLoadedCommand,
-            IFocusOnPlayPauseButtonCommand focusOnPlayPauseButtonCommand)
+            IFocusOnPlayPauseButtonCommand focusOnPlayPauseButtonCommand,
+            BusyViewModel busyViewModel)
         {
-            SettingsProvider = settingsProvider;
+            SettingsProviderViewModel = settingsProviderViewModel;
             MetadataReaderResolver = metadataReaderResolver;
 
             OpenSettingsWindowCommand = openSettingsWindowCommand;
@@ -187,6 +179,7 @@ namespace MediaPlayer.ViewModel
             TopMostGridDropCommand = topMostGridDropCommand;
             LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
             FocusOnPlayPauseButtonCommand = focusOnPlayPauseButtonCommand;
+            BusyViewModel = busyViewModel;
 
             SeekbarPreviewMouseUpCommand.ChangeMediaPosition += SeekbarPreviewMouseUpCommand_ChangeMediaPosition;
             TopMostGridDropCommand.ProcessDroppedContent += TopMostGridDropCommand_ProcessDroppedContent;
@@ -194,13 +187,13 @@ namespace MediaPlayer.ViewModel
 
         private async void TopMostGridDropCommand_ProcessDroppedContent(object sender, ProcessDroppedContentEventArgs e)
         {
-            IsLoadingMediaItems = true;
+            BusyViewModel.IsLoadingMediaItems = true;
 
             var mediaItems = await ProcessDroppedContentAsync(e.FilePaths);
 
             AddMediaItems(mediaItems);
 
-            IsLoadingMediaItems = false;
+            BusyViewModel.IsLoadingMediaItems = false;
         }
 
         private void SeekbarPreviewMouseUpCommand_ChangeMediaPosition(object sender, SliderPositionEventArgs e)
@@ -215,7 +208,7 @@ namespace MediaPlayer.ViewModel
             await Task.Run(() =>
             {
                 var metadataReader = MetadataReaderResolver.Resolve(MetadataReaders.Taglib);
-                var supportedFileFormats = SettingsProvider.SupportedFileFormats;
+                var supportedFileFormats = SettingsProviderViewModel.SupportedFileFormats;
 
                 foreach (var path in filePaths)
                 {
@@ -252,7 +245,7 @@ namespace MediaPlayer.ViewModel
 
             if (SelectedMediaItem != null || IsMediaListEmpty())
             {
-                IsLoadingMediaItems = false;
+                BusyViewModel.IsLoadingMediaItems = false;
                 return;
             }
 

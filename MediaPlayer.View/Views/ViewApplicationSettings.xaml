@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" xmlns:i1="http://schemas.microsoft.com/xaml/behaviors" xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ViewModelApplicationSettings}"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" xmlns:i1="http://schemas.microsoft.com/xaml/behaviors" xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ApplicationSettingsViewModel}"
                       mc:Ignorable="d"
         Title="Settings" MinHeight="250" MinWidth="300" Height="250" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" x:Name="ApplicationSettingsWindow">
     <i1:Interaction.Triggers>
@@ -12,7 +12,7 @@
         </i1:EventTrigger>
     </i1:Interaction.Triggers>
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="Black" Opacity="{Binding SettingsProvider.SelectedOpacity}"/>
+        <SolidColorBrush Color="Black" Opacity="{Binding SettingsProviderViewModel.SelectedOpacity}"/>
     </Controls:MetroWindow.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -42,10 +42,10 @@
                     </Grid.RowDefinitions>
                     
                     <Label Grid.Column="0" Grid.Row="2" Content="Opacity:" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Value="{Binding SettingsProvider.SelectedOpacity, Mode=TwoWay}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.5" Maximum="1.0" Ticks="0,50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0" TickFrequency="0.05" />
+                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Value="{Binding SettingsProviderViewModel.SelectedOpacity, Mode=TwoWay}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.5" Maximum="1.0" Ticks="0,50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0" TickFrequency="0.05" />
 
                     <Label Grid.Column="0" Grid.Row="0" Content="Themes:" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsProvider.SelectedAccent, Mode=TwoWay}" />
+                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsProviderViewModel.SelectedAccent, Mode=TwoWay}" />
 
                     <Button x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Foreground="{DynamicResource MahApps.Brushes.Accent}" Content="Close">
                         <i1:Interaction.Triggers>

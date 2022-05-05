@@ -19,7 +19,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return false;
 
             return vm.MediaItems.Count > 2;
@@ -27,7 +27,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return;
 
             if (!vm.IsMediaItemsShuffled)
@@ -40,14 +40,14 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             OrderMediaList(vm);
         }
 
-        public void OrderMediaList(ViewModelMediaPlayer vm)
+        public void OrderMediaList(MainViewModel vm)
         {
             vm.MediaItems = new MediaItemObservableCollection(vm.MediaItems.OrderBy(x => x.Id));
 
             vm.IsMediaItemsShuffled = false;
         }
 
-        public void ShuffleMediaList(ViewModelMediaPlayer vm)
+        public void ShuffleMediaList(MainViewModel vm)
         {
             vm.MediaItems = new MediaItemObservableCollection(vm.MediaItems
                 .OrderBy(x => x != vm.SelectedMediaItem)

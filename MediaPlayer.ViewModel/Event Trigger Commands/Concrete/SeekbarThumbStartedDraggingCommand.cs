@@ -14,7 +14,7 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return false;
 
             return vm.SelectedMediaItem != null;
@@ -22,7 +22,7 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return;
 
             vm.IsUserDraggingSeekbarThumb = true;

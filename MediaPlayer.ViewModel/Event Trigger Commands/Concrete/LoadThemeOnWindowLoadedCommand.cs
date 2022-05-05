@@ -11,10 +11,10 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
     public class LoadThemeOnWindowLoadedCommand : ILoadThemeOnWindowLoadedCommand
     {
-        readonly ISettingsProvider _settingsProvider;
+        readonly ISettingsProviderViewModel _settingsProvider;
         readonly IThemeSelector _themeSelector;
 
-        public LoadThemeOnWindowLoadedCommand(ISettingsProvider settingsProvider,
+        public LoadThemeOnWindowLoadedCommand(ISettingsProviderViewModel settingsProvider,
             IThemeSelector themeSelector)
         {
             _settingsProvider = settingsProvider;

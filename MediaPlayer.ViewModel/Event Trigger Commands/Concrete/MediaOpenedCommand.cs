@@ -51,7 +51,7 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
             vm.CurrentPositionTracker.Start();
         }
 
-        private void SetAccurateCurrentMediaDuration(ViewModelMediaPlayer vm, TimeSpan duration)
+        private void SetAccurateCurrentMediaDuration(MainViewModel vm, TimeSpan duration)
         {
             vm.SelectedMediaItem.Duration = duration;
         }

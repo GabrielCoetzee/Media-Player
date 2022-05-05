@@ -16,7 +16,7 @@ namespace MediaPlayer.View.Views
     /// </summary>
     public partial class ViewApplicationSettings : MetroWindow
     {
-        public ViewApplicationSettings(ViewModelApplicationSettings vm)
+        public ViewApplicationSettings(ApplicationSettingsViewModel vm)
         {
             InitializeComponent();
 

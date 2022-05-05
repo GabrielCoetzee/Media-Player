@@ -16,7 +16,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return false;
 
             return vm.SelectedMediaItem != null;
@@ -24,7 +24,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return;
 
             if (vm.MediaState != MediaState.Play)

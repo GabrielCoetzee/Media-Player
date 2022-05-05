@@ -5,12 +5,12 @@ using MediaPlayer.Theming;
 
 namespace MediaPlayer.ApplicationSettings
 {
-    public class SettingsProvider : PropertyNotifyBase, ISettingsProvider
+    public class SettingsProviderViewModel : PropertyNotifyBase, ISettingsProviderViewModel
     {
         readonly IWritableOptions<Settings> _options;
         readonly IThemeSelector _themeSelector;
 
-        public SettingsProvider(IWritableOptions<Settings> options, IThemeSelector themeSelector)
+        public SettingsProviderViewModel(IWritableOptions<Settings> options, IThemeSelector themeSelector)
         {
             _options = options;
 

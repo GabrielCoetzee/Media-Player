@@ -14,7 +14,7 @@ namespace MediaPlayer.View.Converters
             if (values == null || values.Length == 0)
                 return null;
 
-            return new MediaOpenedConverterModel() { MediaElement = values[0] as MediaElement, ViewModelMediaPlayer = values[1] as ViewModelMediaPlayer };
+            return new MediaOpenedConverterModel() { MediaElement = values[0] as MediaElement, ViewModelMediaPlayer = values[1] as MainViewModel };
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

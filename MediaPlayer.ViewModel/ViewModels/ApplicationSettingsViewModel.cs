@@ -4,17 +4,17 @@ using MediaPlayer.ViewModel.EventTriggers.Abstract;
 
 namespace MediaPlayer.ViewModel
 {
-    public class ViewModelApplicationSettings : PropertyNotifyBase
+    public class ApplicationSettingsViewModel : PropertyNotifyBase
     {
-        public ISettingsProvider SettingsProvider { get; set; }
+        public ISettingsProviderViewModel SettingsProviderViewModel { get; set; }
         public ILoadThemeOnWindowLoadedCommand LoadThemeOnWindowLoadedCommand { get; set; }
         public ISaveSettingsCommand SaveSettingsCommand { get; set; }
 
-        public ViewModelApplicationSettings(ISettingsProvider settingsProvider,
+        public ApplicationSettingsViewModel(ISettingsProviderViewModel settingsProviderViewModel,
             ILoadThemeOnWindowLoadedCommand loadThemeOnWindowLoadedCommand,
             ISaveSettingsCommand saveSettingsCommand)
         {
-            SettingsProvider = settingsProvider;
+            SettingsProviderViewModel = settingsProviderViewModel;
             LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
             SaveSettingsCommand = saveSettingsCommand;
         }

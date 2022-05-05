@@ -12,6 +12,7 @@ using MediaPlayer.Shell.MessengerRegs;
 using MediaPlayer.Theming;
 using MediaPlayer.View.Views;
 using MediaPlayer.ViewModel;
+using MediaPlayer.ViewModel.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -51,17 +52,18 @@ namespace MediaPlayer.Shell
         {
             services.ConfigureWritable<Settings>(_configuration.GetSection(nameof(Settings)));
 
-            services.AddSingleton<ISettingsProvider, SettingsProvider>();
+            services.AddSingleton<ISettingsProviderViewModel, SettingsProviderViewModel>();
             services.AddTransient<IThemeSelector, ThemeSelector>();
 
             services.AddTransient<IMetadataReaderProvider, TaglibMetadataReaderProvider>();
             services.AddTransient<MetadataReaderResolver>();
 
             services.AddTransient(typeof(ViewMediaPlayer));
-            services.AddTransient<ViewModelMediaPlayer>();
+            services.AddTransient<MainViewModel>();
+            services.AddTransient<BusyViewModel>();
 
             services.AddTransient(typeof(ViewApplicationSettings));
-            services.AddTransient<ViewModelApplicationSettings>();
+            services.AddTransient<ApplicationSettingsViewModel>();
 
             ViewModel.DependencyInjection.AddServices(services);
         }

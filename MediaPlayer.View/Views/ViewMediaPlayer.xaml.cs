@@ -9,7 +9,7 @@ namespace MediaPlayer.View.Views
     /// </summary>
     public partial class ViewMediaPlayer : MetroWindow
     {
-        public ViewMediaPlayer(ViewModelMediaPlayer vm)
+        public ViewMediaPlayer(MainViewModel vm)
         {
             InitializeComponent();
 

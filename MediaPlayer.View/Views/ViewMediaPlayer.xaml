@@ -10,7 +10,7 @@
         xmlns:genericControls="clr-namespace:Generic.Controls;assembly=Generic" 
         xmlns:i1="http://schemas.microsoft.com/xaml/behaviors" 
         xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel"
-        d:DataContext="{d:DesignInstance Type=viewmodel:ViewModelMediaPlayer}"
+        d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         mc:Ignorable="d"
         SaveWindowPosition="True"
         GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
@@ -24,7 +24,7 @@
         <KeyBinding Command="{Binding PlayPauseCommand}" Key="Space"/>
     </Window.InputBindings>
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="Black" Opacity="{Binding SettingsProvider.SelectedOpacity}"/>
+        <SolidColorBrush Color="Black" Opacity="{Binding SettingsProviderViewModel.SelectedOpacity}"/>
     </Controls:MetroWindow.Background>
 
     <Controls:MetroWindow.RightWindowCommands>
@@ -60,6 +60,7 @@
         <converters:AlbumArtMultiValueConverter x:Key="AlbumArtMultiValueConverter" />
         <converters:ElapsedTimeTimeSpanToSecondsConverter x:Key="TimeSpanToSecondsConverter" />
         <converters:MediaElementOpenedMultiValueConverter x:Key="MediaElementOpenedMultiValueConverter" />
+        <converters:NullableBooleanToVisibleOrHiddenConverter x:Key="NullableBooleanToVisibleOrHiddenConverter" />
         
     </Window.Resources>
 
@@ -138,9 +139,8 @@
                     <RowDefinition Height="0.95*" />
                 </Grid.RowDefinitions>
 
-                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding IsLoadingMediaItems, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibleOrHidden}}" Foreground="White" Spin="True" />
-                <Label Content="Media List Loading..." Visibility="{Binding IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibleOrHidden}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
-                <Label Content="Media List " Visibility="{Binding SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
+                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibleOrHidden}}" Foreground="White" Spin="True" />
+                <Label Content="{Binding BusyViewModel.MediaListTitle}" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, Converter={StaticResource NullableBooleanToVisibleOrHiddenConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
                 <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding SelectedMediaItem, TargetNullValue=Hidden, Converter={StaticResource MediaItemSelectedToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding MediaItems}" SelectedItem="{Binding SelectedMediaItem}">
                     <i1:Interaction.Triggers>
                         <i1:EventTrigger EventName="SelectionChanged" >
@@ -211,7 +211,7 @@
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource AlbumArtMultiValueConverter}">
                             <Binding Path="SelectedMediaItem.AlbumArt"  />
-                            <Binding Path="SettingsProvider.SelectedAccent" />
+                            <Binding Path="SettingsProviderViewModel.SelectedAccent" />
                         </MultiBinding>
                     </Image.Source>
                 </Image>

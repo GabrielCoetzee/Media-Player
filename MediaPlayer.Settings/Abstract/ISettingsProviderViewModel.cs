@@ -2,7 +2,7 @@
 
 namespace MediaPlayer.ApplicationSettings
 {
-    public interface ISettingsProvider : INotifyPropertyChanged
+    public interface ISettingsProviderViewModel : INotifyPropertyChanged
     {
         string SelectedAccent { get; set;  }
         decimal SelectedOpacity { get; set; }

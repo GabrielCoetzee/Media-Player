@@ -8,9 +8,9 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
     public class SaveSettingsCommand : ISaveSettingsCommand
     {
-        readonly ISettingsProvider _settingsProvider;
+        readonly ISettingsProviderViewModel _settingsProvider;
 
-        public SaveSettingsCommand(ISettingsProvider settingsProvider)
+        public SaveSettingsCommand(ISettingsProviderViewModel settingsProvider)
         {
             _settingsProvider = settingsProvider;
         }

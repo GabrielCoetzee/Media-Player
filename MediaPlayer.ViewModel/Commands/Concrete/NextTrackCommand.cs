@@ -15,7 +15,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return false;
 
             return !vm.IsMediaListEmpty() && (vm.IsNextMediaItemAvailable() || vm.IsRepeatEnabled);
@@ -23,13 +23,13 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return;
 
             PlayNextMediaItem(vm);
         }
 
-        private void PlayNextMediaItem(ViewModelMediaPlayer vm)
+        private void PlayNextMediaItem(MainViewModel vm)
         {
             if (vm.IsRepeatEnabled && vm.IsLastMediaItemSelected())
             {

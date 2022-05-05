@@ -22,7 +22,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return false;
 
             return !vm.IsMediaListEmpty();
@@ -30,14 +30,15 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return;
 
             vm.CurrentPositionTracker.Stop();
 
-            vm.MediaVolume = VolumeLevel.Full;
             vm.MediaState = MediaState.Stop;
             vm.MediaItems.Clear();
+
+            vm.BusyViewModel.MediaListTitle = String.Empty;
         }
     }
 }

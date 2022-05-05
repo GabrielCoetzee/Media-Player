@@ -11,10 +11,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     public class AddMediaCommand : IAddMediaCommand
     {
-        readonly ISettingsProvider _settingsProvider;
+        readonly ISettingsProviderViewModel _settingsProvider;
         readonly MetadataReaderResolver _metadataReaderResolver;
 
-        public AddMediaCommand(ISettingsProvider settingsProvider, 
+        public AddMediaCommand(ISettingsProviderViewModel settingsProvider, 
             MetadataReaderResolver metadataReaderResolver)
         {
             _settingsProvider = settingsProvider;
@@ -34,7 +34,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not ViewModelMediaPlayer vm)
+            if (parameter is not MainViewModel vm)
                 return;
 
             var chooseFiles = new OpenFileDialog
