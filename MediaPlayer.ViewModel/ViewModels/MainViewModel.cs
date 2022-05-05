@@ -43,6 +43,7 @@ namespace MediaPlayer.ViewModel
                 OnPropertyChanged(nameof(IsMediaListPopulated));
             }
         }
+        public bool IsMediaListPopulated => MediaItems.Count >= 1;
 
         public MediaItemObservableCollection MediaItems
         {
@@ -276,8 +277,6 @@ namespace MediaPlayer.ViewModel
         {
             SelectedMediaItem = MediaItems[index];
         }
-
-        public bool IsMediaListPopulated => MediaItems.Count >= 1;
 
         public bool IsPreviousMediaItemAvailable() => (IsMediaListPopulated) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) - 1);
 
