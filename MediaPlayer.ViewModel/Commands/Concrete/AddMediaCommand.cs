@@ -11,13 +11,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     public class AddMediaCommand : IAddMediaCommand
     {
-        readonly ISettingsProviderViewModel _settingsProvider;
         readonly MetadataReaderResolver _metadataReaderResolver;
 
-        public AddMediaCommand(ISettingsProviderViewModel settingsProvider, 
-            MetadataReaderResolver metadataReaderResolver)
+        public AddMediaCommand(MetadataReaderResolver metadataReaderResolver)
         {
-            _settingsProvider = settingsProvider;
             _metadataReaderResolver = metadataReaderResolver;
         }
 
@@ -37,11 +34,13 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
+            var settingsProviderViewModel = vm.SettingsProviderViewModel;
+
             var chooseFiles = new OpenFileDialog
             {
                 Title = "Choose Files",
-                DefaultExt = _settingsProvider.SupportedFileFormats.First(),
-                Filter = CreateDialogFilter(),
+                DefaultExt = settingsProviderViewModel.SupportedFileFormats.First(),
+                Filter = CreateDialogFilter(settingsProviderViewModel),
                 Multiselect = true
             };
 
@@ -57,14 +56,16 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             vm.AddMediaItems(mediaItems);
         }
 
-        private string CreateDialogFilter()
+        private string CreateDialogFilter(ISettingsProviderViewModel settingsProviderViewModel)
         {
-            return string.Join("|", $"Supported Formats ({AppendedSupportedFormats(",")})", AppendedSupportedFormats(";"));
+            var supportedFileFormats = settingsProviderViewModel.SupportedFileFormats;
+
+            return string.Join("|", $"Supported Formats ({AppendedSupportedFormats(",", supportedFileFormats)})", AppendedSupportedFormats(";", supportedFileFormats));
         }
 
-        private string AppendedSupportedFormats(string seperator)
+        private string AppendedSupportedFormats(string seperator, string[] supportedFileFormats)
         {
-            return _settingsProvider.SupportedFileFormats.Aggregate(string.Empty, (current, format) => current + $"*{format}{(_settingsProvider.SupportedFileFormats.Last() != format ? seperator : string.Empty)}");
+            return supportedFileFormats.Aggregate(string.Empty, (current, format) => current + $"*{format}{(supportedFileFormats.Last() != format ? seperator : string.Empty)}");
         }
     }
 }

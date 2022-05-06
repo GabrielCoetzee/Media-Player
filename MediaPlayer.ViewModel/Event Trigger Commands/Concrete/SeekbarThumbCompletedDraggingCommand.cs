@@ -6,10 +6,6 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
     public class SeekbarThumbCompletedDraggingCommand : ISeekbarThumbCompletedDraggingCommand
     {
-        public SeekbarThumbCompletedDraggingCommand()
-        {
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;

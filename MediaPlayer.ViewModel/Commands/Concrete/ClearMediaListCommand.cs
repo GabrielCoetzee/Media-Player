@@ -10,10 +10,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     public class ClearMediaListCommand : IClearMediaListCommand
     {
-        public ClearMediaListCommand()
-        {
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
