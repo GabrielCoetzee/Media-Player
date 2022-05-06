@@ -26,8 +26,8 @@ namespace MediaPlayer.Shell
     /// </summary>
     public partial class App : Application
     {
-        private IServiceProvider _serviceProvider { get; set; }
-        private IConfiguration _configuration { get; set; }
+        private IServiceProvider _serviceProvider;
+        private IConfiguration _configuration;
 
         protected override void OnStartup(StartupEventArgs e)
         {

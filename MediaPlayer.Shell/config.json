@@ -1,7 +1,7 @@
 {
   "Settings": {
-    "Theme": "Blue",
+    "Accent": "Blue",
     "Opacity": "0.8",
-    "SupportedFileFormats": [".mp3", ".m4a", ".flac", ".wma" ]
+    "SupportedFileFormats": [".mp3", ".m4a", ".flac", ".wma"]
   }
 }

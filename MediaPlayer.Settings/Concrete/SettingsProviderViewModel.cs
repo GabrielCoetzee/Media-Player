@@ -16,7 +16,7 @@ namespace MediaPlayer.ApplicationSettings.Concrete
             _options = options;
 
             _selectedOpacity = _options.Value.Opacity;
-            _selectedTheme = _options.Value.Theme;
+            _selectedAccent = _options.Value.Accent;
 
             _themeSelector = themeSelector;
         }
@@ -24,14 +24,14 @@ namespace MediaPlayer.ApplicationSettings.Concrete
         public string[] SupportedFileFormats => _options.Value.SupportedFileFormats;
 
         private decimal _selectedOpacity;
-        private string _selectedTheme;
+        private string _selectedAccent;
 
         public string SelectedAccent
         {
-            get => _selectedTheme;
+            get => _selectedAccent;
             set
             {
-                _selectedTheme = value;
+                _selectedAccent = value;
                 OnPropertyChanged(nameof(SelectedAccent));
 
                 _themeSelector.ChangeAccent(value);
@@ -54,7 +54,7 @@ namespace MediaPlayer.ApplicationSettings.Concrete
         {
             _options.Update(opt => {
                 opt.Opacity = _selectedOpacity;
-                opt.Theme = _selectedTheme;
+                opt.Accent = _selectedAccent;
             });
         }
 

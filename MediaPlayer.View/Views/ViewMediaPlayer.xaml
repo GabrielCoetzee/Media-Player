@@ -21,7 +21,7 @@
         </i1:EventTrigger>
     </i1:Interaction.Triggers>
     <Window.InputBindings>
-        <KeyBinding Command="{Binding PlayPauseCommand}" Key="Space"/>
+        <KeyBinding Command="{Binding PlayPauseCommand}" Key="Space" />
     </Window.InputBindings>
     <Controls:MetroWindow.Background>
         <SolidColorBrush Color="Black" Opacity="{Binding SettingsProviderViewModel.SelectedOpacity}"/>
