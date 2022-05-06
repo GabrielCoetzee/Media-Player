@@ -35,6 +35,7 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
                 OnPropertyChanged(nameof(FileName));
             }
         }
+        public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
 
         public TimeSpan Duration
         {
@@ -66,8 +67,6 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
             }
 
         }
-
-        public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
 
         public MediaType MediaType
         {

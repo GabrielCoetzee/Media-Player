@@ -37,9 +37,9 @@ namespace MediaPlayer.Model.Metadata.Concrete
 
                         MediaTypes.Video | MediaTypes.Audio => new VideoItemBuilder(path)
                                 .AsMediaType(MediaType.Video | MediaType.Audio)
-                                .WithVideoResolution($"{taglibMetadataReader.Properties.VideoWidth} x {taglibMetadataReader.Properties.VideoHeight}")
-                                .WithVideoTitle(taglibMetadataReader.Tag.Title)
-                                .WithMediaDuration(taglibMetadataReader.Properties.Duration)
+                                .WithResolution($"{taglibMetadataReader.Properties.VideoWidth} x {taglibMetadataReader.Properties.VideoHeight}")
+                                .WithTitle(taglibMetadataReader.Tag.Title)
+                                .WithDuration(taglibMetadataReader.Properties.Duration)
                                 .Build(),
 
                         _ => null

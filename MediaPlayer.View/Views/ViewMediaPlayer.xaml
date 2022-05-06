@@ -114,7 +114,7 @@
                 </Grid>
             </Expander>
 
-            <MediaElement Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="12" extensions:MediaElementExtension.Position="{Binding MediaElementPosition, Mode=TwoWay}" Source="{Binding SelectedMediaItem.FilePath}" LoadedBehavior="{Binding MediaState}" Name="MediaElement" Volume="{Binding MediaVolume, Converter={StaticResource MediaVolumeConverter}}">
+            <MediaElement Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="12" extensions:MediaElementExtension.Position="{Binding MediaElementPosition}" Source="{Binding SelectedMediaItem.FilePath}" LoadedBehavior="{Binding MediaState}" Name="MediaElement" Volume="{Binding MediaVolume, Converter={StaticResource MediaVolumeConverter}}">
                 <i1:Interaction.Triggers>
                     <i1:EventTrigger EventName="MediaOpened">
                         <i1:InvokeCommandAction Command="{Binding MediaOpenedCommand}">
@@ -137,7 +137,7 @@
                     <RowDefinition Height="0.95*" />
                 </Grid.RowDefinitions>
 
-                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="White" Spin="True" />
+                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="White" Spin="True" />
                 <Label Content="{Binding BusyViewModel.MediaListTitle}" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, Converter={StaticResource NullableBooleanToVisibleOrHiddenConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
                 <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding IsMediaListPopulated, Converter={StaticResource BooleanToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding MediaItems}" SelectedItem="{Binding SelectedMediaItem}">
                     <i1:Interaction.Triggers>
@@ -177,7 +177,18 @@
                 </genericControls:AutoScrollListView>
 
             </Grid>
-           
+
+            <StackPanel Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                <Image Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverseConverter}}">
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource AlbumArtMultiValueConverter}">
+                            <Binding Path="SelectedMediaItem.AlbumArt"  />
+                            <Binding Path="SettingsProviderViewModel.SelectedAccent" />
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
+            </StackPanel>
+
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
                 <Label Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverseConverter}}" Content="{Binding SelectedMediaItem.Bitrate}" ContentStringFormat="Bitrate: {0} kbps"   />
                 <Label Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{Binding SelectedMediaItem.VideoResolution}" ContentStringFormat="Resolution: {0}"   />
@@ -202,17 +213,6 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-            </StackPanel>
-
-            <StackPanel Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                <Image Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverseConverter}}">
-                    <Image.Source>
-                        <MultiBinding Converter="{StaticResource AlbumArtMultiValueConverter}">
-                            <Binding Path="SelectedMediaItem.AlbumArt"  />
-                            <Binding Path="SettingsProviderViewModel.SelectedAccent" />
-                        </MultiBinding>
-                    </Image.Source>
-                </Image>
             </StackPanel>
 
             <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding SelectedMediaItem.ElapsedTime, Converter={StaticResource ElapsedTimeTimeSpanToSecondsConverter}}" IsEnabled="{Binding IsMediaListPopulated, TargetNullValue=False}" Maximum="{Binding SelectedMediaItem.Duration.TotalSeconds}" >

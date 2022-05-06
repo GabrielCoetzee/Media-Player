@@ -16,14 +16,14 @@ namespace MediaPlayer.Model.ObjectBuilders
             };
         }
 
-        public VideoItemBuilder WithVideoResolution(string resolution)
+        public VideoItemBuilder WithResolution(string resolution)
         {
             _videoItem.VideoResolution = resolution;
 
             return this;
         }
 
-        public VideoItemBuilder WithVideoTitle(string videoTitle)
+        public VideoItemBuilder WithTitle(string videoTitle)
         {
             _videoItem.MediaTitle = videoTitle ?? _videoItem.FileName;
             _videoItem.WindowTitle += $"{(!string.IsNullOrEmpty(_videoItem.MediaTitle) ? $"{_videoItem.MediaTitle}" : $"{_videoItem.FileName}")}";
@@ -31,7 +31,7 @@ namespace MediaPlayer.Model.ObjectBuilders
             return this;
         }
 
-        public VideoItemBuilder WithMediaDuration(TimeSpan mediaDuration)
+        public VideoItemBuilder WithDuration(TimeSpan mediaDuration)
         {
             _videoItem.Duration = mediaDuration;
 
