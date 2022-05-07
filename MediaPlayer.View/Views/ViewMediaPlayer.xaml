@@ -8,18 +8,18 @@
         xmlns:converters="clr-namespace:MediaPlayer.View.Converters"
         xmlns:extensions="clr-namespace:MediaPlayer.View.Extensions"
         xmlns:genericControls="clr-namespace:Generic.Controls;assembly=Generic" 
-        xmlns:i1="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
         xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel"
         d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         mc:Ignorable="d"
         SaveWindowPosition="True"
         GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
         Title="{Binding SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" ShowMaxRestoreButton="False" Height="768" Width="1366" MinHeight="768" MinWidth="1366">
-    <i1:Interaction.Triggers>
-        <i1:EventTrigger EventName="Loaded" >
-            <i1:InvokeCommandAction Command="{Binding LoadThemeOnWindowLoadedCommand}" />
-        </i1:EventTrigger>
-    </i1:Interaction.Triggers>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" >
+            <i:InvokeCommandAction Command="{Binding LoadThemeOnWindowLoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.InputBindings>
         <KeyBinding Command="{Binding PlayPauseCommand}" Key="Space" />
     </Window.InputBindings>
@@ -63,14 +63,14 @@
     </Window.Resources>
 
     <Grid x:Name="TopMostGrid" AllowDrop="True" Background="Transparent" ZIndex="999">
-        <i1:Interaction.Triggers>
-            <i1:EventTrigger EventName="DragEnter" >
-                <i1:InvokeCommandAction Command="{Binding TopMostGridDragEnterCommand}" PassEventArgsToCommand="True" />
-            </i1:EventTrigger>
-            <i1:EventTrigger EventName="Drop" >
-                <i1:InvokeCommandAction Command="{Binding TopMostGridDropCommand}" PassEventArgsToCommand="True" />
-            </i1:EventTrigger>
-        </i1:Interaction.Triggers>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="DragEnter" >
+                <i:InvokeCommandAction Command="{Binding TopMostGridDragEnterCommand}" PassEventArgsToCommand="True" />
+            </i:EventTrigger>
+            <i:EventTrigger EventName="Drop" >
+                <i:InvokeCommandAction Command="{Binding TopMostGridDropCommand}" PassEventArgsToCommand="True" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2.8*" />
@@ -101,34 +101,34 @@
             </Grid.ColumnDefinitions>
 
             <Expander Focusable="False" Name="LyricsExpander" Header="Lyrics (Available)" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Panel.ZIndex="1" Visibility="{Binding SelectedMediaItem.HasLyrics, FallbackValue=Hidden,  Converter={StaticResource BooleanToVisibilityConverter}}" >
-                <i1:Interaction.Triggers>
-                    <i1:EventTrigger EventName="Collapsed" >
-                        <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
-                    </i1:EventTrigger>
-                    <i1:EventTrigger EventName="Expanded" >
-                        <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
-                    </i1:EventTrigger>
-                </i1:Interaction.Triggers>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Collapsed" >
+                        <i:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Expanded" >
+                        <i:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <Grid Background="#FFE5E5E5">
                     <TextBox Name="TextboxLyrics" Text="{Binding SelectedMediaItem.Lyrics}" ContextMenu="{x:Null}" Cursor="Arrow" CaretBrush="Transparent" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" Focusable="False" IsTabStop="False" AllowDrop="False"/>
                 </Grid>
             </Expander>
 
             <MediaElement Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="12" extensions:MediaElementExtension.Position="{Binding MediaElementPosition}" Source="{Binding SelectedMediaItem.FilePath}" LoadedBehavior="{Binding MediaState}" Name="MediaElement" Volume="{Binding MediaVolume, Converter={StaticResource MediaVolumeConverter}}">
-                <i1:Interaction.Triggers>
-                    <i1:EventTrigger EventName="MediaOpened">
-                        <i1:InvokeCommandAction Command="{Binding MediaOpenedCommand}">
-                            <i1:InvokeCommandAction.CommandParameter>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MediaOpened">
+                        <i:InvokeCommandAction Command="{Binding MediaOpenedCommand}">
+                            <i:InvokeCommandAction.CommandParameter>
                                 <MultiBinding Converter="{StaticResource MediaElementOpenedMultiValueConverter}">
                                     <MultiBinding.Bindings>
                                         <Binding ElementName="MediaElement" />
                                         <Binding Path="" />  <!-- Pass Viewmodel itself to converter along with Media Element -->
                                     </MultiBinding.Bindings>
                                 </MultiBinding>
-                            </i1:InvokeCommandAction.CommandParameter>
-                        </i1:InvokeCommandAction>
-                    </i1:EventTrigger>
-                </i1:Interaction.Triggers>
+                            </i:InvokeCommandAction.CommandParameter>
+                        </i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </MediaElement>
 
             <Grid Grid.Row="0" Grid.Column="12" Grid.RowSpan="2" Grid.ColumnSpan="3">
@@ -140,14 +140,14 @@
                 <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="White" Spin="True" />
                 <Label Content="{Binding BusyViewModel.MediaListTitle}" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, Converter={StaticResource NullableBooleanToVisibleOrHiddenConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
                 <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding IsMediaListPopulated, Converter={StaticResource BooleanToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding MediaItems}" SelectedItem="{Binding SelectedMediaItem}">
-                    <i1:Interaction.Triggers>
-                        <i1:EventTrigger EventName="SelectionChanged" >
-                            <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
-                        </i1:EventTrigger>
-                        <i1:EventTrigger EventName="PreviewMouseUp" >
-                            <i1:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
-                        </i1:EventTrigger>
-                    </i1:Interaction.Triggers>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged" >
+                            <i:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="PreviewMouseUp" >
+                            <i:InvokeCommandAction Command="{Binding FocusOnPlayPauseButtonCommand}" CommandParameter="{Binding ElementName=ButtonPlayPause}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <genericControls:AutoScrollListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -216,17 +216,17 @@
             </StackPanel>
 
             <Slider Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="13" IsMoveToPointEnabled="True" Name="SeekBar" Value="{Binding SelectedMediaItem.ElapsedTime, Converter={StaticResource ElapsedTimeTimeSpanToSecondsConverter}}" IsEnabled="{Binding IsMediaListPopulated, TargetNullValue=False}" Maximum="{Binding SelectedMediaItem.Duration.TotalSeconds}" >
-                <i1:Interaction.Triggers>
-                    <i1:EventTrigger EventName="PreviewMouseUp">
-                        <i1:InvokeCommandAction Command="{Binding SeekbarPreviewMouseUpCommand}" PassEventArgsToCommand="True" />
-                    </i1:EventTrigger>
-                    <i1:EventTrigger EventName="GotMouseCapture" >
-                        <i1:InvokeCommandAction Command="{Binding SeekbarThumbStartedDraggingCommand}" CommandParameter="{Binding}" />
-                    </i1:EventTrigger>
-                    <i1:EventTrigger EventName="LostMouseCapture" >
-                        <i1:InvokeCommandAction Command="{Binding SeekbarThumbCompletedDraggingCommand}" CommandParameter="{Binding}" />
-                    </i1:EventTrigger>
-                </i1:Interaction.Triggers>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseUp">
+                        <i:InvokeCommandAction Command="{Binding SeekbarPreviewMouseUpCommand}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="GotMouseCapture" >
+                        <i:InvokeCommandAction Command="{Binding SeekbarThumbStartedDraggingCommand}" CommandParameter="{Binding}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="LostMouseCapture" >
+                        <i:InvokeCommandAction Command="{Binding SeekbarThumbCompletedDraggingCommand}" CommandParameter="{Binding}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Slider>
 
             <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="10" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding ShuffleCommand}" CommandParameter="{Binding}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
