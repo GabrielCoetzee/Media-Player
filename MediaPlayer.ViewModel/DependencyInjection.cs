@@ -33,7 +33,6 @@ namespace MediaPlayer.ViewModel
             services.AddTransient<ITopMostGridDragEnterCommand, TopMostGridDragEnterCommand>();
             services.AddTransient<ITopMostGridDropCommand, TopMostGridDropCommand>();
             services.AddTransient<ILoadThemeOnWindowLoadedCommand, LoadThemeOnWindowLoadedCommand>();
-            services.AddTransient<IFocusOnPlayPauseButtonCommand, FocusOnPlayPauseButtonCommand>();
             services.AddTransient<ISaveSettingsCommand, SaveSettingsCommand>();
         }
     }
