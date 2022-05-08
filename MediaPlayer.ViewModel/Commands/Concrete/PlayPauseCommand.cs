@@ -27,13 +27,13 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
-            if (vm.MediaState != MediaState.Play)
+            if (vm.MediaState == MediaState.Play)
             {
-                vm.PlayMedia();
+                vm.PauseMedia();
                 return;
             }
 
-            vm.PauseMedia();
+            vm.PlayMedia();
         }
     }
 }
