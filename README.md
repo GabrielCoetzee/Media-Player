@@ -12,7 +12,7 @@ Features Include :
 - MP3, FLAC, M4A and WMA Audio formats supported as of this moment. It uses Microsoft MediaElement so it technically can play anything that MediaElement can, but I am only adding support incrementally for specific file formats that I can test and verify works.
 - You can drag & drop files anywhere in the application. Supported files dropped in, if any found, will be added.
 - Shuffle functionality will re-order the list with currently playing media item moved to the top
-- Hotkeys - Media keys on your keyboard will work (Play/Pause, Next, Previoous, Stop)
+- Hotkeys - Media keys on your keyboard will work (Play/Pause, Next, Previous, Stop)
 - Lyrics found for the media item (Within the .mp3's metadata) will show in an expander on the top-left as shown in a below screenshots.
 
 Features to come :
