@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using MediaPlayer.ViewModel;
+using System.Windows;
 
 namespace MediaPlayer.View.Views
 {
@@ -16,6 +17,20 @@ namespace MediaPlayer.View.Views
             DataContext = vm;
 
             AllowsTransparency = true;
+        }
+
+        public void BringToForeground()
+        {
+            if (WindowState == WindowState.Minimized || Visibility == Visibility.Hidden)
+            {
+                Show();
+                WindowState = WindowState.Normal;
+            }
+
+            Activate();
+            Topmost = true;
+            Topmost = false;
+            Focus();
         }
     }
 }

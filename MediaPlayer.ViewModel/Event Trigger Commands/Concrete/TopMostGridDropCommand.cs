@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using Generic.Mediator;
+using MediaPlayer.Common.Enumerations;
 using MediaPlayer.ViewModel.EventTriggers.Abstract;
 
 namespace MediaPlayer.ViewModel.EventTriggers.Concrete
@@ -12,13 +15,6 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
         {
             add => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;
-        }
-
-        public event EventHandler<ProcessDroppedContentEventArgs> ProcessDroppedContent;
-
-        public virtual void OnProcessDroppedContent(ProcessDroppedContentEventArgs e)
-        {
-            ProcessDroppedContent?.Invoke(this, e);
         }
 
         public bool CanExecute(object parameter)
@@ -36,12 +32,7 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
             if (droppedContent == null)
                 return;
 
-            OnProcessDroppedContent(new ProcessDroppedContentEventArgs() { FilePaths = droppedContent });
+            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, droppedContent);
         }
-    }
-
-    public class ProcessDroppedContentEventArgs : EventArgs
-    {
-        public IEnumerable FilePaths { get; set; }
     }
 }

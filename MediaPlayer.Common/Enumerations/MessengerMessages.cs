@@ -3,6 +3,7 @@
     public enum MessengerMessages
     {
         OpenMediaPlayerMainWindow,
-        OpenApplicationSettings
+        OpenApplicationSettings,
+        ProcessContent
     }
 }

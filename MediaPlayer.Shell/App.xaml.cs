@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
 using System.Windows;
 using Generic.Configuration.Extensions;
 using Generic.Mediator;
@@ -29,10 +34,39 @@ namespace MediaPlayer.Shell
         private IServiceProvider _serviceProvider;
         private IConfiguration _configuration;
 
+        private Mutex _mutex;
+        private const string _mutexName = "##||MediaPlayer||##";
+        private const string _uniqueEventName = "9141e315-7f92-47d5-8460-8fc7fb7eb061";
+
+        private readonly string _tempArgsPath = $"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}//temp.txt";
+        readonly object _fileLock = new();
+
+        public App()
+        {
+            CreateTempArgsFile();
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
+            _mutex = new Mutex(true, _mutexName, out var isFirstApplicationInstance);
+            EventWaitHandle eventWaitHandle = new(false, EventResetMode.AutoReset, _uniqueEventName);
+
+            if (!isFirstApplicationInstance)
+            {
+                lock (_fileLock)
+                {
+                    File.AppendAllLines(_tempArgsPath, e.Args);
+                }
+
+                eventWaitHandle.Set();
+                Application.Current.Shutdown(0);
+                return;
+            }
+
+            SetInitialInstanceThreadEventHandle(eventWaitHandle);
+
             var builder = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory())
+             .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
              .AddJsonFile("config.json", optional: false, reloadOnChange: true);
 
             _configuration = builder.Build();
@@ -46,8 +80,40 @@ namespace MediaPlayer.Shell
             MessengerRegistrations.RegisterOpenApplicationSettingsWindow(_serviceProvider);
 
             Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.OpenMediaPlayerMainWindow);
+            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, e.Args);
 
             base.OnStartup(e);
+        }
+
+        private void SetInitialInstanceThreadEventHandle(EventWaitHandle eventWaitHandle)
+        {
+            var thread = new Thread(() =>
+            {
+                while (eventWaitHandle.WaitOne())
+                {
+                    Current.Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
+
+                        var fileQueue = new List<string>();
+
+                        lock (_fileLock)
+                        {
+                            fileQueue.AddRange(File.ReadAllLines(_tempArgsPath).Where(x => !fileQueue.Contains(x)));
+                            File.WriteAllText(_tempArgsPath, string.Empty);
+                        }
+
+                        Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, fileQueue.ToArray());
+
+                    }
+                    ));
+                }
+            })
+            {
+                IsBackground = true
+            };
+
+            thread.Start();
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -68,6 +134,26 @@ namespace MediaPlayer.Shell
             services.AddTransient<ApplicationSettingsViewModel>();
 
             ViewModel.DependencyInjection.AddServices(services);
+        }
+
+        private void CreateTempArgsFile()
+        {
+            if (!File.Exists(_tempArgsPath))
+                File.Create(_tempArgsPath);
+        }
+
+        private static void BringWindowToForeground(ViewMediaPlayer viewMediaPlayer)
+        {
+            if (viewMediaPlayer.WindowState == WindowState.Minimized || viewMediaPlayer.Visibility == Visibility.Hidden)
+            {
+                viewMediaPlayer.Show();
+                viewMediaPlayer.WindowState = WindowState.Normal;
+            }
+
+            viewMediaPlayer.Activate();
+            viewMediaPlayer.Topmost = true;
+            viewMediaPlayer.Topmost = false;
+            viewMediaPlayer.Focus();
         }
     }
 }

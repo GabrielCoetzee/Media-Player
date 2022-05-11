@@ -6,6 +6,5 @@ namespace MediaPlayer.ViewModel.EventTriggers.Abstract
 {
     public interface ITopMostGridDropCommand : ICommand
     {
-        event EventHandler<ProcessDroppedContentEventArgs> ProcessDroppedContent;
     }
 }

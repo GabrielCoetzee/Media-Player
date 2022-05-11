@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace Generic.Configuration.Concrete
 {
@@ -34,7 +35,7 @@ namespace Generic.Configuration.Concrete
         {
             //var fileProvider = _environment.ContentRootFileProvider;
             //var fileInfo = fileProvider.GetFileInfo(_file);
-            var physicalPath = Directory.GetCurrentDirectory() + "\\config.json";
+            var physicalPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\config.json";
 
             var jObject = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(physicalPath));
 

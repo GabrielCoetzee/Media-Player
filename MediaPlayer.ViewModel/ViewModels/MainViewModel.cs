@@ -17,6 +17,7 @@ using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using MediaPlayer.ViewModel.ViewModels;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.Metadata.Concrete;
+using Generic.Mediator;
 
 namespace MediaPlayer.ViewModel
 {
@@ -182,14 +183,23 @@ namespace MediaPlayer.ViewModel
             BusyViewModel = busyViewModel;
 
             SeekbarPreviewMouseUpCommand.ChangeMediaPosition += SeekbarPreviewMouseUpCommand_ChangeMediaPosition;
-            TopMostGridDropCommand.ProcessDroppedContent += TopMostGridDropCommand_ProcessDroppedContent;
+
+            Messenger<MessengerMessages>.Register(MessengerMessages.ProcessContent, async (args) =>
+            {
+                await ProcessDroppedContentAsync(args as IEnumerable<string>);
+
+                CommandManager.InvalidateRequerySuggested();
+            });
         }
 
-        private async void TopMostGridDropCommand_ProcessDroppedContent(object sender, ProcessDroppedContentEventArgs e)
+        public async Task ProcessDroppedContentAsync(IEnumerable<string> filePaths)
         {
+            if (filePaths == null || !filePaths.Any())
+                return;
+
             BusyViewModel.IsLoadingMediaItems = true;
 
-            var mediaItems = await ProcessDroppedContentAsync(e.FilePaths);
+            var mediaItems = await ReadMediaItemsAsync(filePaths);
 
             AddMediaItems(mediaItems);
 
@@ -201,7 +211,7 @@ namespace MediaPlayer.ViewModel
             MediaElementPosition = TimeSpan.FromSeconds(e.Position);
         }
 
-        private async Task<IEnumerable<MediaItem>> ProcessDroppedContentAsync(IEnumerable filePaths)
+        private async Task<IEnumerable<MediaItem>> ReadMediaItemsAsync(IEnumerable filePaths)
         {
             var supportedFiles = new List<MediaItem>();
 
