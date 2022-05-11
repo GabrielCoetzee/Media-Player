@@ -9,24 +9,22 @@ This is a Media Player that I am actively working on. This is made for personal 
 
 Features Include : 
 
-- MP3, FLAC and M4A Audio formats supported as of this moment. It uses Microsoft MediaElement which can technically play anything you have codecs installed for, but I will add support for specific file formats as I test them and especially start adding video support.
+- MP3, FLAC, M4A and WMA Audio formats supported as of this moment. It uses Microsoft MediaElement so it technically can play anything that MediaElement can, but I am only adding support incrementally for specific file formats that I can test and verify works.
 - You can drag & drop files anywhere in the application. Supported files dropped in, if any found, will be added.
 - Shuffle functionality will re-order the list with currently playing media item moved to the top
-- Hotkeys :
-    - Space = Play / Pause
-    - More coming!
-- Lyrics found for the media item (Within the .mp3`s metadata) will show in an expander on the top-left as shown in a below screenshots.
+- Hotkeys - Media keys on your keyboard will work (Play/Pause, Next, Previous, Stop)
+- Lyrics found for the media item (Within the .mp3's metadata) will show in an expander on the top-left as shown in a below screenshots.
 
 Features to come :
 
-- Create Installer
+- Installer
 - Have ability to set media player as default in windows
 - Video playback
 - Download and save album art and lyrics for media items while playing and if not found
 
 Technologies used :
 
-- Visual Studio 2022
+- Visual Studio 2022 Community Edition
 - C# with MVVM Design Pattern
 - Mahapps Metro 
 - Mahapps Metro Icons
