@@ -48,10 +48,10 @@ namespace MediaPlayer.Shell
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _mutex = new Mutex(true, _mutexName, out var isFirstApplicationInstance);
+            _mutex = new Mutex(true, _mutexName, out var isFirstInstance);
             EventWaitHandle eventWaitHandle = new(false, EventResetMode.AutoReset, _uniqueEventName);
 
-            if (!isFirstApplicationInstance)
+            if (!isFirstInstance)
             {
                 lock (_fileLock)
                 {
