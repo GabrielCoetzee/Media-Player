@@ -141,19 +141,5 @@ namespace MediaPlayer.Shell
             if (!File.Exists(_tempArgsPath))
                 File.Create(_tempArgsPath);
         }
-
-        private static void BringWindowToForeground(ViewMediaPlayer viewMediaPlayer)
-        {
-            if (viewMediaPlayer.WindowState == WindowState.Minimized || viewMediaPlayer.Visibility == Visibility.Hidden)
-            {
-                viewMediaPlayer.Show();
-                viewMediaPlayer.WindowState = WindowState.Normal;
-            }
-
-            viewMediaPlayer.Activate();
-            viewMediaPlayer.Topmost = true;
-            viewMediaPlayer.Topmost = false;
-            viewMediaPlayer.Focus();
-        }
     }
 }
