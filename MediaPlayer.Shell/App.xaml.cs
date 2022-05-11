@@ -38,7 +38,7 @@ namespace MediaPlayer.Shell
         private const string _mutexName = "##||MediaPlayer||##";
         private const string _uniqueEventName = "9141e315-7f92-47d5-8460-8fc7fb7eb061";
 
-        private readonly string _tempArgsPath = $"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}//temp.txt";
+        private readonly string _tempArgsPath = $"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}//TempArgs.txt";
         readonly object _fileLock = new();
 
         public App()
@@ -89,7 +89,7 @@ namespace MediaPlayer.Shell
         {
             var thread = new Thread(() =>
             {
-                while (eventWaitHandle.WaitOne())
+                while (eventWaitHandle.WaitOne(TimeSpan.FromSeconds(1)))
                 {
                     Current.Dispatcher.BeginInvoke((Action)(() =>
                     {
@@ -104,7 +104,6 @@ namespace MediaPlayer.Shell
                         }
 
                         Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, fileQueue.ToArray());
-
                     }
                     ));
                 }
