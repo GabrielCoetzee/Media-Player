@@ -226,16 +226,20 @@ namespace MediaPlayer.ViewModel
 
                     if (isFolder)
                     {
-                        supportedFiles.AddRange(Directory
+                        var mediaItems = Directory
                             .EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
                             .Where(file => supportedFileFormats.Any(file.ToLower().EndsWith))
-                            .Select((x) => metadataReader.GetFileMetadata(x)));
+                            .Select((x) => metadataReader.GetFileMetadata(x));
+
+                        supportedFiles.AddRange(mediaItems);
                     }
                     else
                     {
                         if (supportedFileFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
                         {
-                            supportedFiles.Add(metadataReader.GetFileMetadata(path.ToString()));
+                            var mediaItem = metadataReader.GetFileMetadata(path.ToString());
+
+                            supportedFiles.Add(mediaItem);
                         }
                     }
 

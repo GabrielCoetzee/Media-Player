@@ -89,21 +89,18 @@ namespace MediaPlayer.Shell
         {
             var thread = new Thread(() =>
             {
-                while (eventWaitHandle.WaitOne(TimeSpan.FromSeconds(1)))
+                while (eventWaitHandle.WaitOne())
                 {
                     Current.Dispatcher.BeginInvoke((Action)(() =>
                     {
                         ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
 
-                        var fileQueue = new List<string>();
+                        Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, File.ReadAllLines(_tempArgsPath));
 
                         lock (_fileLock)
                         {
-                            fileQueue.AddRange(File.ReadAllLines(_tempArgsPath).Where(x => !fileQueue.Contains(x)));
                             File.WriteAllText(_tempArgsPath, string.Empty);
                         }
-
-                        Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, fileQueue.ToArray());
                     }
                     ));
                 }
