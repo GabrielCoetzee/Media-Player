@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using Generic.Configuration.Extensions;
 using Generic.Mediator;
 using MediaPlayer.ApplicationSettings;
@@ -81,6 +82,8 @@ namespace MediaPlayer.Shell
 
             Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.OpenMediaPlayerMainWindow);
             Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, e.Args);
+
+            CommandManager.InvalidateRequerySuggested();
 
             base.OnStartup(e);
         }

@@ -187,8 +187,6 @@ namespace MediaPlayer.ViewModel
             Messenger<MessengerMessages>.Register(MessengerMessages.ProcessContent, async (args) =>
             {
                 await ProcessDroppedContentAsync(args as IEnumerable<string>);
-
-                CommandManager.InvalidateRequerySuggested();
             });
         }
 
