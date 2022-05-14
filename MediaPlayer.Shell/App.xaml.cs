@@ -94,7 +94,7 @@ namespace MediaPlayer.Shell
             {
                 while (eventWaitHandle.WaitOne())
                 {
-                    Current.Dispatcher.BeginInvoke((Action)(() =>
+                    Current.Dispatcher.BeginInvoke((() =>
                     {
                         ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
 
