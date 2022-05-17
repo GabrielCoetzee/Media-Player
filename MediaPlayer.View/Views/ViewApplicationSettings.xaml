@@ -46,7 +46,7 @@
                     <Label Grid.Column="0" Grid.Row="2" Content="Opacity:" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Value="{Binding SettingsProviderViewModel.SelectedOpacity}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.5" Maximum="1.0" Ticks="0,50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0" TickFrequency="0.05" />
 
-                    <Label Grid.Column="0" Grid.Row="0" Content="Accents:" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Label Grid.Column="0" Grid.Row="0" Content="Accent:" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsProviderViewModel.SelectedAccent}" />
 
                     <Button x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Foreground="{DynamicResource MahApps.Brushes.Accent}" Content="Close">
