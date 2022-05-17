@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows;
 using Generic.Configuration.Extensions;
 using Generic.Mediator;
-using Generic.Wrappers;
+using Generic.NamedPipes.Wrappers;
 using MediaPlayer.ApplicationSettings;
 using MediaPlayer.ApplicationSettings.Concrete;
 using MediaPlayer.ApplicationSettings.Config;
@@ -48,7 +48,7 @@ namespace MediaPlayer.Shell
                 var filePaths = new List<string>();
 
                 foreach (var arg in args.ToString().Split(Environment.NewLine.ToCharArray()))
-                        filePaths.Add(arg);
+                    filePaths.Add(arg);
 
                 ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
 
@@ -69,9 +69,9 @@ namespace MediaPlayer.Shell
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _mutex = new Mutex(true, _mutexName, out var isFirstApplicationInstance);
+            _mutex = new Mutex(true, _mutexName, out var isFirstInstance);
 
-            if (!isFirstApplicationInstance)
+            if (!isFirstInstance)
             {
                 SendArgsToFirstInstance(e);
 

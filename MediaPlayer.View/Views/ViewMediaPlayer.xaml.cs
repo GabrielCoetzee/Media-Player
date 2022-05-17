@@ -1,5 +1,4 @@
-﻿using Generic.Wrappers;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 using MediaPlayer.ViewModel;
 using System.Windows;
 

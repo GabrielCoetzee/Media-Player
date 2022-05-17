@@ -1,4 +1,4 @@
-﻿using Generic.Wrappers;
+﻿using Generic.NamedPipes.Wrappers;
 using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using System;
 using System.Windows.Input;

@@ -3,7 +3,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Threading;
 
-namespace Generic.Wrappers
+namespace Generic.NamedPipes.Wrappers
 {
     /// <summary>
     /// This is a wrapper class for Named Pipes. The client will keep retrying to connect to the server in case of failure, which 
