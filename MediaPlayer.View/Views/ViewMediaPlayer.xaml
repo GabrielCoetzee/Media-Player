@@ -19,6 +19,9 @@
         <i:EventTrigger EventName="Loaded" >
             <i:InvokeCommandAction Command="{Binding LoadThemeOnWindowLoadedCommand}" />
         </i:EventTrigger>
+        <i:EventTrigger EventName="Closing" >
+            <i:InvokeCommandAction Command="{Binding MainWindowClosingCommand}" />
+        </i:EventTrigger>
     </i:Interaction.Triggers>
     <Controls:MetroWindow.InputBindings>
         <KeyBinding Command="{Binding PlayPauseCommand}" CommandParameter="{Binding}" Key="MediaPlayPause" />

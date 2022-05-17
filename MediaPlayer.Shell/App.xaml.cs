@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Windows;
-using System.Windows.Input;
 using Generic.Configuration.Extensions;
 using Generic.Mediator;
+using Generic.Wrappers;
 using MediaPlayer.ApplicationSettings;
 using MediaPlayer.ApplicationSettings.Concrete;
 using MediaPlayer.ApplicationSettings.Config;
@@ -37,34 +36,52 @@ namespace MediaPlayer.Shell
 
         private Mutex _mutex;
         private const string _mutexName = "##||MediaPlayer||##";
-        private const string _uniqueEventName = "9141e315-7f92-47d5-8460-8fc7fb7eb061";
+        public NamedPipeManager PipeManager { get; private set; }
 
-        private readonly string _tempArgsPath = $"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}//TempArgs.txt";
-        readonly object _fileLock = new();
-
-        public App()
+        public void FirstApplicationInstanceReceivedArguments(string args)
         {
-            CreateTempArgsFile();
+            Dispatcher.Invoke(() =>
+            {
+                if (string.IsNullOrEmpty(args))
+                    return;
+
+                var filePaths = new List<string>();
+
+                foreach (var arg in args.ToString().Split(Environment.NewLine.ToCharArray()))
+                        filePaths.Add(arg);
+
+                ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
+
+                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, filePaths);
+            });
+        }
+
+        private static void SendArgsToFirstInstance(StartupEventArgs e)
+        {
+            StringBuilder sb = new();
+
+            foreach (var arg in e.Args)
+                sb.AppendLine(arg);
+
+            var manager = new NamedPipeManager("MediaPlayer");
+            manager.Write(sb.ToString());
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _mutex = new Mutex(true, _mutexName, out var isFirstInstance);
-            EventWaitHandle eventWaitHandle = new(false, EventResetMode.AutoReset, _uniqueEventName);
+            _mutex = new Mutex(true, _mutexName, out var isFirstApplicationInstance);
 
-            if (!isFirstInstance)
+            if (!isFirstApplicationInstance)
             {
-                lock (_fileLock)
-                {
-                    File.AppendAllLines(_tempArgsPath, e.Args);
-                }
+                SendArgsToFirstInstance(e);
 
-                eventWaitHandle.Set();
                 Application.Current.Shutdown(0);
                 return;
             }
 
-            SetInitialInstanceThreadEventHandle(eventWaitHandle);
+            PipeManager = new NamedPipeManager("MediaPlayer");
+            PipeManager.StartServer();
+            PipeManager.ServerReceivedArgument += FirstApplicationInstanceReceivedArguments;
 
             var builder = new ConfigurationBuilder()
              .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
@@ -83,37 +100,8 @@ namespace MediaPlayer.Shell
             Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.OpenMediaPlayerMainWindow);
             Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, e.Args);
 
-            CommandManager.InvalidateRequerySuggested();
-
             base.OnStartup(e);
-        }
-
-        private void SetInitialInstanceThreadEventHandle(EventWaitHandle eventWaitHandle)
-        {
-            var thread = new Thread(() =>
-            {
-                while (eventWaitHandle.WaitOne())
-                {
-                    Current.Dispatcher.BeginInvoke((() =>
-                    {
-                        ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
-
-                        Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, File.ReadAllLines(_tempArgsPath));
-
-                        lock (_fileLock)
-                        {
-                            File.WriteAllText(_tempArgsPath, string.Empty);
-                        }
-                    }
-                    ));
-                }
-            })
-            {
-                IsBackground = true
-            };
-
-            thread.Start();
-        }
+        }      
 
         private void ConfigureServices(IServiceCollection services)
         {
@@ -133,12 +121,6 @@ namespace MediaPlayer.Shell
             services.AddTransient<ApplicationSettingsViewModel>();
 
             ViewModel.DependencyInjection.AddServices(services);
-        }
-
-        private void CreateTempArgsFile()
-        {
-            if (!File.Exists(_tempArgsPath))
-                File.Create(_tempArgsPath);
         }
     }
 }

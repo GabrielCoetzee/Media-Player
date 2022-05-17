@@ -136,6 +136,7 @@ namespace MediaPlayer.ViewModel
         public ITopMostGridDragEnterCommand TopMostGridDragEnterCommand { get; set; }
         public ITopMostGridDropCommand TopMostGridDropCommand { get; set; }
         public ILoadThemeOnWindowLoadedCommand LoadThemeOnWindowLoadedCommand { get; set; }
+        public IMainWindowClosingCommand MainWindowClosingCommand { get; set; }
         public BusyViewModel BusyViewModel { get; set; }
 
         public MainViewModel(ISettingsProviderViewModel settingsProviderViewModel,
@@ -157,6 +158,7 @@ namespace MediaPlayer.ViewModel
             ITopMostGridDragEnterCommand topMostGridDragEnterCommand,
             ITopMostGridDropCommand topMostGridDropCommand,
             ILoadThemeOnWindowLoadedCommand loadThemeOnWindowLoadedCommand,
+            IMainWindowClosingCommand mainWindowClosingCommand,
             BusyViewModel busyViewModel)
         {
             SettingsProviderViewModel = settingsProviderViewModel;
@@ -179,6 +181,7 @@ namespace MediaPlayer.ViewModel
             TopMostGridDragEnterCommand = topMostGridDragEnterCommand;
             TopMostGridDropCommand = topMostGridDropCommand;
             LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
+            MainWindowClosingCommand = mainWindowClosingCommand;
 
             BusyViewModel = busyViewModel;
 
@@ -187,6 +190,8 @@ namespace MediaPlayer.ViewModel
             Messenger<MessengerMessages>.Register(MessengerMessages.ProcessContent, async (args) =>
             {
                 await ProcessDroppedContentAsync(args as IEnumerable<string>);
+
+                CommandManager.InvalidateRequerySuggested();
             });
         }
 

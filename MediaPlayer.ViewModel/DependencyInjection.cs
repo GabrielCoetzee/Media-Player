@@ -2,7 +2,6 @@
 using MediaPlayer.ViewModel.Commands.Concrete;
 using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using MediaPlayer.ViewModel.EventTriggers.Concrete;
-using MediaPlayer.ViewModel.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MediaPlayer.ViewModel
@@ -33,6 +32,7 @@ namespace MediaPlayer.ViewModel
             services.AddTransient<ITopMostGridDragEnterCommand, TopMostGridDragEnterCommand>();
             services.AddTransient<ITopMostGridDropCommand, TopMostGridDropCommand>();
             services.AddTransient<ILoadThemeOnWindowLoadedCommand, LoadThemeOnWindowLoadedCommand>();
+            services.AddTransient<IMainWindowClosingCommand, MainWindowClosingCommand>();
             services.AddTransient<ISaveSettingsCommand, SaveSettingsCommand>();
         }
     }
