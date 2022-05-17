@@ -36,40 +36,35 @@ namespace MediaPlayer.Shell
 
         private Mutex _mutex;
         private const string _mutexName = "##||MediaPlayer||##";
-        public NamedPipeManager PipeManager { get; private set; }
+        public NamedPipeManager PipeManager { get; set; } = new NamedPipeManager("MediaPlayer");
 
         public void FirstApplicationInstanceReceivedArguments(string args)
         {
+            if (string.IsNullOrEmpty(args))
+                return;
+
             Dispatcher.Invoke(() =>
             {
-                if (string.IsNullOrEmpty(args))
-                    return;
-
-                var filePaths = new List<string>();
-
-                foreach (var arg in args.ToString().Split(Environment.NewLine.ToCharArray()))
-                    filePaths.Add(arg);
-
                 ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
 
-                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, filePaths);
+                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, args.ToString().Split(Environment.NewLine.ToCharArray()));
             });
         }
 
-        private static void SendArgsToFirstInstance(StartupEventArgs e)
+        private void SendArgsToFirstInstance(StartupEventArgs e)
         {
             StringBuilder sb = new();
 
             foreach (var arg in e.Args)
                 sb.AppendLine(arg);
 
-            var manager = new NamedPipeManager("MediaPlayer");
-            manager.Write(sb.ToString());
+            PipeManager.Write(sb.ToString());
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             _mutex = new Mutex(true, _mutexName, out var isFirstInstance);
+            PipeManager = new NamedPipeManager("MediaPlayer");
 
             if (!isFirstInstance)
             {
@@ -79,7 +74,6 @@ namespace MediaPlayer.Shell
                 return;
             }
 
-            PipeManager = new NamedPipeManager("MediaPlayer");
             PipeManager.StartServer();
             PipeManager.ServerReceivedArgument += FirstApplicationInstanceReceivedArguments;
 
