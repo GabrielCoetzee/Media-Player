@@ -7,14 +7,11 @@ using System.Windows.Threading;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Collections;
-using System.IO;
 using System.Windows.Input;
 using MediaPlayer.ViewModel.EventTriggers.Concrete;
 using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using MediaPlayer.ViewModel.ViewModels;
 using MediaPlayer.Model.BusinessEntities.Abstract;
-using MediaPlayer.Model.Metadata.Concrete;
 using Generic.Mediator;
 using System.ComponentModel.Composition;
 using Generic;
@@ -251,9 +248,9 @@ namespace MediaPlayer.ViewModel
             SelectedMediaItem = MediaItems[index];
         }
 
-        public bool IsPreviousMediaItemAvailable() => (IsMediaListPopulated) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) - 1);
+        public bool IsPreviousMediaItemAvailable() => (IsMediaListPopulated) && PreviousMediaItemIndex() >= FirstMediaItemIndex();
 
-        public bool IsNextMediaItemAvailable() => (IsMediaListPopulated) && MediaItems.Any(x => MediaItems.IndexOf(x) == MediaItems.IndexOf(SelectedMediaItem) + 1);
+        public bool IsNextMediaItemAvailable() => (IsMediaListPopulated) && NextMediaItemIndex() <= LastMediaItemIndex();
 
         public int PreviousMediaItemIndex() => MediaItems.IndexOf(SelectedMediaItem) - 1;
 
@@ -263,9 +260,9 @@ namespace MediaPlayer.ViewModel
 
         public int LastMediaItemIndex() => MediaItems.IndexOf(MediaItems.Last());
 
-        public bool IsFirstMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == MediaItems.IndexOf(MediaItems.First());
+        public bool IsFirstMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == FirstMediaItemIndex();
 
-        public bool IsLastMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == MediaItems.IndexOf(MediaItems.Last());
+        public bool IsLastMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == LastMediaItemIndex();
 
         public bool IsEndOfCurrentMedia() => SelectedMediaItem.ElapsedTime == SelectedMediaItem.Duration;
     }
