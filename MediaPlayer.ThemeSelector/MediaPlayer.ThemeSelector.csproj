@@ -12,5 +12,6 @@
       <Version>5.0.1</Version>
     </PackageReference>
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
   </ItemGroup>
 </Project>

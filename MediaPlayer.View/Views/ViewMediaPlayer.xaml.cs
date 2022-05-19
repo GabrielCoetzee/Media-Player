@@ -1,5 +1,7 @@
-﻿using MahApps.Metro.Controls;
+﻿using Generic;
+using MahApps.Metro.Controls;
 using MediaPlayer.ViewModel;
+using System.ComponentModel.Composition;
 using System.Windows;
 
 namespace MediaPlayer.View.Views
@@ -8,15 +10,24 @@ namespace MediaPlayer.View.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    [Export]
     public partial class ViewMediaPlayer : MetroWindow
     {
-        public ViewMediaPlayer(MainViewModel vm)
+        [ImportingConstructor]
+        public ViewMediaPlayer()
         {
             InitializeComponent();
 
-            DataContext = vm;
+            MEF.Container?.SatisfyImportsOnce(this);
 
             AllowsTransparency = true;
+        }
+
+        [Import]
+        public MainViewModel ViewModel
+        {
+            get => DataContext as MainViewModel;
+            set => DataContext = value;
         }
 
         public void BringToForeground()

@@ -1,18 +1,21 @@
-﻿using MediaPlayer.ViewModel.Commands.Abstract;
-using System;
+﻿using System;
 using System.Windows.Input;
 using MediaPlayer.ViewModel.ConverterObject;
-using MediaPlayer.ViewModel.EventTriggers.Abstract;
+using System.ComponentModel.Composition;
+using Generic;
+using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
-    public class MediaOpenedCommand : IMediaOpenedCommand
+    [Export(CommandNames.MediaOpened, typeof(ICommand))]
+    public class MediaOpenedCommand : ICommand
     {
-        readonly INextTrackCommand _nextTrackCommand;
+        [Import(CommandNames.NextTrack)]
+        public ICommand NextTrackCommand { get; set; }
 
-        public MediaOpenedCommand(INextTrackCommand nextTrackCommand)
+        public MediaOpenedCommand()
         {
-            _nextTrackCommand = nextTrackCommand;
+            MEF.Container?.SatisfyImportsOnce(this);
         }
 
         public event EventHandler CanExecuteChanged
@@ -67,8 +70,8 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
             if (!vm.IsEndOfCurrentMedia())
                 return;
 
-            if (_nextTrackCommand.CanExecute(vm))
-                _nextTrackCommand.Execute(vm);
+            if (NextTrackCommand.CanExecute(vm))
+                NextTrackCommand.Execute(vm);
         }
     }
 }

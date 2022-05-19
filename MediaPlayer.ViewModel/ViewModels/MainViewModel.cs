@@ -1,6 +1,4 @@
-﻿using MediaPlayer.ApplicationSettings;
-using Generic.PropertyNotify;
-using MediaPlayer.ViewModel.Commands.Abstract;
+﻿using Generic.PropertyNotify;
 using System;
 using MediaPlayer.Model.Collections;
 using System.Windows.Controls;
@@ -18,9 +16,14 @@ using MediaPlayer.ViewModel.ViewModels;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.Metadata.Concrete;
 using Generic.Mediator;
+using System.ComponentModel.Composition;
+using Generic;
+using MediaPlayer.Settings;
+using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.ViewModel
 {
+    [Export]
     public class MainViewModel : PropertyNotifyBase
     {
         private MediaItem _selectedMediaItem;
@@ -117,73 +120,72 @@ namespace MediaPlayer.ViewModel
             }
         }
 
-        public ISettingsProviderViewModel SettingsProviderViewModel { get; set; }
-        public MetadataReaderResolver MetadataReaderResolver { get; set; }
-        public IOpenSettingsWindowCommand OpenSettingsWindowCommand { get; set; }
-        public IShuffleCommand ShuffleCommand { get; set; }
-        public IAddMediaCommand AddMediaCommand { get; set; }
-        public IPlayPauseCommand PlayPauseCommand { get; set; }
-        public IMuteCommand MuteCommand { get; set; }
-        public IPreviousTrackCommand PreviousTrackCommand { get; set; }
-        public IStopCommand StopCommand { get; set; }
-        public INextTrackCommand NextTrackCommand { get; set; }
-        public IRepeatMediaListCommand RepeatMediaListCommand { get; set; }
-        public IMediaOpenedCommand MediaOpenedCommand { get; set; }
-        public IClearMediaListCommand ClearMediaListCommand { get; set; }
-        public ISeekbarThumbStartedDraggingCommand SeekbarThumbStartedDraggingCommand { get; set; }
-        public ISeekbarThumbCompletedDraggingCommand SeekbarThumbCompletedDraggingCommand { get; set; }
+        [Import(CommandNames.Shuffle)]
+        public ICommand ShuffleCommand { get; set; }
+
+        [Import(CommandNames.OpenSettingsWindow)]
+        public ICommand OpenSettingsWindowCommand { get; set; }
+
+        [Import(CommandNames.PlayPause)]
+        public ICommand PlayPauseCommand { get; set; }
+
+        [Import(CommandNames.Mute)]
+        public ICommand MuteCommand { get; set; }
+
+        [Import(CommandNames.PreviousTrack)]
+        public ICommand PreviousTrackCommand { get; set; }
+
+        [Import(CommandNames.Stop)]
+        public ICommand StopCommand { get; set; }
+
+        [Import(CommandNames.Repeat)]
+        public ICommand RepeatMediaListCommand { get; set; }
+
+        [Import(CommandNames.ClearList)]
+        public ICommand ClearMediaListCommand { get; set; }
+
+        [Import(CommandNames.StartedDragging)]
+        public ICommand SeekbarThumbStartedDraggingCommand { get; set; }
+
+        [Import(CommandNames.CompletedDragging)]
+        public ICommand SeekbarThumbCompletedDraggingCommand { get; set; }
+
+        [Import(CommandNames.TopMostGridDragEnter)]
+        public ICommand TopMostGridDragEnterCommand { get; set; }
+
+        [Import(CommandNames.TopMostGridDrop)]
+        public ICommand TopMostGridDropCommand { get; set; }
+
+        [Import(CommandNames.MainWindowClosing)]
+        public ICommand MainWindowClosingCommand { get; set; }
+
+        [Import(CommandNames.NextTrack)]
+        public ICommand NextTrackCommand { get; set; }
+
+        [Import(CommandNames.MediaOpened)]
+        public ICommand MediaOpenedCommand { get; set; }
+
+        [Import(CommandNames.AddMedia)]
+        public ICommand AddMediaCommand { get; set; }
+
+        [Import(CommandNames.LoadThemeOnWindowLoaded)]
+        public ICommand LoadThemeOnWindowLoadedCommand { get; set; }
+
+        [Import]
         public ISeekbarPreviewMouseUpCommand SeekbarPreviewMouseUpCommand { get; set; }
-        public ITopMostGridDragEnterCommand TopMostGridDragEnterCommand { get; set; }
-        public ITopMostGridDropCommand TopMostGridDropCommand { get; set; }
-        public ILoadThemeOnWindowLoadedCommand LoadThemeOnWindowLoadedCommand { get; set; }
-        public IMainWindowClosingCommand MainWindowClosingCommand { get; set; }
+
+        [Import]
+        public MetadataReaderResolver MetadataReaderResolver { get; set; }
+
+        [Import]
+        public ISettingsManager SettingsManager { get; set; }
+
+        [Import]
         public BusyViewModel BusyViewModel { get; set; }
 
-        public MainViewModel(ISettingsProviderViewModel settingsProviderViewModel,
-            MetadataReaderResolver metadataReaderResolver,
-            IOpenSettingsWindowCommand openSettingsWindowCommand,
-            IShuffleCommand shuffleCommand,
-            IAddMediaCommand addMediaCommand,
-            IPlayPauseCommand playPauseCommand,
-            IMuteCommand muteCommand,
-            IPreviousTrackCommand previousTrackCommand,
-            IStopCommand stopCommand,
-            INextTrackCommand nextTrackCommand,
-            IRepeatMediaListCommand repeatMediaListCommand,
-            IMediaOpenedCommand mediaOpenedCommand,
-            IClearMediaListCommand clearMediaListCommand,
-            ISeekbarThumbStartedDraggingCommand seekbarThumbStartedDraggingCommand,
-            ISeekbarThumbCompletedDraggingCommand seekbarThumbCompletedDraggingCommand,
-            ISeekbarPreviewMouseUpCommand seekbarPreviewMouseUpCommand,
-            ITopMostGridDragEnterCommand topMostGridDragEnterCommand,
-            ITopMostGridDropCommand topMostGridDropCommand,
-            ILoadThemeOnWindowLoadedCommand loadThemeOnWindowLoadedCommand,
-            IMainWindowClosingCommand mainWindowClosingCommand,
-            BusyViewModel busyViewModel)
+        public MainViewModel()
         {
-            SettingsProviderViewModel = settingsProviderViewModel;
-            MetadataReaderResolver = metadataReaderResolver;
-
-            OpenSettingsWindowCommand = openSettingsWindowCommand;
-            ShuffleCommand = shuffleCommand;
-            AddMediaCommand = addMediaCommand;
-            PlayPauseCommand = playPauseCommand;
-            MuteCommand = muteCommand;
-            PreviousTrackCommand = previousTrackCommand;
-            StopCommand = stopCommand;
-            NextTrackCommand = nextTrackCommand;
-            RepeatMediaListCommand = repeatMediaListCommand;
-            MediaOpenedCommand = mediaOpenedCommand;
-            ClearMediaListCommand = clearMediaListCommand;
-            SeekbarThumbStartedDraggingCommand = seekbarThumbStartedDraggingCommand;
-            SeekbarThumbCompletedDraggingCommand = seekbarThumbCompletedDraggingCommand;
-            SeekbarPreviewMouseUpCommand = seekbarPreviewMouseUpCommand;
-            TopMostGridDragEnterCommand = topMostGridDragEnterCommand;
-            TopMostGridDropCommand = topMostGridDropCommand;
-            LoadThemeOnWindowLoadedCommand = loadThemeOnWindowLoadedCommand;
-            MainWindowClosingCommand = mainWindowClosingCommand;
-
-            BusyViewModel = busyViewModel;
+            MEF.Container?.SatisfyImportsOnce(this);
 
             SeekbarPreviewMouseUpCommand.ChangeMediaPosition += SeekbarPreviewMouseUpCommand_ChangeMediaPosition;
 
@@ -221,7 +223,7 @@ namespace MediaPlayer.ViewModel
             await Task.Run(() =>
             {
                 var metadataReader = MetadataReaderResolver.Resolve(MetadataReaders.Taglib);
-                var supportedFileFormats = SettingsProviderViewModel.SupportedFileFormats;
+                var supportedFileFormats = SettingsManager.SupportedFileFormats;
 
                 foreach (var path in filePaths)
                 {

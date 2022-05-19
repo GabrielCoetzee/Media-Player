@@ -1,12 +1,14 @@
 ﻿using MahApps.Metro.Controls;
-using MediaPlayer.ApplicationSettings;
+using MediaPlayer.Common.Constants;
 using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using System;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
-    public class SaveSettingsCommand : ISaveSettingsCommand
+    [Export(CommandNames.SaveSettings, typeof(ICommand))]
+    public class SaveSettingsCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -27,7 +29,7 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
             if (applicationSettingsWindow.DataContext is not ApplicationSettingsViewModel vm)
                 return;
 
-            vm.SettingsProviderViewModel.SaveSettings();
+            vm.SettingsManager.SaveSettings();
 
             applicationSettingsWindow.Close();
         }

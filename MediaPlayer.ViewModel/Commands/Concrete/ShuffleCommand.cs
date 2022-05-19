@@ -1,13 +1,14 @@
-﻿using MediaPlayer.Model;
+﻿using MediaPlayer.Common.Constants;
 using MediaPlayer.Model.Collections;
-using MediaPlayer.ViewModel.Commands.Abstract;
 using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
-    public class ShuffleCommand : IShuffleCommand
+    [Export(CommandNames.Shuffle, typeof(ICommand))]
+    public class ShuffleCommand : ICommand
     {
         private readonly Random _randomIdGenerator = new();
 

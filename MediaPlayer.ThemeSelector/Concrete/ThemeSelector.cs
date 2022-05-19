@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System.ComponentModel.Composition;
+using System.Windows;
 using ControlzEx.Theming;
 using MediaPlayer.Theming.Abstract;
 
 namespace MediaPlayer.Theming.Concrete
 {
+    [Export(typeof(IThemeSelector))]
     public class ThemeSelector : IThemeSelector
     {
         public void ChangeOpacity(double opacity)

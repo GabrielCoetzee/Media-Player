@@ -1,22 +1,26 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
+using Generic;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.Metadata.Abstract;
 
 namespace MediaPlayer.Model.Metadata.Concrete
 {
+    [Export]
     public class MetadataReaderResolver
     {
-        private readonly IEnumerable<IMetadataReaderProvider> _metadataReaderProviders;
+        [ImportMany(typeof(IMetadataReaderProvider))]
+        public IEnumerable<IMetadataReaderProvider> MetadataReaderProviders { get; set; }
 
-        public MetadataReaderResolver(IEnumerable<IMetadataReaderProvider> metadataReaderProviders)
+        public MetadataReaderResolver()
         {
-            _metadataReaderProviders = metadataReaderProviders;
+            MEF.Container?.SatisfyImportsOnce(this);
         }
 
         public IMetadataReaderProvider Resolve(MetadataReaders selectedMetadataReader)
         {
-            return _metadataReaderProviders.SingleOrDefault(x => x.MetadataReader == selectedMetadataReader);
+            return MetadataReaderProviders.SingleOrDefault(x => x.MetadataReader == selectedMetadataReader);
         }
     }
 }

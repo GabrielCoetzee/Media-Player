@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
 using Generic.Mediator;
+using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.ViewModel.EventTriggers.Abstract;
 
 namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
-    public class TopMostGridDropCommand : ITopMostGridDropCommand
+    [Export(CommandNames.TopMostGridDrop, typeof(ICommand))]
+    public class TopMostGridDropCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

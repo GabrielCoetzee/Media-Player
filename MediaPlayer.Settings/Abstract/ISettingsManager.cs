@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace MediaPlayer.ApplicationSettings
+namespace MediaPlayer.Settings
 {
-    public interface ISettingsProviderViewModel : INotifyPropertyChanged
+    public interface ISettingsManager : INotifyPropertyChanged
     {
         string SelectedAccent { get; set;  }
         decimal SelectedOpacity { get; set; }

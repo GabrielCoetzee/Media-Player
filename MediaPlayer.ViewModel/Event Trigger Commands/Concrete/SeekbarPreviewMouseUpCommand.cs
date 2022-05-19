@@ -1,10 +1,12 @@
 ﻿using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using System;
+using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
+    [Export(typeof(ISeekbarPreviewMouseUpCommand))]
     public class SeekbarPreviewMouseUpCommand : ISeekbarPreviewMouseUpCommand
     {
         public event EventHandler CanExecuteChanged

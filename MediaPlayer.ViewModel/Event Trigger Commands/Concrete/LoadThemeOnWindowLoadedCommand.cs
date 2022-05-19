@@ -1,24 +1,29 @@
 ﻿using ControlzEx.Theming;
-using MediaPlayer.ApplicationSettings;
 using System;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using MediaPlayer.Theming.Abstract;
+using MediaPlayer.Settings;
+using System.ComponentModel.Composition;
+using Generic;
+using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
-    public class LoadThemeOnWindowLoadedCommand : ILoadThemeOnWindowLoadedCommand
+    [Export(CommandNames.LoadThemeOnWindowLoaded, typeof(ICommand))]
+    public class LoadThemeOnWindowLoadedCommand : ICommand
     {
-        readonly ISettingsProviderViewModel _settingsProvider;
-        readonly IThemeSelector _themeSelector;
+        [Import]
+        public ISettingsManager SettingsManager { get; set; }
 
-        public LoadThemeOnWindowLoadedCommand(ISettingsProviderViewModel settingsProvider,
-            IThemeSelector themeSelector)
+        [Import]
+        public IThemeSelector ThemeSelector { get; set; }
+
+        public LoadThemeOnWindowLoadedCommand()
         {
-            _settingsProvider = settingsProvider;
-            _themeSelector = themeSelector;
+            MEF.Container?.SatisfyImportsOnce(this);
         }
 
         public event EventHandler CanExecuteChanged
@@ -37,7 +42,7 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
             if (parameter is ComboBox comboBoxAccents)
                 ThemeManager.Current.ColorSchemes.ToList().ForEach(accent => comboBoxAccents.Items.Add(accent));
 
-            _themeSelector.ChangeAccent(_settingsProvider.SelectedAccent);
+            ThemeSelector.ChangeAccent(SettingsManager.SelectedAccent);
         }
     }
 }

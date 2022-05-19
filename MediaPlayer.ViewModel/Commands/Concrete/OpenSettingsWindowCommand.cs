@@ -1,12 +1,14 @@
 ﻿using Generic.Mediator;
+using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.ViewModel.Commands.Abstract;
 using System;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
-    public class OpenSettingsWindowCommand : IOpenSettingsWindowCommand
+    [Export(CommandNames.OpenSettingsWindow, typeof(ICommand))]
+    public class OpenSettingsWindowCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

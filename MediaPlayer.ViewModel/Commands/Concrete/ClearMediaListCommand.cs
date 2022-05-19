@@ -1,14 +1,13 @@
-﻿using MediaPlayer.Model.Collections;
-using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model;
-using System;
+﻿using System;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MediaPlayer.ViewModel.Commands.Abstract;
+using System.ComponentModel.Composition;
+using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
-    public class ClearMediaListCommand : IClearMediaListCommand
+    [Export(CommandNames.ClearList, typeof(ICommand))]
+    public class ClearMediaListCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

@@ -1,12 +1,13 @@
-﻿using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model;
-using MediaPlayer.ViewModel.Commands.Abstract;
+﻿using MediaPlayer.Common.Constants;
+using MediaPlayer.Common.Enumerations;
 using System;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
-    public class MuteCommand : IMuteCommand
+    [Export(CommandNames.Mute, typeof(ICommand))]
+    public class MuteCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

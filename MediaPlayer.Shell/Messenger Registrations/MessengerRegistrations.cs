@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
-using System.Windows.Input;
+using Generic;
+using Generic.Configuration.Abstract;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,21 +10,29 @@ using ViewMediaPlayer = MediaPlayer.View.Views.ViewMediaPlayer;
 
 namespace MediaPlayer.Shell.MessengerRegs
 {
-    public static class MessengerRegistrations
+    public class MessengerRegistrations
     {
-        public static void RegisterOpenMediaPlayerMainWindow(IServiceProvider serviceProvider)
+        public static void OpenMediaPlayerMainWindow(IServiceProvider serviceProvider)
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.OpenMediaPlayerMainWindow, (args) =>
             {
-                serviceProvider.GetRequiredService<ViewMediaPlayer>().Show();
+                var view = MEF.Container?.GetExports<ViewMediaPlayer>().SingleOrDefault().Value;
+
+                view.Show();
+
+                //serviceProvider.GetRequiredService<ViewMediaPlayer>().Show();
             });
         }
 
-        public static void RegisterOpenApplicationSettingsWindow(IServiceProvider serviceProvider)
+        public static void OpenApplicationSettingsWindow(IServiceProvider serviceProvider)
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.OpenApplicationSettings, (args) =>
             {
-                serviceProvider.GetRequiredService<ViewApplicationSettings>().ShowDialog();
+                var view = MEF.Container?.GetExports<ViewApplicationSettings>().SingleOrDefault().Value;
+
+                view.ShowDialog();
+
+                //serviceProvider.GetRequiredService<ViewApplicationSettings>().ShowDialog();
             });
         }
     }

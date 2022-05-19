@@ -1,11 +1,12 @@
-﻿using MediaPlayer.Model;
-using MediaPlayer.ViewModel.Commands.Abstract;
+﻿using MediaPlayer.Common.Constants;
 using System;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
-    public class NextTrackCommand : INextTrackCommand
+    [Export(CommandNames.NextTrack, typeof(ICommand))]
+    public class NextTrackCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

@@ -1,7 +1,9 @@
 ﻿using Generic.PropertyNotify;
+using System.ComponentModel.Composition;
 
 namespace MediaPlayer.ViewModel.ViewModels
 {
+    [Export]
     public class BusyViewModel : PropertyNotifyBase
     {
         private bool? _isLoadingMediaItems;

@@ -1,11 +1,13 @@
-﻿using MediaPlayer.ViewModel.EventTriggers.Abstract;
+﻿using MediaPlayer.Common.Constants;
 using System;
+using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
-    public class TopMostGridDragEnterCommand : ITopMostGridDragEnterCommand
+    [Export(CommandNames.TopMostGridDragEnter, typeof(ICommand))]
+    public class TopMostGridDragEnterCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

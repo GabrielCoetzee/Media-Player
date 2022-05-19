@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
-using MediaPlayer.ViewModel.EventTriggers.Abstract;
+using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
-    public class SeekbarThumbStartedDraggingCommand : ISeekbarThumbStartedDraggingCommand
+    [Export(nameof(CommandNames.StartedDragging), typeof(ICommand))]
+    public class SeekbarThumbStartedDraggingCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

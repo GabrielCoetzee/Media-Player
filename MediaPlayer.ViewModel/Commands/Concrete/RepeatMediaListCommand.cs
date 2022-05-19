@@ -1,11 +1,12 @@
-﻿using MediaPlayer.Model;
-using MediaPlayer.ViewModel.Commands.Abstract;
+﻿using MediaPlayer.Common.Constants;
 using System;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
-    public class RepeatMediaListCommand : IRepeatMediaListCommand
+    [Export(CommandNames.Repeat, typeof(ICommand))]
+    public class RepeatMediaListCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

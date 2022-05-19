@@ -1,10 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using ControlzEx.Theming;
+using Generic;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.ApplicationSettings;
 using MediaPlayer.Theming;
 using MediaPlayer.ViewModel;
 
@@ -14,13 +16,23 @@ namespace MediaPlayer.View.Views
     /// <summary>
     /// Interaction logic for ViewApplicationSettings.xaml
     /// </summary>
+    [Export]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class ViewApplicationSettings : MetroWindow
     {
-        public ViewApplicationSettings(ApplicationSettingsViewModel vm)
+        [ImportingConstructor]
+        public ViewApplicationSettings()
         {
             InitializeComponent();
 
-            DataContext = vm;
+            MEF.Container?.SatisfyImportsOnce(this);
+        }
+
+        [Import]
+        public ApplicationSettingsViewModel ViewModel
+        {
+            get => DataContext as ApplicationSettingsViewModel;
+            set => DataContext = value;
         }
     }
 }

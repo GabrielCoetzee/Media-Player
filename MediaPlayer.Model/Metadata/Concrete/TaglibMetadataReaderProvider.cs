@@ -3,9 +3,11 @@ using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.Metadata.Abstract;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using TagLib;
+using System.ComponentModel.Composition;
 
 namespace MediaPlayer.Model.Metadata.Concrete
 {
+    [Export(typeof(IMetadataReaderProvider))]
     public class TaglibMetadataReaderProvider : IMetadataReaderProvider
     {
         public MetadataReaders MetadataReader => MetadataReaders.Taglib;

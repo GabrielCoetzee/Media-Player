@@ -1,21 +1,25 @@
-﻿using MediaPlayer.ApplicationSettings;
+﻿using Generic;
+using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.Metadata.Concrete;
-using MediaPlayer.ViewModel.Commands.Abstract;
+using MediaPlayer.Settings;
 using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
-    public class AddMediaCommand : IAddMediaCommand
+    [Export(CommandNames.AddMedia, typeof(ICommand))]
+    public class AddMediaCommand : ICommand
     {
-        readonly MetadataReaderResolver _metadataReaderResolver;
+        [Import]
+        public MetadataReaderResolver MetadataReaderResolver { get; set; }
 
-        public AddMediaCommand(MetadataReaderResolver metadataReaderResolver)
+        public AddMediaCommand()
         {
-            _metadataReaderResolver = metadataReaderResolver;
+            MEF.Container?.SatisfyImportsOnce(this);
         }
 
         public event EventHandler CanExecuteChanged
@@ -34,7 +38,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
-            var settingsProviderViewModel = vm.SettingsProviderViewModel;
+            var settingsProviderViewModel = vm.SettingsManager;
 
             var chooseFiles = new OpenFileDialog
             {
@@ -49,16 +53,16 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (result != DialogResult.OK)
                 return;
 
-            var metadataReader = _metadataReaderResolver.Resolve(MetadataReaders.Taglib);
+            var metadataReader = MetadataReaderResolver.Resolve(MetadataReaders.Taglib);
 
             var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
 
             vm.AddMediaItems(mediaItems);
         }
 
-        private string CreateDialogFilter(ISettingsProviderViewModel settingsProviderViewModel)
+        private string CreateDialogFilter(ISettingsManager settingsManager)
         {
-            var supportedFileFormats = settingsProviderViewModel.SupportedFileFormats;
+            var supportedFileFormats = settingsManager.SupportedFileFormats;
 
             return string.Join("|", $"Supported Formats ({AppendedSupportedFormats(",", supportedFileFormats)})", AppendedSupportedFormats(";", supportedFileFormats));
         }
