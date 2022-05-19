@@ -20,6 +20,7 @@ using System.ComponentModel.Composition;
 using Generic;
 using MediaPlayer.Settings;
 using MediaPlayer.Common.Constants;
+using MediaPlayer.ViewModel.Services.Abstract;
 
 namespace MediaPlayer.ViewModel
 {
@@ -175,13 +176,13 @@ namespace MediaPlayer.ViewModel
         public ISeekbarPreviewMouseUpCommand SeekbarPreviewMouseUpCommand { get; set; }
 
         [Import]
-        public MetadataReaderResolver MetadataReaderResolver { get; set; }
-
-        [Import]
         public ISettingsManager SettingsManager { get; set; }
 
         [Import]
         public BusyViewModel BusyViewModel { get; set; }
+
+        [Import]
+        public IMetadataReaderService MetadataReaderService { get; set; }
 
         public MainViewModel()
         {
@@ -204,7 +205,7 @@ namespace MediaPlayer.ViewModel
 
             BusyViewModel.IsLoadingMediaItems = true;
 
-            var mediaItems = await ReadMediaItemsAsync(filePaths);
+            var mediaItems = await MetadataReaderService.ReadFilePathsAsync(filePaths);
 
             AddMediaItems(mediaItems);
 
@@ -214,44 +215,6 @@ namespace MediaPlayer.ViewModel
         private void SeekbarPreviewMouseUpCommand_ChangeMediaPosition(object sender, SliderPositionEventArgs e)
         {
             MediaElementPosition = TimeSpan.FromSeconds(e.Position);
-        }
-
-        private async Task<IEnumerable<MediaItem>> ReadMediaItemsAsync(IEnumerable filePaths)
-        {
-            var supportedFiles = new List<MediaItem>();
-
-            await Task.Run(() =>
-            {
-                var metadataReader = MetadataReaderResolver.Resolve(MetadataReaders.Taglib);
-                var supportedFileFormats = SettingsManager.SupportedFileFormats;
-
-                foreach (var path in filePaths)
-                {
-                    var isFolder = Directory.Exists(path.ToString());
-
-                    if (isFolder)
-                    {
-                        var mediaItems = Directory
-                            .EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
-                            .Where(file => supportedFileFormats.Any(file.ToLower().EndsWith))
-                            .Select((x) => metadataReader.GetFileMetadata(x));
-
-                        supportedFiles.AddRange(mediaItems);
-                    }
-                    else
-                    {
-                        if (supportedFileFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
-                        {
-                            var mediaItem = metadataReader.GetFileMetadata(path.ToString());
-
-                            supportedFiles.Add(mediaItem);
-                        }
-                    }
-
-                }
-            });
-
-            return supportedFiles;
         }
 
         public void AddMediaItems(IEnumerable<MediaItem> mediaItems)

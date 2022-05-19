@@ -34,7 +34,7 @@ namespace MediaPlayer.Shell
     public partial class App : Application
     {
         private IServiceProvider _serviceProvider;
-        private IConfiguration _configuration;
+        //private IConfiguration _configuration;
 
         private Mutex _mutex;
         private const string _mutexName = "##||MediaPlayer||##";

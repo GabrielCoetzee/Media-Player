@@ -3,6 +3,7 @@ using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.Metadata.Concrete;
 using MediaPlayer.Settings;
+using MediaPlayer.ViewModel.Services.Abstract;
 using System;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -14,12 +15,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     [Export(CommandNames.AddMedia, typeof(ICommand))]
     public class AddMediaCommand : ICommand
     {
-        readonly MetadataReaderResolver _metadataReaderResolver;
+        readonly IMetadataReaderService _metadataReaderService;
 
         [ImportingConstructor]
-        public AddMediaCommand(MetadataReaderResolver metadataReaderResolver)
+        public AddMediaCommand(IMetadataReaderService metadataReaderService)
         {
-            _metadataReaderResolver = metadataReaderResolver;
+            _metadataReaderService = metadataReaderService;
         }
 
         public event EventHandler CanExecuteChanged
@@ -33,7 +34,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             return true;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
             if (parameter is not MainViewModel vm)
                 return;
@@ -51,9 +52,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (result != DialogResult.OK)
                 return;
 
-            var metadataReader = _metadataReaderResolver.Resolve(MetadataReaders.Taglib);
-
-            var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
+            var mediaItems = await _metadataReaderService.ReadFilePathsAsync(chooseFiles.FileNames);
 
             vm.AddMediaItems(mediaItems);
         }
