@@ -198,6 +198,11 @@ namespace MediaPlayer.ViewModel
             });
         }
 
+        private void SeekbarPreviewMouseUpCommand_ChangeMediaPosition(object sender, SliderPositionEventArgs e)
+        {
+            MediaElementPosition = TimeSpan.FromSeconds(e.Position);
+        }
+
         public async Task ProcessDroppedContentAsync(IEnumerable<string> filePaths)
         {
             if (filePaths == null || !filePaths.Any())
@@ -210,11 +215,6 @@ namespace MediaPlayer.ViewModel
             AddMediaItems(mediaItems);
 
             BusyViewModel.IsLoadingMediaItems = false;
-        }
-
-        private void SeekbarPreviewMouseUpCommand_ChangeMediaPosition(object sender, SliderPositionEventArgs e)
-        {
-            MediaElementPosition = TimeSpan.FromSeconds(e.Position);
         }
 
         public void AddMediaItems(IEnumerable<MediaItem> mediaItems)
