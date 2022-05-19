@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using MediaPlayer.Common.Constants;
 
-namespace MediaPlayer.ViewModel.EventTriggers.Concrete
+namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     [Export(nameof(CommandNames.StartedDragging), typeof(ICommand))]
     public class SeekbarThumbStartedDraggingCommand : ICommand

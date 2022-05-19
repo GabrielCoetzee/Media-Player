@@ -2,7 +2,6 @@
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Settings;
-using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 

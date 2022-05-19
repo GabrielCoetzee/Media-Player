@@ -1,11 +1,10 @@
 ﻿using Generic.NamedPipes.Wrappers;
 using MediaPlayer.Common.Constants;
-using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.EventTriggers.Concrete
+namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     [Export(CommandNames.MainWindowClosing, typeof(ICommand))]
     public class MainWindowClosingCommand : ICommand

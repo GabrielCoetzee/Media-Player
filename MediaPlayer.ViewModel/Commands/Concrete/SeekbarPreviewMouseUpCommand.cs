@@ -1,10 +1,10 @@
-﻿using MediaPlayer.ViewModel.EventTriggers.Abstract;
+﻿using MediaPlayer.ViewModel.Commands.Abstract;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.EventTriggers.Concrete
+namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     [Export(typeof(ISeekbarPreviewMouseUpCommand))]
     public class SeekbarPreviewMouseUpCommand : ISeekbarPreviewMouseUpCommand

@@ -7,7 +7,7 @@ using Generic.Mediator;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
 
-namespace MediaPlayer.ViewModel.EventTriggers.Concrete
+namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     [Export(CommandNames.TopMostGridDrop, typeof(ICommand))]
     public class TopMostGridDropCommand : ICommand

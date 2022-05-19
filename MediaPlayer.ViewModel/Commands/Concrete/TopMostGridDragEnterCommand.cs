@@ -1,12 +1,13 @@
 ﻿using MediaPlayer.Common.Constants;
 using System;
 using System.ComponentModel.Composition;
+using System.Windows;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.EventTriggers.Concrete
+namespace MediaPlayer.ViewModel.Commands.Concrete
 {
-    [Export(CommandNames.CompletedDragging, typeof(ICommand))]
-    public class SeekbarThumbCompletedDraggingCommand : ICommand
+    [Export(CommandNames.TopMostGridDragEnter, typeof(ICommand))]
+    public class TopMostGridDragEnterCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -16,18 +17,15 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
-                return false;
-
-            return vm.IsUserDraggingSeekbarThumb;
+            return true;
         }
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not DragEventArgs e)
                 return;
 
-            vm.IsUserDraggingSeekbarThumb = false;
+            e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Move : DragDropEffects.None;
         }
     }
 }

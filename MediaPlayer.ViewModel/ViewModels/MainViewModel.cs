@@ -8,8 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Windows.Input;
-using MediaPlayer.ViewModel.EventTriggers.Concrete;
-using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using MediaPlayer.ViewModel.ViewModels;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using Generic.Mediator;
@@ -18,6 +16,8 @@ using Generic;
 using MediaPlayer.Settings;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.ViewModel.Services.Abstract;
+using MediaPlayer.ViewModel.Commands.Concrete;
+using MediaPlayer.ViewModel.Commands.Abstract;
 
 namespace MediaPlayer.ViewModel
 {

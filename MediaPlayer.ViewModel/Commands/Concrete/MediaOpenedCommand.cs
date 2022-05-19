@@ -5,7 +5,7 @@ using System.ComponentModel.Composition;
 using Generic;
 using MediaPlayer.Common.Constants;
 
-namespace MediaPlayer.ViewModel.EventTriggers.Concrete
+namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     [Export(CommandNames.MediaOpened, typeof(ICommand))]
     public class MediaOpenedCommand : ICommand

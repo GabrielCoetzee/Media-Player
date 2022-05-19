@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MediaPlayer.ViewModel.EventTriggers.Abstract;
 using MediaPlayer.Theming.Abstract;
 using MediaPlayer.Settings;
 using System.ComponentModel.Composition;
@@ -11,7 +10,7 @@ using Generic;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Settings.Config;
 
-namespace MediaPlayer.ViewModel.EventTriggers.Concrete
+namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     [Export(CommandNames.LoadThemeOnWindowLoaded, typeof(ICommand))]
     public class LoadThemeOnWindowLoadedCommand : ICommand
