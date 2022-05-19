@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Generic;
-using Generic.Configuration.Abstract;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
-using Microsoft.Extensions.DependencyInjection;
-using ViewApplicationSettings = MediaPlayer.View.Views.ViewApplicationSettings;
-using ViewMediaPlayer = MediaPlayer.View.Views.ViewMediaPlayer;
+using MediaPlayer.View.Views;
 
 namespace MediaPlayer.Shell.MessengerRegs
 {
