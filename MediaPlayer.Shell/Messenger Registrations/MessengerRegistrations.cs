@@ -13,7 +13,7 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.OpenMediaPlayerMainWindow, (args) =>
             {
-                var view = MEF.Container?.GetExports<ViewMediaPlayer>().SingleOrDefault().Value;
+                var view = MEF.Container?.GetExports<ViewMediaPlayer>().Single().Value;
 
                 view.Show();
 
@@ -25,7 +25,7 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.OpenApplicationSettings, (args) =>
             {
-                var view = MEF.Container?.GetExports<ViewApplicationSettings>().SingleOrDefault().Value;
+                var view = MEF.Container?.GetExports<ViewApplicationSettings>().Single().Value;
 
                 view.ShowDialog();
 
