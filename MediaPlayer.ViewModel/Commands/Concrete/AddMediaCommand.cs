@@ -14,12 +14,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     [Export(CommandNames.AddMedia, typeof(ICommand))]
     public class AddMediaCommand : ICommand
     {
-        [Import]
-        public MetadataReaderResolver MetadataReaderResolver { get; set; }
+        readonly MetadataReaderResolver _metadataReaderResolver;
 
-        public AddMediaCommand()
+        [ImportingConstructor]
+        public AddMediaCommand(MetadataReaderResolver metadataReaderResolver)
         {
-            MEF.Container?.SatisfyImportsOnce(this);
+            _metadataReaderResolver = metadataReaderResolver;
         }
 
         public event EventHandler CanExecuteChanged
@@ -51,7 +51,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (result != DialogResult.OK)
                 return;
 
-            var metadataReader = MetadataReaderResolver.Resolve(MetadataReaders.Taglib);
+            var metadataReader = _metadataReaderResolver.Resolve(MetadataReaders.Taglib);
 
             var mediaItems = chooseFiles.FileNames.Select(file => metadataReader.GetFileMetadata(file)).ToList();
 

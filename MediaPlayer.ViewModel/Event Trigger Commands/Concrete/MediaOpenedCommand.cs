@@ -10,12 +10,13 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
     [Export(CommandNames.MediaOpened, typeof(ICommand))]
     public class MediaOpenedCommand : ICommand
     {
-        [Import(CommandNames.NextTrack)]
-        public ICommand NextTrackCommand { get; set; }
+        readonly ICommand _nextTrackCommand;
 
-        public MediaOpenedCommand()
+        [ImportingConstructor]
+        public MediaOpenedCommand([Import(CommandNames.NextTrack)] ICommand nextTrackCommand)
         {
-            MEF.Container?.SatisfyImportsOnce(this);
+            _nextTrackCommand = nextTrackCommand;
+            //MEF.Container?.SatisfyImportsOnce(this);
         }
 
         public event EventHandler CanExecuteChanged
@@ -70,8 +71,8 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
             if (!vm.IsEndOfCurrentMedia())
                 return;
 
-            if (NextTrackCommand.CanExecute(vm))
-                NextTrackCommand.Execute(vm);
+            if (_nextTrackCommand.CanExecute(vm))
+                _nextTrackCommand.Execute(vm);
         }
     }
 }

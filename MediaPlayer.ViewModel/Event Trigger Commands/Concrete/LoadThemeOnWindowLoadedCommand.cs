@@ -9,21 +9,21 @@ using MediaPlayer.Settings;
 using System.ComponentModel.Composition;
 using Generic;
 using MediaPlayer.Common.Constants;
+using MediaPlayer.Settings.Config;
 
 namespace MediaPlayer.ViewModel.EventTriggers.Concrete
 {
     [Export(CommandNames.LoadThemeOnWindowLoaded, typeof(ICommand))]
     public class LoadThemeOnWindowLoadedCommand : ICommand
     {
-        [Import]
-        public ISettingsManager SettingsManager { get; set; }
+        readonly Configuration _configuration;
+        readonly IThemeSelector _themeSelector;
 
-        [Import]
-        public IThemeSelector ThemeSelector { get; set; }
-
-        public LoadThemeOnWindowLoadedCommand()
+        [ImportingConstructor]
+        public LoadThemeOnWindowLoadedCommand(Configuration configuration, IThemeSelector themeSelector)
         {
-            MEF.Container?.SatisfyImportsOnce(this);
+            _configuration = configuration;
+            _themeSelector = themeSelector;
         }
 
         public event EventHandler CanExecuteChanged
@@ -42,7 +42,7 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
             if (parameter is ComboBox comboBoxAccents)
                 ThemeManager.Current.ColorSchemes.ToList().ForEach(accent => comboBoxAccents.Items.Add(accent));
 
-            ThemeSelector.ChangeAccent(SettingsManager.SelectedAccent);
+            _themeSelector.ChangeAccent(_configuration.Accent);
         }
     }
 }
