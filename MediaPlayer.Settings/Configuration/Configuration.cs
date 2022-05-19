@@ -6,7 +6,7 @@ using System.ComponentModel.Composition;
 namespace MediaPlayer.Settings.Config
 {
     [Serializable]
-    [Export(typeof(Configuration))]
+    [Export]
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class Configuration : SerializableSettings
     {
