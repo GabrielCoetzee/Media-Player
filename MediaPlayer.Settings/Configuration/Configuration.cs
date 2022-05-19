@@ -6,22 +6,22 @@ using System.ComponentModel.Composition;
 namespace MediaPlayer.Settings.Config
 {
     [Serializable]
-    [Export(typeof(ApplicationSettings))]
+    [Export(typeof(Configuration))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class ApplicationSettings : SerializableSettings
+    public class Configuration : SerializableSettings
     {
-        public ApplicationSettings()
+        public Configuration()
         {
         }
 
         [ImportingConstructor]
-        public ApplicationSettings(IFileLocations fileLocations) 
+        public Configuration(IFileLocations fileLocations) 
             : base(fileLocations)
         {
             if (!Exists)
                 Save();
 
-            CopyToThis(DeSerializeObject<ApplicationSettings>());
+            CopyToThis(DeSerializeObject<Configuration>());
         }
 
         public string[] SupportedFileFormats { get; set; } = { ".mp3", ".m4a", ".flac", ".wma" };

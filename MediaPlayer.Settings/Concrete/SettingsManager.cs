@@ -11,7 +11,7 @@ namespace MediaPlayer.Settings.Concrete
     public class SettingsManager : PropertyNotifyBase, ISettingsManager
     {
         [Import]
-        public ApplicationSettings ApplicationSettings { get; set; }
+        public Configuration Configuration { get; set; }
 
         [Import]
         public IThemeSelector ThemeSelector { get; set; }
@@ -21,11 +21,11 @@ namespace MediaPlayer.Settings.Concrete
         {
             MEF.Container?.SatisfyImportsOnce(this);
 
-            _selectedOpacity = ApplicationSettings.Opacity;
-            _selectedAccent = ApplicationSettings.Accent;
+            _selectedOpacity = Configuration.Opacity;
+            _selectedAccent = Configuration.Accent;
         }
 
-        public string[] SupportedFileFormats => ApplicationSettings.SupportedFileFormats;
+        public string[] SupportedFileFormats => Configuration.SupportedFileFormats;
 
         private decimal _selectedOpacity;
         private string _selectedAccent;
@@ -38,7 +38,7 @@ namespace MediaPlayer.Settings.Concrete
                 _selectedAccent = value;
                 OnPropertyChanged(nameof(SelectedAccent));
 
-                ApplicationSettings.Accent = value;
+                Configuration.Accent = value;
                 ThemeSelector.ChangeAccent(value);
             }
         }
@@ -51,14 +51,14 @@ namespace MediaPlayer.Settings.Concrete
                 _selectedOpacity = value;
                 OnPropertyChanged(nameof(SelectedOpacity));
 
-                ApplicationSettings.Opacity = value;
+                Configuration.Opacity = value;
                 ThemeSelector.ChangeOpacity((double)value);
             }
         }
 
         public void SaveSettings()
         {
-            ApplicationSettings.Save();
+            Configuration.Save();
 
             //_options.Update(opt => {
             //    opt.Opacity = _selectedOpacity;
