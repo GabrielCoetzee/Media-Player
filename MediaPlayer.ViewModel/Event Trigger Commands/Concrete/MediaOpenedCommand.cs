@@ -16,7 +16,6 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
         public MediaOpenedCommand([Import(CommandNames.NextTrack)] ICommand nextTrackCommand)
         {
             _nextTrackCommand = nextTrackCommand;
-            //MEF.Container?.SatisfyImportsOnce(this);
         }
 
         public event EventHandler CanExecuteChanged
