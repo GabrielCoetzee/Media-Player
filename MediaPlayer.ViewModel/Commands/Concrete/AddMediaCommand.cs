@@ -38,13 +38,11 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
-            var settingsProviderViewModel = vm.SettingsManager;
-
             var chooseFiles = new OpenFileDialog
             {
                 Title = "Choose Files",
-                DefaultExt = settingsProviderViewModel.SupportedFileFormats.First(),
-                Filter = CreateDialogFilter(settingsProviderViewModel),
+                DefaultExt = vm.SettingsManager.SupportedFileFormats.First(),
+                Filter = CreateDialogFilter(vm.SettingsManager.SupportedFileFormats),
                 Multiselect = true
             };
 
@@ -60,10 +58,8 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             vm.AddMediaItems(mediaItems);
         }
 
-        private string CreateDialogFilter(ISettingsManager settingsManager)
+        private string CreateDialogFilter(string[] supportedFileFormats)
         {
-            var supportedFileFormats = settingsManager.SupportedFileFormats;
-
             return string.Join("|", $"Supported Formats ({AppendedSupportedFormats(",", supportedFileFormats)})", AppendedSupportedFormats(";", supportedFileFormats));
         }
 
