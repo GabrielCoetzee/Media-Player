@@ -78,11 +78,11 @@ namespace MediaPlayer.Shell
             PipeManager.StartServer();
             PipeManager.ServerReceivedArgument += FirstApplicationInstanceReceivedArguments;
 
-            var builder = new ConfigurationBuilder()
-             .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
-             .AddJsonFile("config.json", optional: false, reloadOnChange: true);
+            //var builder = new ConfigurationBuilder()
+            // .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
+            // .AddJsonFile("config.json", optional: false, reloadOnChange: true);
 
-            _configuration = builder.Build();
+            //_configuration = builder.Build();
 
             var serviceCollection = new ServiceCollection();
 
