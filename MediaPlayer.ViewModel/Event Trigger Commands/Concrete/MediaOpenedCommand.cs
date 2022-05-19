@@ -67,7 +67,7 @@ namespace MediaPlayer.ViewModel.EventTriggers.Concrete
             if (!vm.IsUserDraggingSeekbarThumb)
                 vm.SelectedMediaItem.ElapsedTime = mediaElement.Position;
 
-            if (!vm.IsEndOfCurrentMedia())
+            if (!vm.IsEndOfCurrentlyPlayingMedia())
                 return;
 
             if (_nextTrackCommand.CanExecute(vm))
