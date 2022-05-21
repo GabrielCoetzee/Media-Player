@@ -13,7 +13,6 @@ namespace Generic.NamedPipes.Wrappers
     {
         public string NamedPipeName { get; set; }
         public event EventHandler<string> ServerReceivedArgument;
-        //public event Action<string> ServerReceivedArgument;
 
         private const string EXIT_STRING = "__EXIT__";
         private bool _isRunning = false;
