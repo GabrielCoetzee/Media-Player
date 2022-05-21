@@ -1,8 +1,5 @@
-﻿using Generic;
-using MediaPlayer.Common.Constants;
-using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model.Metadata.Concrete;
-using MediaPlayer.Settings;
+﻿using MediaPlayer.Common.Constants;
+using MediaPlayer.Settings.Config;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System;
 using System.ComponentModel.Composition;
@@ -16,11 +13,14 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     public class AddMediaCommand : ICommand
     {
         readonly IMetadataReaderService _metadataReaderService;
+        readonly ApplicationSettings _applicationSettings;
 
         [ImportingConstructor]
-        public AddMediaCommand(IMetadataReaderService metadataReaderService)
+        public AddMediaCommand(IMetadataReaderService metadataReaderService,
+            ApplicationSettings applicationSettings)
         {
             _metadataReaderService = metadataReaderService;
+            _applicationSettings = applicationSettings;
         }
 
         public event EventHandler CanExecuteChanged
@@ -42,8 +42,8 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             var chooseFiles = new OpenFileDialog
             {
                 Title = "Choose Files",
-                DefaultExt = vm.SettingsManager.SupportedFileFormats.First(),
-                Filter = CreateDialogFilter(vm.SettingsManager.SupportedFileFormats),
+                DefaultExt = _applicationSettings.SupportedFileFormats.First(),
+                Filter = CreateDialogFilter(_applicationSettings.SupportedFileFormats),
                 Multiselect = true
             };
 

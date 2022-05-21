@@ -10,22 +10,19 @@ namespace MediaPlayer.Settings.Concrete
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class SettingsManager : PropertyNotifyBase, ISettingsManager
     {
-        [Import]
-        public Configuration Configuration { get; set; }
-
-        [Import]
-        public IThemeSelector ThemeSelector { get; set; }
+        readonly ApplicationSettings _applicationSettings;
+        readonly IThemeManager _themeManager;
 
         [ImportingConstructor]
-        public SettingsManager()
+        public SettingsManager(ApplicationSettings applicationSettings,
+            IThemeManager themeManager)
         {
-            MEF.Container?.SatisfyImportsOnce(this);
+            _applicationSettings = applicationSettings;
+            _themeManager = themeManager;
 
-            _selectedOpacity = Configuration.Opacity;
-            _selectedAccent = Configuration.Accent;
+            _selectedOpacity = _applicationSettings.Opacity;
+            _selectedAccent = _applicationSettings.Accent;
         }
-
-        public string[] SupportedFileFormats => Configuration.SupportedFileFormats;
 
         private decimal _selectedOpacity;
         private string _selectedAccent;
@@ -38,8 +35,8 @@ namespace MediaPlayer.Settings.Concrete
                 _selectedAccent = value;
                 OnPropertyChanged(nameof(SelectedAccent));
 
-                Configuration.Accent = value;
-                ThemeSelector.ChangeAccent(value);
+                _applicationSettings.Accent = value;
+                _themeManager.ChangeAccent(value);
             }
         }
 
@@ -51,14 +48,14 @@ namespace MediaPlayer.Settings.Concrete
                 _selectedOpacity = value;
                 OnPropertyChanged(nameof(SelectedOpacity));
 
-                Configuration.Opacity = value;
-                ThemeSelector.ChangeOpacity((double)value);
+                _applicationSettings.Opacity = value;
+                _themeManager.ChangeOpacity((double)value);
             }
         }
 
         public void SaveSettings()
         {
-            Configuration.Save();
+            _applicationSettings.Save();
 
             //_options.Update(opt => {
             //    opt.Opacity = _selectedOpacity;

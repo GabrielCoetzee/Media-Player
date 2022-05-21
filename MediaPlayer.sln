@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.ViewModel", "Me
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVVM", "MVVM", "{1DFE55F1-29A8-4A37-9B52-9CC5545C6512}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.ThemeSelector", "MediaPlayer.ThemeSelector\MediaPlayer.ThemeSelector.csproj", "{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.Theming", "MediaPlayer.ThemeSelector\MediaPlayer.Theming.csproj", "{055D9499-2AE0-4C6D-B6C6-A79DF8112E74}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.Common", "MediaPlayer.Common\MediaPlayer.Common.csproj", "{210A1E95-A8F3-4DE2-84D4-4950C9ECAE5B}"
 EndProject

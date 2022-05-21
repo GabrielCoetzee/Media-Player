@@ -1,6 +1,6 @@
 ﻿namespace MediaPlayer.Theming.Abstract
 {
-    public interface IThemeSelector
+    public interface IThemeManager
     {
         void ChangeAccent(string accent);
 

@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic\Generic.csproj" />
-    <ProjectReference Include="..\MediaPlayer.ThemeSelector\MediaPlayer.ThemeSelector.csproj" />
+    <ProjectReference Include="..\MediaPlayer.ThemeSelector\MediaPlayer.Theming.csproj" />
     <ProjectReference Include="..\MediaPlayer.View\MediaPlayer.View.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,6 @@ namespace MediaPlayer.Settings
     {
         string SelectedAccent { get; set;  }
         decimal SelectedOpacity { get; set; }
-        string[] SupportedFileFormats { get; }
         void SaveSettings();
     }
 }

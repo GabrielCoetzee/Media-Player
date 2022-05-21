@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
-using ControlzEx.Theming;
 using MediaPlayer.Theming.Abstract;
 
 namespace MediaPlayer.Theming.Concrete
 {
-    [Export(typeof(IThemeSelector))]
-    public class ThemeSelector : IThemeSelector
+    [Export(typeof(IThemeManager))]
+    public class ThemeManager : IThemeManager
     {
         public void ChangeOpacity(double opacity)
         {
@@ -17,7 +16,7 @@ namespace MediaPlayer.Theming.Concrete
         {
             foreach (Window window in Application.Current.Windows)
             {
-                ThemeManager.Current.ChangeThemeColorScheme(window, accent);
+                ControlzEx.Theming.ThemeManager.Current.ChangeThemeColorScheme(window, accent);
             }
         }
     }

@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
-    <RootNamespace>MediaPlayer.ThemeSelector</RootNamespace>
-    <AssemblyName>MediaPlayer.ThemeSelector</AssemblyName>
+    <RootNamespace>MediaPlayer.Theming</RootNamespace>
+    <AssemblyName>MediaPlayer.Theming</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
   </PropertyGroup>

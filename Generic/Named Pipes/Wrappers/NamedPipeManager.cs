@@ -12,7 +12,8 @@ namespace Generic.NamedPipes.Wrappers
     public class NamedPipeManager
     {
         public string NamedPipeName { get; set; }
-        public event Action<string> ServerReceivedArgument;
+        public event EventHandler<string> ServerReceivedArgument;
+        //public event Action<string> ServerReceivedArgument;
 
         private const string EXIT_STRING = "__EXIT__";
         private bool _isRunning = false;
@@ -62,8 +63,7 @@ namespace Generic.NamedPipes.Wrappers
         /// Called when data is received.
         /// </summary>
         /// <param name="text"></param>
-        protected virtual void OnServerReceivedArgument(string text) => ServerReceivedArgument?.Invoke(text);
-
+        protected virtual void OnServerReceivedArgument(string text) => ServerReceivedArgument?.Invoke(this, text);
 
         /// <summary>
         /// Shuts down the pipe server

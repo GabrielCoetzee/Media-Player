@@ -8,26 +8,26 @@ namespace MediaPlayer.Settings.Config
     [Serializable]
     [Export]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class Configuration : SerializableSettings
+    public class ApplicationSettings : SerializableSettings
     {
-        public Configuration()
+        public ApplicationSettings()
         {
         }
 
         [ImportingConstructor]
-        public Configuration(IFileLocations fileLocations) 
+        public ApplicationSettings(IFileLocations fileLocations) 
             : base(fileLocations)
         {
             if (!Exists())
                 Save();
 
-            CopyToThis(DeserializeObject<Configuration>());
+            CopyToThis(DeserializeObject<ApplicationSettings>());
         }
 
         public string[] SupportedFileFormats { get; set; } = { ".mp3", ".m4a", ".flac", ".wma" };
         public string Accent { get; set; } = "Blue";
         public decimal Opacity { get; set; } = 0.8m;
-        protected override string FileName => @"Configuration";
+        protected override string FileName => @"Application Settings";
 
         public void Save()
         {

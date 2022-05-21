@@ -8,12 +8,12 @@ using MediaPlayer.Model.Metadata.Abstract;
 namespace MediaPlayer.Model.Metadata.Concrete
 {
     [Export]
-    public class MetadataReaderResolver
+    public class MetadataReaderFactory
     {
         [ImportMany(typeof(IMetadataReader))]
         public IEnumerable<IMetadataReader> MetadataReaders { get; set; }
 
-        public MetadataReaderResolver()
+        public MetadataReaderFactory()
         {
             MEF.Container?.SatisfyImportsOnce(this);
         }

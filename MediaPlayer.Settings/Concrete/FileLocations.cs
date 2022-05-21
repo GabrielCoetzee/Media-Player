@@ -9,7 +9,7 @@ namespace MediaPlayer.Settings.Concrete
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class FileLocations : IFileLocations
     {
-        public string ConfigurationDirectory => GetApplicationDirectory("Configuration");
+        public string ConfigurationDirectory => GetDirectory("Configuration");
 
         private string ProgramDataDirectory
         {
@@ -26,7 +26,7 @@ namespace MediaPlayer.Settings.Concrete
             }
         }
 
-        private string GetApplicationDirectory(string folder)
+        private string GetDirectory(string folder)
         {
             var path = Path.Combine(ProgramDataDirectory, folder);
 

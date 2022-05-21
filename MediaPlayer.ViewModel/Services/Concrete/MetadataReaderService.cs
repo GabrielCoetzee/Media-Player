@@ -17,15 +17,15 @@ namespace MediaPlayer.ViewModel.Services.Concrete
     [Export(typeof(IMetadataReaderService))]
     public class MetadataReaderService : IMetadataReaderService
     {
-        readonly MetadataReaderResolver _metaDataReaderResolver;
-        readonly Configuration _configuration;
+        readonly MetadataReaderFactory _metadataReaderFactory;
+        readonly ApplicationSettings _applicationSettings;
 
         [ImportingConstructor]
-        public MetadataReaderService(MetadataReaderResolver metaDataReaderResolver, 
-            Configuration configuration)
+        public MetadataReaderService(MetadataReaderFactory metadataReaderFactory, 
+            ApplicationSettings applicationSettings)
         {
-            _metaDataReaderResolver = metaDataReaderResolver;
-            _configuration = configuration;
+            _metadataReaderFactory = metadataReaderFactory;
+            _applicationSettings = applicationSettings;
         }
 
         public async Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable filePaths)
@@ -34,8 +34,8 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             await Task.Run(() =>
             {
-                var metadataReader = _metaDataReaderResolver.Resolve(MetadataReaders.Taglib);
-                var supportedFileFormats = _configuration.SupportedFileFormats;
+                var metadataReader = _metadataReaderFactory.Resolve(MetadataReaders.Taglib);
+                var supportedFileFormats = _applicationSettings.SupportedFileFormats;
 
                 foreach (var path in filePaths)
                 {

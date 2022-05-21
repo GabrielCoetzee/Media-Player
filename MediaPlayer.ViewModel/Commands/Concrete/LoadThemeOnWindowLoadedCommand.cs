@@ -15,14 +15,14 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     [Export(CommandNames.LoadThemeOnWindowLoaded, typeof(ICommand))]
     public class LoadThemeOnWindowLoadedCommand : ICommand
     {
-        readonly Configuration _configuration;
-        readonly IThemeSelector _themeSelector;
+        readonly ApplicationSettings _applicationSettings;
+        readonly IThemeManager _themeManager;
 
         [ImportingConstructor]
-        public LoadThemeOnWindowLoadedCommand(Configuration configuration, IThemeSelector themeSelector)
+        public LoadThemeOnWindowLoadedCommand(ApplicationSettings applicationSettings, IThemeManager themeManager)
         {
-            _configuration = configuration;
-            _themeSelector = themeSelector;
+            _applicationSettings = applicationSettings;
+            _themeManager = themeManager;
         }
 
         public event EventHandler CanExecuteChanged
@@ -41,7 +41,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is ComboBox comboBoxAccents)
                 ThemeManager.Current.ColorSchemes.ToList().ForEach(accent => comboBoxAccents.Items.Add(accent));
 
-            _themeSelector.ChangeAccent(_configuration.Accent);
+            _themeManager.ChangeAccent(_applicationSettings.Accent);
         }
     }
 }

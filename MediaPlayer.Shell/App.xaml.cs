@@ -41,7 +41,7 @@ namespace MediaPlayer.Shell
         private const string _mutexName = "##||MediaPlayer||##";
         public NamedPipeManager PipeManager { get; set; } = new NamedPipeManager("MediaPlayer");
 
-        public void FirstApplicationInstanceReceivedArguments(string args)
+        public void FirstApplicationInstanceReceivedArguments(object sender, string args)
         {
             if (string.IsNullOrEmpty(args))
                 return;
@@ -50,7 +50,9 @@ namespace MediaPlayer.Shell
             {
                 ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
 
-                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, args.ToString().Split(Environment.NewLine.ToCharArray()));
+                var filePaths = args.ToString().Split(Environment.NewLine.ToCharArray());
+
+                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, filePaths);
             });
         }
 
