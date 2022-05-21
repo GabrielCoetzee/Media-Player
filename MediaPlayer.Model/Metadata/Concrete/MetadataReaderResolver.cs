@@ -10,17 +10,17 @@ namespace MediaPlayer.Model.Metadata.Concrete
     [Export]
     public class MetadataReaderResolver
     {
-        [ImportMany(typeof(IMetadataReaderProvider))]
-        public IEnumerable<IMetadataReaderProvider> MetadataReaderProviders { get; set; }
+        [ImportMany(typeof(IMetadataReader))]
+        public IEnumerable<IMetadataReader> MetadataReaders { get; set; }
 
         public MetadataReaderResolver()
         {
             MEF.Container?.SatisfyImportsOnce(this);
         }
 
-        public IMetadataReaderProvider Resolve(MetadataReaders selectedMetadataReader)
+        public IMetadataReader Resolve(MetadataReaders metadataReader)
         {
-            return MetadataReaderProviders.SingleOrDefault(x => x.MetadataReader == selectedMetadataReader);
+            return MetadataReaders.SingleOrDefault(x => x.MetadataReader == metadataReader);
         }
     }
 }

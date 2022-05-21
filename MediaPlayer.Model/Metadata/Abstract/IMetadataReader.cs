@@ -3,7 +3,7 @@ using MediaPlayer.Model.BusinessEntities.Abstract;
 
 namespace MediaPlayer.Model.Metadata.Abstract
 {
-    public interface IMetadataReaderProvider
+    public interface IMetadataReader
     {
         MetadataReaders MetadataReader { get; }
 
