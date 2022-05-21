@@ -1,4 +1,4 @@
-﻿using Generic;
+﻿using Generic.DependencyInjection;
 using MahApps.Metro.Controls;
 using MediaPlayer.ViewModel;
 using System.ComponentModel.Composition;

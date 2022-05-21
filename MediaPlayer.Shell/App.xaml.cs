@@ -10,6 +10,7 @@ using System.Windows;
 using Generic;
 using Generic.Configuration.Concrete;
 using Generic.Configuration.Extensions;
+using Generic.DependencyInjection;
 using Generic.Mediator;
 using Generic.NamedPipes.Wrappers;
 using MediaPlayer.Common.Enumerations;

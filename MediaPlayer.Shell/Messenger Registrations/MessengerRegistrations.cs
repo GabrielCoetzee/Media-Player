@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Generic;
+using Generic.DependencyInjection;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.View.Views;

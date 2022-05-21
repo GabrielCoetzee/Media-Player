@@ -12,12 +12,12 @@ using MediaPlayer.ViewModel.ViewModels;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using Generic.Mediator;
 using System.ComponentModel.Composition;
-using Generic;
 using MediaPlayer.Settings;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.ViewModel.Services.Abstract;
 using MediaPlayer.ViewModel.Commands.Concrete;
 using MediaPlayer.ViewModel.Commands.Abstract;
+using Generic.DependencyInjection;
 
 namespace MediaPlayer.ViewModel
 {

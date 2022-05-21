@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using ControlzEx.Theming;
 using Generic;
+using Generic.DependencyInjection;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MediaPlayer.Theming;

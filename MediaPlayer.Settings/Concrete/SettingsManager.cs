@@ -1,4 +1,4 @@
-﻿using Generic;
+﻿using Generic.DependencyInjection;
 using Generic.PropertyNotify;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.Theming.Abstract;

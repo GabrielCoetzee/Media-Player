@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 
-namespace Generic
+namespace Generic.DependencyInjection
 {
     public class MEF
     {
