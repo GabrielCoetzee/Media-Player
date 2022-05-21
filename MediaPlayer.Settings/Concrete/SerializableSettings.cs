@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -12,9 +13,9 @@ namespace MediaPlayer.Settings.Concrete
     {
         protected SerializableSettings()
         {
-
         }
 
+        [ImportingConstructor]
         protected SerializableSettings(IFileLocations fileLocations)
         {
             _fileLocations = fileLocations;
@@ -24,19 +25,16 @@ namespace MediaPlayer.Settings.Concrete
 
         protected abstract string FileName { get; }
 
-        public bool Exists
+        public bool Exists()
         {
-            get
-            {
-                var pathName = GetPathName(FileName);
+            var pathName = GetPathName(FileName);
 
-                return File.Exists(pathName);
-            }
+            return File.Exists(pathName);
         }
 
         string GetPathName(string fileName)
         {
-            return Path.Combine(_fileLocations.ConfigurationDirectory, Path.ChangeExtension(fileName, "xml"));
+            return Path.Combine(_fileLocations.ConfigurationDirectory, Path.ChangeExtension(fileName, "json"));
         }
 
         /// <summary>
@@ -56,16 +54,6 @@ namespace MediaPlayer.Settings.Concrete
             }
         }
 
-        public void Reload<T>() where T : new()
-        {
-            CopyToThis(DeSerializeObject<T>());
-        }
-
-        public void Reset<T>() where T : new()
-        {
-            CopyToThis(new T());
-        }
-
         /// <summary>
         /// Serializes an object.
         /// </summary>
@@ -78,91 +66,14 @@ namespace MediaPlayer.Settings.Concrete
                 return;
 
             var pathName = GetPathName(FileName);
-            var tempName = Path.ChangeExtension(pathName, "tmp");
-            var backupName = Path.ChangeExtension(pathName, "bak");
 
-            // Ensure a safe write each time.
+            var json = JsonSerializer.Serialize(serializableObject, new JsonSerializerOptions() { WriteIndented = true });
 
-            var xmlDocument = new XmlDocument();
-            var serializer = new XmlSerializer(serializableObject.GetType());
+            if (File.Exists(FileName))
+                File.Delete(pathName);
 
-            using (var stream = new MemoryStream())
-            {
-                serializer.Serialize(stream, serializableObject);
-                stream.Position = 0;
+            File.WriteAllText(pathName, json);
 
-                xmlDocument.Load(stream);
-                xmlDocument.Save(tempName);
-            }
-
-            // If successful write.  Then rename some files
-
-            try
-            {
-                if (File.Exists(backupName))
-                    File.Delete(backupName);
-
-                if (File.Exists(pathName))
-                    File.Move(pathName, backupName);
-
-                File.Move(tempName, pathName);
-                File.Delete(backupName);
-            }
-            catch (Exception)
-            {
-                // If it fails for any reason, put it back
-
-                if (File.Exists(backupName))
-                    File.Move(backupName, pathName);
-            }
-        }
-
-        /// <summary>
-        /// Saves the settings object
-        /// </summary>
-        public void SaveFile()
-        {
-            if (this == null)
-                return;
-
-            var pathName = GetPathName(FileName);
-            var tempName = Path.ChangeExtension(pathName, "tmp");
-            var backupName = Path.ChangeExtension(pathName, "bak");
-
-            // Ensure a safe write each time.
-
-            var xmlDocument = new XmlDocument();
-            var serializer = new XmlSerializer(GetType());
-
-            using (var stream = new MemoryStream())
-            {
-                serializer.Serialize(stream, this);
-                stream.Position = 0;
-
-                xmlDocument.Load(stream);
-                xmlDocument.Save(tempName);
-            }
-
-            // If successful write.  Then rename some files
-
-            try
-            {
-                if (File.Exists(backupName))
-                    File.Delete(backupName);
-
-                if (File.Exists(pathName))
-                    File.Move(pathName, backupName);
-
-                File.Move(tempName, pathName);
-                File.Delete(backupName);
-            }
-            catch (Exception)
-            {
-                // If it fails for any reason, put it back
-
-                if (File.Exists(backupName))
-                    File.Move(backupName, pathName);
-            }
         }
 
         /// <summary>
@@ -172,7 +83,7 @@ namespace MediaPlayer.Settings.Concrete
         /// <param name="fileName"></param>
         /// <returns></returns>
 
-        public T DeSerializeObject<T>() where T : new()
+        public T DeserializeObject<T>() where T : new()
         {
             var pathName = GetPathName(FileName);
 
@@ -184,14 +95,10 @@ namespace MediaPlayer.Settings.Concrete
 
             try
             {
-                var xmlDocument = new XmlDocument();
-                xmlDocument.Load(pathName);
-
-                using var read = new StringReader(xmlDocument.OuterXml);
-                var serializer = new XmlSerializer(typeof(T));
-
-                using XmlReader reader = new XmlTextReader(read);
-                return (T)serializer.Deserialize(reader);
+                using (Stream stream = new FileStream(pathName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
+                {
+                    return JsonSerializer.Deserialize<T>(stream, new JsonSerializerOptions { WriteIndented = true, IncludeFields = true });
+                }
             }
             catch
             {

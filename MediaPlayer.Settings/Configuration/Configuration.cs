@@ -18,10 +18,10 @@ namespace MediaPlayer.Settings.Config
         public Configuration(IFileLocations fileLocations) 
             : base(fileLocations)
         {
-            if (!Exists)
+            if (!Exists())
                 Save();
 
-            CopyToThis(DeSerializeObject<Configuration>());
+            CopyToThis(DeserializeObject<Configuration>());
         }
 
         public string[] SupportedFileFormats { get; set; } = { ".mp3", ".m4a", ".flac", ".wma" };
