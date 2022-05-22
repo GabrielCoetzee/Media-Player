@@ -1,4 +1,6 @@
-﻿using MediaPlayer.Common.Constants;
+﻿using Generic.Mediator;
+using MediaPlayer.Common.Constants;
+using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System;
@@ -12,14 +14,11 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     [Export(CommandNames.AddMedia, typeof(ICommand))]
     public class AddMediaCommand : ICommand
     {
-        readonly IMetadataReaderService _metadataReaderService;
         readonly ApplicationSettings _applicationSettings;
 
         [ImportingConstructor]
-        public AddMediaCommand(IMetadataReaderService metadataReaderService,
-            ApplicationSettings applicationSettings)
+        public AddMediaCommand(ApplicationSettings applicationSettings)
         {
-            _metadataReaderService = metadataReaderService;
             _applicationSettings = applicationSettings;
         }
 
@@ -52,9 +51,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (result != DialogResult.OK)
                 return;
 
-            var mediaItems = await _metadataReaderService.ReadFilePathsAsync(chooseFiles.FileNames);
-
-            vm.AddMediaItems(mediaItems);
+            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, chooseFiles.FileNames);
         }
 
         private string CreateDialogFilter(string[] supportedFileFormats)
