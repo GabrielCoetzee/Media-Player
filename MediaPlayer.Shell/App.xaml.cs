@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using Generic;
 using Generic.Configuration.Concrete;
 using Generic.Configuration.Extensions;
@@ -34,9 +35,6 @@ namespace MediaPlayer.Shell
     /// </summary>
     public partial class App : Application
     {
-        private IServiceProvider _serviceProvider;
-        //private IConfiguration _configuration;
-
         private Mutex _mutex;
         private const string _mutexName = "##||MediaPlayer||##";
         public NamedPipeManager PipeManager { get; set; } = new NamedPipeManager("MediaPlayer");
@@ -81,26 +79,21 @@ namespace MediaPlayer.Shell
             PipeManager.StartServer();
             PipeManager.ServerReceivedArgument += FirstApplicationInstanceReceivedArguments;
 
-            //var builder = new ConfigurationBuilder()
-            // .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
-            // .AddJsonFile("config.json", optional: false, reloadOnChange: true);
-
-            //_configuration = builder.Build();
-
-            var serviceCollection = new ServiceCollection();
-
-            ConfigureServices(serviceCollection);
             InitializeMEF();
 
-            _serviceProvider = serviceCollection.BuildServiceProvider();
+            MessengerRegistrations.OpenMediaPlayerMainWindow(MEF.Container);
+            MessengerRegistrations.OpenApplicationSettingsWindow(MEF.Container);
+            MessengerRegistrations.ProcessContent(MEF.Container);
 
-            MessengerRegistrations.OpenMediaPlayerMainWindow(_serviceProvider);
-            MessengerRegistrations.OpenApplicationSettingsWindow(_serviceProvider);
-
-            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.OpenMediaPlayerMainWindow);
-            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, e.Args);
+            StartApplication(e);
 
             base.OnStartup(e);
+        }
+
+        private static void StartApplication(StartupEventArgs e)
+        {
+            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.OpenMediaPlayerMainWindow);
+            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, e.Args);
         }
 
         private void InitializeMEF()
@@ -117,25 +110,6 @@ namespace MediaPlayer.Shell
                     MessageBox.Show(exception.Message, ex.GetType().ToString());
                 }
             }
-        }
-
-        private void ConfigureServices(IServiceCollection services)
-        {
-            //services.ConfigureWritable<Settings>(_configuration.GetSection(nameof(Settings)));
-
-            //services.AddSingleton<ISettingsManager, SettingsManager>();
-            //services.AddTransient<IThemeSelector, ThemeSelector>();
-
-            //services.AddTransient<IMetadataReaderProvider, TaglibMetadataReaderProvider>();
-            //services.AddTransient<MetadataReaderResolver>();
-
-            //services.AddTransient(typeof(ViewMediaPlayer));
-            //services.AddTransient<MainViewModel>();
-
-            //services.AddTransient(typeof(ViewApplicationSettings));
-            //services.AddTransient<ApplicationSettingsViewModel>();
-
-            //ViewModel.DependencyInjection.AddServices(services);
         }
     }
 }

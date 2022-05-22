@@ -19,6 +19,7 @@ namespace Generic.Configuration.Extensions
             {
                 var environment = provider.GetService<IHostEnvironment>();
                 var options = provider.GetService<IOptionsMonitor<T>>();
+
                 return new WritableOptions<T>(environment, options, section.Key, file);
             });
         }

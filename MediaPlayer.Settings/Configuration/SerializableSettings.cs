@@ -1,12 +1,10 @@
-﻿using MediaPlayer.Settings.Abstract;
-using System;
+﻿using Generic.Extensions;
+using MediaPlayer.Settings.Abstract;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text.Json;
-using System.Xml;
-using System.Xml.Serialization;
 
-namespace MediaPlayer.Settings.Concrete
+namespace MediaPlayer.Settings.Configuration
 {
     [InheritedExport]
     public abstract class SerializableSettings
@@ -24,6 +22,7 @@ namespace MediaPlayer.Settings.Concrete
         private readonly IFileLocations _fileLocations;
 
         protected abstract string FileName { get; }
+        protected abstract bool UseEncryption { get; }
 
         public bool Exists()
         {
@@ -34,7 +33,9 @@ namespace MediaPlayer.Settings.Concrete
 
         string GetPathName(string fileName)
         {
-            return Path.Combine(_fileLocations.ConfigurationDirectory, Path.ChangeExtension(fileName, "json"));
+            var ext = UseEncryption ? "enc" : "json";
+
+            return Path.Combine(_fileLocations.ConfigurationDirectory, Path.ChangeExtension(fileName, ext));
         }
 
         /// <summary>
@@ -69,7 +70,10 @@ namespace MediaPlayer.Settings.Concrete
 
             var json = JsonSerializer.Serialize(serializableObject, new JsonSerializerOptions() { WriteIndented = true });
 
-            if (File.Exists(FileName))
+            if (UseEncryption)
+                json = json.Encrypt();
+
+            if (File.Exists(pathName))
                 File.Delete(pathName);
 
             File.WriteAllText(pathName, json);
@@ -95,10 +99,12 @@ namespace MediaPlayer.Settings.Concrete
 
             try
             {
-                using (Stream stream = new FileStream(pathName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
-                {
-                    return JsonSerializer.Deserialize<T>(stream, new JsonSerializerOptions { WriteIndented = true, IncludeFields = true });
-                }
+                var json = File.ReadAllText(pathName);
+
+                if (UseEncryption)
+                    json = json.Decrypt();
+
+                return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions { WriteIndented = true });
             }
             catch
             {

@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using MediaPlayer.ViewModel.ViewModels;
 using MediaPlayer.Model.BusinessEntities.Abstract;
-using Generic.Mediator;
 using System.ComponentModel.Composition;
 using MediaPlayer.Settings;
 using MediaPlayer.Common.Constants;
@@ -186,13 +185,6 @@ namespace MediaPlayer.ViewModel
             MEF.Container?.SatisfyImportsOnce(this);
 
             SeekbarPreviewMouseUpCommand.ChangeMediaPosition += SeekbarPreviewMouseUpCommand_ChangeMediaPosition;
-
-            Messenger<MessengerMessages>.Register(MessengerMessages.ProcessContent, async (args) =>
-            {
-                await ProcessDroppedContentAsync(args as IEnumerable<string>);
-
-                CommandManager.InvalidateRequerySuggested();
-            });
         }
 
         private void SeekbarPreviewMouseUpCommand_ChangeMediaPosition(object sender, SliderPositionEventArgs e)

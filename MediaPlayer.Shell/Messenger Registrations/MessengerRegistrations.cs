@@ -1,35 +1,48 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.Linq;
-using Generic.DependencyInjection;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.View.Views;
+using MediaPlayer.ViewModel;
 
 namespace MediaPlayer.Shell.MessengerRegs
 {
     public class MessengerRegistrations
     {
-        public static void OpenMediaPlayerMainWindow(IServiceProvider serviceProvider)
+        public static void OpenMediaPlayerMainWindow(CompositionContainer container)
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.OpenMediaPlayerMainWindow, (args) =>
             {
-                var view = MEF.Container?.GetExports<ViewMediaPlayer>().Single().Value;
+                var view = container?.GetExports<ViewMediaPlayer>().Single().Value;
 
                 view.Show();
-
-                //serviceProvider.GetRequiredService<ViewMediaPlayer>().Show();
             });
         }
 
-        public static void OpenApplicationSettingsWindow(IServiceProvider serviceProvider)
+        public static void OpenApplicationSettingsWindow(CompositionContainer container)
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.OpenApplicationSettings, (args) =>
             {
-                var view = MEF.Container?.GetExports<ViewApplicationSettings>().Single().Value;
+                var view = container?.GetExports<ViewApplicationSettings>().Single().Value;
 
                 view.ShowDialog();
+            });
+        }
 
-                //serviceProvider.GetRequiredService<ViewApplicationSettings>().ShowDialog();
+        public static void ProcessContent(CompositionContainer container)
+        {
+            Messenger<MessengerMessages>.Register(MessengerMessages.ProcessContent, async (args) =>
+            {
+                var vm = container?.GetExports<MainViewModel>().Single().Value;
+
+                await vm.ProcessDroppedContentAsync(args as IEnumerable<string>);
+
+                CommandManager.InvalidateRequerySuggested();
             });
         }
     }
