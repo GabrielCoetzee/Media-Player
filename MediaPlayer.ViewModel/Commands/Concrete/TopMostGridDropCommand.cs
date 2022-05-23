@@ -33,7 +33,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (droppedContent == null)
                 return;
 
-            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, droppedContent);
+            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, droppedContent);
         }
     }
 }

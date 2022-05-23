@@ -4,6 +4,6 @@
     {
         OpenMediaPlayerMainWindow,
         OpenApplicationSettings,
-        ProcessContent
+        ProcessFilePaths
     }
 }

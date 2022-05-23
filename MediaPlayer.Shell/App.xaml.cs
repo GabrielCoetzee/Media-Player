@@ -50,7 +50,7 @@ namespace MediaPlayer.Shell
 
                 var filePaths = args.ToString().Split(Environment.NewLine.ToCharArray());
 
-                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, filePaths);
+                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, filePaths);
             });
         }
 
@@ -93,7 +93,7 @@ namespace MediaPlayer.Shell
         private static void StartApplication(StartupEventArgs e)
         {
             Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.OpenMediaPlayerMainWindow);
-            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessContent, e.Args);
+            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, e.Args);
         }
 
         private void InitializeMEF()

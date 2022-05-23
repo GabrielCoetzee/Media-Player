@@ -36,7 +36,7 @@ namespace MediaPlayer.Shell.MessengerRegs
 
         public static void ProcessContent(CompositionContainer container)
         {
-            Messenger<MessengerMessages>.Register(MessengerMessages.ProcessContent, async (args) =>
+            Messenger<MessengerMessages>.Register(MessengerMessages.ProcessFilePaths, async (args) =>
             {
                 var vm = container?.GetExports<MainViewModel>().Single().Value;
 
