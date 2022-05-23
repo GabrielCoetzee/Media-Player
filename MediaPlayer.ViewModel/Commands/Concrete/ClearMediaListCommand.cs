@@ -33,7 +33,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             vm.MediaState = MediaState.Stop;
             vm.MediaItems.Clear();
 
-            vm.BusyViewModel.MediaListTitle = String.Empty;
+            vm.BusyViewModel.MediaListTitle = string.Empty;
         }
     }
 }

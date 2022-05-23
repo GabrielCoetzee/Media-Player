@@ -34,7 +34,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (!vm.IsMediaItemsShuffled)
             {
                 ShuffleMediaList(vm);
-
                 return;
             }
 

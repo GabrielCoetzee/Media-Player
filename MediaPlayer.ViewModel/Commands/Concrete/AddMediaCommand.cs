@@ -33,7 +33,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             return true;
         }
 
-        public async void Execute(object parameter)
+        public void Execute(object parameter)
         {
             if (parameter is not MainViewModel vm)
                 return;
@@ -56,12 +56,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         private string CreateDialogFilter(string[] supportedFileFormats)
         {
-            return string.Join("|", $"Supported Formats ({AppendedSupportedFormats(",", supportedFileFormats)})", AppendedSupportedFormats(";", supportedFileFormats));
+            return string.Join("|", $"Supported Formats ({AggregatedSupportedExtensions(",", supportedFileFormats)})", AggregatedSupportedExtensions(";", supportedFileFormats));
         }
 
-        private string AppendedSupportedFormats(string seperator, string[] supportedFileFormats)
+        private string AggregatedSupportedExtensions(string seperator, string[] supportedFileFormats)
         {
-            return supportedFileFormats.Aggregate(string.Empty, (current, format) => current + $"*{format}{(supportedFileFormats.Last() != format ? seperator : string.Empty)}");
+            return supportedFileFormats.Aggregate(string.Empty, (seed, extension) => seed + $"*{extension}{(supportedFileFormats.Last() != extension ? seperator : string.Empty)}");
         }
     }
 }
