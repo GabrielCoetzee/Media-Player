@@ -8,12 +8,14 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic\Generic.csproj" />
+    <ProjectReference Include="..\MediaPlayer.DataAccess\MediaPlayer.DataAccess.csproj" />
     <ProjectReference Include="..\MediaPlayer.Model\MediaPlayer.Model.csproj" />
     <ProjectReference Include="..\MediaPlayer.Settings\MediaPlayer.Settings.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
 </Project>

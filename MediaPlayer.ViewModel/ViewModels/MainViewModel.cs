@@ -13,10 +13,11 @@ using MediaPlayer.Model.BusinessEntities.Abstract;
 using System.ComponentModel.Composition;
 using MediaPlayer.Settings;
 using MediaPlayer.Common.Constants;
-using MediaPlayer.ViewModel.Services.Abstract;
 using MediaPlayer.ViewModel.Commands.Concrete;
 using MediaPlayer.ViewModel.Commands.Abstract;
 using Generic.DependencyInjection;
+using MediaPlayer.Model.BusinessEntities.Concrete;
+using MediaPlayer.ViewModel.Services.Abstract;
 
 namespace MediaPlayer.ViewModel
 {
@@ -180,6 +181,9 @@ namespace MediaPlayer.ViewModel
         [Import]
         public IMetadataReaderService MetadataReaderService { get; set; }
 
+        [Import]
+        public IMetadataRetrievalService MetadataRetrievalService { get; set; }
+
         public MainViewModel()
         {
             MEF.Container?.SatisfyImportsOnce(this);
@@ -197,24 +201,27 @@ namespace MediaPlayer.ViewModel
             if (filePaths == null || !filePaths.Any())
                 return;
 
-            BusyViewModel.IsLoadingMediaItems = true;
+            BusyViewModel.IsLoading = true;
+            BusyViewModel.MediaListTitle = "Media List Loading...";
 
             var mediaItems = await MetadataReaderService.ReadFilePathsAsync(filePaths);
 
-            AddMediaItems(mediaItems);
+            AddToListView(mediaItems);
 
-            BusyViewModel.IsLoadingMediaItems = false;
+            BusyViewModel.MediaListTitle = "Updating Metadata...";
+
+            await MetadataRetrievalService.GetMetadataAsync(mediaItems.OfType<AudioItem>());
+
+            BusyViewModel.IsLoading = false;
+            BusyViewModel.MediaListTitle = "Media List";
         }
 
-        public void AddMediaItems(IEnumerable<MediaItem> mediaItems)
+        public void AddToListView(IEnumerable<MediaItem> mediaItems)
         {
             MediaItems.AddRange(mediaItems);
 
             if (SelectedMediaItem != null)
-            {
-                BusyViewModel.IsLoadingMediaItems = false;
                 return;
-            }
 
             SelectMediaItem(FirstMediaItemIndex());
             PlayMedia();

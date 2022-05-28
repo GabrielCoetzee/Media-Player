@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq.Expressions;
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model.Metadata.Abstract;
 
 namespace MediaPlayer.Model.BusinessEntities.Abstract
 {
@@ -14,6 +16,7 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
         private TimeSpan _elapsedTime;
         private string _mediaTitle;
         private string _windowTitle = "Now Playing: ";
+        private bool _isDirty;
 
         public int Id
         {
@@ -89,6 +92,21 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
                 _elapsedTime = value;
                 OnPropertyChanged(nameof(ElapsedTime));
             }
+        }
+
+        public bool IsDirty
+        {
+            get => _isDirty;
+            set
+            {
+                _isDirty = value;
+                OnPropertyChanged(nameof(IsDirty));
+            }
+        }
+
+        public void Update(IMetadataWriter metadataWriter)
+        {
+            metadataWriter.Update(this);
         }
     }
 }

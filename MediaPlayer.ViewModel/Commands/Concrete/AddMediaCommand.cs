@@ -2,7 +2,6 @@
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Settings.Config;
-using MediaPlayer.ViewModel.Services.Abstract;
 using System;
 using System.ComponentModel.Composition;
 using System.Linq;

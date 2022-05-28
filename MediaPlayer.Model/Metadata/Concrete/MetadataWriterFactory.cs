@@ -8,19 +8,19 @@ using MediaPlayer.Model.Metadata.Abstract;
 namespace MediaPlayer.Model.Metadata.Concrete
 {
     [Export]
-    public class MetadataReaderFactory
+    public class MetadataWriterFactory
     {
-        [ImportMany(typeof(IMetadataReader))]
-        public IEnumerable<IMetadataReader> MetadataReaders { get; set; }
+        [ImportMany(typeof(IMetadataWriter))]
+        public IEnumerable<IMetadataWriter> MetadataWriters { get; set; }
 
-        public MetadataReaderFactory()
+        public MetadataWriterFactory()
         {
             MEF.Container?.SatisfyImportsOnce(this);
         }
 
-        public IMetadataReader Resolve(MetadataLibraries metadataLibrary)
+        public IMetadataWriter Resolve(MetadataLibraries metadataLibrary)
         {
-            return MetadataReaders.SingleOrDefault(x => x.MetadataLibrary == metadataLibrary);
+            return MetadataWriters.SingleOrDefault(x => x.MetadataLibrary == metadataLibrary);
         }
     }
 }

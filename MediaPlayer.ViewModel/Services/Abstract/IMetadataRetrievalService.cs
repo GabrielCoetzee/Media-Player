@@ -1,13 +1,12 @@
 ﻿using MediaPlayer.Model.BusinessEntities.Abstract;
-using System;
-using System.Collections;
+using MediaPlayer.Model.BusinessEntities.Concrete;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MediaPlayer.ViewModel.Services.Abstract
 {
-    public interface IMetadataReaderService
+    public interface IMetadataRetrievalService
     {
-        Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable filePaths);
+        Task GetMetadataAsync(IEnumerable<AudioItem> audioItems);
     }
 }

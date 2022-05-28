@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
@@ -21,7 +20,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
         readonly ApplicationSettings _applicationSettings;
 
         [ImportingConstructor]
-        public MetadataReaderService(MetadataReaderFactory metadataReaderFactory, 
+        public MetadataReaderService(MetadataReaderFactory metadataReaderFactory,
             ApplicationSettings applicationSettings)
         {
             _metadataReaderFactory = metadataReaderFactory;
@@ -34,7 +33,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             await Task.Run(() =>
             {
-                var metadataReader = _metadataReaderFactory.Resolve(MetadataReaders.Taglib);
+                var metadataReader = _metadataReaderFactory.Resolve(MetadataLibraries.Taglib);
                 var supportedFileFormats = _applicationSettings.SupportedFileFormats;
 
                 foreach (var path in filePaths)
@@ -46,7 +45,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                         var mediaItems = Directory
                             .EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
                             .Where(file => supportedFileFormats.Any(file.ToLower().EndsWith))
-                            .Select((x) => metadataReader.GetFileMetadata(x));
+                            .Select((x) => metadataReader.BuildMediaItem(x));
 
                         supportedFiles.AddRange(mediaItems);
                     }
@@ -54,7 +53,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                     {
                         if (supportedFileFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
                         {
-                            var mediaItem = metadataReader.GetFileMetadata(path.ToString());
+                            var mediaItem = metadataReader.BuildMediaItem(path.ToString());
 
                             supportedFiles.Add(mediaItem);
                         }

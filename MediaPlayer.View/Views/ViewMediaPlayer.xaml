@@ -20,7 +20,7 @@
             <i:InvokeCommandAction Command="{Binding LoadThemeOnWindowLoadedCommand}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="Closing" >
-            <i:InvokeCommandAction Command="{Binding MainWindowClosingCommand}" />
+            <i:InvokeCommandAction Command="{Binding MainWindowClosingCommand}" CommandParameter="{Binding}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Controls:MetroWindow.InputBindings>
@@ -135,8 +135,8 @@
                     <RowDefinition Height="0.95*" />
                 </Grid.RowDefinitions>
 
-                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="White" Spin="True" />
-                <Label Content="{Binding BusyViewModel.MediaListTitle}" Visibility="{Binding BusyViewModel.IsLoadingMediaItems, Converter={StaticResource NullableBooleanToVisibleOrHiddenConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
+                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" HorizontalAlignment="Right" Margin="5" Visibility="{Binding BusyViewModel.IsLoading, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="White" Spin="True" />
+                <Label Content="{Binding BusyViewModel.MediaListTitle}" Visibility="{Binding BusyViewModel.IsLoading, Converter={StaticResource NullableBooleanToVisibleOrHiddenConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
                 <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding IsMediaListPopulated, Converter={StaticResource BooleanToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding MediaItems}" SelectedItem="{Binding SelectedMediaItem}">
                     <genericControls:AutoScrollListView.ItemTemplate>
                         <DataTemplate>

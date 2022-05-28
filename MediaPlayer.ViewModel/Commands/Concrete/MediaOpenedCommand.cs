@@ -10,14 +10,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     [Export(CommandNames.MediaOpened, typeof(ICommand))]
     public class MediaOpenedCommand : ICommand
     {
-        readonly ICommand _nextTrackCommand;
-
-        [ImportingConstructor]
-        public MediaOpenedCommand([Import(CommandNames.NextTrack)] ICommand nextTrackCommand)
-        {
-            _nextTrackCommand = nextTrackCommand;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -70,8 +62,8 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (!vm.IsEndOfCurrentlyPlayingMedia())
                 return;
 
-            if (_nextTrackCommand.CanExecute(vm))
-                _nextTrackCommand.Execute(vm);
+            if (vm.NextTrackCommand.CanExecute(vm))
+                vm.NextTrackCommand.Execute(vm);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿namespace MediaPlayer.Common.Enumerations
 {
-    public enum MetadataReaders { Taglib };
+    public enum MetadataLibraries { Taglib };
 }
 

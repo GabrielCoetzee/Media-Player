@@ -6,19 +6,16 @@ namespace MediaPlayer.ViewModel.ViewModels
     [Export]
     public class BusyViewModel : PropertyNotifyBase
     {
-        private bool? _isLoadingMediaItems;
-        private string _mediaListTitle = string.Empty;
+        private bool? _isLoading;
+        private string _mediaListTitle = "Media List";
 
-        public bool? IsLoadingMediaItems
+        public bool? IsLoading
         {
-            get => _isLoadingMediaItems;
+            get => _isLoading;
             set
             {
-                _mediaListTitle = value == true ? "Media List Loading..." : "Media List";
-
-                _isLoadingMediaItems = value;
-                OnPropertyChanged(nameof(IsLoadingMediaItems));
-                OnPropertyChanged(nameof(MediaListTitle));
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
             }
         }
 

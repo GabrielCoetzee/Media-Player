@@ -10,9 +10,9 @@ namespace MediaPlayer.Model.Metadata.Concrete
     [Export(typeof(IMetadataReader))]
     public class TaglibMetadataReader : IMetadataReader
     {
-        public MetadataReaders MetadataReader => MetadataReaders.Taglib;
+        public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
 
-        public MediaItem GetFileMetadata(string path)
+        public MediaItem BuildMediaItem(string path)
         {
             try
             {
