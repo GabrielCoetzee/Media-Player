@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace MediaPlayer.ViewModel.Services.Abstract
 {
-    public interface IMetadataRetrievalService
+    public interface IMetadataUpdateService
     {
-        Task GetMetadataAsync(IEnumerable<AudioItem> audioItems);
+        Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems);
     }
 }

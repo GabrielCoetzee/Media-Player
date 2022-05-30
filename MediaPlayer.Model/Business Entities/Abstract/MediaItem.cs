@@ -107,6 +107,7 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
         public void Update(IMetadataWriter metadataWriter)
         {
             metadataWriter.Update(this);
+            IsDirty = false;
         }
     }
 }

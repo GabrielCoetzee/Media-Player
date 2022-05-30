@@ -13,14 +13,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     [Export(CommandNames.MainWindowClosing, typeof(ICommand))]
     public class MainWindowClosingCommand : ICommand
     {
-        readonly MetadataWriterFactory _metadataWriterFactory;
-
-        [ImportingConstructor]
-        public MainWindowClosingCommand(MetadataWriterFactory metadataWriterFactory)
-        {
-            _metadataWriterFactory = metadataWriterFactory;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -36,8 +28,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
         {
             if (parameter is not MainViewModel vm)
                 return;
-
-            Parallel.ForEach(vm.MediaItems.Where(x => x.IsDirty), (x) => x.Update(_metadataWriterFactory.Resolve(MetadataLibraries.Taglib)));
 
             var pipeManager = new NamedPipeManager("MediaPlayer");
             pipeManager.StopServer();

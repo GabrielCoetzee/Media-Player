@@ -182,7 +182,7 @@ namespace MediaPlayer.ViewModel
         public IMetadataReaderService MetadataReaderService { get; set; }
 
         [Import]
-        public IMetadataRetrievalService MetadataRetrievalService { get; set; }
+        public IMetadataUpdateService MetadataUpdateService { get; set; }
 
         public MainViewModel()
         {
@@ -210,7 +210,7 @@ namespace MediaPlayer.ViewModel
 
             BusyViewModel.MediaListTitle = "Updating Metadata...";
 
-            await MetadataRetrievalService.GetMetadataAsync(mediaItems.OfType<AudioItem>());
+            await MetadataUpdateService.UpdateMetadataAsync(mediaItems.OfType<AudioItem>());
 
             BusyViewModel.IsLoading = false;
             BusyViewModel.MediaListTitle = "Media List";
