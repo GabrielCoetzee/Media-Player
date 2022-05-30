@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Generic;
@@ -39,45 +41,38 @@ namespace MediaPlayer.Shell
         private const string _mutexName = "##||MediaPlayer||##";
         public NamedPipeManager PipeManager { get; set; } = new NamedPipeManager("MediaPlayer");
 
-        public void FirstApplicationInstanceReceivedArguments(object sender, string args)
+        public void FirstApplicationInstanceReceivedArguments(object sender, string[] args)
         {
-            if (string.IsNullOrEmpty(args))
+            if (!args.Any())
                 return;
 
             Dispatcher.Invoke(() =>
             {
                 ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
 
-                var filePaths = args.ToString().Split(Environment.NewLine.ToCharArray());
-
-                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, filePaths);
+                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, args);
             });
         }
 
-        private void SendArgsToFirstInstance(StartupEventArgs e)
+        private async Task SendArgsToFirstInstanceAsync(StartupEventArgs e)
         {
-            StringBuilder sb = new();
-
-            foreach (var arg in e.Args)
-                sb.AppendLine(arg);
-
-            PipeManager.Write(sb.ToString());
+            await PipeManager.WriteLinesAsync(e.Args);
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected async override void OnStartup(StartupEventArgs e)
         {
             _mutex = new Mutex(true, _mutexName, out var isFirstInstance);
 
             if (!isFirstInstance)
             {
-                SendArgsToFirstInstance(e);
+                await SendArgsToFirstInstanceAsync(e);
 
                 Application.Current.Shutdown(0);
                 return;
             }
 
             PipeManager.StartServer();
-            PipeManager.ServerReceivedArgument += FirstApplicationInstanceReceivedArguments;
+            PipeManager.ServerReceivedArguments += FirstApplicationInstanceReceivedArguments;
 
             InitializeMEF();
 
@@ -93,6 +88,10 @@ namespace MediaPlayer.Shell
         private static void StartApplication(StartupEventArgs e)
         {
             Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.OpenMediaPlayerMainWindow);
+
+            if (e.Args.Length == 0)
+                return;
+
             Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, e.Args);
         }
 

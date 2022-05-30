@@ -24,13 +24,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             return true;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
-                return;
-
             var pipeManager = new NamedPipeManager("MediaPlayer");
-            pipeManager.StopServer();
+            await pipeManager.StopServerAsync();
         }
     }
 }

@@ -20,7 +20,7 @@
             <i:InvokeCommandAction Command="{Binding LoadThemeOnWindowLoadedCommand}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="Closing" >
-            <i:InvokeCommandAction Command="{Binding MainWindowClosingCommand}" CommandParameter="{Binding}" />
+            <i:InvokeCommandAction Command="{Binding MainWindowClosingCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Controls:MetroWindow.InputBindings>
