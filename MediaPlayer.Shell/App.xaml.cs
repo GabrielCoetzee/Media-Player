@@ -89,7 +89,7 @@ namespace MediaPlayer.Shell
         {
             Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.OpenMediaPlayerMainWindow);
 
-            if (e.Args.Length == 0)
+            if (!e.Args.Any())
                 return;
 
             Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, e.Args);
