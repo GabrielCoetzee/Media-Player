@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
-using System.Linq.Expressions;
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model.Metadata.Abstract;
 
 namespace MediaPlayer.Model.BusinessEntities.Abstract
 {
+    [DebuggerDisplay("{MediaTitle}")]
     public abstract class MediaItem : PropertyNotifyBase
     {
         private int _id;

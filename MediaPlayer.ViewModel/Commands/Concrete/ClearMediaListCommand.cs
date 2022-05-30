@@ -28,6 +28,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
+            vm.UpdateMetadataTokenSources.ForEach(x => x.Cancel());
             vm.CurrentPositionTracker.Stop();
 
             vm.MediaState = MediaState.Stop;

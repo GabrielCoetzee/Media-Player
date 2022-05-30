@@ -1,7 +1,9 @@
 ﻿using MediaPlayer.Model.BusinessEntities.Abstract;
+using System.Diagnostics;
 
 namespace MediaPlayer.Model.BusinessEntities.Concrete
 {
+    [DebuggerDisplay("{Artist} - {MediaTitle}")]
     public class AudioItem : MediaItem
     {
         private byte[] _albumArt;

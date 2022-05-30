@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.IO;
 using System.Drawing;
 using System;
+using System.Threading;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
@@ -19,27 +20,24 @@ namespace MediaPlayer.ViewModel.Services.Concrete
     {
         readonly ILastFmDataAccess _lastFmDataAccess;
         readonly ILyricsOvhDataAccess _lyricsOvhDataAccess;
-        readonly MetadataWriterFactory _metadataWriterFactory;
 
         [ImportingConstructor]
         public MetadataUpdateService(ILastFmDataAccess lastFmDataAccess,
-            ILyricsOvhDataAccess lyricsOvhDataAccess,
-            MetadataWriterFactory metadataWriterFactory)
+            ILyricsOvhDataAccess lyricsOvhDataAccess)
         {
             _lastFmDataAccess = lastFmDataAccess;
             _lyricsOvhDataAccess = lyricsOvhDataAccess;
-            _metadataWriterFactory = metadataWriterFactory;
         }
 
-        public async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems)
+        public async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
         {
             foreach (var audioItem in audioItems)
             {
+                if (token.IsCancellationRequested)
+                    return;
+
                 await UpdateLyricsAsync(audioItem);
                 await UpdateAlbumArtAsync(audioItem);
-
-                if (!audioItem.HasAlbumArt)
-                    audioItem.AlbumArt = GetAlbumArtFromDirectory(audioItem.FilePath.LocalPath);
             }
         }
 
@@ -54,6 +52,13 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             audioItem.IsDirty = true;
         }
 
+
+        /// <summary>
+        /// Attempts to get album art from last.fm if there is none. If no album art is found, it will scan for album art
+        /// in the current directory and display it, but not save it to file, as there's no guarantee it is correct.
+        /// </summary>
+        /// <param name="audioItem"></param>
+        /// <returns></returns>
         private async Task UpdateAlbumArtAsync(AudioItem audioItem)
         {
             if (audioItem.HasAlbumArt)
@@ -64,51 +69,38 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             var url = response?.Track?.Album?.Image?.LastOrDefault()?.Url;
 
             if (string.IsNullOrEmpty(url))
-                return;
-
-            using (var client = new HttpClient())
             {
-                using (var fileDownloadResponse = await client.GetAsync(url))
-                {
-                    audioItem.AlbumArt = await fileDownloadResponse.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                    audioItem.IsDirty = true;
-                }
+                audioItem.AlbumArt = GetAlbumArtFromDirectoryIfAny(audioItem.FilePath.LocalPath);
+                return;
             }
+
+            using var client = new HttpClient();
+            using var fileDownloadResponse = await client.GetAsync(url);
+
+            audioItem.AlbumArt = await fileDownloadResponse.Content.ReadAsByteArrayAsync();
+            audioItem.IsDirty = true;
         }
 
-        private byte[] GetAlbumArtFromDirectory(string path)
+        private byte[] GetAlbumArtFromDirectoryIfAny(string path)
         {
             try
             {
                 var commonCoverArtFileNames = new string[] { "cover.jpg", "folder.jpg" };
 
-                var potentialCoverArtFromFolder = Directory
+                var coverArtFromFolder = Directory
                     .EnumerateFiles(Path.GetDirectoryName(path), "*.*", SearchOption.TopDirectoryOnly)
                     .Where(x => commonCoverArtFileNames.Any(y => y == x));
 
-                if (!potentialCoverArtFromFolder.Any())
+                if (!coverArtFromFolder.Any())
                     return null;
 
-                //Get Larger Album Art from folder if there's more than one option?
-                return ConvertPathToByteArray(potentialCoverArtFromFolder.First());
+                return (byte[])new ImageConverter().ConvertTo(Image.FromFile(coverArtFromFolder.First()), typeof(byte[]));
             }
-            catch (DirectoryNotFoundException)
+            catch (Exception)
             {
                 return null;
             }
 
-        }
-
-        private byte[] ConvertPathToByteArray(string filePath)
-        {
-            try
-            {
-                return (byte[])new ImageConverter().ConvertTo(Image.FromFile(filePath), typeof(byte[]));
-            }
-            catch (OutOfMemoryException)
-            {
-                return null;
-            }
         }
     }
 }

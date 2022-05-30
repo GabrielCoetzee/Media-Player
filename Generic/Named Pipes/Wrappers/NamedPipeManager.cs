@@ -136,6 +136,32 @@ namespace Generic.NamedPipes.Wrappers
             return true;
         }
 
+        public async Task<bool> WriteLineAsync(string text, int connectTimeout = 300)
+        {
+            using (var client = new NamedPipeClientStream(NamedPipeName))
+            {
+                try
+                {
+                    await client.ConnectAsync(connectTimeout);
+                }
+                catch
+                {
+                    await WriteLineAsync(text, connectTimeout); //Just keep retrying if instance cannot connect
+                }
+
+                if (!client.IsConnected)
+                    return false;
+
+                using (StreamWriter writer = new StreamWriter(client))
+                {
+                    await writer.WriteLineAsync(text);
+                    await writer.FlushAsync();
+                }
+            }
+
+            return true;
+        }
+
         public async Task<bool> WriteLinesAsync(string[] args, int connectTimeout = 300)
         {
             using (var client = new NamedPipeClientStream(NamedPipeName))

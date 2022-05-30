@@ -18,6 +18,7 @@ using MediaPlayer.ViewModel.Commands.Abstract;
 using Generic.DependencyInjection;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.ViewModel.Services.Abstract;
+using System.Threading;
 
 namespace MediaPlayer.ViewModel
 {
@@ -34,6 +35,7 @@ namespace MediaPlayer.ViewModel
         private bool _isMediaItemsShuffled;
 
         public readonly DispatcherTimer CurrentPositionTracker = new();
+        public List<CancellationTokenSource> UpdateMetadataTokenSources = new List<CancellationTokenSource>();
 
         public MediaItem SelectedMediaItem
         {
@@ -210,7 +212,13 @@ namespace MediaPlayer.ViewModel
 
             BusyViewModel.MediaListTitle = "Updating Metadata...";
 
-            await MetadataUpdateService.UpdateMetadataAsync(mediaItems.OfType<AudioItem>());
+            var cts = new CancellationTokenSource();
+            UpdateMetadataTokenSources.Add(cts);
+
+            await MetadataUpdateService.UpdateMetadataAsync(mediaItems.OfType<AudioItem>(), cts.Token);
+
+            if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
+                return;
 
             BusyViewModel.IsLoading = false;
             BusyViewModel.MediaListTitle = "Media List";
