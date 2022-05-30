@@ -15,6 +15,7 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
         private int _bitrate;
 
         public bool HasLyrics => !string.IsNullOrEmpty(_lyrics);
+        public bool HasAlbumArt => _albumArt != null && _albumArt != default && _albumArt.Length > 0;
 
         public byte[] AlbumArt
         {
@@ -23,6 +24,7 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
             {
                 _albumArt = value;
                 OnPropertyChanged(nameof(AlbumArt));
+                OnPropertyChanged(nameof(HasAlbumArt));
             }
         }
 

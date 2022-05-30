@@ -103,11 +103,5 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
                 OnPropertyChanged(nameof(IsDirty));
             }
         }
-
-        public void Update(IMetadataWriter metadataWriter)
-        {
-            metadataWriter.Update(this);
-            IsDirty = false;
-        }
     }
 }

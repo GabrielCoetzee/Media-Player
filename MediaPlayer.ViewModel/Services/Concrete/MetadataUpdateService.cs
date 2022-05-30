@@ -7,6 +7,10 @@ using MediaPlayer.ViewModel.Services.Abstract;
 using MediaPlayer.Model.Metadata.Concrete;
 using MediaPlayer.Common.Enumerations;
 using System.Linq;
+using System.Net.Http;
+using System.IO;
+using System.Drawing;
+using System;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
@@ -31,19 +35,80 @@ namespace MediaPlayer.ViewModel.Services.Concrete
         {
             foreach (var audioItem in audioItems)
             {
-                if (audioItem.HasLyrics)
-                    continue;
+                await UpdateLyricsAsync(audioItem);
+                await UpdateAlbumArtAsync(audioItem);
 
-                var response = await _lyricsOvhDataAccess.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
-                audioItem.Lyrics = response?.Lyrics;
+                if (!audioItem.HasAlbumArt)
+                    audioItem.AlbumArt = GetAlbumArtFromDirectory(audioItem.FilePath.LocalPath);
+            }
+        }
 
-                audioItem.IsDirty = true;
+        private async Task UpdateLyricsAsync(AudioItem audioItem)
+        {
+            if (audioItem.HasLyrics)
+                return;
+
+            var response = await _lyricsOvhDataAccess.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
+            audioItem.Lyrics = response?.Lyrics;
+
+            audioItem.IsDirty = true;
+        }
+
+        private async Task UpdateAlbumArtAsync(AudioItem audioItem)
+        {
+            if (audioItem.HasAlbumArt)
+                return;
+
+            var response = await _lastFmDataAccess.GetTrackInfoAsync(audioItem.Artist, audioItem.MediaTitle);
+
+            var url = response?.Track?.Album?.Image?.LastOrDefault()?.Url;
+
+            if (string.IsNullOrEmpty(url))
+                return;
+
+            using (var client = new HttpClient())
+            {
+                using (var fileDownloadResponse = await client.GetAsync(url))
+                {
+                    audioItem.AlbumArt = await fileDownloadResponse.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    audioItem.IsDirty = true;
+                }
+            }
+        }
+
+        private byte[] GetAlbumArtFromDirectory(string path)
+        {
+            try
+            {
+                var commonCoverArtFileNames = new string[] { "cover.jpg", "folder.jpg" };
+
+                var potentialCoverArtFromFolder = Directory
+                    .EnumerateFiles(Path.GetDirectoryName(path), "*.*", SearchOption.TopDirectoryOnly)
+                    .Where(x => commonCoverArtFileNames.Any(y => y == x));
+
+                if (!potentialCoverArtFromFolder.Any())
+                    return null;
+
+                //Get Larger Album Art from folder if there's more than one option?
+                return ConvertPathToByteArray(potentialCoverArtFromFolder.First());
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return null;
             }
 
-            await Task.Run(() =>
+        }
+
+        private byte[] ConvertPathToByteArray(string filePath)
+        {
+            try
             {
-                Parallel.ForEach(audioItems.Where(x => x.IsDirty), (x) => x.Update(_metadataWriterFactory.Resolve(MetadataLibraries.Taglib)));
-            });
+                return (byte[])new ImageConverter().ConvertTo(Image.FromFile(filePath), typeof(byte[]));
+            }
+            catch (OutOfMemoryException)
+            {
+                return null;
+            }
         }
     }
 }

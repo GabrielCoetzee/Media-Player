@@ -24,6 +24,17 @@ namespace MediaPlayer.Model.Metadata.Concrete
                     {
                         case MediaType.Audio:
                             reader.Tag.Lyrics = (mediaItem as AudioItem).Lyrics;
+                            reader.Tag.Pictures = new TagLib.IPicture[] 
+                            { 
+                                new TagLib.Id3v2.AttachmentFrame 
+                                {   
+                                    Type = PictureType.FrontCover,
+                                    Description = "Cover",
+                                    MimeType = System.Net.Mime.MediaTypeNames.Image.Jpeg,
+                                    Data = (mediaItem as AudioItem).AlbumArt,
+                                    TextEncoding = TagLib.StringType.UTF16
+                                } 
+                            };
                             break;
 
                         case MediaType.Audio | MediaType.Video:

@@ -11,12 +11,15 @@ namespace MediaPlayer.View.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            var accent = values.Single(x => x?.GetType() == typeof(string));
+            var defaultArt = new BitmapImage(new Uri($"../Resources/Default_AlbumArt/{accent}.png", UriKind.Relative));
+
             var value = values.FirstOrDefault(o => (o != null && o != DependencyProperty.UnsetValue));
 
             return value switch
             {
-                string => new BitmapImage(new Uri($"../Resources/Default_AlbumArt/{value}.png", UriKind.Relative)),
-                byte[] => ToImage((byte[])value),
+                string => defaultArt,
+                byte[] => ((byte[])value).Length == 0 ? defaultArt : ToImage((byte[])value),
                 _ => null
             };
         }

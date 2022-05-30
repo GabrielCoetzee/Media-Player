@@ -71,7 +71,7 @@ namespace MediaPlayer.Model.ObjectBuilders
 
         public AudioItemBuilder WithAlbumArt(byte[] albumArt)
         {
-            _audioItem.AlbumArt = albumArt ?? GetAlbumArtFromDirectory(_audioItem.FilePath.LocalPath);
+            _audioItem.AlbumArt = albumArt;
 
             return this;
         }
@@ -107,35 +107,6 @@ namespace MediaPlayer.Model.ObjectBuilders
         public AudioItem Build()
         {
             return _audioItem;
-        }
-
-        private byte[] GetAlbumArtFromDirectory(string path)
-        {
-            try
-            {
-                var albumArtFromDirectory = Directory
-                    .EnumerateFiles(Path.GetDirectoryName(path), "*.*", SearchOption.TopDirectoryOnly)
-                    .Where(x => x.ToLower().EndsWith("cover.jpg") || x.ToLower().EndsWith("folder.jpg"));
-
-                return albumArtFromDirectory.Count() != 0 ? ConvertPathToByteArray(albumArtFromDirectory.First()) : null;
-            }
-            catch (DirectoryNotFoundException)
-            {
-                return null;
-            }
-
-        }
-
-        private byte[] ConvertPathToByteArray(string filePath)
-        {
-            try
-            {
-                return (byte[])new ImageConverter().ConvertTo(Image.FromFile(filePath), typeof(byte[]));
-            }
-            catch (OutOfMemoryException)
-            {
-                return null;
-            }
         }
     }
 }

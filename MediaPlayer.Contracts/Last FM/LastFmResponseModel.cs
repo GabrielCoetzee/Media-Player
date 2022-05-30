@@ -5,23 +5,7 @@ namespace MediaPlayer.Contracts
 {
     public class LastFmResponseModel
     {
-        //public Album? Album { get; set; }
-
-        //public Tracks? Tracks { get; set; }
-
         public Track? Track { get; set; }
-
-        //public Attr? Attr { get; set; }
-
-        //public Streamable? Streamable { get; set; }
-
-        //public Artist? Artist { get; set; }
-
-        //public Tags? Tags { get; set; }
-
-        //public Tag? Tag { get; set; }
-
-        //public Image? Image { get; set; }
     }
 
     public class Album
@@ -47,8 +31,6 @@ namespace MediaPlayer.Contracts
         public string? Name { get; set; }
         public string? Url { get; set; }
         public string? Duration { get; set; }
-        //public Attr? Attr { get; set; }
-        //public Streamable? Streamable { get; set; }
         public Artist? Artist { get; set; }
         public Album? Album { get; set; }
     }
@@ -66,7 +48,6 @@ namespace MediaPlayer.Contracts
 
     public class Artist
     {
-        //public Album? Album { get; set; }
         public string? Name { get; set; }
         public string? Mbid { get; set; }
         public string? Url { get; set; }
