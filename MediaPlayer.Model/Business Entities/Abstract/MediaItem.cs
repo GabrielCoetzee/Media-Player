@@ -18,6 +18,10 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
         private string _windowTitle = "Now Playing: ";
         private bool _isDirty;
 
+        public bool IsVideo => MediaType == (MediaType.Audio | MediaType.Video);
+        public bool IsAudio => MediaType == MediaType.Audio;
+        public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
+
         public int Id
         {
             get => _id;
@@ -38,7 +42,6 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
                 OnPropertyChanged(nameof(FileName));
             }
         }
-        public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
 
         public TimeSpan Duration
         {
@@ -79,11 +82,9 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
                 _mediaType = value;
                 OnPropertyChanged(nameof(MediaType));
                 OnPropertyChanged(nameof(IsVideo));
+                OnPropertyChanged(nameof(IsAudio));
             }
         }
-
-        public bool IsVideo => MediaType == (MediaType.Audio | MediaType.Video);
-
         public TimeSpan ElapsedTime
         {
             get => _elapsedTime;

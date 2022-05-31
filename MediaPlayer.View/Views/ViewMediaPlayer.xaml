@@ -58,7 +58,6 @@
         <ImageBrush x:Key="ResourceShuffleButtonImage" ImageSource="../Resources/Button_Images/appbar.shuffle.png"/>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converters:BooleanToVisibleOrHiddenInverseConverter x:Key="BooleanToVisibleOrHiddenInverseConverter" />
         <converters:PlayPauseButtonBackgroundConverter x:Key="PlayPauseButtonBackgroundConverter" />
         <converters:MediaVolumeConverter x:Key="MediaVolumeConverter" />
         <converters:AlbumArtMultiValueConverter x:Key="AlbumArtMultiValueConverter" />
@@ -168,7 +167,7 @@
             </Grid>
 
             <StackPanel Grid.Row="0" Grid.Column="6" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                <Image Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverseConverter}}">
+                <Image Visibility="{Binding SelectedMediaItem.IsAudio, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource AlbumArtMultiValueConverter}">
                             <Binding Path="SelectedMediaItem.AlbumArt"  />
@@ -179,7 +178,7 @@
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Label Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibleOrHiddenInverseConverter}}" Content="{Binding SelectedMediaItem.Bitrate}" ContentStringFormat="Bitrate: {0} kbps"   />
+                <Label Visibility="{Binding SelectedMediaItem.IsAudio, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{Binding SelectedMediaItem.Bitrate}" ContentStringFormat="Bitrate: {0} kbps"   />
                 <Label Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{Binding SelectedMediaItem.VideoResolution}" ContentStringFormat="Resolution: {0}"   />
             </StackPanel>
 
