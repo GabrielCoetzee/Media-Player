@@ -51,6 +51,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                 return;
 
             var response = await _lyricsOvhDataAccess.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
+
             audioItem.Lyrics = response?.Lyrics;
             audioItem.IsDirty = audioItem.HasLyrics;
         }
