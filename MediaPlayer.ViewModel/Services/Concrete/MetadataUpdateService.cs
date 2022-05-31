@@ -74,15 +74,15 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             if (string.IsNullOrEmpty(url))
             {
-                Func<byte[]> GetAlbumArtFromDirectoryAction = () => GetAlbumArtFromDirectoryIfAny(audioItem.FilePath.LocalPath);
+                byte[] GetAlbumArtFromLocalDirectoryFunction() => GetAlbumArtFromDirectory(audioItem.FilePath.LocalPath);
 
-                audioItem.AlbumArt = _cache.GetOrAdd("FolderCoverArt", GetAlbumArtFromDirectoryAction);
+                audioItem.AlbumArt = _cache.GetOrAdd($"{audioItem.Album}_FolderCoverArt", GetAlbumArtFromLocalDirectoryFunction);
                 return;
             }
 
-            Func<Task<byte[]>> DownloadAlbumArtAction = async () => await DownloadAlbumArtFromUrlAsync(url);
+            async Task<byte[]> DownloadAlbumArtFunction() => await DownloadAlbumArtFromUrlAsync(url);
 
-            audioItem.AlbumArt = await _cache.GetOrAddAsync(url, DownloadAlbumArtAction);
+            audioItem.AlbumArt = await _cache.GetOrAddAsync(url, DownloadAlbumArtFunction);
             audioItem.IsDirty = audioItem.HasAlbumArt;
         }
 
@@ -94,7 +94,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             return await fileDownloadResponse.Content.ReadAsByteArrayAsync();
         }
 
-        private byte[] GetAlbumArtFromDirectoryIfAny(string path)
+        private byte[] GetAlbumArtFromDirectory(string path)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
                 var coverArtFromFolder = Directory
                     .EnumerateFiles(Path.GetDirectoryName(path), "*.*", SearchOption.TopDirectoryOnly)
-                    .Where(x => commonCoverArtFileNames.Contains(Path.GetFileName(x)));
+                    .Where(x => commonCoverArtFileNames.Contains(Path.GetFileName(x.ToLower())));
 
                 if (!coverArtFromFolder.Any())
                     return null;
