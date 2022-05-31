@@ -12,6 +12,7 @@ using System.IO;
 using System.Drawing;
 using System;
 using System.Threading;
+using LazyCache;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
@@ -20,6 +21,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
     {
         readonly ILastFmDataAccess _lastFmDataAccess;
         readonly ILyricsOvhDataAccess _lyricsOvhDataAccess;
+        readonly IAppCache _cache;
 
         [ImportingConstructor]
         public MetadataUpdateService(ILastFmDataAccess lastFmDataAccess,
@@ -27,6 +29,8 @@ namespace MediaPlayer.ViewModel.Services.Concrete
         {
             _lastFmDataAccess = lastFmDataAccess;
             _lyricsOvhDataAccess = lyricsOvhDataAccess;
+
+            _cache = new CachingService();
         }
 
         public async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
@@ -49,7 +53,8 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             var response = await _lyricsOvhDataAccess.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
             audioItem.Lyrics = response?.Lyrics;
 
-            audioItem.IsDirty = true;
+            if (audioItem.HasLyrics)
+                audioItem.IsDirty = true;
         }
 
 
@@ -70,15 +75,26 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             if (string.IsNullOrEmpty(url))
             {
-                audioItem.AlbumArt = GetAlbumArtFromDirectoryIfAny(audioItem.FilePath.LocalPath);
+                Func<byte[]> GetAlbumArtFromDirectoryAction = () => GetAlbumArtFromDirectoryIfAny(audioItem.FilePath.LocalPath);
+
+                audioItem.AlbumArt = _cache.GetOrAdd("FolderCoverArt", GetAlbumArtFromDirectoryAction);
                 return;
             }
 
+            Func<Task<byte[]>> DownloadAlbumArtAction = async () => await DownloadAlbumArtFromUrlAsync(url);
+
+            audioItem.AlbumArt = await _cache.GetOrAddAsync(url, DownloadAlbumArtAction);
+
+            if (audioItem.HasAlbumArt)
+                audioItem.IsDirty = true;
+        }
+
+        private async Task<byte[]> DownloadAlbumArtFromUrlAsync(string url)
+        {
             using var client = new HttpClient();
             using var fileDownloadResponse = await client.GetAsync(url);
 
-            audioItem.AlbumArt = await fileDownloadResponse.Content.ReadAsByteArrayAsync();
-            audioItem.IsDirty = true;
+            return await fileDownloadResponse.Content.ReadAsByteArrayAsync();
         }
 
         private byte[] GetAlbumArtFromDirectoryIfAny(string path)
@@ -89,7 +105,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
                 var coverArtFromFolder = Directory
                     .EnumerateFiles(Path.GetDirectoryName(path), "*.*", SearchOption.TopDirectoryOnly)
-                    .Where(x => commonCoverArtFileNames.Any(y => y == x));
+                    .Where(x => commonCoverArtFileNames.Contains(Path.GetFileName(x)));
 
                 if (!coverArtFromFolder.Any())
                     return null;

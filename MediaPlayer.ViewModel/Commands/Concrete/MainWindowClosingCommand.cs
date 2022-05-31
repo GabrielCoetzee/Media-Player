@@ -4,6 +4,7 @@ using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.Model.Metadata.Concrete;
+using MediaPlayer.ViewModel.Services.Abstract;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -16,12 +17,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     [Export(CommandNames.MainWindowClosing, typeof(ICommand))]
     public class MainWindowClosingCommand : ICommand
     {
-        readonly MetadataWriterFactory _metadataWriterFactory;
+        readonly IMetadataWriterService _metadataWriterService;
 
         [ImportingConstructor]
-        public MainWindowClosingCommand(MetadataWriterFactory metadataWriterFactory)
+        public MainWindowClosingCommand(IMetadataWriterService metadataWriterService)
         {
-            _metadataWriterFactory = metadataWriterFactory;
+            _metadataWriterService = metadataWriterService;
         }
 
         public event EventHandler CanExecuteChanged
@@ -40,18 +41,15 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
-            await WriteChangesToFilesAsync(vm.MediaItems.Where(x => x.IsDirty));
+            if (vm.StopCommand.CanExecute(vm))
+                vm.StopCommand.Execute(vm);
+
+            vm.SelectedMediaItem = null;
+
+            _metadataWriterService.WriteChangesToFilesInParallel(vm.MediaItems.Where(x => x.IsDirty));
 
             var pipeManager = new NamedPipeManager("MediaPlayer");
             await pipeManager.StopServerAsync();
-        }
-
-        private async Task WriteChangesToFilesAsync(IEnumerable<MediaItem> mediaItems)
-        {
-            await Task.Run(() =>
-            {
-                Parallel.ForEach(mediaItems, (x) => _metadataWriterFactory.Resolve(MetadataLibraries.Taglib).Update(x));
-            });
         }
     }
 }
