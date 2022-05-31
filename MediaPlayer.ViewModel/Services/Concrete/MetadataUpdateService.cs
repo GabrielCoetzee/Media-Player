@@ -52,9 +52,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             var response = await _lyricsOvhDataAccess.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
             audioItem.Lyrics = response?.Lyrics;
-
-            if (audioItem.HasLyrics)
-                audioItem.IsDirty = true;
+            audioItem.IsDirty = audioItem.HasLyrics;
         }
 
 
@@ -84,9 +82,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             Func<Task<byte[]>> DownloadAlbumArtAction = async () => await DownloadAlbumArtFromUrlAsync(url);
 
             audioItem.AlbumArt = await _cache.GetOrAddAsync(url, DownloadAlbumArtAction);
-
-            if (audioItem.HasAlbumArt)
-                audioItem.IsDirty = true;
+            audioItem.IsDirty = audioItem.HasAlbumArt;
         }
 
         private async Task<byte[]> DownloadAlbumArtFromUrlAsync(string url)
