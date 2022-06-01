@@ -38,15 +38,20 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
+            if (vm.StopCommand.CanExecute(vm))
+                vm.StopCommand.Execute(vm);
+
             vm.UpdateMetadataTokenSources.ForEach(x => x.Cancel());
             vm.UpdateMetadataTokenSources.Clear();
 
-            _metadataWriterService.WriteChangesToFilesInParallel(vm.MediaItems.Where(x => x.IsDirty));
-
             vm.CurrentPositionTracker.Stop();
+            vm.SelectedMediaItem = null;
+
+            _metadataWriterService.WriteChangesToFilesInParallel(vm.MediaItems.Where(x => x.IsDirty));
 
             vm.MediaState = MediaState.Stop;
             vm.MediaItems.Clear();
+            vm.MediaItems = new Model.Collections.MediaItemObservableCollection();
 
             vm.BusyViewModel.MediaListTitle = string.Empty;
             vm.BusyViewModel.IsLoading = false;

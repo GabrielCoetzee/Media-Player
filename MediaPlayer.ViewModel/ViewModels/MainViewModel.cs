@@ -56,6 +56,7 @@ namespace MediaPlayer.ViewModel
             {
                 _mediaItems = value;
                 OnPropertyChanged(nameof(MediaItems));
+                OnPropertyChanged(nameof(IsMediaListPopulated));
             }
         }
 

@@ -41,6 +41,9 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
+            vm.UpdateMetadataTokenSources.ForEach(x => x.Cancel());
+            vm.UpdateMetadataTokenSources.Clear();
+
             if (vm.StopCommand.CanExecute(vm))
                 vm.StopCommand.Execute(vm);
 

@@ -25,7 +25,8 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             if (!mediaItems.Any())
                 return;
 
-            Parallel.ForEach(mediaItems, (x) => _metadataWriterFactory.Resolve(MetadataLibraries.Taglib).Update(x));
+            if (Parallel.ForEach(mediaItems, x => _metadataWriterFactory.Resolve(MetadataLibraries.Taglib).Update(x)).IsCompleted)
+                return;
         }
     }
 }
