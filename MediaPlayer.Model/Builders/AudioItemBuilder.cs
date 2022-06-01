@@ -9,7 +9,7 @@ namespace MediaPlayer.Model.ObjectBuilders
 {
     public class AudioItemBuilder
     {
-        private readonly AudioItem _audioItem;
+        readonly AudioItem _audioItem;
 
         public AudioItemBuilder(string filePath)
         {

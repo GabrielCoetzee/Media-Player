@@ -81,10 +81,9 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
                 if (string.IsNullOrEmpty(url))
                 {
-                    byte[] GetAlbumArtFromLocalDirectoryFunction() => GetAlbumArtFromDirectory(audioItem.FilePath.LocalPath);
-
-                    audioItem.AlbumArt = _cache.GetOrAdd($"{audioItem.Album}_FolderCoverArt", GetAlbumArtFromLocalDirectoryFunction);
-                    return;
+                    //byte[] GetAlbumArtFromLocalDirectoryFunction() => GetAlbumArtFromDirectory(audioItem.FilePath.LocalPath);
+                    ////audioItem.AlbumArt = _cache.GetOrAdd($"{audioItem.Album}_FolderCoverArt", GetAlbumArtFromLocalDirectoryFunction);
+                    continue;
                 }
 
                 async Task<byte[]> DownloadAlbumArtFunction() => await DownloadAlbumArtFromUrlAsync(url);
@@ -100,7 +99,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             return await fileDownloadResponse.Content.ReadAsByteArrayAsync();
         }
-
+  
         private byte[] GetAlbumArtFromDirectory(string path)
         {
             try
@@ -122,5 +121,5 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             }
 
         }
-    }
+  }
 }

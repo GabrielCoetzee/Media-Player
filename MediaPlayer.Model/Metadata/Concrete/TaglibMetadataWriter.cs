@@ -6,6 +6,7 @@ using TagLib;
 using System.ComponentModel.Composition;
 using System;
 using MediaPlayer.Model.BusinessEntities.Concrete;
+using System.Linq;
 
 namespace MediaPlayer.Model.Metadata.Concrete
 {
@@ -18,35 +19,50 @@ namespace MediaPlayer.Model.Metadata.Concrete
         {
             try
             {
-                using (var reader = TagLib.File.Create(mediaItem.FilePath.LocalPath))
+                using var reader = TagLib.File.Create(mediaItem.FilePath.LocalPath);
+
+                switch (mediaItem.MediaType)
                 {
-                    switch (mediaItem.MediaType)
-                    {
-                        case MediaType.Audio:
-                            reader.Tag.Lyrics = (mediaItem as AudioItem).Lyrics;
-                            reader.Tag.Pictures = new TagLib.IPicture[] 
-                            { 
-                                new TagLib.Id3v2.AttachmentFrame 
-                                {   
-                                    Type = PictureType.FrontCover,
-                                    Description = "Cover",
-                                    MimeType = System.Net.Mime.MediaTypeNames.Image.Jpeg,
-                                    Data = (mediaItem as AudioItem).AlbumArt,
-                                    TextEncoding = TagLib.StringType.UTF16
-                                } 
-                            };
-                            break;
+                    case MediaType.Audio:
+                        UpdateLyrics(reader, mediaItem as AudioItem);
+                        UpdateAlbumArt(reader, mediaItem as AudioItem);
+                        break;
 
-                        case MediaType.Audio | MediaType.Video:
-                            break;
-                    }
-
-                    reader.Save();
+                    case MediaType.Audio | MediaType.Video:
+                        break;
                 }
+
+                reader.Save();
             }
             catch (Exception)
             {
             }
+        }
+
+        private void UpdateLyrics(File reader, AudioItem audioItem)
+        {
+            if (!string.IsNullOrEmpty(reader.Tag.Lyrics))
+                return;
+
+            reader.Tag.Lyrics = audioItem.Lyrics;
+        }
+
+        private void UpdateAlbumArt(File reader, AudioItem audioItem)
+        {
+            if (reader.Tag.Pictures.Any(x => x.Type == PictureType.FrontCover))
+                return;
+
+            reader.Tag.Pictures = new TagLib.IPicture[]
+            {
+                new TagLib.Id3v2.AttachmentFrame
+                {
+                    Type = PictureType.FrontCover,
+                    Description = "Cover",
+                    MimeType = System.Net.Mime.MediaTypeNames.Image.Jpeg,
+                    Data = audioItem.AlbumArt,
+                    TextEncoding = TagLib.StringType.UTF16
+                }
+            };
         }
     }
 }
