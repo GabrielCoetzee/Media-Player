@@ -80,11 +80,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                 var url = response?.Track?.Album?.Image?.LastOrDefault()?.Url;
 
                 if (string.IsNullOrEmpty(url))
-                {
-                    //byte[] GetAlbumArtFromLocalDirectoryFunction() => GetAlbumArtFromDirectory(audioItem.FilePath.LocalPath);
-                    ////audioItem.AlbumArt = _cache.GetOrAdd($"{audioItem.Album}_FolderCoverArt", GetAlbumArtFromLocalDirectoryFunction);
                     continue;
-                }
 
                 async Task<byte[]> DownloadAlbumArtFunction() => await DownloadAlbumArtFromUrlAsync(url);
 
@@ -99,27 +95,5 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             return await fileDownloadResponse.Content.ReadAsByteArrayAsync();
         }
-  
-        private byte[] GetAlbumArtFromDirectory(string path)
-        {
-            try
-            {
-                var commonCoverArtFileNames = new string[] { "cover.jpg", "folder.jpg" };
-
-                var coverArtFromFolder = Directory
-                    .EnumerateFiles(Path.GetDirectoryName(path), "*.*", SearchOption.TopDirectoryOnly)
-                    .Where(x => commonCoverArtFileNames.Contains(Path.GetFileName(x.ToLower())));
-
-                if (!coverArtFromFolder.Any())
-                    return null;
-
-                return (byte[])new ImageConverter().ConvertTo(Image.FromFile(coverArtFromFolder.First()), typeof(byte[]));
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
-        }
-  }
+    }
 }

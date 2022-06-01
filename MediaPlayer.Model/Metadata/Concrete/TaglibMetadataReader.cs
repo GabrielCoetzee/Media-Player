@@ -20,40 +20,39 @@ namespace MediaPlayer.Model.Metadata.Concrete
         {
             try
             {
-                using (var reader = TagLib.File.Create(path))
+                using var reader = TagLib.File.Create(path);
+
+                var albumArt = reader.Tag.Pictures.SingleOrDefault(x => x.Type == PictureType.FrontCover)?.Data?.Data;
+
+                if (albumArt == null || albumArt.Length == 0)
+                    albumArt = SearchForAlbumArtInDirectory(path);
+
+                return reader.Properties.MediaTypes switch
                 {
-                    var albumArt = reader.Tag.Pictures.Length >= 1 ? reader.Tag.Pictures[0].Data.Data : null;
+                    MediaTypes.Audio => new AudioItemBuilder(path)
+                            .AsMediaType(MediaType.Audio)
+                            .ForAlbum(reader.Tag.Album)
+                            .WithAlbumArt(albumArt)
+                            .WithArtist(reader.Tag.FirstPerformer)
+                            .WithBitrate(reader.Properties.AudioBitrate)
+                            .WithComments(reader.Tag.Comment)
+                            .WithComposer(reader.Tag.FirstComposer)
+                            .WithGenre(reader.Tag.FirstGenre)
+                            .WithLyrics(reader.Tag.Lyrics)
+                            .WithDuration(reader.Properties.Duration)
+                            .WithSongTitle(reader.Tag.Title)
+                            .WithYear(reader.Tag.Year)
+                            .Build(),
 
-                    if (albumArt == null || albumArt.Length == 0)
-                        albumArt = GetAlbumArtFromDirectory(path);
+                    MediaTypes.Video | MediaTypes.Audio => new VideoItemBuilder(path)
+                            .AsMediaType(MediaType.Video | MediaType.Audio)
+                            .WithResolution($"{reader.Properties.VideoWidth} x {reader.Properties.VideoHeight}")
+                            .WithTitle(reader.Tag.Title)
+                            .WithDuration(reader.Properties.Duration)
+                            .Build(),
 
-                    return reader.Properties.MediaTypes switch
-                    {
-                        MediaTypes.Audio => new AudioItemBuilder(path)
-                                .AsMediaType(MediaType.Audio)
-                                .ForAlbum(reader.Tag.Album)
-                                .WithAlbumArt(albumArt)
-                                .WithArtist(reader.Tag.FirstPerformer)
-                                .WithBitrate(reader.Properties.AudioBitrate)
-                                .WithComments(reader.Tag.Comment)
-                                .WithComposer(reader.Tag.FirstComposer)
-                                .WithGenre(reader.Tag.FirstGenre)
-                                .WithLyrics(reader.Tag.Lyrics)
-                                .WithDuration(reader.Properties.Duration)
-                                .WithSongTitle(reader.Tag.Title)
-                                .WithYear(reader.Tag.Year)
-                                .Build(),
-
-                        MediaTypes.Video | MediaTypes.Audio => new VideoItemBuilder(path)
-                                .AsMediaType(MediaType.Video | MediaType.Audio)
-                                .WithResolution($"{reader.Properties.VideoWidth} x {reader.Properties.VideoHeight}")
-                                .WithTitle(reader.Tag.Title)
-                                .WithDuration(reader.Properties.Duration)
-                                .Build(),
-
-                        _ => null
-                    };
-                }
+                    _ => null
+                };
             }
             catch (CorruptFileException)
             {
@@ -64,7 +63,7 @@ namespace MediaPlayer.Model.Metadata.Concrete
             }
         }
 
-        private byte[] GetAlbumArtFromDirectory(string path)
+        private byte[] SearchForAlbumArtInDirectory(string path)
         {
             try
             {
