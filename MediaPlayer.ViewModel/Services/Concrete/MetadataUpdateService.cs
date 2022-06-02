@@ -59,12 +59,6 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             }
         }
 
-        /// <summary>
-        /// Attempts to get album art from last.fm if there is none. If no album art is found, it will scan for album art
-        /// in the current directory and display it, but not save it to file, as there's no guarantee it is correct.
-        /// </summary>
-        /// <param name="audioItem"></param>
-        /// <returns></returns>
         private async Task UpdateAlbumArtAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
         {
             foreach (var audioItem in audioItems)

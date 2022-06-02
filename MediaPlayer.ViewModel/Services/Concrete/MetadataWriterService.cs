@@ -20,13 +20,21 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             _metadataWriterFactory = metadataWriterFactory;
         }
 
-        public void WriteChangesToFilesInParallel(IEnumerable<MediaItem> mediaItems)
+        public async Task WriteChangesToFilesInParallel(IEnumerable<MediaItem> mediaItems)
         {
             if (!mediaItems.Any())
                 return;
 
-            if (Parallel.ForEach(mediaItems, x => _metadataWriterFactory.Resolve(MetadataLibraries.Taglib).Update(x)).IsCompleted)
-                return;
+            await Task.Run(() => {
+
+                if (Parallel.ForEach(mediaItems, (x) =>
+                {
+                    var metadataWriter = _metadataWriterFactory.Resolve(MetadataLibraries.Taglib);
+
+                    metadataWriter.Update(x);
+                }).IsCompleted)
+                    return;
+            });
         }
     }
 }

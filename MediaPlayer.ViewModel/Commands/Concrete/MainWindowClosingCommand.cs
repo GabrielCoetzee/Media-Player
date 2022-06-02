@@ -4,11 +4,13 @@ using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.Model.Metadata.Concrete;
+using MediaPlayer.ViewModel.Commands.Abstract;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -17,14 +19,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     [Export(CommandNames.MainWindowClosing, typeof(ICommand))]
     public class MainWindowClosingCommand : ICommand
     {
-        readonly IMetadataWriterService _metadataWriterService;
-
-        [ImportingConstructor]
-        public MainWindowClosingCommand(IMetadataWriterService metadataWriterService)
-        {
-            _metadataWriterService = metadataWriterService;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -44,12 +38,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             vm.UpdateMetadataTokenSources.ForEach(x => x.Cancel());
             vm.UpdateMetadataTokenSources.Clear();
 
-            if (vm.StopCommand.CanExecute(vm))
-                vm.StopCommand.Execute(vm);
+            vm.StopMedia();
 
+            vm.CurrentPositionTracker.Stop();
             vm.SelectedMediaItem = null;
 
-            _metadataWriterService.WriteChangesToFilesInParallel(vm.MediaItems.Where(x => x.IsDirty));
+            //await vm.SaveChangesAsync();
 
             var pipeManager = new NamedPipeManager("MediaPlayer");
             await pipeManager.StopServerAsync();

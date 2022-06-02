@@ -33,6 +33,7 @@ namespace MediaPlayer.Model.Metadata.Concrete
                 }
 
                 reader.Save();
+                mediaItem.IsDirty = false;
             }
             catch (Exception)
             {

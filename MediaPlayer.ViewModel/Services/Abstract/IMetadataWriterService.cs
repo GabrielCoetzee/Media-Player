@@ -1,10 +1,11 @@
 ﻿using MediaPlayer.Model.BusinessEntities.Abstract;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MediaPlayer.ViewModel.Services.Abstract
 {
     public interface IMetadataWriterService
     {
-        void WriteChangesToFilesInParallel(IEnumerable<MediaItem> mediaItems);
+        Task WriteChangesToFilesInParallel(IEnumerable<MediaItem> mediaItems);
     }
 }

@@ -157,9 +157,6 @@ namespace MediaPlayer.ViewModel
         [Import(CommandNames.TopMostGridDrop)]
         public ICommand TopMostGridDropCommand { get; set; }
 
-        [Import(CommandNames.MainWindowClosing)]
-        public ICommand MainWindowClosingCommand { get; set; }
-
         [Import(CommandNames.NextTrack)]
         public ICommand NextTrackCommand { get; set; }
 
@@ -171,6 +168,9 @@ namespace MediaPlayer.ViewModel
 
         [Import(CommandNames.LoadThemeOnWindowLoaded)]
         public ICommand LoadThemeOnWindowLoadedCommand { get; set; }
+
+        [Import(CommandNames.MainWindowClosing)]
+        public ICommand MainWindowClosingCommand { get; set; }
 
         [Import]
         public ISeekbarPreviewMouseUpCommand SeekbarPreviewMouseUpCommand { get; set; }
@@ -186,6 +186,9 @@ namespace MediaPlayer.ViewModel
 
         [Import]
         public IMetadataUpdateService MetadataUpdateService { get; set; }
+
+        [Import]
+        public IMetadataWriterService MetadataWriterService { get; set; }
 
         public MainViewModel()
         {
@@ -225,7 +228,7 @@ namespace MediaPlayer.ViewModel
             BusyViewModel.MediaListTitle = "Media List";
         }
 
-        public void AddToListView(IEnumerable<MediaItem> mediaItems)
+        private void AddToListView(IEnumerable<MediaItem> mediaItems)
         {
             MediaItems.AddRange(mediaItems);
 
@@ -234,6 +237,14 @@ namespace MediaPlayer.ViewModel
 
             SelectMediaItem(FirstMediaItemIndex());
             PlayMedia();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            BusyViewModel.IsLoading = true;
+            BusyViewModel.MediaListTitle = "Saving Changes...";
+
+            await MetadataWriterService.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
         }
 
         public void PlayMedia()
