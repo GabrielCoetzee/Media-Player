@@ -78,7 +78,8 @@ namespace MediaPlayer.Shell
 
             MessengerRegistrations.OpenMediaPlayerMainWindow(MEF.Container);
             MessengerRegistrations.OpenApplicationSettingsWindow(MEF.Container);
-            MessengerRegistrations.ProcessContent(MEF.Container);
+            MessengerRegistrations.ProcessFilePaths(MEF.Container);
+            MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
 
             StartApplication(e);
 

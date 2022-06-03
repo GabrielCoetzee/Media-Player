@@ -34,7 +34,7 @@ namespace MediaPlayer.Shell.MessengerRegs
             });
         }
 
-        public static void ProcessContent(CompositionContainer container)
+        public static void ProcessFilePaths(CompositionContainer container)
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.ProcessFilePaths, async (args) =>
             {
@@ -43,6 +43,16 @@ namespace MediaPlayer.Shell.MessengerRegs
                 await vm.ProcessDroppedContentAsync(args as IEnumerable<string>);
 
                 CommandManager.InvalidateRequerySuggested();
+            });
+        }
+
+        public static void SaveChangesToDirtyFiles(CompositionContainer container)
+        {
+            Messenger<MessengerMessages>.Register(MessengerMessages.SaveChangesToDirtyFiles, async (args) =>
+            {
+                var vm = container?.GetExports<MainViewModel>().Single().Value;
+
+                await vm.SaveChangesAsync((bool)args);
             });
         }
     }

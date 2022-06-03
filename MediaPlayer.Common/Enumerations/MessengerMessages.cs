@@ -4,6 +4,7 @@
     {
         OpenMediaPlayerMainWindow,
         OpenApplicationSettings,
-        ProcessFilePaths
+        ProcessFilePaths,
+        SaveChangesToDirtyFiles
     }
 }

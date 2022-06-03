@@ -1,4 +1,5 @@
-﻿using Generic.NamedPipes.Wrappers;
+﻿using Generic.Mediator;
+using Generic.NamedPipes.Wrappers;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
@@ -8,6 +9,7 @@ using MediaPlayer.ViewModel.Commands.Abstract;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
@@ -32,21 +34,17 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public async void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not CancelEventArgs e)
                 return;
 
-            vm.UpdateMetadataTokenSources.ForEach(x => x.Cancel());
-            vm.UpdateMetadataTokenSources.Clear();
-
-            vm.StopMedia();
-
-            vm.CurrentPositionTracker.Stop();
-            vm.SelectedMediaItem = null;
-
-            //await vm.SaveChangesAsync();
+            e.Cancel = true;
 
             var pipeManager = new NamedPipeManager("MediaPlayer");
             await pipeManager.StopServerAsync();
+
+            var shutdownApplication = true;
+
+            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.SaveChangesToDirtyFiles, shutdownApplication);
         }
     }
 }

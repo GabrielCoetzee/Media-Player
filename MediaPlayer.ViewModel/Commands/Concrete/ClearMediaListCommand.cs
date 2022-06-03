@@ -8,6 +8,8 @@ using System.Linq;
 using MediaPlayer.ViewModel.Commands.Abstract;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using Generic.Mediator;
+using MediaPlayer.Common.Enumerations;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
@@ -28,26 +30,14 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             return vm.IsMediaListPopulated;
         }
 
-        public async void Execute(object parameter)
+        public void Execute(object parameter)
         {
             if (parameter is not MainViewModel vm)
                 return;
 
-            vm.UpdateMetadataTokenSources.ForEach(x => x.Cancel());
-            vm.UpdateMetadataTokenSources.Clear();
+            var shutdownApplication = false;
 
-            vm.StopMedia();
-
-            vm.CurrentPositionTracker.Stop();
-            vm.SelectedMediaItem = null;
-
-            await vm.SaveChangesAsync();
-
-            vm.MediaItems.Clear();
-            vm.MediaItems = new Model.Collections.MediaItemObservableCollection();
-
-            vm.BusyViewModel.MediaListTitle = string.Empty;
-            vm.BusyViewModel.IsLoading = false;
+            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.SaveChangesToDirtyFiles, shutdownApplication);
         }
     }
 }

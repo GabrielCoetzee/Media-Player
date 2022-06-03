@@ -19,6 +19,7 @@ using Generic.DependencyInjection;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System.Threading;
+using System.Windows;
 
 namespace MediaPlayer.ViewModel
 {
@@ -239,12 +240,33 @@ namespace MediaPlayer.ViewModel
             PlayMedia();
         }
 
-        public async Task SaveChangesAsync()
+        public async Task SaveChangesAsync(bool shutdownApplication)
         {
+            UpdateMetadataTokenSources.ForEach(x => x.Cancel());
+            UpdateMetadataTokenSources.Clear();
+
+            StopMedia();
+
+            CurrentPositionTracker.Stop();
+            SelectedMediaItem = null;
+
             BusyViewModel.IsLoading = true;
             BusyViewModel.MediaListTitle = "Saving Changes...";
 
             await MetadataWriterService.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
+
+            if (!shutdownApplication)
+            {
+                MediaItems.Clear();
+                MediaItems = new MediaItemObservableCollection();
+
+                BusyViewModel.MediaListTitle = string.Empty;
+                BusyViewModel.IsLoading = false;
+
+                return;
+            }
+
+            Application.Current.Shutdown(0);
         }
 
         public void PlayMedia()
