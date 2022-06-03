@@ -255,18 +255,8 @@ namespace MediaPlayer.ViewModel
 
             await MetadataWriterService.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
 
-            if (!shutdownApplication)
-            {
-                MediaItems.Clear();
-                MediaItems = new MediaItemObservableCollection();
-
-                BusyViewModel.MediaListTitle = string.Empty;
-                BusyViewModel.IsLoading = false;
-
-                return;
-            }
-
-            Application.Current.Shutdown(0);
+            if (shutdownApplication)
+                Application.Current.Shutdown(0);
         }
 
         public void PlayMedia()

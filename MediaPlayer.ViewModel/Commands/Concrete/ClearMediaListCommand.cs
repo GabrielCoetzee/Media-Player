@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model.Collections;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
@@ -30,14 +31,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             return vm.IsMediaListPopulated;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
             if (parameter is not MainViewModel vm)
                 return;
 
-            var shutdownApplication = false;
+            await vm.SaveChangesAsync(false);
 
-            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.SaveChangesToDirtyFiles, shutdownApplication);
+            vm.MediaItems.Clear();
+            vm.MediaItems = new MediaItemObservableCollection();
+
+            vm.BusyViewModel.MediaListTitle = string.Empty;
+            vm.BusyViewModel.IsLoading = false;
         }
     }
 }
