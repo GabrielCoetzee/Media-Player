@@ -22,7 +22,7 @@ namespace MediaPlayer.Model.Metadata.Concrete
             {
                 using var reader = TagLib.File.Create(path);
 
-                var albumArt = reader.Tag.Pictures.SingleOrDefault(x => x.Type == PictureType.FrontCover)?.Data?.Data;
+                var albumArt = reader.Tag.Pictures.FirstOrDefault(x => x.Type == PictureType.FrontCover)?.Data?.Data;
 
                 if (albumArt == null || albumArt.Length == 0)
                     albumArt = SearchForAlbumArtInDirectory(path);

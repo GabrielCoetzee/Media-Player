@@ -242,7 +242,7 @@ namespace MediaPlayer.ViewModel
 
         public async Task SaveChangesAsync(bool shutdownApplication)
         {
-            UpdateMetadataTokenSources.ForEach(x => x.Cancel());
+            await Task.Run(() => UpdateMetadataTokenSources.ForEach(x => x.Cancel()));
             UpdateMetadataTokenSources.Clear();
 
             StopMedia();
