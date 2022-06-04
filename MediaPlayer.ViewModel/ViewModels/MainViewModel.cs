@@ -213,7 +213,7 @@ namespace MediaPlayer.ViewModel
 
             var mediaItems = await MetadataReaderService.ReadFilePathsAsync(filePaths);
 
-            AddToListView(mediaItems);
+            AddMediaItemsToListView(mediaItems);
 
             BusyViewModel.MediaListTitle = "Updating Metadata...";
 
@@ -229,7 +229,7 @@ namespace MediaPlayer.ViewModel
             BusyViewModel.MediaListTitle = "Media List";
         }
 
-        private void AddToListView(IEnumerable<MediaItem> mediaItems)
+        private void AddMediaItemsToListView(IEnumerable<MediaItem> mediaItems)
         {
             MediaItems.AddRange(mediaItems);
 
