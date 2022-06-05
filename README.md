@@ -2,6 +2,8 @@
 
 This is a Media Player that I am actively working on. This is made for personal use only. I do not own any of the images used in this software, and this software will not be distributed. (Recently ported to .NET 6)
 
+![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
+
 Features : 
 - Themes
 - Transparency Slider
@@ -31,8 +33,6 @@ Technologies used :
 - LazyCache
 - TaglibSharp
 - Newtonsoft.Json
-
-![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
 
 ![Screenshot - Lyrics Collapsed](./Screenshots/LyricsCollapsed.JPG?raw=true "Screenshot - Lyrics Collapsed")
 
