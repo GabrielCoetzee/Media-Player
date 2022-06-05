@@ -5,7 +5,7 @@ using Generic.DependencyInjection;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.Metadata.Abstract;
 
-namespace MediaPlayer.Model.Metadata.Concrete
+namespace MediaPlayer.Model.Metadata.Concrete.Writers
 {
     [Export]
     public class MetadataWriterFactory

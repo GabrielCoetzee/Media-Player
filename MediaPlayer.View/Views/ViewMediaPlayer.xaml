@@ -178,8 +178,9 @@
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Label Visibility="{Binding SelectedMediaItem.IsAudio, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{Binding SelectedMediaItem.Bitrate}" ContentStringFormat="Bitrate: {0} kbps"   />
-                <Label Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{Binding SelectedMediaItem.Resolution}" ContentStringFormat="Resolution: {0}"   />
+                <Label Visibility="{Binding IsMediaListPopulated, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{Binding SelectedMediaItem.LabelInfo}" />
+                <!--<Label Visibility="{Binding SelectedMediaItem.IsAudio, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{Binding SelectedMediaItem.LabelInfo}" ContentStringFormat="Bitrate: {0} kbps"   />
+                <Label Visibility="{Binding SelectedMediaItem.IsVideo, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{Binding SelectedMediaItem.Resolution}" ContentStringFormat="Resolution: {0}"   />-->
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Drawing;
 using System;
 
-namespace MediaPlayer.Model.Metadata.Concrete
+namespace MediaPlayer.Model.Metadata.Concrete.Readers
 {
     [Export(typeof(IMetadataReader))]
     public class TaglibMetadataReader : IMetadataReader

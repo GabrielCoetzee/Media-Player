@@ -14,7 +14,6 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
         private uint? _year;
         private string _lyrics;
         private string _composer;
-        private int _bitrate;
         private bool _isAlbumArtDirty;
         private bool _isLyricsDirty;
 
@@ -100,16 +99,6 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
             {
                 _composer = value;
                 OnPropertyChanged(nameof(Composer));
-            } 
-        }
-
-        public int Bitrate
-        {
-            get => _bitrate;
-            set
-            {
-                _bitrate = value;
-                OnPropertyChanged(nameof(Bitrate));
             } 
         }
 

@@ -28,7 +28,7 @@ namespace MediaPlayer.Model.ObjectBuilders
 
         public AudioItemBuilder WithBitrate(int bitrate)
         {
-            _audioItem.Bitrate = bitrate;
+            _audioItem.LabelInfo = $"Bitrate: {bitrate} kbps";
 
             return this;
         }
@@ -55,6 +55,11 @@ namespace MediaPlayer.Model.ObjectBuilders
             return this;
         }
 
+        /// <summary>
+        /// On initial read, setting "IsDirty" to false so we don't write same data back to it later
+        /// </summary>
+        /// <param name="lyrics"></param>
+        /// <returns></returns>
         public AudioItemBuilder WithLyrics(string lyrics)
         {
             _audioItem.Lyrics = lyrics;
@@ -70,6 +75,11 @@ namespace MediaPlayer.Model.ObjectBuilders
             return this;
         }
 
+        /// <summary>
+        /// On initial read, setting "IsDirty" to false so we don't write same data back to it later
+        /// </summary>
+        /// <param name="albumArt"></param>
+        /// <returns></returns>
         public AudioItemBuilder WithAlbumArt(byte[] albumArt)
         {
             _audioItem.AlbumArt = albumArt;

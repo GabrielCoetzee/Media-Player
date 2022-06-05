@@ -8,7 +8,7 @@ using System;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using System.Linq;
 
-namespace MediaPlayer.Model.Metadata.Concrete
+namespace MediaPlayer.Model.Metadata.Concrete.Writers
 {
     [Export(typeof(IMetadataWriter))]
     public class TaglibMetadataWriter : IMetadataWriter
@@ -19,7 +19,7 @@ namespace MediaPlayer.Model.Metadata.Concrete
         {
             try
             {
-                using var reader = TagLib.File.Create(mediaItem.FilePath.LocalPath);
+                using var reader = File.Create(mediaItem.FilePath.LocalPath);
 
                 switch (mediaItem.MediaType)
                 {
@@ -53,7 +53,7 @@ namespace MediaPlayer.Model.Metadata.Concrete
             if (!audioItem.IsAlbumArtDirty)
                 return;
 
-            reader.Tag.Pictures = new TagLib.IPicture[]
+            reader.Tag.Pictures = new IPicture[]
             {
                 new TagLib.Id3v2.AttachmentFrame
                 {
@@ -61,7 +61,7 @@ namespace MediaPlayer.Model.Metadata.Concrete
                     Description = "Cover",
                     MimeType = System.Net.Mime.MediaTypeNames.Image.Jpeg,
                     Data = audioItem.AlbumArt,
-                    TextEncoding = TagLib.StringType.UTF16
+                    TextEncoding = StringType.UTF16
                 }
             };
 

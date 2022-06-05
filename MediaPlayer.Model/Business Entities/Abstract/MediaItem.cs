@@ -16,6 +16,7 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
         private TimeSpan _elapsedTime;
         private string _mediaTitle;
         private string _windowTitle = "Now Playing: ";
+        private string _labelInfo;
 
         public bool IsVideo => MediaType == (MediaType.Audio | MediaType.Video);
         public bool IsAudio => MediaType == MediaType.Audio;
@@ -84,6 +85,7 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
                 OnPropertyChanged(nameof(IsAudio));
             }
         }
+
         public TimeSpan ElapsedTime
         {
             get => _elapsedTime;
@@ -91,6 +93,16 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
             {
                 _elapsedTime = value;
                 OnPropertyChanged(nameof(ElapsedTime));
+            }
+        }
+
+        public string LabelInfo
+        {
+            get => _labelInfo;
+            set
+            {
+                _labelInfo = value;
+                OnPropertyChanged(nameof(LabelInfo));
             }
         }
 

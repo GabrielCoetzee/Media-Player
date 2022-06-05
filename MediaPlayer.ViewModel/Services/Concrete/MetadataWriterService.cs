@@ -1,6 +1,6 @@
 ﻿using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
-using MediaPlayer.Model.Metadata.Concrete;
+using MediaPlayer.Model.Metadata.Concrete.Writers;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -27,11 +27,12 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             await Task.Run(() => {
 
-                if (Parallel.ForEach(mediaItems, (x) =>
+                if (Parallel.ForEach(mediaItems, (mediaItem) =>
                 {
                     var metadataWriter = _metadataWriterFactory.Resolve(MetadataLibraries.Taglib);
 
-                    metadataWriter.Update(x);
+                    metadataWriter.Update(mediaItem);
+
                 }).IsCompleted)
                     return;
             });
