@@ -15,6 +15,8 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
         private string _lyrics;
         private string _composer;
         private int _bitrate;
+        private bool _isAlbumArtDirty;
+        private bool _isLyricsDirty;
 
         public bool HasLyrics => !string.IsNullOrEmpty(_lyrics);
         public bool HasAlbumArt => _albumArt != null && _albumArt != default && _albumArt.Length > 0;
@@ -110,5 +112,28 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
                 OnPropertyChanged(nameof(Bitrate));
             } 
         }
+
+        public bool IsAlbumArtDirty
+        {
+            get => _isAlbumArtDirty;
+            set
+            {
+                _isAlbumArtDirty = value;
+                OnPropertyChanged(nameof(IsAlbumArtDirty));
+                OnPropertyChanged(nameof(IsDirty));
+            }
+        }
+        public bool IsLyricsDirty
+        {
+            get => _isLyricsDirty;
+            set
+            {
+                _isLyricsDirty = value;
+                OnPropertyChanged(nameof(IsLyricsDirty));
+                OnPropertyChanged(nameof(IsDirty));
+            }
+        }
+
+        public override bool IsDirty => IsAlbumArtDirty || IsLyricsDirty;
     }
 }

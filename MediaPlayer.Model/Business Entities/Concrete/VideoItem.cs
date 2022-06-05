@@ -15,5 +15,7 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
                 OnPropertyChanged(nameof(VideoResolution));
             } 
         }
+
+        public override bool IsDirty => throw new System.NotImplementedException();
     }
 }
