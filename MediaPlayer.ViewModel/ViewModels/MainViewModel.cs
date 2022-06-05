@@ -36,7 +36,7 @@ namespace MediaPlayer.ViewModel
         private bool _isMediaItemsShuffled;
 
         public readonly DispatcherTimer CurrentPositionTracker = new();
-        public List<CancellationTokenSource> UpdateMetadataTokenSources = new List<CancellationTokenSource>();
+        public List<CancellationTokenSource> UpdateMetadataTokenSources = new();
 
         public MediaItem SelectedMediaItem
         {

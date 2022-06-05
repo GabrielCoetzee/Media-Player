@@ -4,16 +4,10 @@ using System.Threading.Tasks;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.DataAccess.Abstract;
 using MediaPlayer.ViewModel.Services.Abstract;
-using MediaPlayer.Model.Metadata.Concrete;
-using MediaPlayer.Common.Enumerations;
 using System.Linq;
 using System.Net.Http;
-using System.IO;
-using System.Drawing;
-using System;
 using System.Threading;
 using LazyCache;
-using System.Diagnostics;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
