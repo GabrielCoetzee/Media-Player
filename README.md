@@ -7,7 +7,7 @@ This is a Media Player that I am actively working on. This is made for personal 
 Features : 
 - Themes
 - Transparency Slider
-- Automatically download album art / lyrics of music that you're currently listening to. (Using caching and parallel threads for better responsiveness                   performance)
+- Automatically download album art / lyrics of music that you're currently listening to. (Using caching and parallel threads for better responsiveness                   and performance)
 - Automatically save updated lyrics and album art to audio file's metadata
 - Easy viewing of lyrics while listening
 - MP3, FLAC, M4A and WMA Audio formats supported as of this moment. It uses Microsoft MediaElement so it technically can play anything that MediaElement can, but I am   only adding support incrementally for specific file formats that I can test and verify works.
