@@ -1,33 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using Generic;
-using Generic.Configuration.Concrete;
-using Generic.Configuration.Extensions;
 using Generic.DependencyInjection;
 using Generic.Mediator;
 using Generic.NamedPipes.Wrappers;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model.Metadata.Abstract;
-using MediaPlayer.Model.Metadata.Concrete;
-using MediaPlayer.Settings;
-using MediaPlayer.Settings.Concrete;
 using MediaPlayer.Shell.MessengerRegs;
-using MediaPlayer.Theming.Abstract;
-using MediaPlayer.Theming.Concrete;
 using MediaPlayer.View.Views;
-using MediaPlayer.ViewModel;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MediaPlayer.Shell
 {
@@ -40,24 +21,6 @@ namespace MediaPlayer.Shell
         private Mutex _mutex;
         private const string _mutexName = "##||MediaPlayer||##";
         public NamedPipeManager PipeManager { get; set; } = new NamedPipeManager("MediaPlayer");
-
-        public void FirstApplicationInstanceReceivedArguments(object sender, string[] args)
-        {
-            if (!args.Any())
-                return;
-
-            Dispatcher.Invoke(() =>
-            {
-                ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
-
-                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, args);
-            });
-        }
-
-        private async Task SendArgsToFirstInstanceAsync(StartupEventArgs e)
-        {
-            await PipeManager.WriteLinesAsync(e.Args);
-        }
 
         protected async override void OnStartup(StartupEventArgs e)
         {
@@ -84,6 +47,24 @@ namespace MediaPlayer.Shell
             StartApplication(e);
 
             base.OnStartup(e);
+        }
+
+        public void FirstApplicationInstanceReceivedArguments(object sender, string[] args)
+        {
+            if (!args.Any())
+                return;
+
+            Dispatcher.Invoke(() =>
+            {
+                ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
+
+                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, args);
+            });
+        }
+
+        private async Task SendArgsToFirstInstanceAsync(StartupEventArgs e)
+        {
+            await PipeManager.WriteLinesAsync(e.Args);
         }
 
         private static void StartApplication(StartupEventArgs e)
