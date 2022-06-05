@@ -25,6 +25,7 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
             set
             {
                 _albumArt = value;
+                IsAlbumArtDirty = true;
                 OnPropertyChanged(nameof(AlbumArt));
                 OnPropertyChanged(nameof(HasAlbumArt));
             }
@@ -83,6 +84,7 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
             set
             {
                 _lyrics = value;
+                IsLyricsDirty = true;
                 OnPropertyChanged(nameof(Lyrics));
                 OnPropertyChanged(nameof(HasLyrics));
             } 

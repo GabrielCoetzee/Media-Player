@@ -16,7 +16,8 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
         private TimeSpan _elapsedTime;
         private string _mediaTitle;
         private string _windowTitle = "Now Playing: ";
-        private bool _isDirty;
+        private bool _isAlbumArtDirty;
+        private bool _isLyricsDirty;
 
         public bool IsVideo => MediaType == (MediaType.Audio | MediaType.Video);
         public bool IsAudio => MediaType == MediaType.Audio;
@@ -95,14 +96,27 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
             }
         }
 
-        public bool IsDirty
+        public bool IsAlbumArtDirty
         {
-            get => _isDirty;
+            get => _isAlbumArtDirty;
             set
             {
-                _isDirty = value;
+                _isAlbumArtDirty = value;
+                OnPropertyChanged(nameof(IsAlbumArtDirty));
                 OnPropertyChanged(nameof(IsDirty));
             }
         }
+        public bool IsLyricsDirty
+        {
+            get => _isLyricsDirty;
+            set
+            {
+                _isLyricsDirty = value;
+                OnPropertyChanged(nameof(IsLyricsDirty));
+                OnPropertyChanged(nameof(IsDirty));
+            }
+        }
+
+        public bool IsDirty => IsAlbumArtDirty || IsLyricsDirty;
     }
 }

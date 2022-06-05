@@ -33,7 +33,6 @@ namespace MediaPlayer.Model.Metadata.Concrete
                 }
 
                 reader.Save();
-                mediaItem.IsDirty = false;
             }
             catch (Exception)
             {
@@ -42,15 +41,16 @@ namespace MediaPlayer.Model.Metadata.Concrete
 
         private void UpdateLyrics(File reader, AudioItem audioItem)
         {
-            if (!string.IsNullOrEmpty(reader.Tag.Lyrics))
+            if (!audioItem.IsLyricsDirty)
                 return;
 
             reader.Tag.Lyrics = audioItem.Lyrics;
+            audioItem.IsLyricsDirty = false;
         }
 
         private void UpdateAlbumArt(File reader, AudioItem audioItem)
         {
-            if (reader.Tag.Pictures.Any(x => x.Type == PictureType.FrontCover))
+            if (!audioItem.IsAlbumArtDirty)
                 return;
 
             reader.Tag.Pictures = new TagLib.IPicture[]
@@ -64,6 +64,8 @@ namespace MediaPlayer.Model.Metadata.Concrete
                     TextEncoding = TagLib.StringType.UTF16
                 }
             };
+
+            audioItem.IsAlbumArtDirty = false;
         }
     }
 }

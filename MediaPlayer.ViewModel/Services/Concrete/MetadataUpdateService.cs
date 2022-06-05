@@ -53,9 +53,12 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                     continue;
 
                 var response = await _lyricsOvhDataAccess.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
+                var lyrics = response?.Lyrics;
 
-                audioItem.Lyrics = response?.Lyrics;
-                audioItem.IsDirty = audioItem.HasLyrics;
+                if (string.IsNullOrEmpty(lyrics))
+                    continue;
+
+                audioItem.Lyrics = lyrics;
             }
         }
 
@@ -70,7 +73,6 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                     continue;
 
                 var response = await _lastFmDataAccess.GetTrackInfoAsync(audioItem.Artist, audioItem.MediaTitle);
-
                 var url = response?.Track?.Album?.Image?.LastOrDefault()?.Url;
 
                 if (string.IsNullOrEmpty(url))
@@ -78,8 +80,12 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
                 async Task<byte[]> DownloadAlbumArtFunction() => await DownloadAlbumArtFromUrlAsync(url);
 
-                audioItem.AlbumArt = await _cache.GetOrAddAsync(url, DownloadAlbumArtFunction);
-                audioItem.IsDirty = audioItem.HasAlbumArt;
+                var albumArt = await _cache.GetOrAddAsync(url, DownloadAlbumArtFunction);
+
+                if (albumArt == null || albumArt.Length == 0)
+                    continue;
+
+                audioItem.AlbumArt = albumArt;
             }
         }
         private async Task<byte[]> DownloadAlbumArtFromUrlAsync(string url)
