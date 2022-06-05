@@ -18,7 +18,7 @@ namespace MediaPlayer.Model.ObjectBuilders
 
         public VideoItemBuilder WithResolution(string resolution)
         {
-            _videoItem.LabelInfo = $"Resolution: {resolution}";
+            _videoItem.InfoLabel = $"Resolution: {resolution}";
 
             return this;
         }

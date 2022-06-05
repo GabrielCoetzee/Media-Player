@@ -28,7 +28,7 @@ namespace MediaPlayer.Model.ObjectBuilders
 
         public AudioItemBuilder WithBitrate(int bitrate)
         {
-            _audioItem.LabelInfo = $"Bitrate: {bitrate} kbps";
+            _audioItem.InfoLabel = $"Bitrate: {bitrate} kbps";
 
             return this;
         }

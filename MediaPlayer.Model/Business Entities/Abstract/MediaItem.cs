@@ -96,13 +96,13 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
             }
         }
 
-        public string LabelInfo
+        public string InfoLabel
         {
             get => _labelInfo;
             set
             {
                 _labelInfo = value;
-                OnPropertyChanged(nameof(LabelInfo));
+                OnPropertyChanged(nameof(InfoLabel));
             }
         }
 
