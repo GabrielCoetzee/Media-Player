@@ -12,7 +12,7 @@ Features :
 - Easy viewing of lyrics while listening
 - MP3, FLAC, M4A and WMA Audio formats supported as of this moment. It uses Microsoft MediaElement so it technically can play anything that MediaElement can, but I am   only adding support incrementally for specific file formats that I can test and verify works.
 - Drag & Drop support
-- Shuffle functionality will phyisically re-order the list as opposed to choosing next track at random
+- Shuffle functionality will physically re-order the list as opposed to choosing next track at random
 - Hotkeys - Media keys on your keyboard will work (Play/Pause, Next, Previous, Stop)
 - Single Instance Support - More than one instance cannot be started and if subsequent instances are started and have startup arguments, they're sent to the first       instance via Named Pipes
 
