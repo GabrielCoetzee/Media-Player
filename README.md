@@ -1,26 +1,23 @@
 # Media-Player
 
-Features Recently added : 
-- Themes! - Thanks to the amazing Mahapps Metro library :-) 
-- Enable / Disable Transparency and slider to select preferred opacity
-- Recently ported to .NET 6
+This is a Media Player that I am actively working on. This is made for personal use only. I do not own any of the images used in this software, and this software will not be distributed. (Recently ported to .NET 6)
 
-This is a Media Player that I am actively working on. This is made for personal use only. I do not own any of the images used in this software, and this software will not be distributed.
-
-Features Include : 
-
-- MP3, FLAC, M4A and WMA Audio formats supported as of this moment. It uses Microsoft MediaElement so it technically can play anything that MediaElement can, but I am only adding support incrementally for specific file formats that I can test and verify works.
-- You can drag & drop files anywhere in the application. Supported files dropped in, if any found, will be added.
-- Shuffle functionality will re-order the list with currently playing media item moved to the top
+Features : 
+- Themes
+- Transparency Slider
+- Automatically download album art / lyrics of music that you're currently listening to. (Using caching and parallel threads for better responsiveness                   performance)
+- Automatically save updated lyrics and album art to audio file's metadata
+- Easy viewing of lyrics while listening
+- MP3, FLAC, M4A and WMA Audio formats supported as of this moment. It uses Microsoft MediaElement so it technically can play anything that MediaElement can, but I am   only adding support incrementally for specific file formats that I can test and verify works.
+- Drag & Drop support
+- Shuffle functionality will phyisically re-order the list as opposed to choosing next track at random
 - Hotkeys - Media keys on your keyboard will work (Play/Pause, Next, Previous, Stop)
-- Lyrics found for the media item (Within the .mp3's metadata) will show in an expander on the top-left as shown in a below screenshots.
+- Single Instance Support - More than one instance cannot be started and if subsequent instances are started and have startup arguments, they're sent to the first       instance via Named Pipes
 
 Features to come :
 
 - Installer
-- Have ability to set media player as default in windows
-- Video playback
-- Download and save album art and lyrics for media items while playing and if not found
+- Video playback support
 
 Technologies used :
 
@@ -28,7 +25,12 @@ Technologies used :
 - C# with MVVM Design Pattern
 - Mahapps Metro 
 - Mahapps Metro Icons
-- FontAwesome.WPF
+- FontAwesome5.WPF
+- Flurl
+- Flurl.Http
+- LazyCache
+- TaglibSharp
+- Newtonsoft.Json
 
 ![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
 
