@@ -1,18 +1,20 @@
 ﻿using MediaPlayer.Model.BusinessEntities.Abstract;
+using System.Diagnostics;
 
 namespace MediaPlayer.Model.BusinessEntities.Concrete
 {
+    [DebuggerDisplay("{MediaTitle}")]
     public class VideoItem : MediaItem
     {
-        private string _videoResolution;
+        private string _resolution;
 
-        public string VideoResolution
+        public string Resolution
         {
-            get => _videoResolution;
+            get => _resolution;
             set
             {
-                _videoResolution = value;
-                OnPropertyChanged(nameof(VideoResolution));
+                _resolution = value;
+                OnPropertyChanged(nameof(Resolution));
             } 
         }
 
