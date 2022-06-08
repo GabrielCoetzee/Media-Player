@@ -1,5 +1,5 @@
-﻿using MediaPlayer.Settings.Abstract;
-using MediaPlayer.Settings.Configuration;
+﻿using MediaPlayer.Settings.Base.Concrete;
+using MediaPlayer.Settings.Generic.Abstract;
 using System;
 using System.ComponentModel.Composition;
 

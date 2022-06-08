@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Generic\Generic.csproj" />
-    <ProjectReference Include="..\MediaPlayer.ThemeSelector\MediaPlayer.Theming.csproj" />
+    <ProjectReference Include="..\MediaPlayer.Theming\MediaPlayer.Theming.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace MediaPlayer.Settings.Abstract
+﻿namespace MediaPlayer.Settings.Generic.Abstract
 {
     public interface IFileLocations
     {

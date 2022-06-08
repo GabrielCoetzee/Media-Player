@@ -1,9 +1,10 @@
-﻿using MediaPlayer.Settings.Abstract;
+﻿using MediaPlayer.Settings.Generic.Abstract;
 using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Reflection;
 
-namespace MediaPlayer.Settings.Concrete
+namespace MediaPlayer.Settings.Base.Concrete
 {
     [Export(typeof(IFileLocations))]
     [PartCreationPolicy(CreationPolicy.Shared)]

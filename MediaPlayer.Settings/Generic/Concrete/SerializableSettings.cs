@@ -1,10 +1,10 @@
 ﻿using Generic.Extensions;
-using MediaPlayer.Settings.Abstract;
+using MediaPlayer.Settings.Generic.Abstract;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text.Json;
 
-namespace MediaPlayer.Settings.Configuration
+namespace MediaPlayer.Settings.Base.Concrete
 {
     [InheritedExport]
     public abstract class SerializableSettings

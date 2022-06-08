@@ -6,6 +6,11 @@ using System.ComponentModel.Composition;
 
 namespace MediaPlayer.Settings.Concrete
 {
+    /// <summary>
+    /// Intermediary Manager for settings that notifies property changes.
+    /// Don't want to also make serializable settings implement property notify 
+    /// base
+    /// </summary>
     [Export(typeof(ISettingsManager))]
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class SettingsManager : PropertyNotifyBase, ISettingsManager
@@ -56,11 +61,6 @@ namespace MediaPlayer.Settings.Concrete
         public void SaveSettings()
         {
             _applicationSettings.Save();
-
-            //_options.Update(opt => {
-            //    opt.Opacity = _selectedOpacity;
-            //    opt.Accent = _selectedAccent;
-            //});
         }
 
     }
