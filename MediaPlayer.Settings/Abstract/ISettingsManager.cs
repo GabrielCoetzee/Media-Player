@@ -4,8 +4,8 @@ namespace MediaPlayer.Settings
 {
     public interface ISettingsManager : INotifyPropertyChanged
     {
-        string SelectedAccent { get; set;  }
-        decimal SelectedOpacity { get; set; }
+        string Accent { get; set;  }
+        decimal Opacity { get; set; }
         void SaveSettings();
     }
 }

@@ -29,7 +29,7 @@ namespace MediaPlayer.Settings.Config
         public string[] SupportedFileFormats { get; set; } = { ".mp3", ".m4a", ".flac", ".wma" };
         public string Accent { get; set; } = "Blue";
         public decimal Opacity { get; set; } = 0.8m;
-        public LastFMSettings LastFMSettings { get; set; } = new LastFMSettings();
+        public LastFMSettings LastFMSettings { get; set; } = new();
         protected override string FileName => @"Application Settings";
 
         public void Save()

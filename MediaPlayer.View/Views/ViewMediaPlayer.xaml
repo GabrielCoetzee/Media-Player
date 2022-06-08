@@ -30,7 +30,7 @@
         <KeyBinding Command="{Binding PreviousTrackCommand}" CommandParameter="{Binding}" Key="MediaPreviousTrack" />
     </Controls:MetroWindow.InputBindings>
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="Black" Opacity="{Binding SettingsManager.SelectedOpacity}"/>
+        <SolidColorBrush Color="Black" Opacity="{Binding SettingsManager.Opacity}"/>
     </Controls:MetroWindow.Background>
 
     <Controls:MetroWindow.RightWindowCommands>
@@ -171,7 +171,7 @@
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource AlbumArtMultiValueConverter}">
                             <Binding Path="SelectedMediaItem.AlbumArt"  />
-                            <Binding Path="SettingsManager.SelectedAccent" />
+                            <Binding Path="SettingsManager.Accent" />
                         </MultiBinding>
                     </Image.Source>
                 </Image>

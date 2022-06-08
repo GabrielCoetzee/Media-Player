@@ -1,5 +1,4 @@
-﻿using Generic.DependencyInjection;
-using Generic.PropertyNotify;
+﻿using Generic.PropertyNotify;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.Theming.Abstract;
 using System.ComponentModel.Composition;
@@ -25,33 +24,33 @@ namespace MediaPlayer.Settings.Concrete
             _applicationSettings = applicationSettings;
             _themeManager = themeManager;
 
-            _selectedOpacity = _applicationSettings.Opacity;
-            _selectedAccent = _applicationSettings.Accent;
+            _opacity = _applicationSettings.Opacity;
+            _accent = _applicationSettings.Accent;
         }
 
-        private decimal _selectedOpacity;
-        private string _selectedAccent;
+        private decimal _opacity;
+        private string _accent;
 
-        public string SelectedAccent
+        public string Accent
         {
-            get => _selectedAccent;
+            get => _accent;
             set
             {
-                _selectedAccent = value;
-                OnPropertyChanged(nameof(SelectedAccent));
+                _accent = value;
+                OnPropertyChanged(nameof(Accent));
 
                 _applicationSettings.Accent = value;
                 _themeManager.ChangeAccent(value);
             }
         }
 
-        public decimal SelectedOpacity
+        public decimal Opacity
         {
-            get => _selectedOpacity;
+            get => _opacity;
             set
             {
-                _selectedOpacity = value;
-                OnPropertyChanged(nameof(SelectedOpacity));
+                _opacity = value;
+                OnPropertyChanged(nameof(Opacity));
 
                 _applicationSettings.Opacity = value;
                 _themeManager.ChangeOpacity((double)value);
