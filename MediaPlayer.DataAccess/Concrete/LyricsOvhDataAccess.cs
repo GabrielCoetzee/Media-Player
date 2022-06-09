@@ -15,7 +15,8 @@ namespace MediaPlayer.DataAccess.Concrete
         {
             try
             {
-                return await "https://api.lyrics.ovh/v1"
+                return await "https://api.lyrics.ovh"
+                    .AppendPathSegments("v1")
                     .AppendPathSegments(artist, track)
                     .GetJsonAsync<LyricsOvhResponse>();
             }

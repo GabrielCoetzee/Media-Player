@@ -7,7 +7,7 @@
         xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel" 
         d:DataContext="{d:DesignInstance Type=viewmodel:ApplicationSettingsViewModel}"
         mc:Ignorable="d"
-        Title="Settings" MinHeight="250" MinWidth="300" Height="250" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" x:Name="ApplicationSettingsWindow">
+        Title="Settings" MinHeight="250" MinWidth="350" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" x:Name="ApplicationSettingsWindow">
     <i1:Interaction.Triggers>
         <i1:EventTrigger EventName="Loaded" >
             <i1:InvokeCommandAction Command="{Binding LoadThemeOnWindowLoadedCommand}" CommandParameter="{Binding ElementName=ComboBoxAccents}" />
@@ -19,15 +19,19 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
+            <RowDefinition Height="0.2*" />
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
 
-        <TabControl Grid.Row="0" Grid.Column="0" >
+        <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" >
             <TabItem Header="Theme">
-                <Grid Margin="5">
+                <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
@@ -42,23 +46,49 @@
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
-                    
-                    <Label Grid.Column="0" Grid.Row="2" Content="Opacity:" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Value="{Binding SettingsManager.Opacity}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.5" Maximum="1.0" Ticks="0,50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0" TickFrequency="0.05" />
 
                     <Label Grid.Column="0" Grid.Row="0" Content="Accent:" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsManager.Accent}" />
 
-                    <Button x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Foreground="{DynamicResource MahApps.Brushes.Accent}" Content="Close">
-                        <i1:Interaction.Triggers>
-                            <i1:EventTrigger EventName="Click" >
-                                <i1:InvokeCommandAction Command="{Binding SaveSettingsCommand}" CommandParameter="{Binding ElementName=ApplicationSettingsWindow}" />
-                            </i1:EventTrigger>
-                        </i1:Interaction.Triggers>
-                    </Button>
+                    <Label Grid.Column="0" Grid.Row="2" Content="Opacity:" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Value="{Binding SettingsManager.Opacity}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.5" Maximum="1.0" Ticks="0,50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0" TickFrequency="0.05" />
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Metadata">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Content="Update Metadata: " HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <CheckBox Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsChecked="{Binding SettingsManager.IsUpdateMetadataEnabled}" />
+
+                    <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Content="Save Metadata: " HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <CheckBox Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" IsChecked="{Binding SettingsManager.IsSaveMetadataToFileEnabled}" />
+
                 </Grid>
             </TabItem>
         </TabControl>
-        
+
+        <Button Margin="5" x:Name="ButtonCloseSettings" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Foreground="{DynamicResource MahApps.Brushes.Accent}" Content="Save and Close">
+            <i1:Interaction.Triggers>
+                <i1:EventTrigger EventName="Click" >
+                    <i1:InvokeCommandAction Command="{Binding SaveSettingsCommand}" CommandParameter="{Binding ElementName=ApplicationSettingsWindow}" />
+                </i1:EventTrigger>
+            </i1:Interaction.Triggers>
+        </Button>
+
     </Grid>
 </Controls:MetroWindow>

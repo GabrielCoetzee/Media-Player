@@ -29,18 +29,11 @@ namespace MediaPlayer.Settings.Config
         public string[] SupportedFileFormats { get; set; } = { ".mp3", ".m4a", ".flac", ".wma" };
         public string Accent { get; set; } = "Blue";
         public decimal Opacity { get; set; } = 0.8m;
-        public LastFMSettings LastFMSettings { get; set; } = new();
         protected override string FileName => @"Application Settings";
 
         public void Save()
         {
             SerializeObject(this);
         }
-    }
-
-    public class LastFMSettings
-    {
-        public string Api { get; set; } = "http://ws.audioscrobbler.com";
-        public string ApiKey { get; set; } = "63b8dee9bc3b6d10ff27ae8e5aa58f1d";
     }
 }

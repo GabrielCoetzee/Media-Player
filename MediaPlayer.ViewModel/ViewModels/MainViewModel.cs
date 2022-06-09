@@ -215,15 +215,18 @@ namespace MediaPlayer.ViewModel
 
             AddMediaItemsToListView(mediaItems);
 
-            BusyViewModel.MediaListTitle = "Updating Metadata...";
+            if (SettingsManager.IsUpdateMetadataEnabled)
+            {
+                BusyViewModel.MediaListTitle = "Updating Metadata...";
 
-            var cts = new CancellationTokenSource();
-            UpdateMetadataTokenSources.Add(cts);
+                var cts = new CancellationTokenSource();
+                UpdateMetadataTokenSources.Add(cts);
 
-            await MetadataUpdateService.UpdateMetadataAsync(mediaItems.OfType<AudioItem>(), cts.Token);
+                await MetadataUpdateService.UpdateMetadataAsync(mediaItems.OfType<AudioItem>(), cts.Token);
 
-            if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
-                return;
+                if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
+                    return;
+            }
 
             BusyViewModel.IsLoading = false;
             BusyViewModel.MediaListTitle = "Media List";
@@ -250,10 +253,13 @@ namespace MediaPlayer.ViewModel
             CurrentPositionTracker.Stop();
             SelectedMediaItem = null;
 
-            BusyViewModel.IsLoading = true;
-            BusyViewModel.MediaListTitle = "Saving Changes...";
+            if (SettingsManager.IsSaveMetadataToFileEnabled)
+            {
+                BusyViewModel.IsLoading = true;
+                BusyViewModel.MediaListTitle = "Saving Changes...";
 
-            await MetadataWriterService.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
+                await MetadataWriterService.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
+            }
 
             if (shutdownApplication)
                 Application.Current.Shutdown(0);
