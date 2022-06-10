@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic\Generic.csproj" />
@@ -15,9 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ControlzEx">
@@ -33,10 +30,5 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>
