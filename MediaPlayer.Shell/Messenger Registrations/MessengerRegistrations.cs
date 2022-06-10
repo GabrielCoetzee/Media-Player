@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
@@ -52,7 +53,12 @@ namespace MediaPlayer.Shell.MessengerRegs
             {
                 var vm = container?.GetExports<MainViewModel>().Single().Value;
 
-                await vm.SaveChangesAsync((bool)args);
+                await vm.SaveChangesAsync();
+
+                var shutdownApplication = (bool)args;
+
+                if (shutdownApplication)
+                    Application.Current.Shutdown(0);
             });
         }
     }

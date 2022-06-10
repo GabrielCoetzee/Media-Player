@@ -36,7 +36,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
-            await vm.SaveChangesAsync(false);
+            await vm.SaveChangesAsync();
 
             vm.MediaItems.Clear();
             vm.MediaItems = new MediaItemObservableCollection();

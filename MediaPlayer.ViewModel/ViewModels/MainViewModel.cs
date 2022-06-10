@@ -243,7 +243,7 @@ namespace MediaPlayer.ViewModel
             PlayMedia();
         }
 
-        public async Task SaveChangesAsync(bool shutdownApplication)
+        public async Task SaveChangesAsync()
         {
             await Task.Run(() => UpdateMetadataTokenSources.ForEach(x => x.Cancel()));
             UpdateMetadataTokenSources.Clear();
@@ -253,16 +253,13 @@ namespace MediaPlayer.ViewModel
             CurrentPositionTracker.Stop();
             SelectedMediaItem = null;
 
-            if (SettingsManager.IsSaveMetadataToFileEnabled)
-            {
-                BusyViewModel.IsLoading = true;
-                BusyViewModel.MediaListTitle = "Saving Changes...";
+            if (!SettingsManager.IsSaveMetadataToFileEnabled)
+                return;
 
-                await MetadataWriterService.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
-            }
+            BusyViewModel.IsLoading = true;
+            BusyViewModel.MediaListTitle = "Saving Changes...";
 
-            if (shutdownApplication)
-                Application.Current.Shutdown(0);
+            await MetadataWriterService.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
         }
 
         public void PlayMedia()
