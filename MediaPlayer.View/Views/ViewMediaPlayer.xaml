@@ -37,10 +37,10 @@
         <Controls:WindowCommands>
             <Button Command="{Binding OpenSettingsWindowCommand}">
                 <StackPanel Orientation="Horizontal">
+                    <fa5:ImageAwesome Width="15"  Height="15" Icon="Solid_Cog" Foreground="#FFFFFF" />
                     <TextBlock Margin="5 0 5 0"
                                VerticalAlignment="Center"
                                Text="SETTINGS" />
-                    <fa5:ImageAwesome Width="15"  Height="15" Icon="Solid_Cog" Foreground="#FFFFFF" />
                 </StackPanel>
             </Button>
         </Controls:WindowCommands>
