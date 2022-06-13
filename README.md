@@ -14,7 +14,7 @@ Features :
 - Drag & Drop support
 - Shuffle functionality will physically re-order the list as opposed to choosing next track at random
 - Hotkeys - Media keys on your keyboard will work (Play/Pause, Next, Previous, Stop)
-- Single Instance Support - More than one instance cannot be started and if subsequent instances are started and have startup arguments, they're sent to the first       instance via Named Pipes
+- Single Instance Support - More than one instance cannot be started and if subsequent instances are started and have startup arguments, they're sent to the first       instance via Named Pipes (This is important because it means you can set the media player as your default in windows, highlight x amount of audio files, press enter   and they will load in a single instance as opposed to opening x amount of media player instances in parallel, all containing a different file)
 
 Features to come :
 
