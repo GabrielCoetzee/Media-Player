@@ -34,9 +34,6 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
-                return;
-
             var chooseFiles = new OpenFileDialog
             {
                 Title = "Choose Files",

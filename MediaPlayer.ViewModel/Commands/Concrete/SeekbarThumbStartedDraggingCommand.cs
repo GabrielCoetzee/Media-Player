@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Windows.Controls;
 using System.Windows.Input;
 using MediaPlayer.Common.Constants;
+using MediaPlayer.ViewModel.ViewModels;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
@@ -16,15 +18,15 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return false;
 
-            return vm.SelectedMediaItem != null;
+            return vm.MediaState == MediaState.Play;
         }
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return;
 
             vm.IsUserDraggingSeekbarThumb = true;

@@ -39,7 +39,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             var mediaElement = mediaOpenedModel.MediaElement;
             var vm = mediaOpenedModel.ViewModelMediaPlayer;
 
-            SetAccurateCurrentMediaDuration(mediaOpenedModel.ViewModelMediaPlayer, mediaElement.NaturalDuration.TimeSpan);
+            SetAccurateCurrentMediaDuration(vm, mediaElement.NaturalDuration.TimeSpan);
 
             vm.CurrentPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaOpenedModel);
 
@@ -56,14 +56,14 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             var mediaElement = mediaOpenedModel.MediaElement;
             var vm = mediaOpenedModel.ViewModelMediaPlayer;
 
-            if (!vm.IsUserDraggingSeekbarThumb)
+            if (!vm.MediaControlsViewModel.IsUserDraggingSeekbarThumb)
                 vm.SelectedMediaItem.ElapsedTime = mediaElement.Position;
 
             if (!vm.IsEndOfCurrentlyPlayingMedia())
                 return;
 
-            if (vm.NextTrackCommand.CanExecute(vm))
-                vm.NextTrackCommand.Execute(vm);
+            if (vm.MediaControlsViewModel.NextTrackCommand.CanExecute(vm))
+                vm.MediaControlsViewModel.NextTrackCommand.Execute(vm);
         }
     }
 }

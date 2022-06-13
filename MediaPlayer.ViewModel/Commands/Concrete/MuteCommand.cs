@@ -1,5 +1,6 @@
 ﻿using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
@@ -22,7 +23,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return;
 
             vm.MediaVolume = vm.MediaVolume == VolumeLevel.Full ? VolumeLevel.Mute : VolumeLevel.Full;

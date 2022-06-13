@@ -1,4 +1,5 @@
 ﻿using MediaPlayer.Common.Constants;
+using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
@@ -16,7 +17,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return false;
 
             return vm.IsUserDraggingSeekbarThumb;
@@ -24,7 +25,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return;
 
             vm.IsUserDraggingSeekbarThumb = false;

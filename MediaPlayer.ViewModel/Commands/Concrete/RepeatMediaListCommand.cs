@@ -19,7 +19,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return false;
 
-            return vm.IsMediaListPopulated && vm.SelectedMediaItem != null;
+            return vm.IsMediaListPopulated;
         }
 
         public void Execute(object parameter)
@@ -27,7 +27,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
-            vm.IsRepeatEnabled = !vm.IsRepeatEnabled;
+            vm.MediaControlsViewModel.IsRepeatEnabled = !vm.MediaControlsViewModel.IsRepeatEnabled;
         }
     }
 }

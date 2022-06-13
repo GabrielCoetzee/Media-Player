@@ -19,7 +19,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return false;
 
-            return vm.IsMediaListPopulated && (vm.IsPreviousMediaItemAvailable() || vm.IsRepeatEnabled);
+            return vm.IsMediaListPopulated && (vm.IsPreviousMediaItemAvailable() || vm.MediaControlsViewModel.IsRepeatEnabled);
         }
 
         public void Execute(object parameter)
@@ -34,11 +34,11 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
         {
             var index = vm.PreviousMediaItemIndex();
 
-            if (vm.IsRepeatEnabled && vm.IsFirstMediaItemSelected())
+            if (vm.MediaControlsViewModel.IsRepeatEnabled && vm.IsFirstMediaItemSelected())
                 index = vm.LastMediaItemIndex();
 
             vm.SelectMediaItem(index);
-            vm.PlayMedia();
+            vm.MediaControlsViewModel.PlayMedia();
         }
     }
 }

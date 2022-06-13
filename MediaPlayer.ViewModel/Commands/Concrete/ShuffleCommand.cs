@@ -31,7 +31,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
-            if (!vm.IsMediaItemsShuffled)
+            if (!vm.MediaControlsViewModel.IsMediaItemsShuffled)
             {
                 ShuffleMediaList(vm);
                 return;
@@ -44,7 +44,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
         {
             vm.MediaItems = new MediaItemObservableCollection(vm.MediaItems.OrderBy(x => x.Id));
 
-            vm.IsMediaItemsShuffled = false;
+            vm.MediaControlsViewModel.IsMediaItemsShuffled = false;
         }
 
         public void ShuffleMediaList(MainViewModel vm)
@@ -53,7 +53,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
                 .OrderBy(x => x != vm.SelectedMediaItem)
                 .ThenBy(x => _randomIdGenerator.Next()));
 
-            vm.IsMediaItemsShuffled = true;
+            vm.MediaControlsViewModel.IsMediaItemsShuffled = true;
         }
     }
 }
