@@ -34,6 +34,10 @@ Technologies used :
 - TaglibSharp
 - Newtonsoft.Json
 
+External API's used:
+- LastFM
+- Lyrics OVH
+
 ![Screenshot - Lyrics Collapsed](./Screenshots/LyricsCollapsed.JPG?raw=true "Screenshot - Lyrics Collapsed")
 
 ![Screenshot - Lyrics Expanded](./Screenshots/LyricsExpanded.JPG?raw=true "Screenshot - Lyrics Expanded")
