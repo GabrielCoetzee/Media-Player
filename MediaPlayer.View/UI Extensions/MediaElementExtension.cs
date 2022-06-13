@@ -4,6 +4,10 @@ using System.Windows.Controls;
 
 namespace MediaPlayer.View.Extensions
 {
+    /// <summary>
+    /// MediaElement Position cannot be bound to by default in XAML. This allows us a one-way binding to media element position so we can 
+    /// change the position via an event when the user moves the seek bar or presses it to jump to a specific position.
+    /// </summary>
     public class MediaElementExtension
     {
         private static readonly TimeSpan DefaultValue = new(0);
