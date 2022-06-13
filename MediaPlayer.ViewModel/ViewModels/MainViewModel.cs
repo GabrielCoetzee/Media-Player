@@ -241,6 +241,8 @@ namespace MediaPlayer.ViewModel
 
             SelectMediaItem(FirstMediaItemIndex());
             PlayMedia();
+
+            CommandManager.InvalidateRequerySuggested();
         }
 
         public async Task SaveChangesAsync()
