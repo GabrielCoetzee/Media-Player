@@ -41,8 +41,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             vm.MediaItems.Clear();
             vm.MediaItems = new MediaItemObservableCollection();
 
-            vm.BusyViewModel.MediaListTitle = string.Empty;
-            vm.BusyViewModel.IsLoading = false;
+            vm.BusyViewModel.DefaultState();
         }
     }
 }

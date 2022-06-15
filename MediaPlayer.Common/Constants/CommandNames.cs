@@ -13,7 +13,7 @@
         public const string Stop = "Stop";
         public const string Repeat = "Repeat";
         public const string ClearList = "Clear List";
-        public const string StartedDragging = "StartedDragging"; //MEF doesn't accept pascal case here??
+        public const string StartedDragging = "StartedDragging"; //MEF doesn't accept spaces here??
         public const string CompletedDragging = "Completed Dragging";
         public const string TopMostGridDragEnter = "Top Most Grid Drag Enter";
         public const string TopMostGridDrop = "Top Most Grid Drop";

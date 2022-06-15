@@ -23,7 +23,7 @@ namespace MediaPlayer.ViewModel
         private MediaItem _selectedMediaItem;
         private MediaItemObservableCollection _mediaItems = new();
 
-        public readonly DispatcherTimer CurrentPositionTracker = new();
+        public readonly DispatcherTimer PositionTracker = new();
         public List<CancellationTokenSource> UpdateMetadataTokenSources = new();
 
         public MediaItem SelectedMediaItem
@@ -46,7 +46,7 @@ namespace MediaPlayer.ViewModel
                 OnPropertyChanged(nameof(IsMediaListPopulated));
             }
         }
-        public bool IsMediaListPopulated => MediaItems.Count >= 1;
+        public bool IsMediaListPopulated => MediaItems.Count > 0;
 
         [Import(CommandNames.OpenSettingsWindow)]
         public ICommand OpenSettingsWindowCommand { get; set; }
@@ -89,33 +89,38 @@ namespace MediaPlayer.ViewModel
             MEF.Container?.SatisfyImportsOnce(this);
         }
 
-        public async Task ProcessDroppedContentAsync(IEnumerable<string> filePaths)
+        public async Task ProcessFilePathsAsync(IEnumerable<string> filePaths)
         {
             if (filePaths == null || !filePaths.Any())
                 return;
 
-            BusyViewModel.IsLoading = true;
-            BusyViewModel.MediaListTitle = "Media List Loading...";
+            BusyViewModel.MediaListLoading();
 
             var mediaItems = await MetadataReaderService.ReadFilePathsAsync(filePaths);
 
             AddMediaItemsToListView(mediaItems);
 
-            if (SettingsManager.IsUpdateMetadataEnabled)
-            {
-                BusyViewModel.MediaListTitle = "Updating Metadata...";
+            BusyViewModel.MediaListFinishedLoading();
 
-                var cts = new CancellationTokenSource();
-                UpdateMetadataTokenSources.Add(cts);
+            await UpdateMetadataAsync(mediaItems.OfType<AudioItem>());
+        }
 
-                await MetadataUpdateService.UpdateMetadataAsync(mediaItems.OfType<AudioItem>(), cts.Token);
+        private async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems)
+        {
+            if (!SettingsManager.IsUpdateMetadataEnabled || !audioItems.Any())
+                return;
 
-                if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
-                    return;
-            }
+            BusyViewModel.UpdatingMetadata();
 
-            BusyViewModel.IsLoading = false;
-            BusyViewModel.MediaListTitle = "Media List";
+            var cts = new CancellationTokenSource();
+            UpdateMetadataTokenSources.Add(cts);
+
+            await MetadataUpdateService.UpdateMetadataAsync(audioItems, cts.Token);
+
+            if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
+                return;
+
+            BusyViewModel.MediaListFinishedLoading();
         }
 
         private void AddMediaItemsToListView(IEnumerable<MediaItem> mediaItems)
@@ -133,27 +138,28 @@ namespace MediaPlayer.ViewModel
 
         public async Task SaveChangesAsync()
         {
+            await PreSaveReleaseAsync();
+
+            if (!SettingsManager.IsSaveMetadataToFileEnabled)
+                return;
+
+            BusyViewModel.SavingChanges();
+
+            await MetadataWriterService.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
+        }
+
+        private async Task PreSaveReleaseAsync()
+        {
             await Task.Run(() => UpdateMetadataTokenSources.ForEach(x => x.Cancel()));
             UpdateMetadataTokenSources.Clear();
 
             MediaControlsViewModel.StopMedia();
 
-            CurrentPositionTracker.Stop();
+            PositionTracker.Stop();
             SelectedMediaItem = null;
-
-            if (!SettingsManager.IsSaveMetadataToFileEnabled)
-                return;
-
-            BusyViewModel.IsLoading = true;
-            BusyViewModel.MediaListTitle = "Saving Changes...";
-
-            await MetadataWriterService.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
         }
 
-        public void SelectMediaItem(int index)
-        {
-            SelectedMediaItem = MediaItems[index];
-        }
+        public void SelectMediaItem(int index) => SelectedMediaItem = MediaItems[index];
 
         public bool IsPreviousMediaItemAvailable() => (IsMediaListPopulated) && PreviousMediaItemIndex() >= FirstMediaItemIndex();
 

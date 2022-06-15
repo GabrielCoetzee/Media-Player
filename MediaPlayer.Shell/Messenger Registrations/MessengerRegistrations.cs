@@ -41,7 +41,7 @@ namespace MediaPlayer.Shell.MessengerRegs
             {
                 var vm = container?.GetExports<MainViewModel>().Single().Value;
 
-                await vm.ProcessDroppedContentAsync(args as IEnumerable<string>);
+                await vm.ProcessFilePathsAsync(args as IEnumerable<string>);
             });
         }
 

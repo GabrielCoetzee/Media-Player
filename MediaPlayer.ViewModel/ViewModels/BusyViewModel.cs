@@ -28,5 +28,35 @@ namespace MediaPlayer.ViewModel.ViewModels
                 OnPropertyChanged(nameof(MediaListTitle));
             }
         }
+
+        public void DefaultState()
+        {
+            IsLoading = false;
+            MediaListTitle = string.Empty;
+        }
+
+        public void MediaListLoading()
+        {
+            IsLoading = true;
+            MediaListTitle = "Media List Loading...";
+        }
+
+        public void MediaListFinishedLoading()
+        {
+            IsLoading = false;
+            MediaListTitle = "Media List";
+        }
+
+        public void UpdatingMetadata()
+        {
+            IsLoading = true;
+            MediaListTitle = "Updating Metadata...";
+        }
+
+        public void SavingChanges()
+        {
+            IsLoading = true;
+            MediaListTitle = "Saving Changes...";
+        }
     }
 }

@@ -41,9 +41,9 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             SetAccurateCurrentMediaDuration(vm, mediaElement.NaturalDuration.TimeSpan);
 
-            vm.CurrentPositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaOpenedModel);
+            vm.PositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaOpenedModel);
 
-            vm.CurrentPositionTracker.Start();
+            vm.PositionTracker.Start();
         }
 
         private void SetAccurateCurrentMediaDuration(MainViewModel vm, TimeSpan duration)
