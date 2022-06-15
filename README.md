@@ -5,7 +5,7 @@ This is a Media Player that I am actively working on. This is made for personal 
 ![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
 
 Features : 
-- Themes
+- Themes (Thanks to the amazing Mahapps Metro UI library!)
 - Transparency Slider
 - Automatically download album art / lyrics of music that you're currently listening to. (Using caching and parallel threads for better responsiveness                   and performance)
 - Setting available to save updated lyrics and album art to audio file's metadata
@@ -21,7 +21,7 @@ Features to come :
 - Installer
 - Video playback support
 
-Technologies used :
+Libaries used :
 
 - Visual Studio 2022 Community Edition
 - C# with MVVM Design Pattern
