@@ -33,9 +33,9 @@ namespace MediaPlayer.ViewModel
             {
                 _selectedMediaItem = value;
                 OnPropertyChanged(nameof(SelectedMediaItem));
-                OnPropertyChanged(nameof(IsMediaListPopulated));
             }
         }
+
         public MediaItemObservableCollection MediaItems
         {
             get => _mediaItems;
@@ -126,6 +126,7 @@ namespace MediaPlayer.ViewModel
         private void AddMediaItemsToListView(IEnumerable<MediaItem> mediaItems)
         {
             MediaItems.AddRange(mediaItems);
+            OnPropertyChanged(nameof(IsMediaListPopulated));
 
             if (SelectedMediaItem != null)
                 return;
