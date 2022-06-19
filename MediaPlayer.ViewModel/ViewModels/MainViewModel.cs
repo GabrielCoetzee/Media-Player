@@ -131,7 +131,7 @@ namespace MediaPlayer.ViewModel
             if (SelectedMediaItem != null)
                 return;
 
-            SelectMediaItem(FirstMediaItemIndex());
+            SelectMediaItem(FirstMediaItem());
             MediaControlsViewModel.PlayMedia();
 
             CommandManager.InvalidateRequerySuggested();
@@ -162,21 +162,21 @@ namespace MediaPlayer.ViewModel
 
         public void SelectMediaItem(int index) => SelectedMediaItem = MediaItems[index];
 
-        public bool IsPreviousMediaItemAvailable() => (IsMediaListPopulated) && PreviousMediaItemIndex() >= FirstMediaItemIndex();
+        public bool IsPreviousMediaItemAvailable() => (IsMediaListPopulated) && PreviousMediaItem() >= FirstMediaItem();
 
-        public bool IsNextMediaItemAvailable() => (IsMediaListPopulated) && NextMediaItemIndex() <= LastMediaItemIndex();
+        public bool IsNextMediaItemAvailable() => (IsMediaListPopulated) && NextMediaItem() <= LastMediaItem();
 
-        public int PreviousMediaItemIndex() => MediaItems.IndexOf(SelectedMediaItem) - 1;
+        public int PreviousMediaItem() => MediaItems.IndexOf(SelectedMediaItem) - 1;
 
-        public int NextMediaItemIndex() => MediaItems.IndexOf(SelectedMediaItem) + 1;
+        public int NextMediaItem() => MediaItems.IndexOf(SelectedMediaItem) + 1;
 
-        public int FirstMediaItemIndex() => MediaItems.IndexOf(MediaItems.First());
+        public int FirstMediaItem() => MediaItems.IndexOf(MediaItems.First());
 
-        public int LastMediaItemIndex() => MediaItems.IndexOf(MediaItems.Last());
+        public int LastMediaItem() => MediaItems.IndexOf(MediaItems.Last());
 
-        public bool IsFirstMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == FirstMediaItemIndex();
+        public bool IsFirstMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == FirstMediaItem();
 
-        public bool IsLastMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == LastMediaItemIndex();
+        public bool IsLastMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == LastMediaItem();
 
         public bool IsEndOfCurrentlyPlayingMedia() => SelectedMediaItem.ElapsedTime == SelectedMediaItem.Duration;
     }
