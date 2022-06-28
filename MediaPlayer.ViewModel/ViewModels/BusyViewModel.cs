@@ -29,7 +29,7 @@ namespace MediaPlayer.ViewModel.ViewModels
             }
         }
 
-        public void DefaultState()
+        public void NoMediaItemsLoaded()
         {
             IsLoading = false;
             MediaListTitle = string.Empty;

@@ -139,7 +139,7 @@ namespace MediaPlayer.ViewModel
 
         public async Task SaveChangesAsync()
         {
-            await PreSaveReleaseAsync();
+            await ReleaseResourcesAsync();
 
             if (!SettingsManager.IsSaveMetadataToFileEnabled)
                 return;
@@ -149,7 +149,7 @@ namespace MediaPlayer.ViewModel
             await MetadataWriterService.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
         }
 
-        private async Task PreSaveReleaseAsync()
+        private async Task ReleaseResourcesAsync()
         {
             await Task.Run(() => UpdateMetadataTokenSources.ForEach(x => x.Cancel()));
             UpdateMetadataTokenSources.Clear();
