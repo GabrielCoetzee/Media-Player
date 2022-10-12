@@ -50,17 +50,16 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                             .Select(x => metadataReader.BuildMediaItem(x));
 
                         supportedFiles.AddRange(mediaItems);
+
+                        continue;
                     }
-                    else
+
+                    if (supportedFileFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
                     {
-                        if (supportedFileFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
-                        {
-                            var mediaItem = metadataReader.BuildMediaItem(path.ToString());
+                        var mediaItem = metadataReader.BuildMediaItem(path.ToString());
 
-                            supportedFiles.Add(mediaItem);
-                        }
+                        supportedFiles.Add(mediaItem);
                     }
-
                 }
             });
 
