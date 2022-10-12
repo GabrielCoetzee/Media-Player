@@ -9,5 +9,7 @@ namespace MediaPlayer.ViewModel.Services.Abstract
     public interface IMetadataUpdateService
     {
         Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems, CancellationToken token);
+
+
     }
 }

@@ -20,6 +20,8 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             _metadataWriterFactory = metadataWriterFactory;
         }
 
+        public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
+
         public async Task WriteChangesToFilesInParallel(IEnumerable<MediaItem> mediaItems)
         {
             if (!mediaItems.Any())
@@ -29,7 +31,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
                 if (Parallel.ForEach(mediaItems, (mediaItem) =>
                 {
-                    var metadataWriter = _metadataWriterFactory.Resolve(MetadataLibraries.Taglib);
+                    var metadataWriter = _metadataWriterFactory.Resolve(MetadataLibrary);
 
                     metadataWriter.Update(mediaItem);
 

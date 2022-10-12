@@ -27,13 +27,15 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             _applicationSettings = applicationSettings;
         }
 
+        public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
+
         public async Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable filePaths)
         {
             var supportedFiles = new List<MediaItem>();
 
             await Task.Run(() =>
             {
-                var metadataReader = _metadataReaderFactory.Resolve(MetadataLibraries.Taglib);
+                var metadataReader = _metadataReaderFactory.Resolve(MetadataLibrary);
                 var supportedFileFormats = _applicationSettings.SupportedFileFormats;
 
                 foreach (var path in filePaths)
@@ -45,7 +47,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                         var mediaItems = Directory
                             .EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
                             .Where(file => supportedFileFormats.Any(file.ToLower().EndsWith))
-                            .Select((x) => metadataReader.BuildMediaItem(x));
+                            .Select(x => metadataReader.BuildMediaItem(x));
 
                         supportedFiles.AddRange(mediaItems);
                     }
