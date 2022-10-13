@@ -47,7 +47,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (result != DialogResult.OK)
                 return;
 
-            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, chooseFiles.FileNames);
+            Messenger<MessengerMessages>.Send(MessengerMessages.ProcessFilePaths, chooseFiles.FileNames);
         }
 
         private string CreateDialogFilter(string[] supportedFileFormats)

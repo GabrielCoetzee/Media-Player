@@ -58,7 +58,7 @@ namespace MediaPlayer.Shell
             {
                 ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
 
-                Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, args);
+                Messenger<MessengerMessages>.Send(MessengerMessages.ProcessFilePaths, args);
             });
         }
 
@@ -69,12 +69,12 @@ namespace MediaPlayer.Shell
 
         private static void StartApplication(StartupEventArgs e)
         {
-            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.OpenMediaPlayerMainWindow);
+            Messenger<MessengerMessages>.Send(MessengerMessages.OpenMediaPlayerMainWindow);
 
             if (!e.Args.Any())
                 return;
 
-            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.ProcessFilePaths, e.Args);
+            Messenger<MessengerMessages>.Send(MessengerMessages.ProcessFilePaths, e.Args);
         }
 
         private void InitializeMEF()

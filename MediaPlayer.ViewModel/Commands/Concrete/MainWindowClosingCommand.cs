@@ -44,7 +44,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             var shutdownApplication = true;
 
-            Messenger<MessengerMessages>.NotifyColleagues(MessengerMessages.SaveChangesToDirtyFiles, shutdownApplication);
+            Messenger<MessengerMessages>.Send(MessengerMessages.SaveChangesToDirtyFiles, shutdownApplication);
         }
     }
 }

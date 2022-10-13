@@ -23,7 +23,7 @@ namespace Generic.Mediator
             }
         }
 
-        public static void NotifyColleagues(T message, object args = null)
+        public static void Send(T message, object args = null)
         {
             if (_messages.ContainsKey(message))
             {
