@@ -76,7 +76,7 @@ namespace MediaPlayer.ViewModel
         public MediaControlsViewModel MediaControlsViewModel { get; set; }
 
         [Import]
-        public IMetadataAggregator MetadataAggregator { get; set; }
+        public IMetadataServices MetadataServices { get; set; }
 
         public MainViewModel()
         {
@@ -90,7 +90,7 @@ namespace MediaPlayer.ViewModel
 
             BusyViewModel.MediaListLoading();
 
-            var mediaItems = await MetadataAggregator.MetadataReader.ReadFilePathsAsync(filePaths);
+            var mediaItems = await MetadataServices.MetadataReader.ReadFilePathsAsync(filePaths);
 
             AddMediaItemsToListView(mediaItems);
 
@@ -109,7 +109,7 @@ namespace MediaPlayer.ViewModel
             var cts = new CancellationTokenSource();
             UpdateMetadataTokenSources.Add(cts);
 
-            await MetadataAggregator.MetadataUpdater.UpdateMetadataAsync(audioItems, cts.Token);
+            await MetadataServices.MetadataUpdater.UpdateMetadataAsync(audioItems, cts.Token);
 
             if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
                 return;
@@ -140,7 +140,7 @@ namespace MediaPlayer.ViewModel
 
             BusyViewModel.SavingChanges();
 
-            await MetadataAggregator.MetadataWriter.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
+            await MetadataServices.MetadataWriter.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
         }
 
         private async Task ReleaseResourcesAsync()

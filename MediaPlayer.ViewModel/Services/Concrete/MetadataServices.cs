@@ -3,8 +3,8 @@ using System.ComponentModel.Composition;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
-    [Export(typeof(IMetadataAggregator))]
-    public class MetadataAggregator : IMetadataAggregator
+    [Export(typeof(IMetadataServices))]
+    public class MetadataServices : IMetadataServices
     {
         [Import]
         public IMetadataReaderService MetadataReader { get; set; }

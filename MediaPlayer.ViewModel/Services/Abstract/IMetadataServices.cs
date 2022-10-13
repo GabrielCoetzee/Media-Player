@@ -1,6 +1,9 @@
 ﻿namespace MediaPlayer.ViewModel.Services.Abstract
 {
-    public interface IMetadataAggregator
+    /// <summary>
+    /// Contains Metadata Services (Read/Write/Update) - Service Aggregator Pattern
+    /// </summary>
+    public interface IMetadataServices
     {
         IMetadataReaderService MetadataReader { get; set; }
 
