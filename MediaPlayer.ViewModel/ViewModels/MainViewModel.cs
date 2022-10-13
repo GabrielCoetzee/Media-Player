@@ -43,7 +43,6 @@ namespace MediaPlayer.ViewModel
             {
                 _mediaItems = value;
                 OnPropertyChanged(nameof(MediaItems));
-                OnPropertyChanged(nameof(IsMediaListPopulated));
             }
         }
         public bool IsMediaListPopulated => MediaItems.Count > 0;
@@ -81,6 +80,13 @@ namespace MediaPlayer.ViewModel
         public MainViewModel()
         {
             MEF.Container?.SatisfyImportsOnce(this);
+
+            MediaItems.CollectionChanged += MediaItems_CollectionChanged;
+        }
+
+        private void MediaItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(IsMediaListPopulated));
         }
 
         public async Task ProcessFilePathsAsync(IEnumerable<string> filePaths)
@@ -120,7 +126,6 @@ namespace MediaPlayer.ViewModel
         private void AddMediaItemsToListView(IEnumerable<MediaItem> mediaItems)
         {
             MediaItems.AddRange(mediaItems);
-            OnPropertyChanged(nameof(IsMediaListPopulated));
 
             if (SelectedMediaItem != null)
                 return;
@@ -128,7 +133,7 @@ namespace MediaPlayer.ViewModel
             SelectMediaItem(FirstMediaItem());
             MediaControlsViewModel.PlayMedia();
 
-            CommandManager.InvalidateRequerySuggested();
+            //CommandManager.InvalidateRequerySuggested();
         }
 
         public async Task SaveChangesAsync()
