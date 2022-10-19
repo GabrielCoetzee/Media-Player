@@ -79,8 +79,6 @@ namespace MediaPlayer.ViewModel
 
         public MainViewModel()
         {
-            MEF.Container?.SatisfyImportsOnce(this);
-
             MediaItems.CollectionChanged += MediaItems_CollectionChanged;
         }
 
@@ -133,7 +131,7 @@ namespace MediaPlayer.ViewModel
             SelectMediaItem(FirstMediaItem());
             MediaControlsViewModel.PlayMedia();
 
-            //CommandManager.InvalidateRequerySuggested();
+            CommandManager.InvalidateRequerySuggested();
         }
 
         public async Task SaveChangesAsync()

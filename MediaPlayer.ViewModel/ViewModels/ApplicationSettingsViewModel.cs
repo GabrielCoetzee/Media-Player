@@ -18,10 +18,5 @@ namespace MediaPlayer.ViewModel
 
         [Import(CommandNames.SaveSettings)]
         public ICommand SaveSettingsCommand { get; set; }
-
-        public ApplicationSettingsViewModel()
-        {
-            MEF.Container?.SatisfyImportsOnce(this);
-        }
     }
 }

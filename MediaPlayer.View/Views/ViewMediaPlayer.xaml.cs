@@ -18,8 +18,6 @@ namespace MediaPlayer.View.Views
         {
             InitializeComponent();
 
-            MEF.Container?.SatisfyImportsOnce(this);
-
             AllowsTransparency = true;
         }
 

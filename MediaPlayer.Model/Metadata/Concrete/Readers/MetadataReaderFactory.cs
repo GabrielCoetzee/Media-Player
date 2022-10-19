@@ -13,11 +13,6 @@ namespace MediaPlayer.Model.Metadata.Concrete.Readers
         [ImportMany(typeof(IMetadataReader))]
         public IEnumerable<IMetadataReader> MetadataReaders { get; set; }
 
-        public MetadataReaderFactory()
-        {
-            MEF.Container?.SatisfyImportsOnce(this);
-        }
-
         public IMetadataReader Resolve(MetadataLibraries metadataLibrary)
         {
             return MetadataReaders.SingleOrDefault(x => x.MetadataLibrary == metadataLibrary);

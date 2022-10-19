@@ -25,8 +25,6 @@ namespace MediaPlayer.View.Views
         public ViewApplicationSettings()
         {
             InitializeComponent();
-
-            MEF.Container?.SatisfyImportsOnce(this);
         }
 
         [Import]
