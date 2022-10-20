@@ -5,6 +5,7 @@ using MediaPlayer.ViewModel.Services.Abstract;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
@@ -27,16 +28,16 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             if (!mediaItems.Any())
                 return;
 
-            await Task.Run(() => {
+            await Task.Run(async () => {
 
-                if (Parallel.ForEach(mediaItems, (mediaItem) =>
+                await Parallel.ForEachAsync(mediaItems, new CancellationTokenSource().Token, (mediaItem, token) =>
                 {
                     var metadataWriter = _metadataWriterFactory.Resolve(MetadataLibrary);
 
-                    metadataWriter.Update(mediaItem);
+                    metadataWriter.Save(mediaItem);
 
-                }).IsCompleted)
-                    return;
+                    return new ValueTask();
+                });
             });
         }
     }

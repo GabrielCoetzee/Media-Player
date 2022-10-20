@@ -12,6 +12,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Writers
     {
         [ImportMany(typeof(IMetadataWriter))]
         public IEnumerable<IMetadataWriter> MetadataWriters { get; set; }
+
         public IMetadataWriter Resolve(MetadataLibraries metadataLibrary)
         {
             return MetadataWriters.SingleOrDefault(x => x.MetadataLibrary == metadataLibrary);

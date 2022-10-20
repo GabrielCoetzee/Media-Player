@@ -7,6 +7,6 @@ namespace MediaPlayer.Model.Metadata.Abstract
     {
         MetadataLibraries MetadataLibrary { get; }
 
-        void Update(MediaItem mediaItem);
+        void Save(MediaItem mediaItem);
     }
 }

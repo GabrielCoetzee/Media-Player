@@ -148,7 +148,16 @@ namespace MediaPlayer.ViewModel
 
         private async Task ReleaseResourcesAsync()
         {
-            await Task.Run(() => UpdateMetadataTokenSources.ForEach(x => x.Cancel()));
+            await Task.Run(async () =>
+            {
+                await Parallel.ForEachAsync(UpdateMetadataTokenSources, new CancellationTokenSource().Token, (sources, token) =>
+                {
+                    sources.Cancel();
+
+                    return new ValueTask();
+                });
+            });
+
             UpdateMetadataTokenSources.Clear();
 
             MediaControlsViewModel.StopMedia();
