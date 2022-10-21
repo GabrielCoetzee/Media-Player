@@ -31,16 +31,10 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
         public async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
         {
-            try
-            {
-                var updateAlbumArtTask = UpdateAlbumArtAsync(audioItems, token);
-                var updateLyricsTask = UpdateLyricsAsync(audioItems, token);
+            var updateAlbumArtTask = UpdateAlbumArtAsync(audioItems, token);
+            var updateLyricsTask = UpdateLyricsAsync(audioItems, token);
 
-                await Task.WhenAll(updateAlbumArtTask, updateLyricsTask);
-            }
-            catch (TaskCanceledException)
-            {
-            }
+            await Task.WhenAll(updateAlbumArtTask, updateLyricsTask);
         }
 
         private async Task UpdateLyricsAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
@@ -49,22 +43,27 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             await Task.Run(async () => {
 
-                await Parallel.ForEachAsync(audioItems, token, async (audioItem, token) =>
+                try
                 {
-                    if (token.IsCancellationRequested)
-                        return;
+                    await Parallel.ForEachAsync(audioItems, token, async (audioItem, token) =>
+                    {
+                        token.ThrowIfCancellationRequested();
 
-                    if (audioItem.HasLyrics)
-                        return;
+                        if (audioItem.HasLyrics)
+                            return;
 
-                    var response = await _lyricsOvhDataAccess.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
-                    var lyrics = response?.Lyrics;
+                        var response = await _lyricsOvhDataAccess.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
+                        var lyrics = response?.Lyrics;
 
-                    if (string.IsNullOrEmpty(lyrics))
-                        return;
+                        if (string.IsNullOrEmpty(lyrics))
+                            return;
 
-                    lyricsDictionary[audioItem.FileName] = lyrics;
-                });
+                        lyricsDictionary[audioItem.FileName] = lyrics;
+                    });
+                }
+                catch (TaskCanceledException)
+                {
+                }
 
             }, token);
 
@@ -77,29 +76,34 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             await Task.Run(async () => {
 
-                await Parallel.ForEachAsync(audioItems, token, async (audioItem, token) =>
+                try
                 {
-                    if (token.IsCancellationRequested)
-                        return;
+                    await Parallel.ForEachAsync(audioItems, token, async (audioItem, token) =>
+                    {
+                        token.ThrowIfCancellationRequested();
 
-                    if (audioItem.HasAlbumArt)
-                        return;
+                        if (audioItem.HasAlbumArt)
+                            return;
 
-                    var response = await _lastFmDataAccess.GetTrackInfoAsync(audioItem.Artist, audioItem.MediaTitle);
-                    var url = response?.Track?.Album?.Image?.LastOrDefault()?.Url;
+                        var response = await _lastFmDataAccess.GetTrackInfoAsync(audioItem.Artist, audioItem.MediaTitle);
+                        var url = response?.Track?.Album?.Image?.LastOrDefault()?.Url;
 
-                    if (string.IsNullOrEmpty(url))
-                        return;
+                        if (string.IsNullOrEmpty(url))
+                            return;
 
-                    async Task<byte[]> DownloadAlbumArtFunction() => await DownloadAlbumArtFromUrlAsync(url);
+                        async Task<byte[]> DownloadAlbumArtFunction() => await DownloadAlbumArtFromUrlAsync(url);
 
-                    var albumArt = await _cache.GetOrAddAsync(url, DownloadAlbumArtFunction);
+                        var albumArt = await _cache.GetOrAddAsync(url, DownloadAlbumArtFunction);
 
-                    if (albumArt == null || albumArt.Length == 0)
-                        return;
+                        if (albumArt == null || albumArt.Length == 0)
+                            return;
 
-                    albumArtDictionary[audioItem.FileName] = albumArt;
-                });
+                        albumArtDictionary[audioItem.FileName] = albumArt;
+                    });
+                }
+                catch (TaskCanceledException)
+                {
+                }
 
             }, token);
 
