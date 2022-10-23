@@ -51,13 +51,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             foreach (var mediaItem in vm.MediaItems.Where(x => items.Contains(x)).ToList())
                 vm.MediaItems.Remove(mediaItem);
 
-            var ordered = items
-                .OrderBy(x => x.Id)
-                .Select((mediaItem, index) => new { mediaItem, index })
-                .ToDictionary(x => x.index, y => y.mediaItem);
+            var ordered = items.OrderBy(x => x.Id);
 
             foreach (var mediaItem in ordered)
-                vm.MediaItems.Add(mediaItem.Value);
+                vm.MediaItems.Add(mediaItem);
 
             var selectedIndex = vm.MediaItems.IndexOf(vm.SelectedMediaItem);
 
@@ -76,13 +73,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             foreach (var mediaItem in vm.MediaItems.Where(x => items.Contains(x)).ToList())
                 vm.MediaItems.Remove(mediaItem);
 
-            var shuffled = items
-                .OrderBy(x => _randomIdGenerator.Next())
-                .Select((mediaItem, index) => new { mediaItem, index })
-                .ToDictionary(x => x.index, y => y.mediaItem);
+            var shuffled = items.OrderBy(x => _randomIdGenerator.Next());
 
             foreach (var mediaItem in shuffled)
-                vm.MediaItems.Add(mediaItem.Value);
+                vm.MediaItems.Add(mediaItem);
 
             vm.MediaControlsViewModel.IsShuffled = true;
         }
