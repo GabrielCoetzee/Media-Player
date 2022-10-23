@@ -29,7 +29,10 @@ namespace MediaPlayer.Model.Collections
 
         private void SetMediaItemIds(IEnumerable<MediaItem> mediaItems)
         {
-            foreach (var mediaItem in mediaItems)
+            if (mediaItems.All(x => x.Id != null))
+                return;
+
+            foreach (var mediaItem in mediaItems.Where(x => x.Id == null))
                 mediaItem.Id = IndexOf(mediaItem);
         }
     }

@@ -9,7 +9,7 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
     [DebuggerDisplay("{MediaTitle}")]
     public abstract class MediaItem : PropertyNotifyBase
     {
-        private int _id;
+        private int? _id;
         private TimeSpan _duration;
         private Uri _filePath;
         private MediaType _mediaType;
@@ -22,7 +22,7 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
         public bool IsAudio => MediaType == MediaType.Audio;
         public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
 
-        public int Id
+        public int? Id
         {
             get => _id;
             set

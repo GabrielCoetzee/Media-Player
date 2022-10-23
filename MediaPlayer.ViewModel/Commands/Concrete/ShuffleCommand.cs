@@ -59,13 +59,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             var ordered = items.OrderBy(x => x.Id);
 
-            foreach (var mediaItem in ordered)
-                vm.MediaItems.Add(mediaItem);
+            vm.MediaItems.AddRange(ordered);
 
             var selectedIndex = vm.MediaItems.IndexOf(vm.SelectedMediaItem);
 
             if (selectedIndex != vm.SelectedMediaItem.Id)
-                vm.MediaItems.Move(selectedIndex, vm.SelectedMediaItem.Id);
+                vm.MediaItems.Move(selectedIndex, vm.SelectedMediaItem.Id.GetValueOrDefault());
 
             vm.MediaControlsViewModel.IsShuffled = false;
         }
@@ -86,8 +85,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             var shuffled = items.OrderBy(x => _randomIdGenerator.Next());
 
-            foreach (var mediaItem in shuffled)
-                vm.MediaItems.Add(mediaItem);
+            vm.MediaItems.AddRange(shuffled);
 
             vm.MediaControlsViewModel.IsShuffled = true;
         }
