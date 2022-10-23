@@ -19,7 +19,7 @@ namespace MediaPlayer.ViewModel.ViewModels
         private VolumeLevel _mediaVolume = VolumeLevel.Full;
         private bool _isUserDraggingSeekbarThumb;
         private bool _isRepeatEnabled;
-        private bool _isMediaItemsShuffled;
+        private bool _isShuffled;
 
         public TimeSpan MediaElementPosition
         {
@@ -72,13 +72,13 @@ namespace MediaPlayer.ViewModel.ViewModels
             }
         }
 
-        public bool IsMediaItemsShuffled
+        public bool IsShuffled
         {
-            get => _isMediaItemsShuffled;
+            get => _isShuffled;
             set
             {
-                _isMediaItemsShuffled = value;
-                OnPropertyChanged(nameof(IsMediaItemsShuffled));
+                _isShuffled = value;
+                OnPropertyChanged(nameof(IsShuffled));
             }
         }
 
