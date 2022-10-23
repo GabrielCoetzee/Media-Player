@@ -42,6 +42,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             OrderMediaList(vm);
         }
 
+        /// <summary>
+        /// Ordering is easy since when we first populated list, we assigned it an id based on it's index, now we just sort by Id
+        /// and add extra check at the end to remove currently playing item back to it's original spot. We need the check before moving so we
+        /// don't try move it if it's already in the right spot
+        /// </summary>
+        /// <param name="vm"></param>
         public void OrderMediaList(MainViewModel vm)
         {
             var items = vm.MediaItems
@@ -64,6 +70,11 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             vm.MediaControlsViewModel.IsShuffled = false;
         }
 
+        /// <summary>
+        /// Remove all but currently selected item in the list so we don't break bindings and also having currently playing item on
+        /// top is a better user experience.
+        /// </summary>
+        /// <param name="vm"></param>
         public void ShuffleMediaList(MainViewModel vm)
         {
             var items = vm.MediaItems
