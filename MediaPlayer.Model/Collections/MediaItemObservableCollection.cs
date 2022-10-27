@@ -20,7 +20,7 @@ namespace MediaPlayer.Model.Collections
         {
         }
 
-        public new void AddRange(IEnumerable<MediaItem> list)
+        public override void AddRange(IEnumerable<MediaItem> list)
         {
             base.AddRange(list);
 
@@ -32,8 +32,7 @@ namespace MediaPlayer.Model.Collections
             if (mediaItems.All(x => x.Id != null))
                 return;
 
-            foreach (var mediaItem in mediaItems.Where(x => x.Id == null))
-                mediaItem.Id = IndexOf(mediaItem);
+            mediaItems.Where(x => x.Id == null).ToList().ForEach(x => x.Id = IndexOf(x));
         }
     }
 }

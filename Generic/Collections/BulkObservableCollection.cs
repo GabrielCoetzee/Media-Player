@@ -30,7 +30,7 @@ namespace Generic.Collections
                 base.OnCollectionChanged(e);
         }
 
-        public void AddRange(IEnumerable<T> list)
+        public virtual void AddRange(IEnumerable<T> list)
         {
             if (list == null)
                 throw new ArgumentNullException(nameof(list));
