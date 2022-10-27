@@ -43,5 +43,19 @@ namespace Generic.Collections
             _suppressNotification = false;
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
+
+        public void RemoveRange(IEnumerable<T> list)
+        {
+            if (list == null)
+                throw new ArgumentNullException(nameof(list));
+
+            _suppressNotification = true;
+
+            foreach (T item in list)
+                Remove(item);
+
+            _suppressNotification = false;
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
     }
 }

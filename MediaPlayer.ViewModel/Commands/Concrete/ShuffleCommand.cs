@@ -54,8 +54,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
                 .Where(x => x != vm.SelectedMediaItem)
                 .ToList();
 
-            foreach (var mediaItem in vm.MediaItems.Where(x => items.Contains(x)).ToList())
-                vm.MediaItems.Remove(mediaItem);
+            vm.MediaItems.RemoveRange(vm.MediaItems.Where(x => items.Contains(x)).ToList());
 
             var ordered = items.OrderBy(x => x.Id);
 
@@ -80,8 +79,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
                 .Where(x => x != vm.SelectedMediaItem)
                 .ToList();
 
-            foreach (var mediaItem in vm.MediaItems.Where(x => items.Contains(x)).ToList())
-                vm.MediaItems.Remove(mediaItem);
+            vm.MediaItems.RemoveRange(vm.MediaItems.Where(x => items.Contains(x)).ToList());
 
             var shuffled = items.OrderBy(x => _randomIdGenerator.Next());
 
