@@ -26,8 +26,10 @@ namespace Generic.Collections
 
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            if (!_suppressNotification)
-                base.OnCollectionChanged(e);
+            if (_suppressNotification)
+                return;
+
+            base.OnCollectionChanged(e);
         }
 
         public virtual void AddRange(IEnumerable<T> list)

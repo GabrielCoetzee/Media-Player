@@ -33,13 +33,13 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
-            if (!vm.MediaControlsViewModel.IsShuffled)
+            if (vm.MediaControlsViewModel.IsShuffled)
             {
-                ShuffleMediaList(vm);
+                OrderMediaList(vm);
                 return;
             }
 
-            OrderMediaList(vm);
+            ShuffleMediaList(vm);
         }
 
         /// <summary>
@@ -54,7 +54,9 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
                 .Where(x => x != vm.SelectedMediaItem)
                 .ToList();
 
-            vm.MediaItems.RemoveRange(vm.MediaItems.Where(x => items.Contains(x)).ToList());
+            var remove = vm.MediaItems.Where(x => items.Contains(x)).ToList();
+
+            vm.MediaItems.RemoveRange(remove);
 
             var ordered = items.OrderBy(x => x.Id);
 
@@ -79,7 +81,9 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
                 .Where(x => x != vm.SelectedMediaItem)
                 .ToList();
 
-            vm.MediaItems.RemoveRange(vm.MediaItems.Where(x => items.Contains(x)).ToList());
+            var remove = vm.MediaItems.Where(x => items.Contains(x)).ToList();
+
+            vm.MediaItems.RemoveRange(remove);
 
             var shuffled = items.OrderBy(x => _randomIdGenerator.Next());
 

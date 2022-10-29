@@ -14,6 +14,7 @@ using Generic.DependencyInjection;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System.Threading;
+using System.Collections.Specialized;
 
 namespace MediaPlayer.ViewModel
 {
@@ -82,7 +83,7 @@ namespace MediaPlayer.ViewModel
             MediaItems.CollectionChanged += MediaItems_CollectionChanged;
         }
 
-        private void MediaItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void MediaItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(IsMediaListPopulated));
         }
@@ -92,15 +93,8 @@ namespace MediaPlayer.ViewModel
             if (filePaths == null || !filePaths.Any())
                 return;
 
-            BusyViewModel.MediaListLoading();
-
-            var mediaItems = await MetadataServices.MetadataReader.ReadFilePathsAsync(filePaths);
-
-            AddMediaItemsToListView(mediaItems);
-
-            BusyViewModel.MediaListFinishedLoading();
-
-            await UpdateMetadataAsync(mediaItems.OfType<AudioItem>());
+            await AddMediaItemsToListViewAsync(filePaths);
+            await UpdateMetadataAsync(MediaItems.OfType<AudioItem>());
         }
 
         private async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems)
@@ -121,8 +115,12 @@ namespace MediaPlayer.ViewModel
             BusyViewModel.MediaListFinishedLoading();
         }
 
-        private void AddMediaItemsToListView(IEnumerable<MediaItem> mediaItems)
+        private async Task AddMediaItemsToListViewAsync(IEnumerable<string> filePaths)
         {
+            BusyViewModel.MediaListLoading();
+
+            var mediaItems = await MetadataServices.MetadataReader.ReadFilePathsAsync(filePaths);
+
             MediaItems.AddRange(mediaItems);
 
             if (SelectedMediaItem != null)
@@ -131,7 +129,9 @@ namespace MediaPlayer.ViewModel
             SelectMediaItem(FirstMediaItem());
             MediaControlsViewModel.PlayMedia();
 
-            CommandManager.InvalidateRequerySuggested();
+            //CommandManager.InvalidateRequerySuggested();
+
+            BusyViewModel.MediaListFinishedLoading();
         }
 
         public async Task SaveChangesAsync()
