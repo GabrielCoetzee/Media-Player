@@ -29,6 +29,10 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
         public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
 
+        Func<string, bool> IsFolder = x => Directory.Exists(x);
+
+        Func<string, bool> IsFile = x => File.Exists(x);
+
         public async Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable<string> filePaths)
         {
             var supportedFiles = new List<MediaItem>();
@@ -39,10 +43,10 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                 var metadataReader = _metadataReaderFactory.Resolve(MetadataLibrary);
                 var supportedFileFormats = _applicationSettings.SupportedFileFormats;
 
-                foreach (var file in SearchFolders(filePaths.Where(x => Directory.Exists(x)), supportedFileFormats))
+                foreach (var file in SearchFolders(filePaths.Where(IsFolder), supportedFileFormats))
                     supportedFiles.Add(metadataReader.BuildMediaItem(file));
 
-                foreach (var file in SearchFiles(filePaths.Where(x => File.Exists(x)), supportedFileFormats))
+                foreach (var file in SearchFiles(filePaths.Where(IsFile), supportedFileFormats))
                     supportedFiles.Add(metadataReader.BuildMediaItem(file));
             });
 
