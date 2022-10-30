@@ -38,7 +38,6 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             await Task.Run(() =>
             {
-
                 var metadataReader = _metadataReaderFactory.Resolve(MetadataLibrary);
                 var supportedFileFormats = _applicationSettings.SupportedFileFormats;
 
