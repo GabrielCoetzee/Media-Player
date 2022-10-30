@@ -21,7 +21,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MediaOpenedConverterModel mediaOpened)
                 return false;
 
-            var vm = mediaOpened.ViewModelMediaPlayer;
+            var vm = mediaOpened.MainViewModel;
 
             return vm.IsMediaListPopulated && vm.SelectedMediaItem != null;
         }
@@ -37,7 +37,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
         private void PollMediaPosition(MediaOpenedConverterModel mediaOpenedModel)
         {
             var mediaElement = mediaOpenedModel.MediaElement;
-            var vm = mediaOpenedModel.ViewModelMediaPlayer;
+            var vm = mediaOpenedModel.MainViewModel;
 
             SetAccurateCurrentMediaDuration(vm, mediaElement.NaturalDuration.TimeSpan);
 
@@ -54,7 +54,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
         private void TrackMediaPosition(MediaOpenedConverterModel mediaOpenedModel)
         {
             var mediaElement = mediaOpenedModel.MediaElement;
-            var vm = mediaOpenedModel.ViewModelMediaPlayer;
+            var vm = mediaOpenedModel.MainViewModel;
 
             if (!vm.MediaControlsViewModel.IsUserDraggingSeekbarThumb)
                 vm.SelectedMediaItem.ElapsedTime = mediaElement.Position;

@@ -29,7 +29,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
         public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
 
-        public async Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable filePaths)
+        public async Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable<string> filePaths)
         {
             var supportedFiles = new List<MediaItem>();
 
@@ -38,32 +38,32 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                 var metadataReader = _metadataReaderFactory.Resolve(MetadataLibrary);
                 var supportedFileFormats = _applicationSettings.SupportedFileFormats;
 
-                foreach (var path in filePaths)
-                {
-                    var isFolder = Directory.Exists(path.ToString());
+                foreach (var file in SearchFolders(filePaths.Where(x => Directory.Exists(x)), supportedFileFormats))
+                    supportedFiles.Add(metadataReader.BuildMediaItem(file));
 
-                    if (isFolder)
-                    {
-                        var mediaItems = Directory
-                            .EnumerateFiles(path.ToString(), "*.*", SearchOption.AllDirectories)
-                            .Where(file => supportedFileFormats.Any(file.ToLower().EndsWith))
-                            .Select(x => metadataReader.BuildMediaItem(x));
-
-                        supportedFiles.AddRange(mediaItems);
-
-                        continue;
-                    }
-
-                    if (supportedFileFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToString().ToLower())))
-                    {
-                        var mediaItem = metadataReader.BuildMediaItem(path.ToString());
-
-                        supportedFiles.Add(mediaItem);
-                    }
-                }
+                foreach (var file in SearchFiles(filePaths.Where(x => !Directory.Exists(x)), supportedFileFormats))
+                    supportedFiles.Add(metadataReader.BuildMediaItem(file));
             });
 
             return supportedFiles;
+        }
+
+        private IEnumerable<string> SearchFolders(IEnumerable<string> filePaths, string[] supportedFileFormats)
+        {
+            foreach (var path in filePaths)
+            {
+                foreach (var file in Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories).Where(file => supportedFileFormats.Any(file.ToLower().EndsWith)))
+                    yield return file;
+            }
+        }
+
+        private IEnumerable<string> SearchFiles(IEnumerable<string> filePaths, string[] supportedFileFormats)
+        {
+            foreach (var path in filePaths)
+            {
+                if (supportedFileFormats.Any(x => x.ToLower() == Path.GetExtension(path.ToLower())))
+                    yield return path;
+            }
         }
     }
 }

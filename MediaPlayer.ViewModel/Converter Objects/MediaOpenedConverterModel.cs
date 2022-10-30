@@ -6,6 +6,6 @@ namespace MediaPlayer.ViewModel.ConverterObject
     {
         public MediaElement MediaElement { get; set; }
 
-        public MainViewModel ViewModelMediaPlayer { get; set; }
+        public MainViewModel MainViewModel { get; set; }
     }
 }

@@ -8,7 +8,8 @@ namespace MediaPlayer.ViewModel.Services.Abstract
 {
     public interface IMetadataReaderService
     {
-        Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable filePaths);
+        Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable<string> filePaths);
+
         MetadataLibraries MetadataLibrary { get; }
     }
 }
