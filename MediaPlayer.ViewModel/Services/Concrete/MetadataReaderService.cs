@@ -4,7 +4,6 @@ using MediaPlayer.Model.Metadata.Concrete.Readers;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
@@ -29,9 +28,9 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
         public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
 
-        Func<string, bool> IsFolder = x => Directory.Exists(x);
+        readonly Func<string, bool> IsFolder = x => Directory.Exists(x);
 
-        Func<string, bool> IsFile = x => File.Exists(x);
+        readonly Func<string, bool> IsFile = x => File.Exists(x);
 
         public async Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable<string> filePaths)
         {
