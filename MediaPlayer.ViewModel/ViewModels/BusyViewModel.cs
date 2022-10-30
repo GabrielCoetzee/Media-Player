@@ -41,7 +41,7 @@ namespace MediaPlayer.ViewModel.ViewModels
             MediaListTitle = "Media List Loading...";
         }
 
-        public void MediaListFinishedLoading()
+        public void MediaListPopulated()
         {
             IsLoading = false;
             MediaListTitle = "Media List";

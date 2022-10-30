@@ -97,24 +97,6 @@ namespace MediaPlayer.ViewModel
             await UpdateMetadataAsync(MediaItems.OfType<AudioItem>());
         }
 
-        private async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems)
-        {
-            if (!SettingsManager.IsUpdateMetadataEnabled || !audioItems.Any())
-                return;
-
-            BusyViewModel.UpdatingMetadata();
-
-            var cts = new CancellationTokenSource();
-            UpdateMetadataTokenSources.Add(cts);
-
-            await MetadataServices.MetadataUpdater.UpdateMetadataAsync(audioItems, cts.Token);
-
-            if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
-                return;
-
-            BusyViewModel.MediaListFinishedLoading();
-        }
-
         private async Task AddMediaItemsToListViewAsync(IEnumerable<string> filePaths)
         {
             BusyViewModel.MediaListLoading();
@@ -131,7 +113,25 @@ namespace MediaPlayer.ViewModel
 
             //CommandManager.InvalidateRequerySuggested();
 
-            BusyViewModel.MediaListFinishedLoading();
+            BusyViewModel.MediaListPopulated();
+        }
+
+        private async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems)
+        {
+            if (!SettingsManager.IsUpdateMetadataEnabled || !audioItems.Any())
+                return;
+
+            BusyViewModel.UpdatingMetadata();
+
+            var cts = new CancellationTokenSource();
+            UpdateMetadataTokenSources.Add(cts);
+
+            await MetadataServices.MetadataUpdater.UpdateMetadataAsync(audioItems, cts.Token);
+
+            if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
+                return;
+
+            BusyViewModel.MediaListPopulated();
         }
 
         public async Task SaveChangesAsync()
@@ -153,6 +153,7 @@ namespace MediaPlayer.ViewModel
                 await Parallel.ForEachAsync(UpdateMetadataTokenSources, new CancellationTokenSource().Token, (sources, token) =>
                 {
                     sources.Cancel();
+                    sources.Dispose();
 
                     return new ValueTask();
                 });
