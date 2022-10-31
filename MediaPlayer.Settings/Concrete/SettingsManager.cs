@@ -31,14 +31,14 @@ namespace MediaPlayer.Settings.Concrete
             _opacity = _applicationSettings.Opacity;
             _accent = _applicationSettings.Accent;
 
-            _isUpdateMetadataEnabled = _metadataSettings.UpdateMetadata;
-            _isSaveMetadataToFileEnabled = _metadataSettings.SaveMetadataToFile;
+            _updateMetadata = _metadataSettings.UpdateMetadata;
+            _saveMetadataToFile = _metadataSettings.SaveMetadataToFile;
         }
 
         private decimal _opacity;
         private string _accent;
-        private bool _isUpdateMetadataEnabled;
-        private bool _isSaveMetadataToFileEnabled;
+        private bool _updateMetadata;
+        private bool _saveMetadataToFile;
 
         public string Accent
         {
@@ -66,25 +66,25 @@ namespace MediaPlayer.Settings.Concrete
             }
         }
 
-        public bool IsUpdateMetadataEnabled 
+        public bool UpdateMetadata 
         {
-            get => _isUpdateMetadataEnabled;
+            get => _updateMetadata;
             set
             {
-                _isUpdateMetadataEnabled = value;
-                OnPropertyChanged(nameof(IsUpdateMetadataEnabled));
+                _updateMetadata = value;
+                OnPropertyChanged(nameof(UpdateMetadata));
 
                 _metadataSettings.UpdateMetadata = value;
             }
         }
 
-        public bool IsSaveMetadataToFileEnabled
+        public bool SaveMetadataToFile
         {
-            get => _isSaveMetadataToFileEnabled;
+            get => _saveMetadataToFile;
             set
             {
-                _isSaveMetadataToFileEnabled = value;
-                OnPropertyChanged(nameof(IsSaveMetadataToFileEnabled));
+                _saveMetadataToFile = value;
+                OnPropertyChanged(nameof(SaveMetadataToFile));
 
                 _metadataSettings.SaveMetadataToFile = value;
             }

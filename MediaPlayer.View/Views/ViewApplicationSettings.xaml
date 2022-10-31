@@ -73,10 +73,10 @@
                     </Grid.RowDefinitions>
 
                     <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Content="Update Metadata: " HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <CheckBox Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsChecked="{Binding SettingsManager.IsUpdateMetadataEnabled}" />
+                    <CheckBox Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsChecked="{Binding SettingsManager.UpdateMetadata}" />
 
                     <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Content="Save Metadata: " HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <CheckBox Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" IsChecked="{Binding SettingsManager.IsSaveMetadataToFileEnabled}" />
+                    <CheckBox Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" IsChecked="{Binding SettingsManager.SaveMetadataToFile}" />
 
                 </Grid>
             </TabItem>

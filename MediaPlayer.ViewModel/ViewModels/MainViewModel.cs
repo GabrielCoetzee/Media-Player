@@ -118,7 +118,7 @@ namespace MediaPlayer.ViewModel
 
         private async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems)
         {
-            if (!SettingsManager.IsUpdateMetadataEnabled || !audioItems.Any())
+            if (!SettingsManager.UpdateMetadata || !audioItems.Any())
                 return;
 
             BusyViewModel.UpdatingMetadata();
@@ -138,7 +138,7 @@ namespace MediaPlayer.ViewModel
         {
             await ReleaseResourcesAsync();
 
-            if (!SettingsManager.IsSaveMetadataToFileEnabled)
+            if (!SettingsManager.SaveMetadataToFile)
                 return;
 
             BusyViewModel.SavingChanges();
