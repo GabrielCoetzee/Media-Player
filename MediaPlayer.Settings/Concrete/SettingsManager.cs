@@ -31,8 +31,8 @@ namespace MediaPlayer.Settings.Concrete
             _opacity = _applicationSettings.Opacity;
             _accent = _applicationSettings.Accent;
 
-            _isUpdateMetadataEnabled = _metadataSettings.IsUpdateMetadataEnabled;
-            _isSaveMetadataToFileEnabled = _metadataSettings.IsSaveMetadataToFileEnabled;
+            _isUpdateMetadataEnabled = _metadataSettings.UpdateMetadata;
+            _isSaveMetadataToFileEnabled = _metadataSettings.SaveMetadataToFile;
         }
 
         private decimal _opacity;
@@ -74,7 +74,7 @@ namespace MediaPlayer.Settings.Concrete
                 _isUpdateMetadataEnabled = value;
                 OnPropertyChanged(nameof(IsUpdateMetadataEnabled));
 
-                _metadataSettings.IsUpdateMetadataEnabled = value;
+                _metadataSettings.UpdateMetadata = value;
             }
         }
 
@@ -86,7 +86,7 @@ namespace MediaPlayer.Settings.Concrete
                 _isSaveMetadataToFileEnabled = value;
                 OnPropertyChanged(nameof(IsSaveMetadataToFileEnabled));
 
-                _metadataSettings.IsSaveMetadataToFileEnabled = value;
+                _metadataSettings.SaveMetadataToFile = value;
             }
         }
 

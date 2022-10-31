@@ -1,12 +1,12 @@
-﻿using MediaPlayer.Settings.Base.Concrete;
-using MediaPlayer.Settings.Generic.Abstract;
+﻿using Generic.Settings.Abstract;
+using Generic.Settings.Concrete;
 using System;
 using System.ComponentModel.Composition;
 
 namespace MediaPlayer.Settings.Configuration
 {
     [Serializable]
-    [Export]
+    [InheritedExport]
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class MetadataSettings : SerializableSettings
     {
@@ -24,9 +24,9 @@ namespace MediaPlayer.Settings.Configuration
             CopyToThis(DeserializeObject<MetadataSettings>());
         }
 
-        public bool IsUpdateMetadataEnabled { get; set; } = true;
+        public bool UpdateMetadata { get; set; } = true;
 
-        public bool IsSaveMetadataToFileEnabled { get; set; } = true;
+        public bool SaveMetadataToFile { get; set; } = false;
 
         protected override string FileName => @"Metadata Settings";
 

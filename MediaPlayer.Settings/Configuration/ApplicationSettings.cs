@@ -1,12 +1,12 @@
-﻿using MediaPlayer.Settings.Base.Concrete;
-using MediaPlayer.Settings.Generic.Abstract;
+﻿using Generic.Settings.Abstract;
+using Generic.Settings.Concrete;
 using System;
 using System.ComponentModel.Composition;
 
 namespace MediaPlayer.Settings.Config
 {
     [Serializable]
-    [Export]
+    [InheritedExport]
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class ApplicationSettings : SerializableSettings
     {
@@ -24,13 +24,11 @@ namespace MediaPlayer.Settings.Config
             CopyToThis(DeserializeObject<ApplicationSettings>());
         }
 
-
         protected override bool UseEncryption => true;
         public string[] SupportedFileFormats { get; set; } = { ".mp3", ".m4a", ".flac", ".wma" };
         public string Accent { get; set; } = "Blue";
         public decimal Opacity { get; set; } = 0.8m;
         protected override string FileName => @"Application Settings";
-
         public void Save()
         {
             SerializeObject(this);
