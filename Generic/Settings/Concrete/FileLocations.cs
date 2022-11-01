@@ -1,4 +1,5 @@
-﻿using Generic.Settings.Abstract;
+﻿using Generic.Exceptions;
+using Generic.Settings.Abstract;
 using System;
 using System.ComponentModel.Composition;
 using System.IO;
@@ -11,7 +12,7 @@ namespace Generic.Settings.Concrete
     {
         public virtual string ConfigurationDirectory => GetDirectory("Configuration");
 
-        public virtual string ApplicationName => throw new NotImplementedException();
+        public virtual string ApplicationName => throw new MustOverrideException("Application Name must be overridden in child class");
 
         private string GetDirectory(string folder)
         {
