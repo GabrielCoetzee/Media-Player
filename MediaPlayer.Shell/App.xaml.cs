@@ -81,7 +81,8 @@ namespace MediaPlayer.Shell
         {
             try
             {
-                MEF.Compose(Assembly.GetExecutingAssembly(), "MediaPlayer");
+                //MEF.Compose(Assembly.GetExecutingAssembly(), "MediaPlayer");
+                MEF.ComposeAll(Assembly.GetExecutingAssembly());
                 MEF.Build(this);
             }
             catch (ReflectionTypeLoadException ex)

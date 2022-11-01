@@ -1,15 +1,15 @@
 ﻿using Flurl;
 using Flurl.Http;
-using MediaPlayer.Contracts.Lyrics_OVH;
-using MediaPlayer.DataAccess.Abstract;
+using Integration.LyricsOVH.Contracts;
+using Integration.LyricsOVH.Services.Abstract;
 using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 
-namespace MediaPlayer.DataAccess.Concrete
+namespace Integration.LyricsOVH.Services.Concrete
 {
-    [Export(typeof(ILyricsOvhDataAccess))]
-    public class LyricsOvhDataAccess : ILyricsOvhDataAccess
+    [Export(typeof(ILyricsOvhApi))]
+    public class LyricsOvhApi : ILyricsOvhApi
     {
         public async Task<LyricsOvhResponse?> GetLyricsAsync(string artist, string track)
         {

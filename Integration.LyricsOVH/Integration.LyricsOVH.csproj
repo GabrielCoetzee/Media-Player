@@ -9,11 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Flurl" Version="3.0.6" />
     <PackageReference Include="Flurl.Http" Version="3.2.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MediaPlayer.Contracts\MediaPlayer.Contracts.csproj" />
-    <ProjectReference Include="..\MediaPlayer.Settings\MediaPlayer.Settings.csproj" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

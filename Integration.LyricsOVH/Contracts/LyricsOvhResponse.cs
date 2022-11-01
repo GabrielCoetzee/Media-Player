@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MediaPlayer.Contracts.Lyrics_OVH
+namespace Integration.LyricsOVH.Contracts
 {
     public class LyricsOvhResponse
     {

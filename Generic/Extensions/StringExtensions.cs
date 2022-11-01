@@ -25,8 +25,20 @@ namespace Generic.Extensions
             byte[] secret = Convert.FromBase64String(s);
             byte[] plain = ProtectedData.Unprotect(secret, null, DataProtectionScope.CurrentUser);
             var encoding = new UTF8Encoding();
+
             return encoding.GetString(plain);
 
+        }
+
+        public static string ReduceTwoNewlinesToOne(this string s)
+        {
+            if (string.IsNullOrWhiteSpace(s))
+                return null;
+
+            if (s.Contains($"\n\n"))
+                return s.Replace($"\n\n", Environment.NewLine);
+
+            return s;
         }
     }
 }

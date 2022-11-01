@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text.Json;
 
-namespace MediaPlayer.Contracts
+namespace Integration.LastFM.Contracts
 {
     public class LastFmResponseModel
     {

@@ -1,22 +1,21 @@
 ﻿using Flurl;
 using Flurl.Http;
-using MediaPlayer.Contracts;
+using Integration.LastFM.Configuration;
+using Integration.LastFM.Contracts;
 using MediaPlayer.DataAccess.Abstract;
-using MediaPlayer.Settings.Config;
-using MediaPlayer.Settings.Configuration;
 using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 
 namespace MediaPlayer.DataAccess.Concrete
 {
-    [Export(typeof(ILastFmDataAccess))]
-    public class LastFmDataAccess : ILastFmDataAccess
+    [Export(typeof(ILastFMApi))]
+    public class LastFMApi : ILastFMApi
     {
         readonly LastFmSettings _lastFmSettings;
 
         [ImportingConstructor]
-        public LastFmDataAccess(LastFmSettings lastFmSettings)
+        public LastFMApi(LastFmSettings lastFmSettings)
         {
             _lastFmSettings = lastFmSettings;
         }

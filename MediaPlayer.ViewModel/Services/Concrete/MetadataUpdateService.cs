@@ -2,29 +2,30 @@
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using MediaPlayer.Model.BusinessEntities.Concrete;
-using MediaPlayer.DataAccess.Abstract;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using LazyCache;
 using System.Collections.Concurrent;
+using Integration.LyricsOVH.Services.Abstract;
+using MediaPlayer.DataAccess.Abstract;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
     [Export(typeof(IMetadataUpdateService))]
     public class MetadataUpdateService : IMetadataUpdateService
     {
-        readonly ILastFmDataAccess _lastFmDataAccess;
-        readonly ILyricsOvhDataAccess _lyricsOvhDataAccess;
+        readonly ILastFMApi _lastFMApi;
+        readonly ILyricsOvhApi _lyricsOvhApi;
         readonly IAppCache _cache;
 
         [ImportingConstructor]
-        public MetadataUpdateService(ILastFmDataAccess lastFmDataAccess,
-            ILyricsOvhDataAccess lyricsOvhDataAccess)
+        public MetadataUpdateService(ILastFMApi lastFMApi,
+            ILyricsOvhApi lyricsOvhApi)
         {
-            _lastFmDataAccess = lastFmDataAccess;
-            _lyricsOvhDataAccess = lyricsOvhDataAccess;
+            _lastFMApi = lastFMApi;
+            _lyricsOvhApi = lyricsOvhApi;
 
             _cache = new CachingService();
         }
@@ -52,7 +53,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                         if (audioItem.HasLyrics)
                             return;
 
-                        var response = await _lyricsOvhDataAccess.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
+                        var response = await _lyricsOvhApi.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
                         var lyrics = response?.Lyrics;
 
                         if (string.IsNullOrEmpty(lyrics))
@@ -85,7 +86,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                         if (audioItem.HasAlbumArt)
                             return;
 
-                        var response = await _lastFmDataAccess.GetTrackInfoAsync(audioItem.Artist, audioItem.MediaTitle);
+                        var response = await _lastFMApi.GetTrackInfoAsync(audioItem.Artist, audioItem.MediaTitle);
                         var url = response?.Track?.Album?.Image?.LastOrDefault()?.Url;
 
                         if (string.IsNullOrEmpty(url))

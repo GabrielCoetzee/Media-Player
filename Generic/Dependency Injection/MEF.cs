@@ -8,8 +8,25 @@ namespace Generic.DependencyInjection
 {
     public class MEF
     {
-
         public static CompositionContainer Container;
+
+        public static void ComposeAll(Assembly assembly)
+        {
+            var aggregateCatalog = new AggregateCatalog();
+            aggregateCatalog.Catalogs.Add(new AssemblyCatalog(assembly));
+
+            var directoryPath = Path.GetDirectoryName(assembly.Location);
+
+            if (directoryPath != null)
+            {
+                aggregateCatalog.Catalogs.Add(new DirectoryCatalog(directoryPath, $"*.dll"));
+
+                foreach (var subdirectory in Directory.GetDirectories(directoryPath))
+                    aggregateCatalog.Catalogs.Add(new DirectoryCatalog(subdirectory, $"*.dll"));
+            }
+
+            Container = new CompositionContainer(aggregateCatalog);
+        }
 
         public static void Compose(Assembly assembly, string applicationName)
         {
