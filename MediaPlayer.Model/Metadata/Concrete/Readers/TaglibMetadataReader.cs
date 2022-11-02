@@ -8,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Drawing;
 using System;
+using System.Collections.Generic;
+using MediaPlayer.Model.Cleaners.Abstract;
 
 namespace MediaPlayer.Model.Metadata.Concrete.Readers
 {
@@ -15,6 +17,9 @@ namespace MediaPlayer.Model.Metadata.Concrete.Readers
     public class TaglibMetadataReader : IMetadataReader
     {
         public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
+
+        [ImportMany(typeof(IMetadataCleaner))]
+        public List<IMetadataCleaner> MetadataCleaners { get; set; }
 
         public MediaItem BuildMediaItem(string path)
         {
@@ -27,7 +32,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Readers
                 if (albumArt == null || albumArt.Length == 0)
                     albumArt = SearchForAlbumArtInDirectory(path);
 
-                return reader.Properties.MediaTypes switch
+                MediaItem mediaItem = reader.Properties.MediaTypes switch
                 {
                     MediaTypes.Audio => new AudioItemBuilder(path)
                             .AsMediaType(MediaType.Audio)
@@ -53,6 +58,10 @@ namespace MediaPlayer.Model.Metadata.Concrete.Readers
 
                     _ => null
                 };
+
+                MetadataCleaners.ForEach(x => x.Clean(mediaItem));
+
+                return mediaItem;
             }
             catch (CorruptFileException)
             {

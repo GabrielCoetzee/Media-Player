@@ -25,13 +25,9 @@ namespace MediaPlayer.Settings.Configuration
         }
 
         public bool UpdateMetadata { get; set; } = true;
-
         public bool SaveMetadataToFile { get; set; } = false;
-
         protected override string FileName => @"Metadata Settings";
-
         protected override bool UseEncryption => false;
-
         public void Save()
         {
             SerializeObject(this);

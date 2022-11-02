@@ -12,7 +12,7 @@ using System.Windows.Input;
 namespace MediaPlayer.ViewModel.ViewModels
 {
     [Export]
-    public class MediaControlsViewModel : PropertyNotifyBase
+    public class MediaControlsViewModel : NotifyPropertyChanged
     {
         private TimeSpan _mediaElementPosition;
         private MediaState _mediaState = MediaState.Pause;

@@ -8,7 +8,7 @@ using System.Windows.Input;
 namespace MediaPlayer.ViewModel
 {
     [Export]
-    public class ApplicationSettingsViewModel : PropertyNotifyBase
+    public class ApplicationSettingsViewModel : NotifyPropertyChanged
     {
         [Import]
         public ISettingsManager SettingsManager { get; set; }

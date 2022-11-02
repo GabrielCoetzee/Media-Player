@@ -30,7 +30,7 @@ namespace Generic.Extensions
 
         }
 
-        public static string ReduceTwoNewlinesToOne(this string s)
+        public static string ReplaceTwoSucceedingNewLinesWithOne(this string s)
         {
             if (string.IsNullOrWhiteSpace(s))
                 return null;

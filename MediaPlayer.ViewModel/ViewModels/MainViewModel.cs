@@ -19,7 +19,7 @@ using System.Collections.Specialized;
 namespace MediaPlayer.ViewModel
 {
     [Export]
-    public class MainViewModel : PropertyNotifyBase
+    public class MainViewModel : NotifyPropertyChanged
     {
         private MediaItem _selectedMediaItem;
         private MediaItemObservableCollection _mediaItems = new();

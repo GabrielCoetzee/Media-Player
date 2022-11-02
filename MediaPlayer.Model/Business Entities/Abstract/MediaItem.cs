@@ -7,7 +7,7 @@ using MediaPlayer.Common.Enumerations;
 namespace MediaPlayer.Model.BusinessEntities.Abstract
 {
     [DebuggerDisplay("{MediaTitle}")]
-    public abstract class MediaItem : PropertyNotifyBase
+    public abstract class MediaItem : NotifyPropertyChanged
     {
         private int? _id;
         private TimeSpan _duration;

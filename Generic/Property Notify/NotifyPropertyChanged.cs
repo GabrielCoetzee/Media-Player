@@ -2,7 +2,7 @@
 
 namespace Generic.PropertyNotify
 {
-    public class PropertyNotifyBase : INotifyPropertyChanged
+    public class NotifyPropertyChanged : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 namespace MediaPlayer.ViewModel.ViewModels
 {
     [Export]
-    public class BusyViewModel : PropertyNotifyBase
+    public class BusyViewModel : NotifyPropertyChanged
     {
         private bool _isLoading;
         private string _mediaListTitle;

@@ -13,7 +13,7 @@ namespace MediaPlayer.Settings.Concrete
     /// </summary>
     [Export(typeof(ISettingsManager))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class SettingsManager : PropertyNotifyBase, ISettingsManager
+    public class SettingsManager : NotifyPropertyChanged, ISettingsManager
     {
         readonly ApplicationSettings _applicationSettings;
         readonly MetadataSettings _metadataSettings;
