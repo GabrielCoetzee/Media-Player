@@ -1,6 +1,5 @@
 ﻿using MediaPlayer.Model.ObjectBuilders;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model.Metadata.Abstract;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using TagLib;
 using System.ComponentModel.Composition;
@@ -10,6 +9,7 @@ using System.Drawing;
 using System;
 using System.Collections.Generic;
 using MediaPlayer.Model.Cleaners.Abstract;
+using MediaPlayer.Model.Metadata.Abstract.Readers;
 
 namespace MediaPlayer.Model.Metadata.Concrete.Readers
 {

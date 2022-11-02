@@ -1,12 +1,12 @@
 ﻿using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 
-namespace MediaPlayer.Model.Metadata.Abstract
+namespace MediaPlayer.Model.Metadata.Abstract.Writers
 {
-    public interface IMetadataReader
+    public interface IMetadataWriter
     {
         MetadataLibraries MetadataLibrary { get; }
 
-        MediaItem BuildMediaItem(string path);
+        void Save(MediaItem mediaItem);
     }
 }

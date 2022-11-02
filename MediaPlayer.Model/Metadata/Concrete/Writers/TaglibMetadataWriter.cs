@@ -1,12 +1,12 @@
 ﻿using MediaPlayer.Model.ObjectBuilders;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model.Metadata.Abstract;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using TagLib;
 using System.ComponentModel.Composition;
 using System;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using System.Linq;
+using MediaPlayer.Model.Metadata.Abstract.Writers;
 
 namespace MediaPlayer.Model.Metadata.Concrete.Writers
 {
