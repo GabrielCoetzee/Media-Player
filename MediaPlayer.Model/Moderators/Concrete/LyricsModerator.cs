@@ -1,15 +1,15 @@
 ﻿using Generic.Extensions;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.BusinessEntities.Concrete;
-using MediaPlayer.Model.Cleaners.Abstract;
+using MediaPlayer.Model.Moderators.Abstract;
 using System.ComponentModel.Composition;
 
 namespace MediaPlayer.Model.Cleaners.Concrete
 {
-    [Export(typeof(IMetadataCleaner))]
-    public class LyricsCleaner : IMetadataCleaner
+    [Export(typeof(IMetadataModerator))]
+    public class LyricsModerator : IMetadataModerator
     {
-        public void Clean(MediaItem mediaItem)
+        public void Fix(MediaItem mediaItem)
         {
             if (mediaItem is not AudioItem audioItem || !audioItem.HasLyrics)
                 return;
