@@ -54,7 +54,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Readers
                     _ => null
                 };
 
-                MetadataModerators.ForEach(x => x.Fix(mediaItem));
+                MetadataModerators.ForEach(x => x.FixMetadata(mediaItem));
 
                 return mediaItem;
             }

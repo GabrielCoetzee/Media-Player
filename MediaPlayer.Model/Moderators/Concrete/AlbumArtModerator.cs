@@ -12,7 +12,7 @@ namespace MediaPlayer.Model.Moderators.Concrete
     [Export(typeof(IMetadataModerator))]
     public class AlbumArtModerator : IMetadataModerator
     {
-        public void Fix(MediaItem mediaItem)
+        public void FixMetadata(MediaItem mediaItem)
         {
             if (mediaItem is not AudioItem audioItem || audioItem.HasAlbumArt)
                 return;

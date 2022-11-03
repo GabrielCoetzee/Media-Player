@@ -9,7 +9,7 @@ namespace MediaPlayer.Model.Cleaners.Concrete
     [Export(typeof(IMetadataModerator))]
     public class LyricsModerator : IMetadataModerator
     {
-        public void Fix(MediaItem mediaItem)
+        public void FixMetadata(MediaItem mediaItem)
         {
             if (mediaItem is not AudioItem audioItem || !audioItem.HasLyrics)
                 return;

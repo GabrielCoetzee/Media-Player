@@ -5,6 +5,6 @@ namespace MediaPlayer.Model.Moderators.Abstract
 {
     public interface IMetadataModerator
     {
-        void Fix(MediaItem mediaItem);
+        void FixMetadata(MediaItem mediaItem);
     }
 }
