@@ -8,7 +8,7 @@ namespace Generic.Collections
 {
     /// <inheritdoc />
     /// <summary>
-    /// The Point of this class is to be able to use AddRange, and then still have it notify that collection has changed on each individual item add.
+    /// Custom observable collection that supports Range Add and Remove. It will suppress collection change notify until entire range is added or removed.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class BulkObservableCollection<T> : ObservableCollection<T>
