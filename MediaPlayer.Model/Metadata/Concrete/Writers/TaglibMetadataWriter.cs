@@ -15,7 +15,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Writers
     {
         public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
 
-        public void Save(MediaItem mediaItem)
+        public void SaveMediaItem(MediaItem mediaItem)
         {
             try
             {

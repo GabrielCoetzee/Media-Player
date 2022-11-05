@@ -34,7 +34,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                 {
                     var metadataWriter = _metadataWriterFactory.Resolve(MetadataLibrary);
 
-                    metadataWriter.Save(mediaItem);
+                    metadataWriter.SaveMediaItem(mediaItem);
 
                     return new ValueTask();
                 });
