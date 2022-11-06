@@ -11,7 +11,7 @@ namespace MediaPlayer.Theming.Concrete
     {
         public void ChangeTheme(string baseColor, string accent)
         {
-            Application.Current.Resources.MergedDictionaries.Remove(Application.Current.Resources.MergedDictionaries[2]);
+            Application.Current.Resources.MergedDictionaries.Remove(Application.Current.Resources.MergedDictionaries.Last());
 
             var resourceDictionary = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/{baseColor}.{accent}.xaml", UriKind.RelativeOrAbsolute);
 

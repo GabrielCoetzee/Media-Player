@@ -77,6 +77,8 @@ namespace MediaPlayer.Shell
 
         private static void LoadThemeResourceDictionary(string baseColor, string accent)
         {
+            Application.Current.Resources.MergedDictionaries.Remove(Application.Current.Resources.MergedDictionaries.Last());
+
             //Example: pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml
 
             var resourceDictionary = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/{baseColor}.{accent}.xaml", UriKind.RelativeOrAbsolute);
