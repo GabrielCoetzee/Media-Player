@@ -26,6 +26,8 @@ namespace MediaPlayer.Settings.Config
 
         protected override bool UseEncryption => true;
         public string[] SupportedFileFormats { get; set; } = { ".mp3", ".m4a", ".flac", ".wma" };
+
+        public string BaseColor { get; set; } = "Dark";
         public string Accent { get; set; } = "Blue";
         public decimal Opacity { get; set; } = 0.8m;
         protected override string FileName => @"Application Settings";

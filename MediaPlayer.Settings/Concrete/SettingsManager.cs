@@ -28,17 +28,35 @@ namespace MediaPlayer.Settings.Concrete
             _metadataSettings = metadataSettings;
             _themeManager = themeManager;
 
-            _opacity = _applicationSettings.Opacity;
+            _baseColor = _applicationSettings.BaseColor;
             _accent = _applicationSettings.Accent;
+            _opacity = _applicationSettings.Opacity;
 
             _updateMetadata = _metadataSettings.UpdateMetadata;
             _saveMetadataToFile = _metadataSettings.SaveMetadataToFile;
         }
 
-        private decimal _opacity;
+        private string _baseColor;
         private string _accent;
+        private decimal _opacity;
         private bool _updateMetadata;
         private bool _saveMetadataToFile;
+
+        public string BackgroundColor => BaseColor == "Dark" ? "Black" : "White";
+
+        public string BaseColor
+        {
+            get => _baseColor;
+            set
+            {
+                _baseColor = value;
+                OnPropertyChanged(nameof(BaseColor));
+                OnPropertyChanged(nameof(BackgroundColor));
+
+                _applicationSettings.BaseColor = value;
+                _themeManager.ChangeTheme(value, Accent);
+            }
+        }
 
         public string Accent
         {
@@ -49,7 +67,7 @@ namespace MediaPlayer.Settings.Concrete
                 OnPropertyChanged(nameof(Accent));
 
                 _applicationSettings.Accent = value;
-                _themeManager.ChangeAccent(value);
+                _themeManager.ChangeTheme(BaseColor, value);
             }
         }
 

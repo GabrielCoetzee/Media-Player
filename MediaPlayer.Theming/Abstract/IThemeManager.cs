@@ -2,7 +2,7 @@
 {
     public interface IThemeManager
     {
-        void ChangeAccent(string accent);
+        void ChangeTheme(string baseColor, string accent);
 
         void ChangeOpacity(double opacity);
 

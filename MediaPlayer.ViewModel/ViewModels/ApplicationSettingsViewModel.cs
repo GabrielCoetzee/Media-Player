@@ -13,6 +13,9 @@ namespace MediaPlayer.ViewModel
         [Import]
         public ISettingsManager SettingsManager { get; set; }
 
+        [Import(CommandNames.LoadAccentOptionsCommand)]
+        public ICommand LoadAccentOptionsCommand { get; set; }
+
         [Import(CommandNames.LoadThemeOptionsCommand)]
         public ICommand LoadThemeOptionsCommand { get; set; }
 

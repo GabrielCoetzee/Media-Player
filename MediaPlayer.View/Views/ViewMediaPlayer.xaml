@@ -27,7 +27,8 @@
         <KeyBinding Command="{Binding MediaControlsViewModel.PreviousTrackCommand}" CommandParameter="{Binding}" Key="MediaPreviousTrack" />
     </Controls:MetroWindow.InputBindings>
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="Black" Opacity="{Binding SettingsManager.Opacity}"/>
+        <SolidColorBrush Color="{Binding SettingsManager.BackgroundColor}" Opacity="{Binding SettingsManager.Opacity}"/>
+        <!--<SolidColorBrush Color="Black" Opacity="{Binding SettingsManager.Opacity}"/>-->
     </Controls:MetroWindow.Background>
 
     <Controls:MetroWindow.RightWindowCommands>
@@ -45,14 +46,26 @@
 
     <Window.Resources>
 
-        <ImageBrush x:Key="ResourcePlayButtonImage" ImageSource="../Resources/Button_Images/appbar.control.play.png" />
-        <ImageBrush x:Key="ResourcePauseButtonImage" ImageSource="../Resources/Button_Images/appbar.control.pause.png" />
-        <ImageBrush x:Key="ResourceMuteButtonImage" ImageSource="../Resources/Button_Images/appbar.sound.mute.png" />
-        <ImageBrush x:Key="ResourcePreviousTrackButtonImage" ImageSource="../Resources/Button_Images/appbar.control.rewind.png" />
-        <ImageBrush x:Key="ResourceStopButtonImage" ImageSource="../Resources/Button_Images/appbar.control.stop.png"/>
-        <ImageBrush x:Key="ResourceNextTrackButtonImage"  ImageSource="../Resources/Button_Images/appbar.control.fastforward.png"/>
-        <ImageBrush x:Key="ResourceRepeatButtonImage" ImageSource="../Resources/Button_Images/appbar.repeat.png" />
-        <ImageBrush x:Key="ResourceShuffleButtonImage" ImageSource="../Resources/Button_Images/appbar.shuffle.png"/>
+        
+        <!--Dark Mode-->
+        <ImageBrush x:Key="ResourcePlayButtonImage_Dark" ImageSource="../Resources/Button_Images/appbar.control.play_dark.png" />
+        <ImageBrush x:Key="ResourcePauseButtonImage_Dark" ImageSource="../Resources/Button_Images/appbar.control.pause_dark.png" />
+        <ImageBrush x:Key="ResourceMuteButtonImage_Dark" ImageSource="../Resources/Button_Images/appbar.sound.mute_dark.png" />
+        <ImageBrush x:Key="ResourcePreviousTrackButtonImage_Dark" ImageSource="../Resources/Button_Images/appbar.control.rewind_dark.png" />
+        <ImageBrush x:Key="ResourceStopButtonImage_Dark" ImageSource="../Resources/Button_Images/appbar.control.stop_dark.png"/>
+        <ImageBrush x:Key="ResourceNextTrackButtonImage_Dark"  ImageSource="../Resources/Button_Images/appbar.control.fastforward_dark.png"/>
+        <ImageBrush x:Key="ResourceRepeatButtonImage_Dark" ImageSource="../Resources/Button_Images/appbar.repeat_dark.png" />
+        <ImageBrush x:Key="ResourceShuffleButtonImage_Dark" ImageSource="../Resources/Button_Images/appbar.shuffle_dark.png"/>
+        
+        <!--Light Mode-->
+        <ImageBrush x:Key="ResourcePlayButtonImage_Light" ImageSource="../Resources/Button_Images/appbar.control.play_light.png" />
+        <ImageBrush x:Key="ResourcePauseButtonImage_Light" ImageSource="../Resources/Button_Images/appbar.control.pause_light.png" />
+        <ImageBrush x:Key="ResourceMuteButtonImage_Light" ImageSource="../Resources/Button_Images/appbar.sound.mute_light.png" />
+        <ImageBrush x:Key="ResourcePreviousTrackButtonImage_Light" ImageSource="../Resources/Button_Images/appbar.control.rewind_light.png" />
+        <ImageBrush x:Key="ResourceStopButtonImage_Light" ImageSource="../Resources/Button_Images/appbar.control.stop_light.png"/>
+        <ImageBrush x:Key="ResourceNextTrackButtonImage_Light"  ImageSource="../Resources/Button_Images/appbar.control.fastforward_light.png"/>
+        <ImageBrush x:Key="ResourceRepeatButtonImage_Light" ImageSource="../Resources/Button_Images/appbar.repeat_light.png" />
+        <ImageBrush x:Key="ResourceShuffleButtonImage_Light" ImageSource="../Resources/Button_Images/appbar.shuffle_light.png"/>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:PlayPauseButtonBackgroundConverter x:Key="PlayPauseButtonBackgroundConverter" />
@@ -60,6 +73,7 @@
         <converters:AlbumArtMultiValueConverter x:Key="AlbumArtMultiValueConverter" />
         <converters:ElapsedTimeTimeSpanToSecondsConverter x:Key="ElapsedTimeTimeSpanToSecondsConverter" />
         <converters:MediaElementOpenedMultiValueConverter x:Key="MediaElementOpenedMultiValueConverter" />
+        <converters:ButtonBackgroundConverter x:Key="ButtonBackgroundConverter" />
         
     </Window.Resources>
 
@@ -215,13 +229,64 @@
                 </i:Interaction.Triggers>
             </Slider>
 
-            <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="10" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.ShuffleCommand}" CommandParameter="{Binding}" Background="{StaticResource ResourceShuffleButtonImage}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
-            <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="9" Grid.RowSpan="2"  Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.RepeatMediaListCommand}" CommandParameter="{Binding}" Background="{StaticResource ResourceRepeatButtonImage}"  Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
-            <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="8" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.NextTrackCommand}" CommandParameter="{Binding}" Background="{StaticResource ResourceNextTrackButtonImage}"  Style="{DynamicResource MahApps.Styles.Button.Circle}" />
-            <Button Margin="4 4 4 4" Name="ButtonPlayPause" Grid.Row="4" Grid.Column="7" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.PlayPauseCommand}" CommandParameter="{Binding}" Background="{Binding MediaControlsViewModel.MediaState, Converter={StaticResource PlayPauseButtonBackgroundConverter}, FallbackValue={StaticResource ResourcePlayButtonImage}}" Style="{DynamicResource MahApps.Styles.Button.Circle}" />
-            <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="6" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.StopCommand}" CommandParameter="{Binding}" Background="{StaticResource ResourceStopButtonImage}" Style="{DynamicResource MahApps.Styles.Button.Circle}" />
-            <Button Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="5" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.PreviousTrackCommand}" CommandParameter="{Binding}" Background="{StaticResource ResourcePreviousTrackButtonImage}"  Style="{DynamicResource MahApps.Styles.Button.Circle}" />
-            <ToggleButton Margin="4 4 4 4" Focusable="False" Grid.Row="4" Grid.Column="4" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Name="ButtonMute" Command="{Binding MediaControlsViewModel.MuteCommand}" CommandParameter="{Binding MediaControlsViewModel}" Background="{StaticResource ResourceMuteButtonImage}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" />
+            <ToggleButton Margin="4 4 4 4" x:Name="Shuffle" Focusable="False" Grid.Row="4" Grid.Column="10" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.ShuffleCommand}" CommandParameter="{Binding}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                <ToggleButton.Background>
+                    <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}">
+                        <Binding ElementName="Shuffle" Path="Name"  />
+                        <Binding Path="SettingsManager.BaseColor" />
+                    </MultiBinding>
+                </ToggleButton.Background>
+            </ToggleButton>
+            <ToggleButton Margin="4 4 4 4" x:Name="Repeat" Focusable="False" Grid.Row="4" Grid.Column="9" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.RepeatMediaListCommand}" CommandParameter="{Binding}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                <ToggleButton.Background>
+                    <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}">
+                        <Binding ElementName="Repeat" Path="Name"  />
+                        <Binding Path="SettingsManager.BaseColor" />
+                    </MultiBinding>
+                </ToggleButton.Background>
+            </ToggleButton>
+            <Button Margin="4 4 4 4" x:Name="NextTrack" Focusable="False" Grid.Row="4" Grid.Column="8" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.NextTrackCommand}" CommandParameter="{Binding}" Style="{DynamicResource MahApps.Styles.Button.Circle}">
+                <Button.Background>
+                    <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}">
+                        <Binding ElementName="NextTrack" Path="Name"  />
+                        <Binding Path="SettingsManager.BaseColor" />
+                    </MultiBinding>
+                </Button.Background>
+            </Button>
+
+            <Button Margin="4 4 4 4" Name="ButtonPlayPause" Grid.Row="4" Grid.Column="7" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.PlayPauseCommand}" CommandParameter="{Binding}" Style="{DynamicResource MahApps.Styles.Button.Circle}">
+                <Button.Background>
+                    <MultiBinding Converter="{StaticResource PlayPauseButtonBackgroundConverter}">
+                        <Binding Path="MediaControlsViewModel.MediaState"  />
+                        <Binding Path="SettingsManager.BaseColor" />
+                    </MultiBinding>
+                </Button.Background>
+            </Button>
+
+            <Button Margin="4 4 4 4" x:Name="Stop" Focusable="False" Grid.Row="4" Grid.Column="6" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.StopCommand}" CommandParameter="{Binding}" Style="{DynamicResource MahApps.Styles.Button.Circle}">
+                <Button.Background>
+                    <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}">
+                        <Binding ElementName="Stop" Path="Name"  />
+                        <Binding Path="SettingsManager.BaseColor" />
+                    </MultiBinding>
+                </Button.Background>
+            </Button>
+            <Button Margin="4 4 4 4" x:Name="PreviousTrack" Focusable="False" Grid.Row="4" Grid.Column="5" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.PreviousTrackCommand}" CommandParameter="{Binding}" Style="{DynamicResource MahApps.Styles.Button.Circle}">
+                <Button.Background>
+                    <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}">
+                        <Binding ElementName="PreviousTrack" Path="Name"  />
+                        <Binding Path="SettingsManager.BaseColor" />
+                    </MultiBinding>
+                </Button.Background>
+            </Button>
+            <ToggleButton Margin="4 4 4 4" x:Name="Mute" Focusable="False" Grid.Row="4" Grid.Column="4" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.MuteCommand}" CommandParameter="{Binding MediaControlsViewModel}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                <ToggleButton.Background>
+                    <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}">
+                        <Binding ElementName="Mute" Path="Name"  />
+                        <Binding Path="SettingsManager.BaseColor" />
+                    </MultiBinding>
+                </ToggleButton.Background>
+            </ToggleButton>
             <Button Focusable="False" Grid.Row="5" Grid.Column="1" Content="Add File(s)" FontWeight="Regular" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.AddMediaCommand}" />
             <Button Focusable="False" Grid.Row="5" Grid.Column="13" Content="Clear Media List" FontWeight="Regular" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.ClearMediaListCommand}" CommandParameter="{Binding}" />
         </Grid>

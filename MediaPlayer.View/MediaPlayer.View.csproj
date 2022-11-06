@@ -22,49 +22,87 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup />
-  <ItemGroup>
-    <Resource Include="Resources\Button_Images\appbar.control.pause.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Button_Images\appbar.control.play.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Default_AlbumArt\blue.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Button_Images\appbar.sound.mute.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Button_Images\appbar.control.rewind.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Button_Images\appbar.control.stop.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Button_Images\appbar.control.fastforward.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Button_Images\appbar.repeat.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Button_Images\appbar.shuffle.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
+	
+	<!--Dark Mode-->
+      <ItemGroup>
+        <Resource Include="Resources\Button_Images\appbar.control.pause_dark.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Resources\Button_Images\appbar.control.play_dark.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+      </ItemGroup>
+      <ItemGroup>
+        <Resource Include="Resources\Button_Images\appbar.sound.mute_dark.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+      </ItemGroup>
+      <ItemGroup>
+        <Resource Include="Resources\Button_Images\appbar.control.rewind_dark.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+      </ItemGroup>
+      <ItemGroup>
+        <Resource Include="Resources\Button_Images\appbar.control.stop_dark.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+      </ItemGroup>
+      <ItemGroup>
+        <Resource Include="Resources\Button_Images\appbar.control.fastforward_dark.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+      </ItemGroup>
+      <ItemGroup>
+        <Resource Include="Resources\Button_Images\appbar.repeat_dark.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+      </ItemGroup>
+      <ItemGroup>
+        <Resource Include="Resources\Button_Images\appbar.shuffle_dark.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+      </ItemGroup>
+
+	<!--Light Mode-->
+	<ItemGroup>
+		<Resource Include="Resources\Button_Images\appbar.control.pause_light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Button_Images\appbar.control.play_light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Resources\Button_Images\appbar.sound.mute_light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Resources\Button_Images\appbar.control.rewind_light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Resources\Button_Images\appbar.control.stop_light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Resources\Button_Images\appbar.control.fastforward_light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Resources\Button_Images\appbar.repeat_light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Resources\Button_Images\appbar.shuffle_light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+	
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">
       <Visible>False</Visible>
@@ -78,6 +116,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Default_AlbumArt\blue.png" />
     <Resource Include="Resources\Default_AlbumArt\amber.png" />
     <Resource Include="Resources\Default_AlbumArt\brown.png" />
     <Resource Include="Resources\Default_AlbumArt\cobalt.png" />

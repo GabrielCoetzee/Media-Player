@@ -51,7 +51,7 @@ namespace MediaPlayer.Shell
             MessengerRegistrations.ProcessFilePaths(MEF.Container);
             MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
 
-            LoadThemeResourceDictionary(SettingsManager.Accent);
+            LoadThemeResourceDictionary(SettingsManager.BaseColor, SettingsManager.Accent);
             StartApplication(e);
 
             base.OnStartup(e);
@@ -75,11 +75,13 @@ namespace MediaPlayer.Shell
             await PipeManager.WriteLinesAsync(e.Args);
         }
 
-        private static void LoadThemeResourceDictionary(string accent)
+        private static void LoadThemeResourceDictionary(string theme, string accent)
         {
-            var theme = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.{accent}.xaml", UriKind.RelativeOrAbsolute);
+            //Example: pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml
 
-            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = theme });
+            var resourceDictionary = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/{theme}.{accent}.xaml", UriKind.RelativeOrAbsolute);
+
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = resourceDictionary });
         }
 
         private static void StartApplication(StartupEventArgs e)
