@@ -75,11 +75,11 @@ namespace MediaPlayer.Shell
             await PipeManager.WriteLinesAsync(e.Args);
         }
 
-        private static void LoadThemeResourceDictionary(string theme, string accent)
+        private static void LoadThemeResourceDictionary(string baseColor, string accent)
         {
             //Example: pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml
 
-            var resourceDictionary = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/{theme}.{accent}.xaml", UriKind.RelativeOrAbsolute);
+            var resourceDictionary = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/{baseColor}.{accent}.xaml", UriKind.RelativeOrAbsolute);
 
             Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = resourceDictionary });
         }
