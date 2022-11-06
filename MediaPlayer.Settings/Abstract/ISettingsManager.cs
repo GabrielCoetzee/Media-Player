@@ -5,7 +5,7 @@ namespace MediaPlayer.Settings
     public interface ISettingsManager : INotifyPropertyChanged
     {
         string BackgroundColor { get; }
-        string BackgroundColorInverse { get; }
+        string ForegroundColor { get; }
         string BaseColor { get; set; }
         string Accent { get; set;  }
         decimal Opacity { get; set; }

@@ -17,7 +17,7 @@ namespace MediaPlayer.Model.Moderators.Concrete
             if (mediaItem is not AudioItem audioItem || audioItem.HasAlbumArt)
                 return;
 
-            audioItem.AlbumArt = SearchForAlbumArtInDirectory(audioItem.FilePath.AbsolutePath);
+            audioItem.AlbumArt = SearchForAlbumArtInDirectory(audioItem.FilePath.LocalPath);
             audioItem.IsAlbumArtDirty = false;
         }
 

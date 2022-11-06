@@ -3,6 +3,7 @@ using MediaPlayer.Settings.Config;
 using MediaPlayer.Settings.Configuration;
 using MediaPlayer.Theming.Abstract;
 using System.ComponentModel.Composition;
+using System.Drawing;
 
 namespace MediaPlayer.Settings.Concrete
 {
@@ -43,7 +44,7 @@ namespace MediaPlayer.Settings.Concrete
         private bool _saveMetadataToFile;
 
         public string BackgroundColor => BaseColor == "Dark" ? "Black" : "White";
-        public string BackgroundColorInverse => BaseColor == "Dark" ? "White" : "Black";
+        public string ForegroundColor => BaseColor == "Dark" ? "White" : "Black";
 
         public string BaseColor
         {
@@ -53,6 +54,7 @@ namespace MediaPlayer.Settings.Concrete
                 _baseColor = value;
                 OnPropertyChanged(nameof(BaseColor));
                 OnPropertyChanged(nameof(BackgroundColor));
+                OnPropertyChanged(nameof(ForegroundColor));
 
                 _applicationSettings.BaseColor = value;
                 _themeManager.ChangeTheme(value, Accent);
