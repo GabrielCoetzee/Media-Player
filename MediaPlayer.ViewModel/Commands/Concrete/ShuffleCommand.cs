@@ -56,10 +56,9 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             var remove = vm.MediaItems.Where(x => items.Contains(x)).ToList();
 
-            vm.MediaItems.RemoveRange(remove);
-
             var ordered = items.OrderBy(x => x.Id);
 
+            vm.MediaItems.RemoveRange(remove);
             vm.MediaItems.AddRange(ordered);
 
             var selectedIndex = vm.MediaItems.IndexOf(vm.SelectedMediaItem);
@@ -83,10 +82,9 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             var remove = vm.MediaItems.Where(x => items.Contains(x)).ToList();
 
-            vm.MediaItems.RemoveRange(remove);
-
             var shuffled = items.OrderBy(x => _randomIdGenerator.Next());
 
+            vm.MediaItems.RemoveRange(remove);
             vm.MediaItems.AddRange(shuffled);
 
             vm.MediaControlsViewModel.IsShuffled = true;
