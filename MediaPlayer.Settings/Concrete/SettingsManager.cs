@@ -43,6 +43,7 @@ namespace MediaPlayer.Settings.Concrete
         private bool _saveMetadataToFile;
 
         public string BackgroundColor => BaseColor == "Dark" ? "Black" : "White";
+        public string BackgroundColorInverse => BaseColor == "Dark" ? "White" : "Black";
 
         public string BaseColor
         {
