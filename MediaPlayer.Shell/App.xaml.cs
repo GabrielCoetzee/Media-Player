@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +9,8 @@ using Generic.DependencyInjection;
 using Generic.Mediator;
 using Generic.NamedPipes.Wrappers;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Settings;
+using MediaPlayer.Settings.Config;
 using MediaPlayer.Shell.MessengerRegs;
 using MediaPlayer.View.Views;
 
@@ -21,6 +25,9 @@ namespace MediaPlayer.Shell
         private Mutex _mutex;
         private const string _mutexName = "##||MediaPlayer||##";
         public NamedPipeManager PipeManager { get; set; } = new NamedPipeManager("MediaPlayer");
+
+        [Import]
+        public ISettingsManager SettingsManager { get; set; }
 
         protected async override void OnStartup(StartupEventArgs e)
         {
@@ -44,6 +51,7 @@ namespace MediaPlayer.Shell
             MessengerRegistrations.ProcessFilePaths(MEF.Container);
             MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
 
+            LoadThemeResourceDictionary(SettingsManager.Accent);
             StartApplication(e);
 
             base.OnStartup(e);
@@ -65,6 +73,13 @@ namespace MediaPlayer.Shell
         private async Task SendArgsToFirstInstanceAsync(StartupEventArgs e)
         {
             await PipeManager.WriteLinesAsync(e.Args);
+        }
+
+        private static void LoadThemeResourceDictionary(string accent)
+        {
+            var theme = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.{accent}.xaml", UriKind.RelativeOrAbsolute);
+
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = theme });
         }
 
         private static void StartApplication(StartupEventArgs e)

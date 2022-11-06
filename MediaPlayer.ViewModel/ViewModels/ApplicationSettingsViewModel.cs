@@ -13,8 +13,8 @@ namespace MediaPlayer.ViewModel
         [Import]
         public ISettingsManager SettingsManager { get; set; }
 
-        [Import(CommandNames.LoadThemeOnWindowLoaded)]
-        public ICommand LoadThemeOnWindowLoadedCommand { get; set; }
+        [Import(CommandNames.LoadThemeOptionsCommand)]
+        public ICommand LoadThemeOptionsCommand { get; set; }
 
         [Import(CommandNames.SaveSettings)]
         public ICommand SaveSettingsCommand { get; set; }

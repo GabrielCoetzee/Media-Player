@@ -12,14 +12,14 @@ using MediaPlayer.Settings.Config;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
-    [Export(CommandNames.LoadThemeOnWindowLoaded, typeof(ICommand))]
-    public class LoadThemeOnWindowLoadedCommand : ICommand
+    [Export(CommandNames.LoadThemeOptionsCommand, typeof(ICommand))]
+    public class LoadThemeOptionsCommand : ICommand
     {
         readonly ApplicationSettings _applicationSettings;
         readonly IThemeManager _themeManager;
 
         [ImportingConstructor]
-        public LoadThemeOnWindowLoadedCommand(ApplicationSettings applicationSettings, IThemeManager themeManager)
+        public LoadThemeOptionsCommand(ApplicationSettings applicationSettings, IThemeManager themeManager)
         {
             _applicationSettings = applicationSettings;
             _themeManager = themeManager;

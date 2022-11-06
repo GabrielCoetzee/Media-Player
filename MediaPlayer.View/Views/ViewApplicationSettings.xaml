@@ -10,7 +10,7 @@
         Title="Settings" MinHeight="250" MinWidth="350" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" x:Name="ApplicationSettingsWindow">
     <i1:Interaction.Triggers>
         <i1:EventTrigger EventName="Loaded" >
-            <i1:InvokeCommandAction Command="{Binding LoadThemeOnWindowLoadedCommand}" CommandParameter="{Binding ElementName=ComboBoxAccents}" />
+            <i1:InvokeCommandAction Command="{Binding LoadThemeOptionsCommand}" CommandParameter="{Binding ElementName=ComboBoxAccents}" />
         </i1:EventTrigger>
     </i1:Interaction.Triggers>
     <Controls:MetroWindow.Background>

@@ -16,9 +16,6 @@
         GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
         Title="{Binding SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" ShowMaxRestoreButton="False" Height="768" Width="1366" MinHeight="768" MinWidth="1366">
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded" >
-            <i:InvokeCommandAction Command="{Binding LoadThemeOnWindowLoadedCommand}" />
-        </i:EventTrigger>
         <i:EventTrigger EventName="Closing" >
             <i:InvokeCommandAction Command="{Binding MainWindowClosingCommand}" PassEventArgsToCommand="True" />
         </i:EventTrigger>

@@ -60,9 +60,6 @@ namespace MediaPlayer.ViewModel
         [Import(CommandNames.MediaOpened)]
         public ICommand MediaOpenedCommand { get; set; }
 
-        [Import(CommandNames.LoadThemeOnWindowLoaded)]
-        public ICommand LoadThemeOnWindowLoadedCommand { get; set; }
-
         [Import(CommandNames.MainWindowClosing)]
         public ICommand MainWindowClosingCommand { get; set; }
 
