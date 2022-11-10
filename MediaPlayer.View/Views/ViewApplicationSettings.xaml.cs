@@ -8,7 +8,6 @@ using Generic;
 using Generic.DependencyInjection;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using MediaPlayer.Theming;
 using MediaPlayer.ViewModel;
 
 namespace MediaPlayer.View.Views

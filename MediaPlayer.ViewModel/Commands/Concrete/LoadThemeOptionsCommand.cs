@@ -3,25 +3,25 @@ using System;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MediaPlayer.Theming.Abstract;
 using MediaPlayer.Settings;
 using System.ComponentModel.Composition;
 using Generic;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Settings.Config;
+using MediaPlayer.Settings.Abstract;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
     [Export(CommandNames.LoadThemeOptionsCommand, typeof(ICommand))]
     public class LoadThemeOptionsCommand : ICommand
     {
-        readonly ApplicationSettings _applicationSettings;
+        readonly ThemeSettings _themeSettings;
         readonly IThemeManager _themeManager;
 
         [ImportingConstructor]
-        public LoadThemeOptionsCommand(ApplicationSettings applicationSettings, IThemeManager themeManager)
+        public LoadThemeOptionsCommand(ThemeSettings themeSettings, IThemeManager themeManager)
         {
-            _applicationSettings = applicationSettings;
+            _themeSettings = themeSettings;
             _themeManager = themeManager;
         }
 
@@ -41,7 +41,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is ComboBox comboBoxThemes)
                 ThemeManager.Current.BaseColors.ToList().ForEach(accent => comboBoxThemes.Items.Add(accent));
 
-            _themeManager.ChangeTheme(_applicationSettings.BaseColor, _applicationSettings.Accent);
+            _themeManager.ChangeTheme(_themeSettings.BaseColor, _themeSettings.Accent);
         }
     }
 }

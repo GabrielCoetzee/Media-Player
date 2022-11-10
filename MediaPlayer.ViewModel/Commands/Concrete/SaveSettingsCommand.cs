@@ -28,6 +28,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (applicationSettingsWindow.DataContext is not ApplicationSettingsViewModel vm)
                 return;
 
+            vm.ThemeManager.SaveSettings();
             vm.SettingsManager.SaveSettings();
 
             applicationSettingsWindow.Close();

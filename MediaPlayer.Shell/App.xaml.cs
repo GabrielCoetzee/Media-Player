@@ -9,7 +9,7 @@ using Generic.DependencyInjection;
 using Generic.Mediator;
 using Generic.NamedPipes.Wrappers;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Settings;
+using MediaPlayer.Settings.Abstract;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.Shell.MessengerRegs;
 using MediaPlayer.View.Views;
@@ -27,7 +27,7 @@ namespace MediaPlayer.Shell
         public NamedPipeManager PipeManager { get; set; } = new NamedPipeManager("MediaPlayer");
 
         [Import]
-        public ISettingsManager SettingsManager { get; set; }
+        public ThemeSettings ThemeSettings { get; set; }
 
         protected async override void OnStartup(StartupEventArgs e)
         {
@@ -51,7 +51,7 @@ namespace MediaPlayer.Shell
             MessengerRegistrations.ProcessFilePaths(MEF.Container);
             MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
 
-            LoadThemeResourceDictionary(SettingsManager.BaseColor, SettingsManager.Accent);
+            LoadThemeResourceDictionary(ThemeSettings.BaseColor, ThemeSettings.Accent);
             StartApplication(e);
 
             base.OnStartup(e);

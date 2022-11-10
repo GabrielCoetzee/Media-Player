@@ -1,7 +1,7 @@
 ﻿using Generic.DependencyInjection;
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Constants;
-using MediaPlayer.Settings;
+using MediaPlayer.Settings.Abstract;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 
@@ -10,6 +10,9 @@ namespace MediaPlayer.ViewModel
     [Export]
     public class ApplicationSettingsViewModel : NotifyPropertyChanged
     {
+        [Import]
+        public IThemeManager ThemeManager { get; set; }
+
         [Import]
         public ISettingsManager SettingsManager { get; set; }
 

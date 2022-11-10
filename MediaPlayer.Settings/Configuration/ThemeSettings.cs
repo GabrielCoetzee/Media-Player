@@ -8,25 +8,27 @@ namespace MediaPlayer.Settings.Config
     [Serializable]
     [InheritedExport]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class ApplicationSettings : SerializableSettings
+    public class ThemeSettings : SerializableSettings
     {
-        public ApplicationSettings()
+        public ThemeSettings()
         {
         }
 
         [ImportingConstructor]
-        public ApplicationSettings(IFileLocations fileLocations) 
+        public ThemeSettings(IFileLocations fileLocations) 
             : base(fileLocations)
         {
             if (!Exists())
                 Save();
 
-            CopyToThis(DeserializeObject<ApplicationSettings>());
+            CopyToThis(DeserializeObject<ThemeSettings>());
         }
 
+        public string BaseColor { get; set; } = "Dark";
+        public string Accent { get; set; } = "Blue";
+        public decimal Opacity { get; set; } = 0.8m;
+        protected override string FileName => @"Theme Settings";
         protected override bool UseEncryption => true;
-        public string[] SupportedFileFormats { get; set; } = { ".mp3", ".m4a", ".flac", ".wma" };
-        protected override string FileName => @"Application Settings";
         public void Save()
         {
             SerializeObject(this);

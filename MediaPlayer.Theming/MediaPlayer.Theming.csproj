@@ -9,9 +9,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ControlzEx">
-      <Version>5.0.1</Version>
+      <Version>5.0.2</Version>
     </PackageReference>
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
-    <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Concrete\" />
   </ItemGroup>
 </Project>

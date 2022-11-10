@@ -8,13 +8,13 @@ using System.Windows.Input;
 using MediaPlayer.ViewModel.ViewModels;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using System.ComponentModel.Composition;
-using MediaPlayer.Settings;
 using MediaPlayer.Common.Constants;
 using Generic.DependencyInjection;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System.Threading;
 using System.Collections.Specialized;
+using MediaPlayer.Settings.Abstract;
 
 namespace MediaPlayer.ViewModel
 {
@@ -62,6 +62,9 @@ namespace MediaPlayer.ViewModel
 
         [Import(CommandNames.MainWindowClosing)]
         public ICommand MainWindowClosingCommand { get; set; }
+
+        [Import]
+        public IThemeManager ThemeManager { get; set; }
 
         [Import]
         public ISettingsManager SettingsManager { get; set; }
