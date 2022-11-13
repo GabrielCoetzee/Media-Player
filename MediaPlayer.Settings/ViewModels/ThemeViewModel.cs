@@ -18,7 +18,7 @@ namespace MediaPlayer.Settings.ViewModels
             _themeSettings = themeSettings;
         }
 
-        public void UpdateTheme()
+        public void ChangeTheme()
         {
             Application.Current.Resources.MergedDictionaries.Remove(Application.Current.Resources.MergedDictionaries.Last());
 
@@ -27,7 +27,7 @@ namespace MediaPlayer.Settings.ViewModels
             Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = resourceDictionary });
         }
 
-        public void UpdateOpacity()
+        public void ChangeOpacity()
         {
             Application.Current.MainWindow.Background.Opacity = (double)Opacity;
         }
@@ -45,7 +45,7 @@ namespace MediaPlayer.Settings.ViewModels
                 OnPropertyChanged(nameof(BackgroundColor));
                 OnPropertyChanged(nameof(ForegroundColor));
 
-                UpdateTheme();
+                ChangeTheme();
             }
         }
 
@@ -57,7 +57,7 @@ namespace MediaPlayer.Settings.ViewModels
                 _themeSettings.Accent = value;
                 OnPropertyChanged(nameof(Accent));
 
-                UpdateTheme();
+                ChangeTheme();
             }
         }
 
@@ -69,7 +69,7 @@ namespace MediaPlayer.Settings.ViewModels
                 _themeSettings.Opacity = value;
                 OnPropertyChanged(nameof(Opacity));
 
-                UpdateOpacity();
+                ChangeOpacity();
             }
         }
 

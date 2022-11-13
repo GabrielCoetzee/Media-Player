@@ -35,7 +35,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             ThemeManager.Current.BaseColors.ToList().ForEach(accent => model.ComboBox.Items.Add(accent));
 
-            model.ThemeViewModel.UpdateTheme();
+            model.ThemeViewModel.ChangeTheme();
         }
     }
 }
