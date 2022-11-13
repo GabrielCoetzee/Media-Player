@@ -9,7 +9,6 @@ using Generic.DependencyInjection;
 using Generic.Mediator;
 using Generic.NamedPipes.Wrappers;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Settings.Abstract;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.Shell.MessengerRegs;
 using MediaPlayer.View.Views;

@@ -14,7 +14,7 @@ using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System.Threading;
 using System.Collections.Specialized;
-using MediaPlayer.Settings.Abstract;
+using MediaPlayer.Settings.ViewModels;
 
 namespace MediaPlayer.ViewModel
 {
@@ -64,10 +64,10 @@ namespace MediaPlayer.ViewModel
         public ICommand MainWindowClosingCommand { get; set; }
 
         [Import]
-        public IThemeManager ThemeManager { get; set; }
+        public ThemeViewModel ThemeViewModel { get; set; }
 
         [Import]
-        public ISettingsManager SettingsManager { get; set; }
+        public SettingsViewModel SettingsViewModel { get; set; }
 
         [Import]
         public BusyViewModel BusyViewModel { get; set; }
@@ -118,7 +118,7 @@ namespace MediaPlayer.ViewModel
 
         private async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems)
         {
-            if (!SettingsManager.UpdateMetadata || !audioItems.Any())
+            if (!SettingsViewModel.UpdateMetadata || !audioItems.Any())
                 return;
 
             BusyViewModel.UpdatingMetadata();
@@ -138,7 +138,7 @@ namespace MediaPlayer.ViewModel
         {
             await ReleaseResourcesAsync();
 
-            if (!SettingsManager.SaveMetadataToFile)
+            if (!SettingsViewModel.SaveMetadataToFile)
                 return;
 
             BusyViewModel.SavingChanges();

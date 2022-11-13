@@ -3,34 +3,33 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using Generic.PropertyNotify;
-using MediaPlayer.Settings.Abstract;
 using MediaPlayer.Settings.Config;
 
-namespace MediaPlayer.Settings.Concrete
+namespace MediaPlayer.Settings.ViewModels
 {
-    [Export(typeof(IThemeManager))]
-    public class ThemeManager : NotifyPropertyChanged, IThemeManager
+    [Export]
+    public class ThemeViewModel : NotifyPropertyChanged
     {
         readonly ThemeSettings _themeSettings;
 
         [ImportingConstructor]
-        public ThemeManager(ThemeSettings themeSettings)
+        public ThemeViewModel(ThemeSettings themeSettings)
         {
             _themeSettings = themeSettings;
         }
 
-        public void ChangeTheme(string baseColor, string accent)
+        public void UpdateTheme()
         {
             Application.Current.Resources.MergedDictionaries.Remove(Application.Current.Resources.MergedDictionaries.Last());
 
-            var resourceDictionary = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/{baseColor}.{accent}.xaml", UriKind.RelativeOrAbsolute);
+            var resourceDictionary = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/{BaseColor}.{Accent}.xaml", UriKind.RelativeOrAbsolute);
 
             Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = resourceDictionary });
         }
 
-        public void ChangeOpacity(double opacity)
+        public void UpdateOpacity()
         {
-            Application.Current.MainWindow.Background.Opacity = opacity;
+            Application.Current.MainWindow.Background.Opacity = (double)Opacity;
         }
 
         public string BackgroundColor => BaseColor == "Dark" ? "Black" : "White";
@@ -46,7 +45,7 @@ namespace MediaPlayer.Settings.Concrete
                 OnPropertyChanged(nameof(BackgroundColor));
                 OnPropertyChanged(nameof(ForegroundColor));
 
-                ChangeTheme(value, Accent);
+                UpdateTheme();
             }
         }
 
@@ -58,7 +57,7 @@ namespace MediaPlayer.Settings.Concrete
                 _themeSettings.Accent = value;
                 OnPropertyChanged(nameof(Accent));
 
-                ChangeTheme(BaseColor, value);
+                UpdateTheme();
             }
         }
 
@@ -70,7 +69,7 @@ namespace MediaPlayer.Settings.Concrete
                 _themeSettings.Opacity = value;
                 OnPropertyChanged(nameof(Opacity));
 
-                ChangeOpacity((double)value);
+                UpdateOpacity();
             }
         }
 
