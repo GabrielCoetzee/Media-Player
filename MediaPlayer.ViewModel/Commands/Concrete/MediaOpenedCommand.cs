@@ -18,30 +18,30 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not MediaOpenedConverterModel mediaOpened)
+            if (parameter is not MediaOpenedConverterModel model)
                 return false;
 
-            var vm = mediaOpened.MainViewModel;
+            var vm = model.MainViewModel;
 
             return vm.IsMediaListPopulated && vm.SelectedMediaItem != null;
         }
 
         public void Execute(object parameter)
         {
-            if (parameter is not MediaOpenedConverterModel mediaOpened)
+            if (parameter is not MediaOpenedConverterModel model)
                 return;
 
-            PollMediaPosition(mediaOpened);
+            PollMediaPosition(model);
         }
 
-        private void PollMediaPosition(MediaOpenedConverterModel mediaOpenedModel)
+        private void PollMediaPosition(MediaOpenedConverterModel model)
         {
-            var mediaElement = mediaOpenedModel.MediaElement;
-            var vm = mediaOpenedModel.MainViewModel;
+            var mediaElement = model.MediaElement;
+            var vm = model.MainViewModel;
 
             SetAccurateCurrentMediaDuration(vm, mediaElement.NaturalDuration.TimeSpan);
 
-            vm.PositionTracker.Tick += (sender, args) => TrackMediaPosition(mediaOpenedModel);
+            vm.PositionTracker.Tick += (sender, args) => TrackMediaPosition(model);
 
             vm.PositionTracker.Start();
         }
@@ -51,10 +51,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             vm.SelectedMediaItem.Duration = duration;
         }
 
-        private void TrackMediaPosition(MediaOpenedConverterModel mediaOpenedModel)
+        private void TrackMediaPosition(MediaOpenedConverterModel model)
         {
-            var mediaElement = mediaOpenedModel.MediaElement;
-            var vm = mediaOpenedModel.MainViewModel;
+            var mediaElement = model.MediaElement;
+            var vm = model.MainViewModel;
 
             if (!vm.MediaControlsViewModel.IsUserDraggingSeekbarThumb)
                 vm.SelectedMediaItem.ElapsedTime = mediaElement.Position;
