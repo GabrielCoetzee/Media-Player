@@ -11,9 +11,6 @@ namespace MediaPlayer.ViewModel
     public class ApplicationSettingsViewModel : NotifyPropertyChanged
     {
         [Import]
-        public ThemeViewModel ThemeViewModel { get; set; }
-
-        [Import]
         public SettingsViewModel SettingsViewModel { get; set; }
 
         [Import(CommandNames.LoadAccentOptionsCommand)]

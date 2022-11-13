@@ -15,6 +15,9 @@ namespace MediaPlayer.Settings.ViewModels
             _metadataSettings = metadataSettings;
         }
 
+        [Import]
+        public ThemeViewModel ThemeViewModel { get; set; }
+
         public bool UpdateMetadata
         {
             get => _metadataSettings.UpdateMetadata;
@@ -37,6 +40,7 @@ namespace MediaPlayer.Settings.ViewModels
 
         public void SaveSettings()
         {
+            ThemeViewModel.SaveSettings();
             _metadataSettings.Save();
         }
     }

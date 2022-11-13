@@ -64,9 +64,6 @@ namespace MediaPlayer.ViewModel
         public ICommand MainWindowClosingCommand { get; set; }
 
         [Import]
-        public ThemeViewModel ThemeViewModel { get; set; }
-
-        [Import]
         public SettingsViewModel SettingsViewModel { get; set; }
 
         [Import]

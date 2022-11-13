@@ -22,7 +22,7 @@
                 <i1:InvokeCommandAction.CommandParameter>
                     <MultiBinding Converter="{StaticResource LoadThemeMutliValueConverter}">
                         <Binding ElementName="ComboBoxThemes" />
-                        <Binding Path="ThemeViewModel"/>
+                        <Binding Path="SettingsViewModel.ThemeViewModel"/>
                     </MultiBinding>
                 </i1:InvokeCommandAction.CommandParameter>
             </i1:InvokeCommandAction>
@@ -30,14 +30,14 @@
                 <i1:InvokeCommandAction.CommandParameter>
                     <MultiBinding Converter="{StaticResource LoadThemeMutliValueConverter}">
                         <Binding ElementName="ComboBoxAccents" />
-                        <Binding Path="ThemeViewModel"/>
+                        <Binding Path="SettingsViewModel.ThemeViewModel"/>
                     </MultiBinding>
                 </i1:InvokeCommandAction.CommandParameter>
             </i1:InvokeCommandAction>
         </i1:EventTrigger>
     </i1:Interaction.Triggers>
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="{Binding ThemeViewModel.BackgroundColor}" Opacity="{Binding ThemeViewModel.Opacity}"/>
+        <SolidColorBrush Color="{Binding SettingsViewModel.ThemeViewModel.BackgroundColor}" Opacity="{Binding SettingsViewModel.ThemeViewModel.Opacity}"/>
     </Controls:MetroWindow.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -71,13 +71,13 @@
                     </Grid.RowDefinitions>
 
                     <Label Grid.Column="0" Grid.Row="0" Content="Base Color:" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxThemes" Grid.ColumnSpan="3" SelectedItem="{Binding ThemeViewModel.BaseColor}" />
+                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxThemes" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsViewModel.ThemeViewModel.BaseColor}" />
 
                     <Label Grid.Column="0" Grid.Row="2" Content="Accent:" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ComboBox Grid.Row="2" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding ThemeViewModel.Accent}" />
+                    <ComboBox Grid.Row="2" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsViewModel.ThemeViewModel.Accent}" />
 
                     <Label Grid.Column="0" Grid.Row="4" Content="Opacity:" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Value="{Binding ThemeViewModel.Opacity}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.5" Maximum="1.0" Ticks="0,50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0" TickFrequency="0.05" />
+                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Value="{Binding SettingsViewModel.ThemeViewModel.Opacity}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.5" Maximum="1.0" Ticks="0,50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0" TickFrequency="0.05" />
 
                 </Grid>
             </TabItem>

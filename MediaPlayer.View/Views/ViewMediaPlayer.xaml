@@ -27,7 +27,7 @@
         <KeyBinding Command="{Binding MediaControlsViewModel.PreviousTrackCommand}" CommandParameter="{Binding}" Key="MediaPreviousTrack" />
     </Controls:MetroWindow.InputBindings>
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="{Binding ThemeViewModel.BackgroundColor, FallbackValue=Black}" Opacity="{Binding ThemeViewModel.Opacity}"/>
+        <SolidColorBrush Color="{Binding SettingsViewModel.ThemeViewModel.BackgroundColor, FallbackValue=Black}" Opacity="{Binding SettingsViewModel.ThemeViewModel.Opacity}"/>
     </Controls:MetroWindow.Background>
 
     <Controls:MetroWindow.RightWindowCommands>
@@ -54,7 +54,7 @@
         <ImageBrush x:Key="ResourceNextTrackButtonImage_Dark"  ImageSource="../Resources/Button_Images/appbar.control.fastforward_dark.png"/>
         <ImageBrush x:Key="ResourceRepeatButtonImage_Dark" ImageSource="../Resources/Button_Images/appbar.repeat_dark.png" />
         <ImageBrush x:Key="ResourceShuffleButtonImage_Dark" ImageSource="../Resources/Button_Images/appbar.shuffle_dark.png"/>
-        
+
         <!--Light Mode-->
         <ImageBrush x:Key="ResourcePlayButtonImage_Light" ImageSource="../Resources/Button_Images/appbar.control.play_light.png" />
         <ImageBrush x:Key="ResourcePauseButtonImage_Light" ImageSource="../Resources/Button_Images/appbar.control.pause_light.png" />
@@ -72,7 +72,7 @@
         <converters:ElapsedTimeTimeSpanToSecondsConverter x:Key="ElapsedTimeTimeSpanToSecondsConverter" />
         <converters:MediaElementOpenedMultiValueConverter x:Key="MediaElementOpenedMultiValueConverter" />
         <converters:ButtonBackgroundConverter x:Key="ButtonBackgroundConverter" />
-        
+
     </Window.Resources>
 
     <Grid x:Name="TopMostGrid" AllowDrop="True" Background="Transparent" ZIndex="999">
@@ -94,7 +94,7 @@
                 <RowDefinition Height="0.2*" x:Name="RowButtons2" />
                 <RowDefinition Height="0.0400*" />
             </Grid.RowDefinitions>
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.1*" />
                 <ColumnDefinition Width="1*" />
@@ -127,7 +127,8 @@
                                 <MultiBinding Converter="{StaticResource MediaElementOpenedMultiValueConverter}">
                                     <MultiBinding.Bindings>
                                         <Binding ElementName="MediaElement" />
-                                        <Binding Path="" />  <!-- Pass Viewmodel itself to converter along with Media Element -->
+                                        <Binding Path="" />
+                                        <!-- Pass Viewmodel itself to converter along with Media Element -->
                                     </MultiBinding.Bindings>
                                 </MultiBinding>
                             </i:InvokeCommandAction.CommandParameter>
@@ -142,7 +143,7 @@
                     <RowDefinition Height="0.95*" />
                 </Grid.RowDefinitions>
 
-                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" Foreground="{Binding ThemeViewModel.ForegroundColor}" HorizontalAlignment="Right" Margin="5" Visibility="{Binding BusyViewModel.IsLoading, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" Spin="True" />
+                <fa5:ImageAwesome Grid.Row="0" Icon="Solid_Spinner" Foreground="{Binding SettingsViewModel.ThemeViewModel.ForegroundColor}" HorizontalAlignment="Right" Margin="5" Visibility="{Binding BusyViewModel.IsLoading, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" Spin="True" />
                 <Label Content="{Binding BusyViewModel.MediaListTitle}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
                 <genericControls:AutoScrollListView Focusable="False" BorderThickness="1 0 0 0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding IsMediaListPopulated, Converter={StaticResource BooleanToVisibilityConverter}}" Padding="10 0 0 0" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Name="MediaListBox" Grid.Row="1" Background="Transparent" ItemsSource="{Binding MediaItems}" SelectedItem="{Binding SelectedMediaItem}">
                     <genericControls:AutoScrollListView.ItemTemplate>
@@ -180,7 +181,7 @@
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource AlbumArtMultiValueConverter}">
                             <Binding Path="SelectedMediaItem.AlbumArt"  />
-                            <Binding Path="ThemeViewModel.Accent" />
+                            <Binding Path="SettingsViewModel.ThemeViewModel.Accent" />
                         </MultiBinding>
                     </Image.Source>
                 </Image>
@@ -202,7 +203,7 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                
+
                 <TextBlock Visibility="{Binding MediaControlsViewModel.IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" Text=" / " />
                 <TextBlock Visibility="{Binding MediaControlsViewModel.IsUserDraggingSeekbarThumb, TargetNullValue=Hidden, FallbackValue=Hidden, Converter={StaticResource BooleanToVisibilityConverter}}" >
                     <TextBlock.Text>
@@ -232,25 +233,25 @@
                 <ToggleButton.Background>
                     <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}" FallbackValue="{StaticResource ResourceShuffleButtonImage_Dark}">
                         <Binding ElementName="Shuffle" Path="Name"  />
-                        <Binding Path="ThemeViewModel.BaseColor" />
+                        <Binding Path="SettingsViewModel.ThemeViewModel.BaseColor" />
                     </MultiBinding>
                 </ToggleButton.Background>
             </ToggleButton>
-            
+
             <ToggleButton Margin="4 4 4 4" x:Name="Repeat" Focusable="False" Grid.Row="4" Grid.Column="9" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.RepeatMediaListCommand}" CommandParameter="{Binding}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
                 <ToggleButton.Background>
                     <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}" FallbackValue="{StaticResource ResourceRepeatButtonImage_Dark}">
                         <Binding ElementName="Repeat" Path="Name"  />
-                        <Binding Path="ThemeViewModel.BaseColor" />
+                        <Binding Path="SettingsViewModel.ThemeViewModel.BaseColor" />
                     </MultiBinding>
                 </ToggleButton.Background>
             </ToggleButton>
-            
+
             <Button Margin="4 4 4 4" x:Name="NextTrack" Focusable="False" Grid.Row="4" Grid.Column="8" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.NextTrackCommand}" CommandParameter="{Binding}" Style="{DynamicResource MahApps.Styles.Button.Circle}">
                 <Button.Background>
                     <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}" FallbackValue="{StaticResource ResourceNextTrackButtonImage_Dark}">
                         <Binding ElementName="NextTrack" Path="Name"  />
-                        <Binding Path="ThemeViewModel.BaseColor" />
+                        <Binding Path="SettingsViewModel.ThemeViewModel.BaseColor" />
                     </MultiBinding>
                 </Button.Background>
             </Button>
@@ -259,7 +260,7 @@
                 <Button.Background>
                     <MultiBinding Converter="{StaticResource PlayPauseButtonBackgroundConverter}" FallbackValue="{StaticResource ResourcePlayButtonImage_Dark}">
                         <Binding Path="MediaControlsViewModel.MediaState"  />
-                        <Binding Path="ThemeViewModel.BaseColor" />
+                        <Binding Path="SettingsViewModel.ThemeViewModel.BaseColor" />
                     </MultiBinding>
                 </Button.Background>
             </Button>
@@ -268,25 +269,25 @@
                 <Button.Background>
                     <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}" FallbackValue="{StaticResource ResourceStopButtonImage_Dark}">
                         <Binding ElementName="Stop" Path="Name"  />
-                        <Binding Path="ThemeViewModel.BaseColor" />
+                        <Binding Path="SettingsViewModel.ThemeViewModel.BaseColor" />
                     </MultiBinding>
                 </Button.Background>
             </Button>
-            
+
             <Button Margin="4 4 4 4" x:Name="PreviousTrack" Focusable="False" Grid.Row="4" Grid.Column="5" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.PreviousTrackCommand}" CommandParameter="{Binding}" Style="{DynamicResource MahApps.Styles.Button.Circle}">
                 <Button.Background>
                     <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}" FallbackValue="{StaticResource ResourcePreviousTrackButtonImage_Dark}">
                         <Binding ElementName="PreviousTrack" Path="Name"  />
-                        <Binding Path="ThemeViewModel.BaseColor" />
+                        <Binding Path="SettingsViewModel.ThemeViewModel.BaseColor" />
                     </MultiBinding>
                 </Button.Background>
             </Button>
-            
+
             <ToggleButton Margin="4 4 4 4" x:Name="Mute" Focusable="False" Grid.Row="4" Grid.Column="4" Grid.RowSpan="2" Foreground="{DynamicResource MahApps.Brushes.Accent}" Command="{Binding MediaControlsViewModel.MuteCommand}" CommandParameter="{Binding MediaControlsViewModel}" Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
                 <ToggleButton.Background>
                     <MultiBinding Converter="{StaticResource ButtonBackgroundConverter}" FallbackValue="{StaticResource ResourceMuteButtonImage_Dark}">
                         <Binding ElementName="Mute" Path="Name"  />
-                        <Binding Path="ThemeViewModel.BaseColor" />
+                        <Binding Path="SettingsViewModel.ThemeViewModel.BaseColor" />
                     </MultiBinding>
                 </ToggleButton.Background>
             </ToggleButton>
