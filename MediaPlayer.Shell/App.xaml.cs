@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using ControlzEx.Theming;
 using Generic.DependencyInjection;
 using Generic.Mediator;
 using Generic.NamedPipes.Wrappers;
@@ -50,7 +51,7 @@ namespace MediaPlayer.Shell
             MessengerRegistrations.ProcessFilePaths(MEF.Container);
             MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
 
-            LoadThemeResourceDictionary(ThemeSettings.BaseColor, ThemeSettings.Accent);
+            LoadTheme(ThemeSettings.BaseColor, ThemeSettings.Accent);
             StartApplication(e);
 
             base.OnStartup(e);
@@ -74,15 +75,9 @@ namespace MediaPlayer.Shell
             await PipeManager.WriteLinesAsync(e.Args);
         }
 
-        private static void LoadThemeResourceDictionary(string baseColor, string accent)
+        private static void LoadTheme(string baseColor, string accent)
         {
-            Application.Current.Resources.MergedDictionaries.Remove(Application.Current.Resources.MergedDictionaries.Last());
-
-            //Example: pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml
-
-            var resourceDictionary = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/{baseColor}.{accent}.xaml", UriKind.RelativeOrAbsolute);
-
-            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = resourceDictionary });
+            ThemeManager.Current.ChangeTheme(Application.Current, baseColor, accent);
         }
 
         private static void StartApplication(StartupEventArgs e)

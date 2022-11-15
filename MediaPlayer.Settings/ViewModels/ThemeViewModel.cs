@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
+using ControlzEx.Theming;
 using Generic.PropertyNotify;
 using MediaPlayer.Settings.Config;
 
@@ -20,11 +21,7 @@ namespace MediaPlayer.Settings.ViewModels
 
         public void ChangeTheme()
         {
-            Application.Current.Resources.MergedDictionaries.Remove(Application.Current.Resources.MergedDictionaries.Last());
-
-            var resourceDictionary = new Uri($"pack://application:,,,/MahApps.Metro;component/Styles/Themes/{BaseColor}.{Accent}.xaml", UriKind.RelativeOrAbsolute);
-
-            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = resourceDictionary });
+            ThemeManager.Current.ChangeTheme(Application.Current, BaseColor, Accent);
         }
 
         public void ChangeOpacity()
