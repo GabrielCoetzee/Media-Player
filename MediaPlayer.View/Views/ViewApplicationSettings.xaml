@@ -8,7 +8,7 @@
         xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel" 
         d:DataContext="{d:DesignInstance Type=viewmodel:ApplicationSettingsViewModel}"
         mc:Ignorable="d"
-        Title="Settings" MinHeight="250" MinWidth="350" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" x:Name="ApplicationSettingsWindow">
+        Title="Settings" MinHeight="250" MinWidth="350" Height="350" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" x:Name="ApplicationSettingsWindow">
 
     <Window.Resources>
 
@@ -70,8 +70,11 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Column="0" Grid.Row="0" Content="Base Color:" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxThemes" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsViewModel.ThemeViewModel.BaseColor}" />
+                    <Label Grid.Column="0" Grid.Row="0" Content="Dark Mode:" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Controls:ToggleSwitch Grid.Row="0" Grid.Column="1" IsOn="{Binding SettingsViewModel.ThemeViewModel.UseDarkMode}" />
+
+                    <!--<Label Grid.Column="0" Grid.Row="0" Content="Base Color:" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ComboBoxThemes" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsViewModel.ThemeViewModel.BaseColor}" />-->
 
                     <Label Grid.Column="0" Grid.Row="2" Content="Accent:" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="2" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding SettingsViewModel.ThemeViewModel.Accent}" />

@@ -1,4 +1,5 @@
-﻿using Generic.Settings.Abstract;
+﻿using ControlzEx.Theming;
+using Generic.Settings.Abstract;
 using Generic.Settings.Concrete;
 using System;
 using System.ComponentModel.Composition;
@@ -22,9 +23,11 @@ namespace MediaPlayer.Settings.Config
                 Save();
 
             CopyToThis(DeserializeObject<ThemeSettings>());
+            
         }
 
-        public string BaseColor { get; set; } = "Dark";
+        public bool UseDarkMode { get; set; } = true;
+        public string BaseColor => UseDarkMode ? ThemeManager.BaseColorDarkConst : ThemeManager.BaseColorLightConst;
         public string Accent { get; set; } = "Blue";
         public decimal Opacity { get; set; } = 0.8m;
         protected override string FileName => @"Theme Settings";

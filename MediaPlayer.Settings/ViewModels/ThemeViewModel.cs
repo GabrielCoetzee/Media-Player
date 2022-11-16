@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
 using ControlzEx.Theming;
@@ -29,15 +30,17 @@ namespace MediaPlayer.Settings.ViewModels
             Application.Current.MainWindow.Background.Opacity = (double)Opacity;
         }
 
-        public string BackgroundColor => BaseColor == "Dark" ? "Black" : "White";
-        public string ForegroundColor => BaseColor == "Dark" ? "White" : "Black";
+        public string BaseColor => _themeSettings.BaseColor;
+        public string BackgroundColor => UseDarkMode ? Color.Black.Name.ToString() : Color.White.Name.ToString();
+        public string ForegroundColor => UseDarkMode ? Color.White.Name.ToString() : Color.Black.Name.ToString();
 
-        public string BaseColor
+        public bool UseDarkMode
         {
-            get => _themeSettings.BaseColor;
+            get => _themeSettings.UseDarkMode;
             set
             {
-                _themeSettings.BaseColor = value;
+                _themeSettings.UseDarkMode = value;
+                OnPropertyChanged(nameof(UseDarkMode));
                 OnPropertyChanged(nameof(BaseColor));
                 OnPropertyChanged(nameof(BackgroundColor));
                 OnPropertyChanged(nameof(ForegroundColor));
