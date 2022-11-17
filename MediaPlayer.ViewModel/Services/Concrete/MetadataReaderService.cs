@@ -3,6 +3,7 @@ using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.Metadata.Abstract.Readers;
 using MediaPlayer.Model.Metadata.Concrete.Readers;
+using MediaPlayer.Model.Moderators.Abstract;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System;
@@ -19,13 +20,16 @@ namespace MediaPlayer.ViewModel.Services.Concrete
     {
         readonly IMetadataReader _metadataReader;
         readonly ApplicationSettings _applicationSettings;
+        readonly IEnumerable<IMetadataModerator> _metadataModerators;
 
         [ImportingConstructor]
-        public MetadataReaderService([Import(ServiceNames.TaglibMetadataReader)] IMetadataReader metadataReader, 
-            ApplicationSettings applicationSettings)
+        public MetadataReaderService([Import(ServiceNames.TaglibMetadataReader)] IMetadataReader metadataReader,
+            ApplicationSettings applicationSettings,
+            [ImportMany] IEnumerable<IMetadataModerator> metadataModerators)
         {
             _metadataReader = metadataReader;
             _applicationSettings = applicationSettings;
+            _metadataModerators = metadataModerators;
         }
 
         readonly Func<string, bool> IsFolder = x => Directory.Exists(x);
@@ -34,20 +38,24 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
         public async Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable<string> filePaths)
         {
-            var supportedFiles = new List<MediaItem>();
+            var mediaItems = new List<MediaItem>();
 
             await Task.Run(() =>
             {
                 var supportedFileFormats = _applicationSettings.SupportedFileFormats;
 
                 foreach (var file in SearchFolders(filePaths.Where(IsFolder), supportedFileFormats))
-                    supportedFiles.Add(_metadataReader.BuildMediaItem(file));
+                    mediaItems.Add(_metadataReader.BuildMediaItem(file));
 
                 foreach (var file in SearchFiles(filePaths.Where(IsFile), supportedFileFormats))
-                    supportedFiles.Add(_metadataReader.BuildMediaItem(file));
+                    mediaItems.Add(_metadataReader.BuildMediaItem(file));
+
+                foreach (var mediaItem in mediaItems)
+                    _metadataModerators.Where(x => x.IsValid(mediaItem)).ToList().ForEach(x => x.FixMetadata(mediaItem));
+
             });
 
-            return supportedFiles;
+            return mediaItems;
         }
 
         private IEnumerable<string> SearchFolders(IEnumerable<string> filePaths, string[] supportedFileFormats)

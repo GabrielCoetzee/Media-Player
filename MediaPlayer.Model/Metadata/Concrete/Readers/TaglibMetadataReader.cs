@@ -4,9 +4,7 @@ using MediaPlayer.Model.BusinessEntities.Abstract;
 using TagLib;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Collections.Generic;
 using MediaPlayer.Model.Metadata.Abstract.Readers;
-using MediaPlayer.Model.Moderators.Abstract;
 using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.Model.Metadata.Concrete.Readers
@@ -14,9 +12,6 @@ namespace MediaPlayer.Model.Metadata.Concrete.Readers
     [Export(ServiceNames.TaglibMetadataReader, typeof(IMetadataReader))]
     public class TaglibMetadataReader : IMetadataReader
     {
-        [ImportMany(typeof(IMetadataModerator))]
-        public List<IMetadataModerator> MetadataModerators { get; set; }
-
         public MediaItem BuildMediaItem(string path)
         {
             try
@@ -49,8 +44,6 @@ namespace MediaPlayer.Model.Metadata.Concrete.Readers
 
                     _ => null
                 };
-
-                MetadataModerators.Where(x => x.IsValid(mediaItem)).ToList().ForEach(x => x.FixMetadata(mediaItem));
 
                 return mediaItem;
             }
