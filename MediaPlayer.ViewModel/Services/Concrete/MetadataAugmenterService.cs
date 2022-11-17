@@ -4,9 +4,7 @@ using System.Threading.Tasks;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
-using LazyCache;
 using System.Collections.Concurrent;
 using MediaPlayer.Model.Metadata.Abstract.Augmenters;
 using MediaPlayer.Common.Constants;
@@ -18,7 +16,6 @@ namespace MediaPlayer.ViewModel.Services.Concrete
     {
         readonly IAlbumArtMetadataAugmenter _albumArtMetadataAugmenter;
         readonly ILyricsMetadataAugmenter _lyricsMetadataAugmenter;
-        readonly IAppCache _cache;
 
         [ImportingConstructor]
         public MetadataAugmenterService([Import(ServiceNames.LastFmAlbumArtMetadataAugmenter)] IAlbumArtMetadataAugmenter albumArtMetadataAugmenter,
@@ -26,8 +23,6 @@ namespace MediaPlayer.ViewModel.Services.Concrete
         {
             _albumArtMetadataAugmenter = albumArtMetadataAugmenter;
             _lyricsMetadataAugmenter = lyricsMetadataAugmenter;
-
-            _cache = new CachingService();
         }
 
         public async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
@@ -85,14 +80,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                         if (audioItem.HasAlbumArt)
                             return;
 
-                        var url = await _albumArtMetadataAugmenter.GetAlbumArtAsync(audioItem.Artist, audioItem.MediaTitle);
-
-                        if (string.IsNullOrEmpty(url))
-                            return;
-
-                        async Task<byte[]> DownloadAlbumArtFunction() => await DownloadAlbumArtFromUrlAsync(url);
-
-                        var albumArt = await _cache.GetOrAddAsync(url, DownloadAlbumArtFunction);
+                        var albumArt = await _albumArtMetadataAugmenter.GetAlbumArtAsync(audioItem.Artist, audioItem.MediaTitle);
 
                         if (albumArt == null || albumArt.Length == 0)
                             return;
@@ -107,14 +95,6 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             }, token);
 
             audioItems.Where(x => !x.HasAlbumArt).ToList().ForEach(x => x.AlbumArt = albumArtDictionary.GetValueOrDefault(x.FileName));
-        }
-
-        private async Task<byte[]> DownloadAlbumArtFromUrlAsync(string url)
-        {
-            using var client = new HttpClient();
-            using var fileDownloadResponse = await client.GetAsync(url);
-
-            return await fileDownloadResponse.Content.ReadAsByteArrayAsync();
         }
     }
 }
