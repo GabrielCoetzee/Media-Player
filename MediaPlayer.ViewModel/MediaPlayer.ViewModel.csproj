@@ -8,8 +8,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic\Generic.csproj" />
-    <ProjectReference Include="..\Integration.LastFM\Integration.LastFM.csproj" />
-    <ProjectReference Include="..\Integration.LyricsOVH\Integration.LyricsOVH.csproj" />
     <ProjectReference Include="..\MediaPlayer.Model\MediaPlayer.Model.csproj" />
     <ProjectReference Include="..\MediaPlayer.Settings\MediaPlayer.Settings.csproj" />
   </ItemGroup>

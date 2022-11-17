@@ -1,6 +1,6 @@
-﻿using MediaPlayer.Common.Enumerations;
+﻿using MediaPlayer.Common.Constants;
 using MediaPlayer.Model.BusinessEntities.Abstract;
-using MediaPlayer.Model.Metadata.Concrete.Writers;
+using MediaPlayer.Model.Metadata.Abstract.Writers;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -13,15 +13,13 @@ namespace MediaPlayer.ViewModel.Services.Concrete
     [Export(typeof(IMetadataWriterService))]
     public class MetadataWriterService : IMetadataWriterService
     {
-        readonly MetadataWriterFactory _metadataWriterFactory;
+        readonly IMetadataWriter _metadataWriter;
 
         [ImportingConstructor]
-        public MetadataWriterService(MetadataWriterFactory metadataWriterFactory)
+        public MetadataWriterService([Import(ServiceNames.TaglibMetadataWriter)] IMetadataWriter metadataWriter)
         {
-            _metadataWriterFactory = metadataWriterFactory;
+            _metadataWriter = metadataWriter;
         }
-
-        public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
 
         public async Task WriteChangesToFilesInParallel(IEnumerable<MediaItem> mediaItems)
         {
@@ -32,9 +30,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
                 await Parallel.ForEachAsync(mediaItems, new CancellationTokenSource().Token, (mediaItem, token) =>
                 {
-                    var metadataWriter = _metadataWriterFactory.Resolve(MetadataLibrary);
-
-                    metadataWriter.SaveMediaItem(mediaItem);
+                    _metadataWriter.SaveMediaItem(mediaItem);
 
                     return new ValueTask();
                 });

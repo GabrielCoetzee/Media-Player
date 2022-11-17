@@ -5,8 +5,6 @@ namespace MediaPlayer.Model.Metadata.Abstract.Readers
 {
     public interface IMetadataReader
     {
-        MetadataLibraries MetadataLibrary { get; }
-
         MediaItem BuildMediaItem(string path);
     }
 }

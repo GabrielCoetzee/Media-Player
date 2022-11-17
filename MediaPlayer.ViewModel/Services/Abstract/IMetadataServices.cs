@@ -9,6 +9,6 @@
 
         IMetadataWriterService MetadataWriter { get; set; }
 
-        IMetadataUpdateService MetadataUpdater { get; set; }
+        IMetadataAugmenterService MetadataAugmenter { get; set; }
     }
 }

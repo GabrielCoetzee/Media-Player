@@ -12,10 +12,20 @@ namespace MediaPlayer.Model.Moderators.Concrete
     [Export(typeof(IMetadataModerator))]
     public class AlbumArtModerator : IMetadataModerator
     {
+        public bool IsValid(MediaItem mediaItem)
+        {
+            if (mediaItem is not AudioItem audioItem)
+                return false;
+
+            if (audioItem.HasAlbumArt)
+                return false;
+
+            return true;
+        }
+
         public void FixMetadata(MediaItem mediaItem)
         {
-            if (mediaItem is not AudioItem audioItem || audioItem.HasAlbumArt)
-                return;
+            var audioItem = mediaItem as AudioItem;
 
             audioItem.AlbumArt = SearchForAlbumArtInDirectory(audioItem.FilePath.LocalPath);
             audioItem.IsAlbumArtDirty = false;

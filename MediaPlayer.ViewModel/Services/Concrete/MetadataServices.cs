@@ -13,6 +13,6 @@ namespace MediaPlayer.ViewModel.Services.Concrete
         public IMetadataWriterService MetadataWriter { get; set; }
 
         [Import]
-        public IMetadataUpdateService MetadataUpdater { get; set; }
+        public IMetadataAugmenterService MetadataAugmenter { get; set; }
     }
 }

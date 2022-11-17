@@ -8,24 +8,24 @@ using System.Net.Http;
 using System.Threading;
 using LazyCache;
 using System.Collections.Concurrent;
-using Integration.LyricsOVH.Services.Abstract;
-using MediaPlayer.DataAccess.Abstract;
+using MediaPlayer.Model.Metadata.Abstract.Augmenters;
+using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
-    [Export(typeof(IMetadataUpdateService))]
-    public class MetadataUpdateService : IMetadataUpdateService
+    [Export(typeof(IMetadataAugmenterService))]
+    public class MetadataAugmenterService : IMetadataAugmenterService
     {
-        readonly ILastFMApi _lastFMApi;
-        readonly ILyricsOvhApi _lyricsOvhApi;
+        readonly IAlbumArtMetadataAugmenter _albumArtMetadataAugmenter;
+        readonly ILyricsMetadataAugmenter _lyricsMetadataAugmenter;
         readonly IAppCache _cache;
 
         [ImportingConstructor]
-        public MetadataUpdateService(ILastFMApi lastFMApi,
-            ILyricsOvhApi lyricsOvhApi)
+        public MetadataAugmenterService([Import(ServiceNames.LastFmAlbumArtMetadataAugmenter)] IAlbumArtMetadataAugmenter albumArtMetadataAugmenter,
+            [Import(ServiceNames.LyricsOvhMetadataAugmenter)] ILyricsMetadataAugmenter lyricsMetadataAugmenter)
         {
-            _lastFMApi = lastFMApi;
-            _lyricsOvhApi = lyricsOvhApi;
+            _albumArtMetadataAugmenter = albumArtMetadataAugmenter;
+            _lyricsMetadataAugmenter = lyricsMetadataAugmenter;
 
             _cache = new CachingService();
         }
@@ -53,8 +53,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                         if (audioItem.HasLyrics)
                             return;
 
-                        var response = await _lyricsOvhApi.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
-                        var lyrics = response?.Lyrics;
+                        var lyrics = await _lyricsMetadataAugmenter.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
 
                         if (string.IsNullOrEmpty(lyrics))
                             return;
@@ -86,8 +85,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                         if (audioItem.HasAlbumArt)
                             return;
 
-                        var response = await _lastFMApi.GetTrackInfoAsync(audioItem.Artist, audioItem.MediaTitle);
-                        var url = response?.Track?.Album?.Image?.LastOrDefault()?.Url;
+                        var url = await _albumArtMetadataAugmenter.GetAlbumArtAsync(audioItem.Artist, audioItem.MediaTitle);
 
                         if (string.IsNullOrEmpty(url))
                             return;

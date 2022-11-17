@@ -9,10 +9,20 @@ namespace MediaPlayer.Model.Cleaners.Concrete
     [Export(typeof(IMetadataModerator))]
     public class LyricsModerator : IMetadataModerator
     {
+        public bool IsValid(MediaItem mediaItem)
+        {
+            if (mediaItem is not AudioItem audioItem)
+                return false;
+
+            if (!audioItem.HasLyrics)
+                return false;
+
+            return true;
+        }
+
         public void FixMetadata(MediaItem mediaItem)
         {
-            if (mediaItem is not AudioItem audioItem || !audioItem.HasLyrics)
-                return;
+            var audioItem = mediaItem as AudioItem;
 
             audioItem.Lyrics = audioItem.Lyrics.ReplaceTwoSucceedingNewLinesWithOne();
             audioItem.IsLyricsDirty = false;

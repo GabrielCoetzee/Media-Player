@@ -3,21 +3,17 @@ using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using TagLib;
 using System.ComponentModel.Composition;
-using System.IO;
 using System.Linq;
-using System.Drawing;
-using System;
 using System.Collections.Generic;
 using MediaPlayer.Model.Metadata.Abstract.Readers;
 using MediaPlayer.Model.Moderators.Abstract;
+using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.Model.Metadata.Concrete.Readers
 {
-    [Export(typeof(IMetadataReader))]
+    [Export(ServiceNames.TaglibMetadataReader, typeof(IMetadataReader))]
     public class TaglibMetadataReader : IMetadataReader
     {
-        public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
-
         [ImportMany(typeof(IMetadataModerator))]
         public List<IMetadataModerator> MetadataModerators { get; set; }
 
@@ -54,7 +50,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Readers
                     _ => null
                 };
 
-                MetadataModerators.ForEach(x => x.FixMetadata(mediaItem));
+                MetadataModerators.Where(x => x.IsValid(mediaItem)).ToList().ForEach(x => x.FixMetadata(mediaItem));
 
                 return mediaItem;
             }

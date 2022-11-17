@@ -1,5 +1,7 @@
-﻿using MediaPlayer.Common.Enumerations;
+﻿using MediaPlayer.Common.Constants;
+using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
+using MediaPlayer.Model.Metadata.Abstract.Readers;
 using MediaPlayer.Model.Metadata.Concrete.Readers;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.ViewModel.Services.Abstract;
@@ -15,18 +17,16 @@ namespace MediaPlayer.ViewModel.Services.Concrete
     [Export(typeof(IMetadataReaderService))]
     public class MetadataReaderService : IMetadataReaderService
     {
-        readonly MetadataReaderFactory _metadataReaderFactory;
+        readonly IMetadataReader _metadataReader;
         readonly ApplicationSettings _applicationSettings;
 
         [ImportingConstructor]
-        public MetadataReaderService(MetadataReaderFactory metadataReaderFactory,
+        public MetadataReaderService([Import(ServiceNames.TaglibMetadataReader)] IMetadataReader metadataReader, 
             ApplicationSettings applicationSettings)
         {
-            _metadataReaderFactory = metadataReaderFactory;
+            _metadataReader = metadataReader;
             _applicationSettings = applicationSettings;
         }
-
-        public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
 
         readonly Func<string, bool> IsFolder = x => Directory.Exists(x);
 
@@ -38,14 +38,13 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             await Task.Run(() =>
             {
-                var metadataReader = _metadataReaderFactory.Resolve(MetadataLibrary);
                 var supportedFileFormats = _applicationSettings.SupportedFileFormats;
 
                 foreach (var file in SearchFolders(filePaths.Where(IsFolder), supportedFileFormats))
-                    supportedFiles.Add(metadataReader.BuildMediaItem(file));
+                    supportedFiles.Add(_metadataReader.BuildMediaItem(file));
 
                 foreach (var file in SearchFiles(filePaths.Where(IsFile), supportedFileFormats))
-                    supportedFiles.Add(metadataReader.BuildMediaItem(file));
+                    supportedFiles.Add(_metadataReader.BuildMediaItem(file));
             });
 
             return supportedFiles;

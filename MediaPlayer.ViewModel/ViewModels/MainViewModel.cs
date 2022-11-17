@@ -123,7 +123,7 @@ namespace MediaPlayer.ViewModel
             var cts = new CancellationTokenSource();
             UpdateMetadataTokenSources.Add(cts);
 
-            await MetadataServices.MetadataUpdater.UpdateMetadataAsync(audioItems, cts.Token);
+            await MetadataServices.MetadataAugmenter.UpdateMetadataAsync(audioItems, cts.Token);
 
             if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
                 return;

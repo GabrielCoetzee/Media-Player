@@ -9,6 +9,5 @@ namespace MediaPlayer.ViewModel.Services.Abstract
     {
         Task WriteChangesToFilesInParallel(IEnumerable<MediaItem> mediaItems);
 
-        MetadataLibraries MetadataLibrary { get; }
     }
 }

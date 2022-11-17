@@ -7,14 +7,13 @@ using System;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using System.Linq;
 using MediaPlayer.Model.Metadata.Abstract.Writers;
+using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.Model.Metadata.Concrete.Writers
 {
-    [Export(typeof(IMetadataWriter))]
+    [Export(ServiceNames.TaglibMetadataWriter, typeof(IMetadataWriter))]
     public class TaglibMetadataWriter : IMetadataWriter
     {
-        public MetadataLibraries MetadataLibrary => MetadataLibraries.Taglib;
-
         public void SaveMediaItem(MediaItem mediaItem)
         {
             try
