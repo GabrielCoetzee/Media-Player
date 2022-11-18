@@ -1,7 +1,7 @@
 ﻿using MediaPlayer.Model.BusinessEntities.Abstract;
 using System.Threading.Tasks;
 
-namespace MediaPlayer.Model.Moderators.Abstract
+namespace MediaPlayer.Model.Metadata.Abstract.Moderators
 {
     public interface IMetadataModerator
     {

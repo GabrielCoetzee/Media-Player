@@ -6,23 +6,23 @@ using MediaPlayer.ViewModel.Services.Abstract;
 using System.Linq;
 using System.Threading;
 using System.Collections.Concurrent;
-using MediaPlayer.Model.Metadata.Abstract.Augmenters;
 using MediaPlayer.Common.Constants;
+using MediaPlayer.Model.Metadata.Abstract.Updaters;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
-    [Export(typeof(IMetadataAugmenterService))]
-    public class MetadataAugmenterService : IMetadataAugmenterService
+    [Export(typeof(IMetadataUpdateService))]
+    public class MetadataUpdateService : IMetadataUpdateService
     {
-        readonly IAlbumArtMetadataAugmenter _albumArtMetadataAugmenter;
-        readonly ILyricsMetadataAugmenter _lyricsMetadataAugmenter;
+        readonly IAlbumArtMetadataUpdater _albumArtMetadataUpdater;
+        readonly ILyricsMetadataUpdater _lyricsMetadataUpdater;
 
         [ImportingConstructor]
-        public MetadataAugmenterService([Import(ServiceNames.LastFmAlbumArtMetadataAugmenter)] IAlbumArtMetadataAugmenter albumArtMetadataAugmenter,
-            [Import(ServiceNames.LyricsOvhMetadataAugmenter)] ILyricsMetadataAugmenter lyricsMetadataAugmenter)
+        public MetadataUpdateService([Import(ServiceNames.LastFmAlbumArtMetadataUpdater)] IAlbumArtMetadataUpdater albumArtMetadataUpdater,
+            [Import(ServiceNames.LyricsOvhMetadataUpdater)] ILyricsMetadataUpdater lyricsMetadataUpdater)
         {
-            _albumArtMetadataAugmenter = albumArtMetadataAugmenter;
-            _lyricsMetadataAugmenter = lyricsMetadataAugmenter;
+            _albumArtMetadataUpdater = albumArtMetadataUpdater;
+            _lyricsMetadataUpdater = lyricsMetadataUpdater;
         }
 
         public async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
@@ -48,7 +48,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                         if (audioItem.HasLyrics)
                             return;
 
-                        var lyrics = await _lyricsMetadataAugmenter.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
+                        var lyrics = await _lyricsMetadataUpdater.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
 
                         if (string.IsNullOrEmpty(lyrics))
                             return;
@@ -80,7 +80,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                         if (audioItem.HasAlbumArt)
                             return;
 
-                        var albumArt = await _albumArtMetadataAugmenter.GetAlbumArtAsync(audioItem.Artist, audioItem.MediaTitle);
+                        var albumArt = await _albumArtMetadataUpdater.GetAlbumArtAsync(audioItem.Artist, audioItem.MediaTitle);
 
                         if (albumArt == null || albumArt.Length == 0)
                             return;

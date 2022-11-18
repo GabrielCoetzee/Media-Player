@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MediaPlayer.ViewModel.Services.Abstract
 {
-    public interface IMetadataAugmenterService
+    public interface IMetadataUpdateService
     {
         Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems, CancellationToken token);
     }

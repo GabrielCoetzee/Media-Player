@@ -1,9 +1,9 @@
 ﻿using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
+using MediaPlayer.Model.Metadata.Abstract.Moderators;
 using MediaPlayer.Model.Metadata.Abstract.Readers;
 using MediaPlayer.Model.Metadata.Concrete.Readers;
-using MediaPlayer.Model.Moderators.Abstract;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System;

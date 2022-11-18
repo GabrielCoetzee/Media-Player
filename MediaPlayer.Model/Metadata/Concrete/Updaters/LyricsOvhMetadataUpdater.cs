@@ -1,18 +1,18 @@
 ﻿using Integration.LyricsOVH.Services.Abstract;
 using MediaPlayer.Common.Constants;
-using MediaPlayer.Model.Metadata.Abstract.Augmenters;
+using MediaPlayer.Model.Metadata.Abstract.Updaters;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 
-namespace MediaPlayer.Model.Metadata.Concrete.Augmenters
+namespace MediaPlayer.Model.Metadata.Concrete.Updaters
 {
-    [Export(ServiceNames.LyricsOvhMetadataAugmenter, typeof(ILyricsMetadataAugmenter))]
-    public class LyricsOvhMetadataAugmenter : ILyricsMetadataAugmenter
+    [Export(ServiceNames.LyricsOvhMetadataUpdater, typeof(ILyricsMetadataUpdater))]
+    public class LyricsOvhMetadataUpdater : ILyricsMetadataUpdater
     {
         readonly ILyricsOvhApi _lyricsOvhApi;
 
         [ImportingConstructor]
-        public LyricsOvhMetadataAugmenter(ILyricsOvhApi lyricsOvhApi)
+        public LyricsOvhMetadataUpdater(ILyricsOvhApi lyricsOvhApi)
         {
             _lyricsOvhApi = lyricsOvhApi;
         }

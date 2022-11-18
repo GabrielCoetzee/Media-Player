@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace MediaPlayer.Model.Metadata.Abstract.Augmenters
+namespace MediaPlayer.Model.Metadata.Abstract.Updaters
 {
-    public interface IAlbumArtMetadataAugmenter
+    public interface IAlbumArtMetadataUpdater
     {
         Task<byte[]> GetAlbumArtAsync(string artist, string track);
     }

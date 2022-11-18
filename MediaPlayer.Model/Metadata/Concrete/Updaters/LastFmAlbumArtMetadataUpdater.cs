@@ -1,22 +1,22 @@
 ﻿using LazyCache;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.DataAccess.Abstract;
-using MediaPlayer.Model.Metadata.Abstract.Augmenters;
+using MediaPlayer.Model.Metadata.Abstract.Updaters;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MediaPlayer.Model.Metadata.Concrete.Augmenters
+namespace MediaPlayer.Model.Metadata.Concrete.Updaters
 {
-    [Export(ServiceNames.LastFmAlbumArtMetadataAugmenter, typeof(IAlbumArtMetadataAugmenter))]
-    public class LastFmAlbumArtMetadataAugmenter : IAlbumArtMetadataAugmenter
+    [Export(ServiceNames.LastFmAlbumArtMetadataUpdater, typeof(IAlbumArtMetadataUpdater))]
+    public class LastFmAlbumArtMetadataUpdater : IAlbumArtMetadataUpdater
     {
         readonly ILastFMApi _lastFmApi;
         readonly IAppCache _cache;
 
         [ImportingConstructor]
-        public LastFmAlbumArtMetadataAugmenter(ILastFMApi lastFmApi)
+        public LastFmAlbumArtMetadataUpdater(ILastFMApi lastFmApi)
         {
             _lastFmApi = lastFmApi;
 

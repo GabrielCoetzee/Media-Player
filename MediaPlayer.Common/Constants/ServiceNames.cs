@@ -6,8 +6,8 @@
 
         public const string TaglibMetadataWriter = nameof(TaglibMetadataWriter);
 
-        public const string LyricsOvhMetadataAugmenter = nameof(LyricsOvhMetadataAugmenter);
+        public const string LyricsOvhMetadataUpdater = nameof(LyricsOvhMetadataUpdater);
 
-        public const string LastFmAlbumArtMetadataAugmenter = nameof(LastFmAlbumArtMetadataAugmenter);
+        public const string LastFmAlbumArtMetadataUpdater = nameof(LastFmAlbumArtMetadataUpdater);
     }
 }

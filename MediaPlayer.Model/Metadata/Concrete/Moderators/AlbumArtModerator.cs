@@ -1,13 +1,13 @@
 ﻿using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.BusinessEntities.Concrete;
-using MediaPlayer.Model.Moderators.Abstract;
+using MediaPlayer.Model.Metadata.Abstract.Moderators;
 using System;
 using System.ComponentModel.Composition;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 
-namespace MediaPlayer.Model.Moderators.Concrete
+namespace MediaPlayer.Model.Metadata.Concrete.Moderators
 {
     [Export(typeof(IMetadataModerator))]
     public class AlbumArtModerator : IMetadataModerator
