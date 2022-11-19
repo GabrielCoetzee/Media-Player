@@ -18,7 +18,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Readers
             {
                 using var reader = TagLib.File.Create(path);
 
-                MediaItem mediaItem = reader.Properties.MediaTypes switch
+                return reader.Properties.MediaTypes switch
                 {
                     MediaTypes.Audio => new AudioItemBuilder(path)
                             .AsMediaType(MediaType.Audio)
@@ -44,8 +44,6 @@ namespace MediaPlayer.Model.Metadata.Concrete.Readers
 
                     _ => null
                 };
-
-                return mediaItem;
             }
             catch (CorruptFileException)
             {
