@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using MediaPlayer.Common.Constants;
+using MediaPlayer.Settings.ViewModels;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
@@ -25,10 +26,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MetroWindow applicationSettingsWindow)
                 return;
 
-            if (applicationSettingsWindow.DataContext is not ApplicationSettingsViewModel vm)
+            if (applicationSettingsWindow.DataContext is not SettingsViewModel vm)
                 return;
 
-            vm.SettingsViewModel.SaveSettings();
+            vm.SaveSettings();
 
             applicationSettingsWindow.Close();
         }

@@ -1,7 +1,7 @@
 ﻿using MediaPlayer.Settings.ViewModels;
 using System.Windows.Controls;
 
-namespace MediaPlayer.ViewModel.ConverterObject
+namespace MediaPlayer.Settings.ConverterModels
 {
     public class LoadThemeConverterModel
     {

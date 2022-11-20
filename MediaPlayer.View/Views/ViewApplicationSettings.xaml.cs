@@ -1,14 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Windows;
-using ControlzEx.Theming;
-using Generic;
-using Generic.DependencyInjection;
-using MahApps.Metro;
+﻿using System.ComponentModel.Composition;
 using MahApps.Metro.Controls;
-using MediaPlayer.ViewModel;
+using MediaPlayer.Settings.ViewModels;
 
 namespace MediaPlayer.View.Views
 {
@@ -27,9 +19,9 @@ namespace MediaPlayer.View.Views
         }
 
         [Import]
-        public ApplicationSettingsViewModel ViewModel
+        public SettingsViewModel ViewModel
         {
-            get => DataContext as ApplicationSettingsViewModel;
+            get => DataContext as SettingsViewModel;
             set => DataContext = value;
         }
     }

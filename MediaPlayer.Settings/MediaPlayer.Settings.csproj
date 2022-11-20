@@ -13,6 +13,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Generic\Generic.csproj" />
+		<ProjectReference Include="..\MediaPlayer.Common\MediaPlayer.Common.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -1,6 +1,8 @@
 ﻿using Generic.PropertyNotify;
+using MediaPlayer.Common.Constants;
 using MediaPlayer.Settings.Configuration;
 using System.ComponentModel.Composition;
+using System.Windows.Input;
 
 namespace MediaPlayer.Settings.ViewModels
 {
@@ -12,6 +14,15 @@ namespace MediaPlayer.Settings.ViewModels
 
         [Import]
         public ThemeViewModel ThemeViewModel { get; set; }
+
+        [Import(CommandNames.LoadAccentOptionsCommand)]
+        public ICommand LoadAccentOptionsCommand { get; set; }
+
+        [Import(CommandNames.LoadThemeOptionsCommand)]
+        public ICommand LoadThemeOptionsCommand { get; set; }
+
+        [Import(CommandNames.SaveSettings)]
+        public ICommand SaveSettingsCommand { get; set; }
 
         public bool UpdateMetadata
         {

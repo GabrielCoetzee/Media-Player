@@ -1,14 +1,13 @@
-﻿using MediaPlayer.Settings.ViewModels;
-using MediaPlayer.ViewModel;
-using MediaPlayer.ViewModel.ConverterObject;
+﻿using MediaPlayer.Settings.ConverterModels;
+using MediaPlayer.Settings.ViewModels;
 using System;
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace MediaPlayer.View.Converters
+namespace MediaPlayer.Settings.Converters
 {
-    internal class LoadThemeMutliValueConverter : IMultiValueConverter
+    public class LoadThemeMultiValueConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
