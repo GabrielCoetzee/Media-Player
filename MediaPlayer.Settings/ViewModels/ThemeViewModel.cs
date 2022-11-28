@@ -1,11 +1,14 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Drawing;
-using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using System.Windows;
 using ControlzEx.Theming;
+using Generic.Extensions;
+using Generic.Mediator;
 using Generic.PropertyNotify;
+using MediaPlayer.Common.Constants;
+using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Settings.Config;
+using MediaPlayer.Settings.Services.Abstract;
 
 namespace MediaPlayer.Settings.ViewModels
 {
@@ -13,11 +16,29 @@ namespace MediaPlayer.Settings.ViewModels
     public class ThemeViewModel : NotifyPropertyChanged
     {
         readonly ThemeSettings _themeSettings;
+        readonly IColorService _colorService;
 
         [ImportingConstructor]
-        public ThemeViewModel(ThemeSettings themeSettings)
+        public ThemeViewModel(ThemeSettings themeSettings, 
+            [Import(ServiceNames.ImageSharpColorService)] IColorService colorService)
         {
             _themeSettings = themeSettings;
+            _colorService = colorService;
+        }
+
+        public async Task AutoAdjustAccentAsync(byte[] albumArt)
+        {
+            if (!AutoAdjustAccent || albumArt.IsNullOrEmpty())
+            {
+                ChangeTheme();
+                return;
+            }
+
+            var color = await _colorService.GetDominantColorAsync(albumArt);
+
+            ThemeManager.Current.AddTheme(RuntimeThemeGenerator.Current.GenerateRuntimeTheme(BaseColor, color));
+
+            ThemeManager.Current.ChangeTheme(Application.Current, $"{BaseColor}.Runtime_{color}");
         }
 
         public void ChangeTheme()
@@ -31,8 +52,19 @@ namespace MediaPlayer.Settings.ViewModels
         }
 
         public string BaseColor => _themeSettings.BaseColor;
-        public string BackgroundColor => UseDarkMode ? Color.Black.Name.ToString() : Color.White.Name.ToString();
-        public string ForegroundColor => UseDarkMode ? Color.White.Name.ToString() : Color.Black.Name.ToString();
+        public string BackgroundColor => UseDarkMode ? System.Drawing.Color.Black.Name.ToString() : System.Drawing.Color.White.Name.ToString();
+        public string ForegroundColor => UseDarkMode ? System.Drawing.Color.White.Name.ToString() : System.Drawing.Color.Black.Name.ToString();
+
+        public bool AutoAdjustAccent
+        {
+            get => _themeSettings.AutoAdjustAccent;
+            set
+            {
+                _themeSettings.AutoAdjustAccent = value;
+                OnPropertyChanged(nameof(AutoAdjustAccent));
+                OnPropertyChanged(nameof(AccentLabel));
+            }
+        }
 
         public bool UseDarkMode
         {
@@ -72,6 +104,8 @@ namespace MediaPlayer.Settings.ViewModels
                 ChangeOpacity();
             }
         }
+
+        public string AccentLabel => !AutoAdjustAccent ? "Accent: " : "Default Accent: ";
 
         public void SaveSettings()
         {

@@ -1,4 +1,5 @@
-﻿using MediaPlayer.Model.BusinessEntities.Abstract;
+﻿using Generic.Extensions;
+using MediaPlayer.Model.BusinessEntities.Abstract;
 using System.Diagnostics;
 
 namespace MediaPlayer.Model.BusinessEntities.Concrete
@@ -18,7 +19,7 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
         private bool _isLyricsDirty;
 
         public bool HasLyrics => !string.IsNullOrEmpty(_lyrics);
-        public bool HasAlbumArt => _albumArt != null && _albumArt != default && _albumArt.Length > 0;
+        public bool HasAlbumArt => !_albumArt.IsNullOrEmpty();
 
         public byte[] AlbumArt
         {

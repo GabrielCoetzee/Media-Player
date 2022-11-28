@@ -2,7 +2,6 @@
 {
     public static class CommandNames
     {
-        public const string LoadThemeOptionsCommand = "Load Theme";
         public const string LoadAccentOptionsCommand = "Load Accent";
         public const string SaveSettings = "Save Settings";
         public const string Shuffle = "Shuffle";

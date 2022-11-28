@@ -30,6 +30,7 @@ namespace MediaPlayer.Settings.Config
         public string BaseColor => UseDarkMode ? ThemeManager.BaseColorDarkConst : ThemeManager.BaseColorLightConst;
         public string Accent { get; set; } = "Blue";
         public decimal Opacity { get; set; } = 0.8m;
+        public bool AutoAdjustAccent { get; set; } = false;
         protected override string FileName => @"Theme Settings";
         protected override bool UseEncryption => true;
         public void Save()

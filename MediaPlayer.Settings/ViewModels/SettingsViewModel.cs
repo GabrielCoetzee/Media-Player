@@ -1,5 +1,7 @@
-﻿using Generic.PropertyNotify;
+﻿using Generic.Mediator;
+using Generic.PropertyNotify;
 using MediaPlayer.Common.Constants;
+using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Settings.Configuration;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
@@ -17,9 +19,6 @@ namespace MediaPlayer.Settings.ViewModels
 
         [Import(CommandNames.LoadAccentOptionsCommand)]
         public ICommand LoadAccentOptionsCommand { get; set; }
-
-        [Import(CommandNames.LoadThemeOptionsCommand)]
-        public ICommand LoadThemeOptionsCommand { get; set; }
 
         [Import(CommandNames.SaveSettings)]
         public ICommand SaveSettingsCommand { get; set; }
@@ -48,6 +47,8 @@ namespace MediaPlayer.Settings.ViewModels
         {
             ThemeViewModel.SaveSettings();
             MetadataSettings.Save();
+
+            Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
         }
     }
 }

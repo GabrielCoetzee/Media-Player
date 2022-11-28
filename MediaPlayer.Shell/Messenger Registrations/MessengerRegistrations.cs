@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Input;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Model.BusinessEntities.Concrete;
+using MediaPlayer.Settings.ViewModels;
 using MediaPlayer.View.Views;
 using MediaPlayer.ViewModel;
 
@@ -57,6 +59,18 @@ namespace MediaPlayer.Shell.MessengerRegs
 
                 if (shutdownApplication)
                     Application.Current.Shutdown(0);
+            });
+        }
+
+        public static void AutoAdjustAccent(CompositionContainer container)
+        {
+            Messenger<MessengerMessages>.Register(MessengerMessages.AutoAdjustAccent, async (args) =>
+            {
+                var audioItem = container?.GetExports<MainViewModel>().Single().Value.SelectedMediaItem as AudioItem;
+
+                var vm = container?.GetExports<ThemeViewModel>().Single().Value;
+
+                await vm.AutoAdjustAccentAsync(audioItem?.AlbumArt);
             });
         }
     }

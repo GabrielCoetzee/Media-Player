@@ -8,6 +8,7 @@ using System.Threading;
 using System.Collections.Concurrent;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Model.Metadata.Abstract.Updaters;
+using Generic.Extensions;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
@@ -82,7 +83,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
                         var albumArt = await _albumArtMetadataUpdater.GetAlbumArtAsync(audioItem.Artist, audioItem.MediaTitle);
 
-                        if (albumArt == null || albumArt.Length == 0)
+                        if (albumArt.IsNullOrEmpty())
                             return;
 
                         albumArtDictionary[audioItem.FileName] = albumArt;

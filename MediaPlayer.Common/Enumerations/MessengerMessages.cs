@@ -5,6 +5,7 @@
         OpenMediaPlayerMainWindow,
         OpenApplicationSettings,
         ProcessFilePaths,
-        SaveChangesToDirtyFiles
+        SaveChangesToDirtyFiles,
+        AutoAdjustAccent
     }
 }

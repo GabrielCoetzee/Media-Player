@@ -30,7 +30,7 @@ namespace MediaPlayer.Settings.Commands
             if (parameter is not LoadThemeConverterModel model)
                 return;
 
-            ThemeManager.Current.ColorSchemes.ToList().ForEach(accent => model.ComboBox.Items.Add(accent));
+            ThemeManager.Current.ColorSchemes.Where(x => !x.StartsWith("#")).ToList().ForEach(accent => model.ComboBox.Items.Add(accent));
 
             model.ThemeViewModel.ChangeTheme();
         }

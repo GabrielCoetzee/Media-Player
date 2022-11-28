@@ -15,6 +15,8 @@ using MediaPlayer.ViewModel.Services.Abstract;
 using System.Threading;
 using System.Collections.Specialized;
 using MediaPlayer.Settings.ViewModels;
+using Generic.Mediator;
+using MediaPlayer.Common.Enumerations;
 
 namespace MediaPlayer.ViewModel
 {
@@ -34,6 +36,8 @@ namespace MediaPlayer.ViewModel
             {
                 _selectedMediaItem = value;
                 OnPropertyChanged(nameof(SelectedMediaItem));
+
+                Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
             }
         }
 
@@ -92,6 +96,8 @@ namespace MediaPlayer.ViewModel
 
             await AddMediaItemsToListViewAsync(filePaths);
             await UpdateMetadataAsync(MediaItems.OfType<AudioItem>());
+
+            Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
         }
 
         private async Task AddMediaItemsToListViewAsync(IEnumerable<string> filePaths)

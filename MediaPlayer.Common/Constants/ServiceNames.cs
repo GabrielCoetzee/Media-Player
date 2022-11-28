@@ -9,5 +9,7 @@
         public const string LyricsOvhMetadataUpdater = nameof(LyricsOvhMetadataUpdater);
 
         public const string LastFmAlbumArtMetadataUpdater = nameof(LastFmAlbumArtMetadataUpdater);
+
+        public const string ImageSharpColorService = nameof(ImageSharpColorService);
     }
 }
