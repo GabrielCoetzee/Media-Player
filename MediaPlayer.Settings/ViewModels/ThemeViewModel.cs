@@ -63,6 +63,8 @@ namespace MediaPlayer.Settings.ViewModels
                 _themeSettings.AutoAdjustAccent = value;
                 OnPropertyChanged(nameof(AutoAdjustAccent));
                 OnPropertyChanged(nameof(AccentLabel));
+
+                Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
             }
         }
 
