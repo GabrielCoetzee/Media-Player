@@ -4,8 +4,8 @@ using System.Linq;
 using System.Windows.Input;
 using System.ComponentModel.Composition;
 using MediaPlayer.Common.Constants;
-using MediaPlayer.Settings.ConverterModels;
 using Generic.Extensions;
+using System.Windows.Controls;
 
 namespace MediaPlayer.Settings.Commands
 {
@@ -20,7 +20,7 @@ namespace MediaPlayer.Settings.Commands
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not LoadThemeConverterModel model)
+            if (parameter is not ComboBox comboBoxAccents)
                 return false;
 
             return true;
@@ -28,12 +28,10 @@ namespace MediaPlayer.Settings.Commands
 
         public void Execute(object parameter)
         {
-            if (parameter is not LoadThemeConverterModel model)
+            if (parameter is not ComboBox comboBoxAccents)
                 return;
 
-            ThemeManager.Current.ColorSchemes.Where(x => !x.IsRuntimeAccent()).ToList().ForEach(accent => model.ComboBox.Items.Add(accent));
-
-            model.ThemeViewModel.ChangeThemeToCurrentSettings();
+            ThemeManager.Current.ColorSchemes.Where(x => !x.IsRuntimeAccent()).ToList().ForEach(accent => comboBoxAccents.Items.Add(accent));
         }
     }
 }

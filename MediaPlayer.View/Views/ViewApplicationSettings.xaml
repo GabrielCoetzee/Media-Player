@@ -3,29 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:converters="clr-namespace:MediaPlayer.Settings.Converters;assembly=MediaPlayer.Settings"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" xmlns:i1="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+        xmlns:i1="http://schemas.microsoft.com/xaml/behaviors" 
         xmlns:viewmodel="clr-namespace:MediaPlayer.Settings.ViewModels;assembly=MediaPlayer.Settings" 
         d:DataContext="{d:DesignInstance Type=viewmodel:SettingsViewModel}"
         mc:Ignorable="d"
         Title="Settings" MinHeight="250" MinWidth="500" Height="350" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" x:Name="ApplicationSettingsWindow">
 
-    <Window.Resources>
-
-        <converters:LoadThemeMultiValueConverter x:Key="LoadThemeMultiValueConverter" />
-
-    </Window.Resources>
-
     <i1:Interaction.Triggers>
         <i1:EventTrigger EventName="Loaded" >
-            <i1:InvokeCommandAction Command="{Binding LoadAccentOptionsCommand}">
-                <i1:InvokeCommandAction.CommandParameter>
-                    <MultiBinding Converter="{StaticResource LoadThemeMultiValueConverter}">
-                        <Binding ElementName="ComboBoxAccents" />
-                        <Binding Path="ThemeViewModel"/>
-                    </MultiBinding>
-                </i1:InvokeCommandAction.CommandParameter>
-            </i1:InvokeCommandAction>
+            <i1:InvokeCommandAction Command="{Binding LoadAccentOptionsCommand}" CommandParameter="{Binding ElementName=ComboBoxAccents}" />
         </i1:EventTrigger>
     </i1:Interaction.Triggers>
     <Controls:MetroWindow.Background>
