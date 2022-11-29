@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.ComponentModel.Composition;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Settings.ConverterModels;
+using Generic.Extensions;
 
 namespace MediaPlayer.Settings.Commands
 {
@@ -30,9 +31,9 @@ namespace MediaPlayer.Settings.Commands
             if (parameter is not LoadThemeConverterModel model)
                 return;
 
-            ThemeManager.Current.ColorSchemes.Where(x => !x.StartsWith("#")).ToList().ForEach(accent => model.ComboBox.Items.Add(accent));
+            ThemeManager.Current.ColorSchemes.Where(x => !x.IsRuntimeAccent()).ToList().ForEach(accent => model.ComboBox.Items.Add(accent));
 
-            model.ThemeViewModel.ChangeTheme();
+            model.ThemeViewModel.ChangeThemeToCurrentSettings();
         }
     }
 }

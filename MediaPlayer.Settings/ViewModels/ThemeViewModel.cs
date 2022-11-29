@@ -30,18 +30,18 @@ namespace MediaPlayer.Settings.ViewModels
         {
             if (!AutoAdjustAccent || albumArt.IsNullOrEmpty())
             {
-                ChangeTheme();
+                ChangeThemeToCurrentSettings();
                 return;
             }
 
-            var color = await _colorService.GetDominantColorAsync(albumArt);
+            var dominantColor = await _colorService.GetDominantColorAsync(albumArt);
 
-            ThemeManager.Current.AddTheme(RuntimeThemeGenerator.Current.GenerateRuntimeTheme(BaseColor, color));
+            ThemeManager.Current.AddTheme(RuntimeThemeGenerator.Current.GenerateRuntimeTheme(BaseColor, dominantColor));
 
-            ThemeManager.Current.ChangeTheme(Application.Current, $"{BaseColor}.Runtime_{color}");
+            ThemeManager.Current.ChangeTheme(Application.Current, $"{BaseColor}.Runtime_{dominantColor}");
         }
 
-        public void ChangeTheme()
+        public void ChangeThemeToCurrentSettings()
         {
             ThemeManager.Current.ChangeTheme(Application.Current, BaseColor, Accent);
         }
@@ -77,7 +77,7 @@ namespace MediaPlayer.Settings.ViewModels
                 OnPropertyChanged(nameof(BackgroundColor));
                 OnPropertyChanged(nameof(ForegroundColor));
 
-                ChangeTheme();
+                ChangeThemeToCurrentSettings();
             }
         }
 
@@ -89,7 +89,7 @@ namespace MediaPlayer.Settings.ViewModels
                 _themeSettings.Accent = value;
                 OnPropertyChanged(nameof(Accent));
 
-                ChangeTheme();
+                ChangeThemeToCurrentSettings();
             }
         }
 

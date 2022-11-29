@@ -40,5 +40,15 @@ namespace Generic.Extensions
 
             return s;
         }
+
+        /// <summary>
+        /// Detect if accent / color scheme was added during runtime with the "Auto Adjust Accent" feature
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static bool IsRuntimeAccent(this string s)
+        {
+            return s.StartsWith("#");
+        }
     }
 }
