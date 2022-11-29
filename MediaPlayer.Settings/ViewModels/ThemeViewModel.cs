@@ -30,7 +30,7 @@ namespace MediaPlayer.Settings.ViewModels
         {
             if (!AutoAdjustAccent || albumArt.IsNullOrEmpty())
             {
-                ChangeThemeToCurrentSettings();
+                ResetThemeToCurrentSettings();
                 return;
             }
 
@@ -41,16 +41,7 @@ namespace MediaPlayer.Settings.ViewModels
             ThemeManager.Current.ChangeTheme(Application.Current, $"{BaseColor}.Runtime_{dominantColor}");
         }
 
-        public void ChangeThemeToCurrentSettings()
-        {
-            ThemeManager.Current.ChangeTheme(Application.Current, BaseColor, Accent);
-        }
-
-        public void ChangeOpacity()
-        {
-            Application.Current.MainWindow.Background.Opacity = (double)Opacity;
-        }
-
+        public string AccentLabel => !AutoAdjustAccent ? "Accent: " : "Default Accent: ";
         public string BaseColor => _themeSettings.BaseColor;
         public string BackgroundColor => UseDarkMode ? System.Drawing.Color.Black.Name.ToString() : System.Drawing.Color.White.Name.ToString();
         public string ForegroundColor => UseDarkMode ? System.Drawing.Color.White.Name.ToString() : System.Drawing.Color.Black.Name.ToString();
@@ -79,7 +70,7 @@ namespace MediaPlayer.Settings.ViewModels
                 OnPropertyChanged(nameof(BackgroundColor));
                 OnPropertyChanged(nameof(ForegroundColor));
 
-                ChangeThemeToCurrentSettings();
+                ChangeBaseColor();
             }
         }
 
@@ -91,7 +82,7 @@ namespace MediaPlayer.Settings.ViewModels
                 _themeSettings.Accent = value;
                 OnPropertyChanged(nameof(Accent));
 
-                ChangeThemeToCurrentSettings();
+                ChangeAccent();
             }
         }
 
@@ -107,7 +98,10 @@ namespace MediaPlayer.Settings.ViewModels
             }
         }
 
-        public string AccentLabel => !AutoAdjustAccent ? "Accent: " : "Default Accent: ";
+        public void ResetThemeToCurrentSettings() => ThemeManager.Current.ChangeTheme(Application.Current, BaseColor, Accent);
+        public void ChangeAccent() => ThemeManager.Current.ChangeThemeColorScheme(Application.Current, Accent);
+        public void ChangeBaseColor() => ThemeManager.Current.ChangeThemeBaseColor(Application.Current, BaseColor);
+        public void ChangeOpacity() => Application.Current.MainWindow.Background.Opacity = (double)Opacity;
 
         public void SaveSettings()
         {
