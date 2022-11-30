@@ -6,8 +6,6 @@ This is a Media Player that I am actively working on. This is made for personal 
 
 ![Alt Text](https://i.imgur.com/Xze4BCG.gif)
 
-![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
-
 Features : 
 - Themes (Thanks to the amazing Mahapps Metro UI library!)
 - Opacity Slider
@@ -41,6 +39,8 @@ Libaries used :
 External API's used:
 - LastFM
 - Lyrics OVH
+
+![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
 
 ![Screenshot - Lyrics Collapsed](./Screenshots/LyricsCollapsed.JPG?raw=true "Screenshot - Lyrics Collapsed")
 
