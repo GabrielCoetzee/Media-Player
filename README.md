@@ -1,6 +1,8 @@
 # Media-Player
 
-This is a Media Player that I am actively working on. This is made for personal use only. I do not own any of the images used in this software, and this software will not be distributed. (Recently ported to .NET 6 - Startup assembly is 'MediaPlayer.Shell')
+This is a Media Player that I am actively working on. This is made for personal use only. I do not own any of the images used in this software. 
+
+(Recently ported to .NET 6 - Startup assembly is 'MediaPlayer.Shell')
 
 ![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
 
