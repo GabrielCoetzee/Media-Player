@@ -4,6 +4,8 @@ This is a Media Player that I am actively working on. This is made for personal 
 
 (Recently ported to .NET 6 - Startup assembly is 'MediaPlayer.Shell')
 
+![Alt Text](https://i.imgur.com/Xze4BCG.gif)
+
 ![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
 
 Features : 
