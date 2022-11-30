@@ -8,6 +8,7 @@ This is a Media Player that I am actively working on. This is made for personal 
 
 Features : 
 - Themes (Thanks to the amazing Mahapps Metro UI library!)
+- Auto Adjust Accent feature which auto detects dominant color in currently playing track's cover art, and adjusts accent to that color (example gif above)
 - Opacity Slider
 - Automatically download album art / lyrics of music that you're currently listening to. (Using caching and parallel threads for better responsiveness                   and performance)
 - Setting available to save updated lyrics and album art to audio file's metadata
