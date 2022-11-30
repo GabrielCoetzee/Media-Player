@@ -32,10 +32,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         private void PlayNextMediaItem(MainViewModel vm)
         {
-            var index = vm.NextMediaItem();
+            var index = vm.GetNextMediaItem();
 
             if (vm.MediaControlsViewModel.IsRepeatEnabled && vm.IsLastMediaItemSelected())
-                index = vm.FirstMediaItem();
+                index = vm.GetFirstMediaItem();
 
             vm.SelectMediaItem(index);
             vm.MediaControlsViewModel.PlayMedia();
