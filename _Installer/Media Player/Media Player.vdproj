@@ -6376,8 +6376,8 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Media Player"
-        "ProductCode" = "8:{DE23D778-FC9C-4E3F-8E8D-057975FBDB61}"
-        "PackageCode" = "8:{FA33AAF7-EEB7-4D8E-B353-659B25765A71}"
+        "ProductCode" = "8:{F8D323F4-5AFD-444F-81E7-D16E2059D30A}"
+        "PackageCode" = "8:{C31238F0-157E-46FE-824F-6A647615CEC8}"
         "UpgradeCode" = "8:{DE23BFB9-A355-48CA-869F-C8325EB5A593}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"

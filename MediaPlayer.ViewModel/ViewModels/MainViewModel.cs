@@ -114,7 +114,7 @@ namespace MediaPlayer.ViewModel
             SelectMediaItem(GetFirstMediaItem());
             MediaControlsViewModel.PlayMedia();
 
-            //CommandManager.InvalidateRequerySuggested();
+            CommandManager.InvalidateRequerySuggested();
 
             BusyViewModel.MediaListPopulated();
         }
