@@ -17,10 +17,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Moderators
             if (mediaItem is not AudioItem audioItem)
                 return false;
 
-            if (audioItem.HasAlbumArt)
-                return false;
-
-            return true;
+            return !audioItem.HasAlbumArt;
         }
 
         public void FixMetadata(MediaItem mediaItem)
