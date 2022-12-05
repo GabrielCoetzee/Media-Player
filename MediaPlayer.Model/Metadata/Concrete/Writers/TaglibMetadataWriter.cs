@@ -23,8 +23,8 @@ namespace MediaPlayer.Model.Metadata.Concrete.Writers
                 switch (mediaItem.MediaType)
                 {
                     case MediaType.Audio:
-                        UpdateLyrics(reader, mediaItem as AudioItem);
-                        UpdateAlbumArt(reader, mediaItem as AudioItem);
+                        WriteLyricsToFile(reader, mediaItem as AudioItem);
+                        WriteAlbumArtToFile(reader, mediaItem as AudioItem);
                         break;
 
                     case MediaType.Audio | MediaType.Video:
@@ -38,7 +38,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Writers
             }
         }
 
-        private void UpdateLyrics(File reader, AudioItem audioItem)
+        private void WriteLyricsToFile(File reader, AudioItem audioItem)
         {
             if (!audioItem.IsLyricsDirty)
                 return;
@@ -47,7 +47,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Writers
             audioItem.IsLyricsDirty = false;
         }
 
-        private void UpdateAlbumArt(File reader, AudioItem audioItem)
+        private void WriteAlbumArtToFile(File reader, AudioItem audioItem)
         {
             if (!audioItem.IsAlbumArtDirty)
                 return;
