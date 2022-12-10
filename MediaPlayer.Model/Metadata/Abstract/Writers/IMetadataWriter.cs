@@ -5,6 +5,6 @@ namespace MediaPlayer.Model.Metadata.Abstract.Writers
 {
     public interface IMetadataWriter
     {
-        void SaveMediaItem(MediaItem mediaItem);
+        void WriteToFile(MediaItem mediaItem);
     }
 }

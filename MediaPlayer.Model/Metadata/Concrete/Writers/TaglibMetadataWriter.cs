@@ -14,7 +14,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Writers
     [Export(ServiceNames.TaglibMetadataWriter, typeof(IMetadataWriter))]
     public class TaglibMetadataWriter : IMetadataWriter
     {
-        public void SaveMediaItem(MediaItem mediaItem)
+        public void WriteToFile(MediaItem mediaItem)
         {
             try
             {

@@ -30,7 +30,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
                 await Parallel.ForEachAsync(mediaItems, new CancellationTokenSource().Token, (mediaItem, token) =>
                 {
-                    _metadataWriter.SaveMediaItem(mediaItem);
+                    _metadataWriter.WriteToFile(mediaItem);
 
                     return new ValueTask();
                 });
