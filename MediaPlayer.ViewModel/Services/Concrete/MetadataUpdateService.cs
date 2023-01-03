@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Model.Metadata.Abstract.Updaters;
 using Generic.Extensions;
+using System;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
@@ -59,11 +60,18 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                 }
                 catch (TaskCanceledException)
                 {
+                    //If a task is canceled that's okay, user probably cleared media list and that's a valid case
+                }
+                catch (OperationCanceledException)
+                {
+                    //If a task is canceled that's okay, user probably cleared media list and that's a valid case
                 }
 
             }, token);
 
-            audioItems.Where(x => !x.HasLyrics).ToList().ForEach(x => x.Lyrics = lyricsDictionary.GetValueOrDefault(x.FileName));
+            var updateItems = audioItems.Where(x => !x.HasLyrics).ToList();
+
+            updateItems.ForEach(x => x.Lyrics = lyricsDictionary.GetValueOrDefault(x.FileName));
         }
 
         private async Task UpdateAlbumArtAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
@@ -91,11 +99,18 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                 }
                 catch (TaskCanceledException)
                 {
+                    //If a task is canceled that's okay, user probably cleared media list and that's a valid case
+                }
+                catch (OperationCanceledException)
+                {
+                    //If a task is canceled that's okay, user probably cleared media list and that's a valid case
                 }
 
             }, token);
 
-            audioItems.Where(x => !x.HasAlbumArt).ToList().ForEach(x => x.AlbumArt = albumArtDictionary.GetValueOrDefault(x.FileName));
+            var updateItems = audioItems.Where(x => !x.HasAlbumArt).ToList();
+
+            updateItems.ForEach(x => x.AlbumArt = albumArtDictionary.GetValueOrDefault(x.FileName));
         }
     }
 }

@@ -94,18 +94,20 @@ namespace MediaPlayer.ViewModel
             if (filePaths == null || !filePaths.Any())
                 return;
 
-            await AddMediaItemsToListViewAsync(filePaths);
-            await UpdateMetadataAsync(MediaItems.OfType<AudioItem>());
+            BusyViewModel.MediaListLoading();
+
+            var mediaItems = await MetadataServices.MetadataReader.ReadFilePathsAsync(filePaths);
+            AddMediaItemsToListView(mediaItems);
+
+            BusyViewModel.MediaListPopulated();
+
+            await UpdateMetadataAsync(mediaItems.OfType<AudioItem>());
 
             Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
         }
 
-        private async Task AddMediaItemsToListViewAsync(IEnumerable<string> filePaths)
+        private void AddMediaItemsToListView(IEnumerable<MediaItem> mediaItems)
         {
-            BusyViewModel.MediaListLoading();
-
-            var mediaItems = await MetadataServices.MetadataReader.ReadFilePathsAsync(filePaths);
-
             MediaItems.AddRange(mediaItems);
 
             if (SelectedMediaItem != null)
@@ -115,8 +117,6 @@ namespace MediaPlayer.ViewModel
             MediaControlsViewModel.PlayMedia();
 
             CommandManager.InvalidateRequerySuggested();
-
-            BusyViewModel.MediaListPopulated();
         }
 
         private async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems)
