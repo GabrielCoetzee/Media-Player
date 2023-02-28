@@ -1,5 +1,7 @@
 ﻿using Generic.DependencyInjection;
 using MahApps.Metro.Controls;
+using MediaPlayer.Common.Constants;
+using MediaPlayer.View.Services.Abstract;
 using MediaPlayer.ViewModel;
 using System.ComponentModel.Composition;
 using System.Windows;
@@ -18,7 +20,17 @@ namespace MediaPlayer.View.Views
         {
             InitializeComponent();
 
-            AllowsTransparency = true;
+            MEF.Container?.SatisfyImportsOnce(this);
+
+            SetWindowResolution();
+        }
+
+        private void SetWindowResolution()
+        {
+            var resolution = WindowResolutionCalculator.CalculateOptimalMainWindowResolution();
+
+            MinWidth = resolution.Width;
+            MinHeight = resolution.Height;
         }
 
         [Import]
@@ -27,6 +39,9 @@ namespace MediaPlayer.View.Views
             get => DataContext as MainViewModel;
             set => DataContext = value;
         }
+
+        [Import(ServiceNames.HardCodedWindowResolutionCalculator)]
+        public IWindowResolutionCalculator WindowResolutionCalculator { get; set; }
 
         public void BringToForeground()
         {

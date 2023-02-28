@@ -10,6 +10,8 @@ using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.Settings.ViewModels;
+using MediaPlayer.View.Services.Abstract;
+using MediaPlayer.View.Services.Concrete;
 using MediaPlayer.View.Views;
 using MediaPlayer.ViewModel;
 

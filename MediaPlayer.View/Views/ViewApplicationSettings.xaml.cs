@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel.Composition;
+using Generic.DependencyInjection;
 using MahApps.Metro.Controls;
+using MediaPlayer.Common.Constants;
 using MediaPlayer.Settings.ViewModels;
+using MediaPlayer.View.Services.Abstract;
 
 namespace MediaPlayer.View.Views
 {
@@ -16,6 +19,10 @@ namespace MediaPlayer.View.Views
         public ViewApplicationSettings()
         {
             InitializeComponent();
+
+            MEF.Container?.SatisfyImportsOnce(this);
+
+            SetWindowResolution();
         }
 
         [Import]
@@ -23,6 +30,17 @@ namespace MediaPlayer.View.Views
         {
             get => DataContext as SettingsViewModel;
             set => DataContext = value;
+        }
+
+        [Import(ServiceNames.HardCodedWindowResolutionCalculator)]
+        public IWindowResolutionCalculator WindowResolutionCalculator { get; set; }
+
+        private void SetWindowResolution()
+        {
+            var resolution = WindowResolutionCalculator.CalculateOptimalSettingsWindowResolution();
+
+            MinWidth = resolution.Width;
+            MinHeight = resolution.Height;
         }
     }
 }

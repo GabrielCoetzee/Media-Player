@@ -30,7 +30,7 @@ namespace MediaPlayer.Settings.ViewModels
         {
             if (!AutoAdjustAccent || albumArt.IsNullOrEmpty())
             {
-                ResetThemeToCurrentSettings();
+                ResetThemeToDefaultSettings();
                 return;
             }
 
@@ -98,7 +98,7 @@ namespace MediaPlayer.Settings.ViewModels
             }
         }
 
-        public void ResetThemeToCurrentSettings() => ThemeManager.Current.ChangeTheme(Application.Current, BaseColor, Accent);
+        public void ResetThemeToDefaultSettings() => ThemeManager.Current.ChangeTheme(Application.Current, BaseColor, Accent);
         public void ChangeAccent() => ThemeManager.Current.ChangeThemeColorScheme(Application.Current, Accent);
         public void ChangeBaseColor() => ThemeManager.Current.ChangeThemeBaseColor(Application.Current, BaseColor);
         public void ChangeOpacity() => Application.Current.MainWindow.Background.Opacity = (double)Opacity;
