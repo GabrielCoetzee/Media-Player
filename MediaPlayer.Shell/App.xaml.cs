@@ -46,8 +46,8 @@ namespace MediaPlayer.Shell
 
             InitializeMEF();
 
-            MessengerRegistrations.OpenMediaPlayerMainWindow(MEF.Container);
-            MessengerRegistrations.OpenApplicationSettingsWindow(MEF.Container);
+            MessengerRegistrations.OpenMainWindow(MEF.Container);
+            MessengerRegistrations.OpenApplicationSettingsModal(MEF.Container);
             MessengerRegistrations.ProcessFilePaths(MEF.Container);
             MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
             MessengerRegistrations.AutoAdjustAccent(MEF.Container);
@@ -83,7 +83,7 @@ namespace MediaPlayer.Shell
 
         private static void StartApplication(StartupEventArgs e)
         {
-            Messenger<MessengerMessages>.Send(MessengerMessages.OpenMediaPlayerMainWindow);
+            Messenger<MessengerMessages>.Send(MessengerMessages.OpenMainWindow);
 
             if (!e.Args.Any())
                 return;

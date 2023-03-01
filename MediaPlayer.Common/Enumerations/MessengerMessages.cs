@@ -2,8 +2,8 @@
 {
     public enum MessengerMessages
     {
-        OpenMediaPlayerMainWindow,
-        OpenApplicationSettings,
+        OpenMainWindow,
+        OpenApplicationSettingsModal,
         ProcessFilePaths,
         SaveChangesToDirtyFiles,
         AutoAdjustAccent
