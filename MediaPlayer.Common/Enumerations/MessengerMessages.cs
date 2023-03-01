@@ -3,7 +3,7 @@
     public enum MessengerMessages
     {
         OpenMainWindow,
-        OpenApplicationSettingsModal,
+        OpenApplicationSettingsDialog,
         ProcessFilePaths,
         SaveChangesToDirtyFiles,
         AutoAdjustAccent

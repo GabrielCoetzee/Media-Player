@@ -23,7 +23,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            Messenger<MessengerMessages>.Send(MessengerMessages.OpenApplicationSettingsModal);
+            Messenger<MessengerMessages>.Send(MessengerMessages.OpenApplicationSettingsDialog);
         }
     }
 }

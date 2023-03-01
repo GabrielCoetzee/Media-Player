@@ -23,9 +23,9 @@ namespace MediaPlayer.Shell.MessengerRegs
             });
         }
 
-        public static void OpenApplicationSettingsModal(CompositionContainer container)
+        public static void OpenApplicationSettingsDialog(CompositionContainer container)
         {
-            Messenger<MessengerMessages>.Register(MessengerMessages.OpenApplicationSettingsModal, (args) =>
+            Messenger<MessengerMessages>.Register(MessengerMessages.OpenApplicationSettingsDialog, (args) =>
             {
                 var view = container?.GetExports<ViewApplicationSettings>().Single().Value;
 

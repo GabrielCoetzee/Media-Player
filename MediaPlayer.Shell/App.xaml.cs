@@ -47,7 +47,7 @@ namespace MediaPlayer.Shell
             InitializeMEF();
 
             MessengerRegistrations.OpenMainWindow(MEF.Container);
-            MessengerRegistrations.OpenApplicationSettingsModal(MEF.Container);
+            MessengerRegistrations.OpenApplicationSettingsDialog(MEF.Container);
             MessengerRegistrations.ProcessFilePaths(MEF.Container);
             MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
             MessengerRegistrations.AutoAdjustAccent(MEF.Container);
