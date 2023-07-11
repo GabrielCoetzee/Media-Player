@@ -8,9 +8,8 @@ using MediaPlayer.ViewModel.Services.Concrete;
 using Moq;
 using NUnit.Framework;
 using System.Reflection;
-using System.Windows.Automation.Peers;
 
-namespace MediaPlayer.ViewModel.Test.Services
+namespace MediaPlayer.ViewModel.Test.ServicesTests
 {
     [TestFixture]
     public class MetadataReaderServiceTests
@@ -35,9 +34,9 @@ namespace MediaPlayer.ViewModel.Test.Services
                  .Setup(x => x.BuildMediaItem(It.Is<string>(s => s.Contains("Meddler (Remixed)"))))
                  .Returns(TestData.MediaItems.Single(x => x.MediaTitle.Contains("Meddler (Remixed)")));
 
-            _applicationSettings = new ApplicationSettings() 
+            _applicationSettings = new ApplicationSettings()
             {
-                SupportedFileFormats =  new[] { ".mp3", ".m4a", ".flac", ".wma" }
+                SupportedFileFormats = new[] { ".mp3", ".m4a", ".flac", ".wma" }
             };
         }
 
