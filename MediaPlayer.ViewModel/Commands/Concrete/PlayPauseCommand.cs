@@ -30,11 +30,11 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             if (vm.MediaControlsViewModel.MediaState == MediaState.Play)
             {
-                vm.MediaControlsViewModel.PauseMedia();
+                vm.MediaControlsViewModel.SetPlaybackState(MediaState.Pause);
                 return;
             }
 
-            vm.MediaControlsViewModel.PlayMedia();
+            vm.MediaControlsViewModel.SetPlaybackState(MediaState.Play);
         }
     }
 }

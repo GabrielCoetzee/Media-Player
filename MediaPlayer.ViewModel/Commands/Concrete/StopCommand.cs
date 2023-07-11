@@ -1,6 +1,7 @@
 ﻿using MediaPlayer.Common.Constants;
 using System;
 using System.ComponentModel.Composition;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
@@ -27,9 +28,9 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not MainViewModel vm)
                 return;
 
-            vm.SelectMediaItem(vm.GetFirstMediaItem());
+            vm.SelectMediaItem(vm.GetFirstMediaItemIndex());
 
-            vm.MediaControlsViewModel.StopMedia();
+            vm.MediaControlsViewModel.SetPlaybackState(MediaState.Stop);
         }
     }
 }

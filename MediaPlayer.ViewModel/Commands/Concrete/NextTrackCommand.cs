@@ -1,6 +1,7 @@
 ﻿using MediaPlayer.Common.Constants;
 using System;
 using System.ComponentModel.Composition;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
@@ -32,13 +33,13 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         private void PlayNextMediaItem(MainViewModel vm)
         {
-            var index = vm.GetNextMediaItem();
+            var index = vm.GetNextMediaItemIndex();
 
             if (vm.MediaControlsViewModel.IsRepeatEnabled && vm.IsLastMediaItemSelected())
-                index = vm.GetFirstMediaItem();
+                index = vm.GetFirstMediaItemIndex();
 
             vm.SelectMediaItem(index);
-            vm.MediaControlsViewModel.PlayMedia();
+            vm.MediaControlsViewModel.SetPlaybackState(MediaState.Play);
         }
     }
 }

@@ -122,6 +122,9 @@ namespace MediaPlayer.ViewModel.ViewModels
         {
             MEF.Container?.SatisfyImportsOnce(this);
 
+            if (SeekbarPreviewMouseUpCommand == null)
+                return;
+
             SeekbarPreviewMouseUpCommand.ChangeMediaPosition += SeekbarPreviewMouseUpCommand_ChangeMediaPosition;
         }
 
@@ -130,19 +133,6 @@ namespace MediaPlayer.ViewModel.ViewModels
             MediaElementPosition = TimeSpan.FromSeconds(e.Position);
         }
 
-        public void PlayMedia()
-        {
-            MediaState = MediaState.Play;
-        }
-
-        public void PauseMedia()
-        {
-            MediaState = MediaState.Pause;
-        }
-
-        public void StopMedia()
-        {
-            MediaState = MediaState.Stop;
-        }
+        public void SetPlaybackState(MediaState mediaState) => MediaState = mediaState;
     }
 }

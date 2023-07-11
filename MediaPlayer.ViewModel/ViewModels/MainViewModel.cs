@@ -9,7 +9,6 @@ using MediaPlayer.ViewModel.ViewModels;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using System.ComponentModel.Composition;
 using MediaPlayer.Common.Constants;
-using Generic.DependencyInjection;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System.Threading;
@@ -17,6 +16,7 @@ using System.Collections.Specialized;
 using MediaPlayer.Settings.ViewModels;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
+using System.Windows.Controls;
 
 namespace MediaPlayer.ViewModel
 {
@@ -113,8 +113,8 @@ namespace MediaPlayer.ViewModel
             if (SelectedMediaItem != null)
                 return;
 
-            SelectMediaItem(GetFirstMediaItem());
-            MediaControlsViewModel.PlayMedia();
+            SelectMediaItem(GetFirstMediaItemIndex());
+            MediaControlsViewModel.SetPlaybackState(MediaState.Play);
 
             CommandManager.InvalidateRequerySuggested();
         }
@@ -164,7 +164,7 @@ namespace MediaPlayer.ViewModel
 
             UpdateMetadataTokenSources.Clear();
 
-            MediaControlsViewModel.StopMedia();
+            MediaControlsViewModel.SetPlaybackState(MediaState.Stop);
 
             PositionTracker.Stop();
             SelectedMediaItem = null;
@@ -172,21 +172,21 @@ namespace MediaPlayer.ViewModel
 
         public void SelectMediaItem(int index) => SelectedMediaItem = MediaItems[index];
 
-        public bool IsPreviousMediaItemAvailable() => (IsMediaListPopulated) && GetPreviousMediaItem() >= GetFirstMediaItem();
+        public bool IsPreviousMediaItemAvailable() => IsMediaListPopulated && GetPreviousMediaItemIndex() >= GetFirstMediaItemIndex();
 
-        public bool IsNextMediaItemAvailable() => (IsMediaListPopulated) && GetNextMediaItem() <= GetLastMediaItem();
+        public bool IsNextMediaItemAvailable() => IsMediaListPopulated && GetNextMediaItemIndex() <= GetLastMediaItemIndex();
 
-        public int GetPreviousMediaItem() => MediaItems.IndexOf(SelectedMediaItem) - 1;
+        public int GetPreviousMediaItemIndex() => MediaItems.IndexOf(SelectedMediaItem) - 1;
 
-        public int GetNextMediaItem() => MediaItems.IndexOf(SelectedMediaItem) + 1;
+        public int GetNextMediaItemIndex() => MediaItems.IndexOf(SelectedMediaItem) + 1;
 
-        public int GetFirstMediaItem() => MediaItems.IndexOf(MediaItems.First());
+        public int GetFirstMediaItemIndex() => MediaItems.IndexOf(MediaItems.First());
 
-        public int GetLastMediaItem() => MediaItems.IndexOf(MediaItems.Last());
+        public int GetLastMediaItemIndex() => MediaItems.IndexOf(MediaItems.Last());
 
-        public bool IsFirstMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == GetFirstMediaItem();
+        public bool IsFirstMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == GetFirstMediaItemIndex();
 
-        public bool IsLastMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == GetLastMediaItem();
+        public bool IsLastMediaItemSelected() => MediaItems.IndexOf(SelectedMediaItem) == GetLastMediaItemIndex();
 
         public bool IsEndOfCurrentlyPlayingMedia() => SelectedMediaItem.ElapsedTime == SelectedMediaItem.Duration;
     }

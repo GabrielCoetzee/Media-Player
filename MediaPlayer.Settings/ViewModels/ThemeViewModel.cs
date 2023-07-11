@@ -36,9 +36,10 @@ namespace MediaPlayer.Settings.ViewModels
 
             var dominantColor = await _colorService.GetDominantColorAsync(albumArt);
 
-            ThemeManager.Current.AddTheme(RuntimeThemeGenerator.Current.GenerateRuntimeTheme(BaseColor, dominantColor));
+            var theme = RuntimeThemeGenerator.Current.GenerateRuntimeTheme(BaseColor, dominantColor);
 
-            ThemeManager.Current.ChangeTheme(Application.Current, $"{BaseColor}.Runtime_{dominantColor}");
+            ThemeManager.Current.AddTheme(theme);
+            ThemeManager.Current.ChangeTheme(Application.Current, theme);
         }
 
         public string AccentLabel => !AutoAdjustAccent ? "Accent: " : "Default Accent: ";

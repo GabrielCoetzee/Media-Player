@@ -1,7 +1,9 @@
-﻿using LazyCache;
+﻿using Flurl.Http;
+using LazyCache;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.DataAccess.Abstract;
 using MediaPlayer.Model.Metadata.Abstract.Updaters;
+using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net.Http;
@@ -39,10 +41,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Updaters
 
         private static async Task<byte[]> DownloadAlbumArtFromUrlAsync(string url)
         {
-            using var client = new HttpClient();
-            using var fileDownloadResponse = await client.GetAsync(url);
-
-            return await fileDownloadResponse.Content.ReadAsByteArrayAsync();
+            return await url.GetBytesAsync();
         }
     }
 }

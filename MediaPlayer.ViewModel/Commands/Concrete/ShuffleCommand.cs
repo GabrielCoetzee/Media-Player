@@ -1,8 +1,5 @@
 ﻿using MediaPlayer.Common.Constants;
-using MediaPlayer.Model.Collections;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;

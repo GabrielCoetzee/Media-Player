@@ -1,9 +1,7 @@
 ﻿using MediaPlayer.Common.Constants;
-using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
-using MediaPlayer.Model.Metadata.Abstract.Moderators;
+using MediaPlayer.Model.Metadata.Abstract.Correctors;
 using MediaPlayer.Model.Metadata.Abstract.Readers;
-using MediaPlayer.Model.Metadata.Concrete.Readers;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System;
@@ -20,16 +18,16 @@ namespace MediaPlayer.ViewModel.Services.Concrete
     {
         readonly IMetadataReader _metadataReader;
         readonly ApplicationSettings _applicationSettings;
-        readonly IEnumerable<IMetadataModerator> _metadataModerators;
+        readonly IEnumerable<IMetadataCorrector> _metadataCorrectors;
 
         [ImportingConstructor]
         public MetadataReaderService([Import(ServiceNames.TaglibMetadataReader)] IMetadataReader metadataReader,
             ApplicationSettings applicationSettings,
-            [ImportMany] IEnumerable<IMetadataModerator> metadataModerators)
+            [ImportMany] IEnumerable<IMetadataCorrector> metadataCorrectors)
         {
             _metadataReader = metadataReader;
             _applicationSettings = applicationSettings;
-            _metadataModerators = metadataModerators;
+            _metadataCorrectors = metadataCorrectors;
         }
 
         readonly Func<string, bool> IsFolder = x => Directory.Exists(x);
@@ -51,7 +49,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
                     mediaItems.Add(_metadataReader.BuildMediaItem(file));
 
                 foreach (var mediaItem in mediaItems)
-                    _metadataModerators.Where(x => x.IsValid(mediaItem)).ToList().ForEach(x => x.FixMetadata(mediaItem));
+                    _metadataCorrectors.Where(x => x.IsValid(mediaItem)).ToList().ForEach(x => x.FixMetadata(mediaItem));
 
             });
 

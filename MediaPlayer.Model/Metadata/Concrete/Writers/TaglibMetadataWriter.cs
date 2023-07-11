@@ -5,7 +5,6 @@ using TagLib;
 using System.ComponentModel.Composition;
 using System;
 using MediaPlayer.Model.BusinessEntities.Concrete;
-using System.Linq;
 using MediaPlayer.Model.Metadata.Abstract.Writers;
 using MediaPlayer.Common.Constants;
 
@@ -18,7 +17,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Writers
         {
             try
             {
-                using var reader = File.Create(mediaItem.FilePath.LocalPath);
+                using var reader = TagLib.File.Create(mediaItem.FilePath.LocalPath);
 
                 switch (mediaItem.MediaType)
                 {

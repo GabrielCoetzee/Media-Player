@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Generic.Collections;
+using MediaPlayer.Common.Exceptions;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 
 namespace MediaPlayer.Model.Collections
@@ -15,9 +16,29 @@ namespace MediaPlayer.Model.Collections
         {
         }
 
-        public MediaItemObservableCollection(IOrderedEnumerable<MediaItem> iOrderedEnumerable)
-            :base(iOrderedEnumerable)
+        public MediaItemObservableCollection(IOrderedEnumerable<MediaItem> orderedMediaItems)
+            :base(orderedMediaItems)
         {
+        }
+
+        public new MediaItem this[int index]
+        {
+            get
+            {
+                if (Count == 0)
+                    throw new EmptyMediaListException();
+
+                return base[index];
+            }
+            set => base[index] = value;
+        }
+
+        public new int IndexOf(MediaItem item)
+        {
+            if (Count == 0)
+                throw new EmptyMediaListException();
+
+            return base.IndexOf(item);
         }
 
         public override void AddRange(IEnumerable<MediaItem> list)
