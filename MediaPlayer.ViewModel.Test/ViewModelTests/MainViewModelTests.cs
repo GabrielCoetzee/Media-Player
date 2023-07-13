@@ -56,7 +56,7 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
             Assert.Multiple(() =>
             {
                 Assert.That(_vm.MediaItems, Is.Not.Empty);
-                Assert.That(_vm.SelectedMediaItem, Is.EqualTo(TestData.MediaItems.First()));
+                Assert.That(_vm.SelectedMediaItem, Is.EqualTo(TestData.AudioItem1));
                 Assert.That(_vm.MediaControlsViewModel.MediaState, Is.EqualTo(MediaState.Play));
             });
         }
@@ -68,12 +68,14 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
                 .Setup(x => x.ReadFilePathsAsync(TestData.FilePaths))
                 .ReturnsAsync(TestData.MediaItems);
 
-            _metadataUpdaterMock.Setup(x => x.UpdateMetadataAsync(TestData.MediaItems.OfType<AudioItem>(), It.IsAny<CancellationToken>()))
-                   .Callback((IEnumerable<AudioItem> audioItems, CancellationToken token) => {
+            //Mock updating album art
+            _metadataUpdaterMock
+                .Setup(x => x.UpdateMetadataAsync(TestData.MediaItems.OfType<AudioItem>(), It.IsAny<CancellationToken>()))
+                .Callback((IEnumerable<AudioItem> audioItems, CancellationToken token) => {
 
-                       //Mock updating album art
-                       audioItems.ToList().ForEach(x => x.AlbumArt = new byte[5] { 2, 4, 6, 8, 10 });
-                   });
+                    audioItems.ToList().ForEach(x => x.AlbumArt = new byte[5] { 2, 4, 6, 8, 10 });
+
+                });
 
             _metadataServicesMock.SetupProperty(x => x.MetadataReader, _metadataReaderMock.Object);
             _metadataServicesMock.SetupProperty(x => x.MetadataUpdater, _metadataUpdaterMock.Object);
@@ -112,8 +114,8 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
         [Test]
         public void SelectMediaItem_ValidSelection_ChangesSelectedMediaItemToCorrectIndex()
         {
-            var expectedMediaItem = TestData.MediaItems.Single(x => x.Id == 2);
-            var index = TestData.MediaItems.ToList().IndexOf(expectedMediaItem);
+            var expectedMediaItem = TestData.AudioItem2;
+            var index = TestData.MediaItems.IndexOf(expectedMediaItem);
 
             _vm.SelectMediaItem(index);
 
@@ -153,9 +155,9 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
         [Test]
         public void GetPreviousMediaItemIndex_PreviousMediaItemIsAvailable_ReturnsPreviousMediaItemIndex()
         {
-            _vm.SelectedMediaItem = TestData.MediaItems.Last();
+            _vm.SelectedMediaItem = TestData.AudioItem3;
 
-            var index = TestData.MediaItems.ToList().IndexOf(_vm.SelectedMediaItem);
+            var index = TestData.MediaItems.IndexOf(_vm.SelectedMediaItem);
 
             Assert.That(_vm.GetPreviousMediaItemIndex(), Is.EqualTo(index - 1));
         }
@@ -163,9 +165,9 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
         [Test]
         public void GetNextMediaItemIndex_NextMediaItemIsAvailable_SelectsNextItemInMediaList()
         {
-            _vm.SelectedMediaItem = TestData.MediaItems.First();
+            _vm.SelectedMediaItem = TestData.AudioItem1;
 
-            var index = TestData.MediaItems.ToList().IndexOf(_vm.SelectedMediaItem);
+            var index = TestData.MediaItems.IndexOf(_vm.SelectedMediaItem);
 
             Assert.That(_vm.GetNextMediaItemIndex(), Is.EqualTo(index + 1));
         }
@@ -173,13 +175,13 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
         [Test]
         public void GetFirstMediaItemIndex_WhenCalled_ReturnsIndexOfFirstMediaItemInMediaList()
         {
-            Assert.That(_vm.GetFirstMediaItemIndex(), Is.EqualTo(_vm.MediaItems.IndexOf(TestData.MediaItems.First())));
+            Assert.That(_vm.GetFirstMediaItemIndex(), Is.EqualTo(_vm.MediaItems.IndexOf(TestData.AudioItem1)));
         }
 
         [Test]
         public void GetLastMediaItemIndex_WhenCalled_ReturnsIndexOfLastMediaItemInMediaList()
         {
-            Assert.That(_vm.GetLastMediaItemIndex(), Is.EqualTo(_vm.MediaItems.IndexOf(TestData.MediaItems.Last())));
+            Assert.That(_vm.GetLastMediaItemIndex(), Is.EqualTo(_vm.MediaItems.IndexOf(TestData.AudioItem3)));
         }
 
         [Test]
@@ -261,29 +263,35 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
                 "Fakedir/Track 3"
             };
 
-            public static IEnumerable<MediaItem> MediaItems = new List<MediaItem>()
+            public static AudioItem AudioItem1 = new AudioItem
             {
-                new AudioItem
-                {
-                    Id = 1,
-                    Lyrics = "These are lyrics",
-                    Album = "Test Album",
-                    MediaTitle = "Track 1"
-                },
-                new AudioItem
-                {
-                    Id = 2,
-                    Lyrics = "These are lyrics, too",
-                    Album = "Test Album",
-                    MediaTitle = "Track 2"
-                },
-                new AudioItem
-                {
-                    Id = 3,
-                    Lyrics = "I am singing, here are some lyrics woo",
-                    Album = "Test Album",
-                    MediaTitle = "Track 3"
-                }
+                Id = 1,
+                Lyrics = "These are lyrics",
+                Album = "Test Album",
+                MediaTitle = "Track 1"
+            };
+
+            public static AudioItem AudioItem2 = new AudioItem
+            {
+                Id = 2,
+                Lyrics = "These are lyrics, too",
+                Album = "Test Album",
+                MediaTitle = "Track 2"
+            };
+
+            public static AudioItem AudioItem3 = new AudioItem
+            {
+                Id = 3,
+                Lyrics = "I am singing, here are some lyrics woo",
+                Album = "Test Album",
+                MediaTitle = "Track 3"
+            };
+
+            public static List<MediaItem> MediaItems = new List<MediaItem>()
+            {
+                AudioItem1,
+                AudioItem2,
+                AudioItem3
             };
         }
     }

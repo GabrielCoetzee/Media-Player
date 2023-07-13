@@ -63,7 +63,8 @@ namespace MediaPlayer.Model.ObjectBuilders
         public AudioItemBuilder WithLyrics(string lyrics)
         {
             _audioItem.Lyrics = lyrics;
-            _audioItem.IsLyricsDirty = false;
+
+            _audioItem.DirtyProperties.Remove(nameof(_audioItem.Lyrics));
 
             return this;
         }
@@ -83,7 +84,7 @@ namespace MediaPlayer.Model.ObjectBuilders
         public AudioItemBuilder WithAlbumArt(byte[] albumArt)
         {
             _audioItem.AlbumArt = albumArt;
-            _audioItem.IsAlbumArtDirty = false;
+            _audioItem.DirtyProperties.Remove(nameof(_audioItem.AlbumArt));
 
             return this;
         }

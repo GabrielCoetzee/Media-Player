@@ -1,6 +1,7 @@
 ﻿using Generic.Extensions;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using System.Diagnostics;
+using System.Linq;
 
 namespace MediaPlayer.Model.BusinessEntities.Concrete
 {
@@ -15,8 +16,6 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
         private uint? _year;
         private string _lyrics;
         private string _composer;
-        private bool _isAlbumArtDirty;
-        private bool _isLyricsDirty;
 
         public bool HasLyrics => !string.IsNullOrEmpty(_lyrics);
         public bool HasAlbumArt => !_albumArt.IsNullOrEmpty();
@@ -27,7 +26,8 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
             set
             {
                 _albumArt = value;
-                IsAlbumArtDirty = true;
+                DirtyProperties.Add(nameof(AlbumArt));
+
                 OnPropertyChanged(nameof(AlbumArt));
                 OnPropertyChanged(nameof(HasAlbumArt));
             }
@@ -86,7 +86,8 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
             set
             {
                 _lyrics = value;
-                IsLyricsDirty = true;
+                DirtyProperties.Add(nameof(Lyrics));
+
                 OnPropertyChanged(nameof(Lyrics));
                 OnPropertyChanged(nameof(HasLyrics));
             } 
@@ -102,28 +103,5 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
                 OnPropertyChanged(nameof(Composer));
             } 
         }
-
-        public bool IsAlbumArtDirty
-        {
-            get => _isAlbumArtDirty;
-            set
-            {
-                _isAlbumArtDirty = value;
-                OnPropertyChanged(nameof(IsAlbumArtDirty));
-                OnPropertyChanged(nameof(IsDirty));
-            }
-        }
-        public bool IsLyricsDirty
-        {
-            get => _isLyricsDirty;
-            set
-            {
-                _isLyricsDirty = value;
-                OnPropertyChanged(nameof(IsLyricsDirty));
-                OnPropertyChanged(nameof(IsDirty));
-            }
-        }
-
-        public override bool IsDirty => IsAlbumArtDirty || IsLyricsDirty;
     }
 }

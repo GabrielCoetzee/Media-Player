@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Enumerations;
 
@@ -18,9 +20,11 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
         private string _windowTitle = "Now Playing: ";
         private string _labelInfo;
 
+        public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
+        public List<string> DirtyProperties { get; set; } = new List<string>();
+        public bool IsDirty => DirtyProperties.Any();
         public bool IsVideo => MediaType == (MediaType.Audio | MediaType.Video);
         public bool IsAudio => MediaType == MediaType.Audio;
-        public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
 
         public int? Id
         {
@@ -106,6 +110,5 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
             }
         }
 
-        public abstract bool IsDirty { get; }
     }
 }

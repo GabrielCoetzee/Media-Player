@@ -23,16 +23,16 @@ namespace MediaPlayer.ViewModel.Test.ServicesTests
             _metadataReaderMock = new Mock<IMetadataReader>();
 
             _metadataReaderMock
-                .Setup(x => x.BuildMediaItem(It.Is<string>(s => s.Contains("Majoring in the Minors"))))
-                .Returns(TestData.MediaItems.Single(x => x.MediaTitle.Contains("Majoring in the Minors")));
+                .Setup(x => x.BuildMediaItem(It.Is<string>(s => s.Contains(TestData.MediaItems.Single(x => x.Id == 1).MediaTitle))))
+                .Returns(TestData.MediaItems.Single(x => x.Id == 1));
 
             _metadataReaderMock
-                .Setup(x => x.BuildMediaItem(It.Is<string>(s => s.Contains("Meridian (Remixed)"))))
-                .Returns(TestData.MediaItems.Single(x => x.MediaTitle.Contains("Meridian (Remixed)")));
+                .Setup(x => x.BuildMediaItem(It.Is<string>(s => s.Contains(TestData.MediaItems.Single(x => x.Id == 2).MediaTitle))))
+                .Returns(TestData.MediaItems.Single(x => x.Id == 2));
 
             _metadataReaderMock
-                 .Setup(x => x.BuildMediaItem(It.Is<string>(s => s.Contains("Meddler (Remixed)"))))
-                 .Returns(TestData.MediaItems.Single(x => x.MediaTitle.Contains("Meddler (Remixed)")));
+                 .Setup(x => x.BuildMediaItem(It.Is<string>(s => s.Contains(TestData.MediaItems.Single(x => x.Id == 3).MediaTitle))))
+                 .Returns(TestData.MediaItems.Single(x => x.Id == 3));
 
             _applicationSettings = new ApplicationSettings()
             {

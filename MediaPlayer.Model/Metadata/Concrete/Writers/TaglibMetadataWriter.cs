@@ -1,5 +1,4 @@
-﻿using MediaPlayer.Model.ObjectBuilders;
-using MediaPlayer.Common.Enumerations;
+﻿using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using TagLib;
 using System.ComponentModel.Composition;
@@ -7,6 +6,7 @@ using System;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.Model.Metadata.Abstract.Writers;
 using MediaPlayer.Common.Constants;
+using System.Linq;
 
 namespace MediaPlayer.Model.Metadata.Concrete.Writers
 {
@@ -39,16 +39,17 @@ namespace MediaPlayer.Model.Metadata.Concrete.Writers
 
         private void WriteLyricsToFile(File reader, AudioItem audioItem)
         {
-            if (!audioItem.IsLyricsDirty)
+            if (!audioItem.DirtyProperties.Contains(nameof(audioItem.Lyrics)))
                 return;
 
             reader.Tag.Lyrics = audioItem.Lyrics;
-            audioItem.IsLyricsDirty = false;
+
+            audioItem.DirtyProperties.Remove(nameof(audioItem.Lyrics));
         }
 
         private void WriteAlbumArtToFile(File reader, AudioItem audioItem)
         {
-            if (!audioItem.IsAlbumArtDirty)
+            if (!audioItem.DirtyProperties.Contains(nameof(audioItem.AlbumArt)))
                 return;
 
             reader.Tag.Pictures = new IPicture[]
@@ -63,7 +64,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Writers
                 }
             };
 
-            audioItem.IsAlbumArtDirty = false;
+            audioItem.DirtyProperties.Remove(nameof(audioItem.AlbumArt));
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Correctors
             var audioItem = mediaItem as AudioItem;
 
             audioItem.Lyrics = audioItem.Lyrics.ReplaceTwoSucceedingNewLinesWithOne();
-            audioItem.IsLyricsDirty = false;
+            audioItem.DirtyProperties.Remove(nameof(audioItem.Lyrics));
         }
     }
 }

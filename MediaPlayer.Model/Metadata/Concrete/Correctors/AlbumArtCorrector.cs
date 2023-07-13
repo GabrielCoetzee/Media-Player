@@ -25,7 +25,7 @@ namespace MediaPlayer.Model.Metadata.Concrete.Correctors
             var audioItem = mediaItem as AudioItem;
 
             audioItem.AlbumArt = SearchForAlbumArtInDirectory(audioItem.FilePath.LocalPath);
-            audioItem.IsAlbumArtDirty = false;
+            audioItem.DirtyProperties.Remove(nameof(audioItem.AlbumArt));
         }
 
         private byte[] SearchForAlbumArtInDirectory(string path)
