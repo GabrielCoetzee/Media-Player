@@ -22,19 +22,16 @@ namespace MediaPlayer.ViewModel.Test.ServicesTests
         [Test]
         public async Task WriteChangesToFilesInParallel_LyricsUpdated_WritesToFileAndUpdatesDirtyStatus()
         {
-            //Pretending to write lyrics changes to file
-
-            TestData.AudioItem1.Lyrics = "I am adding some lyrics";
-
             _metadataWriterMock
                 .Setup(x => x.WriteToFile(It.Is<MediaItem>(x => x == TestData.AudioItem1)))
                 .Callback((MediaItem mediaItem) =>
                 {
                     var audioItem = mediaItem as AudioItem;
 
-                    if (audioItem == null)
+                    if (audioItem == null || !audioItem.DirtyProperties.Contains(nameof(audioItem.Lyrics)))
                         return;
 
+                    audioItem.Lyrics = "I am adding some lyrics";
                     audioItem.DirtyProperties.Remove(nameof(audioItem.Lyrics));
                 });
 
@@ -44,7 +41,7 @@ namespace MediaPlayer.ViewModel.Test.ServicesTests
 
             var audioItem = TestData.AudioItem1;
 
-            Assert.That(audioItem.DirtyProperties, Does.Not.Contain("Lyrics"));
+            Assert.That(audioItem.DirtyProperties, Does.Not.Contain(nameof(audioItem.Lyrics)));
             Assert.That(audioItem.DirtyProperties, Is.Empty);
             Assert.That(audioItem.IsDirty, Is.EqualTo(false));
         }
