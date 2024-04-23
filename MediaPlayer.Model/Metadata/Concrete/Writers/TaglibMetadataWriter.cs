@@ -21,12 +21,12 @@ namespace MediaPlayer.Model.Metadata.Concrete.Writers
 
                 switch (mediaItem.MediaType)
                 {
-                    case MediaType.Audio:
+                    case Common.Enumerations.MediaTypes.Audio:
                         WriteLyricsToFile(reader, mediaItem as AudioItem);
                         WriteAlbumArtToFile(reader, mediaItem as AudioItem);
                         break;
 
-                    case MediaType.Audio | MediaType.Video:
+                    case Common.Enumerations.MediaTypes.Audio | Common.Enumerations.MediaTypes.Video:
                         break;
                 }
 

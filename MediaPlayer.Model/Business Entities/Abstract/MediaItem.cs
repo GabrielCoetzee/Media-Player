@@ -14,7 +14,7 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
         private int? _id;
         private TimeSpan _duration;
         private Uri _filePath;
-        private MediaType _mediaType;
+        private MediaTypes _mediaType;
         private TimeSpan _elapsedTime;
         private string _mediaTitle;
         private string _windowTitle = "Now Playing: ";
@@ -23,8 +23,8 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
         public string FileName => Path.GetFileNameWithoutExtension(FilePath.ToString());
         public List<string> DirtyProperties { get; set; } = new List<string>();
         public bool IsDirty => DirtyProperties.Any();
-        public bool IsVideo => MediaType == (MediaType.Audio | MediaType.Video);
-        public bool IsAudio => MediaType == MediaType.Audio;
+        public bool IsVideo => MediaType == (MediaTypes.Audio | MediaTypes.Video);
+        public bool IsAudio => MediaType == MediaTypes.Audio;
 
         public int? Id
         {
@@ -78,7 +78,7 @@ namespace MediaPlayer.Model.BusinessEntities.Abstract
 
         }
 
-        public MediaType MediaType
+        public MediaTypes MediaType
         {
             get => _mediaType;
             set

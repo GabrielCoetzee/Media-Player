@@ -53,7 +53,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             });
 
-            return mediaItems;
+            return mediaItems.Where(x => x != null);
         }
 
         private IEnumerable<string> SearchFolders(IEnumerable<string> filePaths, string[] supportedFileFormats)

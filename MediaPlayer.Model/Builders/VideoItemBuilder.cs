@@ -38,7 +38,7 @@ namespace MediaPlayer.Model.ObjectBuilders
             return this;
         }
 
-        public VideoItemBuilder AsMediaType(MediaType mediaType)
+        public VideoItemBuilder AsMediaType(MediaTypes mediaType)
         {
             _videoItem.MediaType = mediaType;
 

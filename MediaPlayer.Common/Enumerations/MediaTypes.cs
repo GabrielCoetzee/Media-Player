@@ -3,7 +3,7 @@
 namespace MediaPlayer.Common.Enumerations
 {
     [Flags]
-    public enum MediaType
+    public enum MediaTypes
     {
         None = 0,
         Audio = 1,

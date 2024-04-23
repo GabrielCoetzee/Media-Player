@@ -20,7 +20,7 @@ namespace MediaPlayer.Settings.Commands
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not ComboBox comboBoxAccents)
+            if (parameter is not ComboBox)
                 return false;
 
             return true;

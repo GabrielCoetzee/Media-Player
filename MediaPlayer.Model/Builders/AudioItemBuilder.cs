@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 
@@ -19,7 +16,7 @@ namespace MediaPlayer.Model.ObjectBuilders
             };
         }
 
-        public AudioItemBuilder AsMediaType(MediaType mediaType)
+        public AudioItemBuilder AsMediaType(MediaTypes mediaType)
         {
             _audioItem.MediaType = mediaType;
 

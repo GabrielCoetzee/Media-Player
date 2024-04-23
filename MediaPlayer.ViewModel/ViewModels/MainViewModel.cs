@@ -97,6 +97,7 @@ namespace MediaPlayer.ViewModel
             BusyViewModel.MediaListLoading();
 
             var mediaItems = await MetadataServices.MetadataReader.ReadFilePathsAsync(filePaths);
+
             AddMediaItemsToListView(mediaItems);
 
             BusyViewModel.MediaListPopulated();
