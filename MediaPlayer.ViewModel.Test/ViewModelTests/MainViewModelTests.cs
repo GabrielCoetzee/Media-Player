@@ -17,6 +17,7 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
         Mock<IMetadataServices> _metadataServicesMock;
         Mock<IMetadataReaderService> _metadataReaderMock;
         Mock<IMetadataUpdateService> _metadataUpdaterMock;
+        Mock<IMetadataCorrectorService> _metadataCorrectorMock;
         MainViewModel _vm;
 
         [SetUp]
@@ -25,6 +26,7 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
             _metadataServicesMock = new Mock<IMetadataServices>();
             _metadataReaderMock = new Mock<IMetadataReaderService>();
             _metadataUpdaterMock = new Mock<IMetadataUpdateService>();
+            _metadataCorrectorMock = new Mock<IMetadataCorrectorService>();
 
             _vm = new MainViewModel
             {
@@ -79,6 +81,7 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
 
             _metadataServicesMock.SetupProperty(x => x.MetadataReader, _metadataReaderMock.Object);
             _metadataServicesMock.SetupProperty(x => x.MetadataUpdater, _metadataUpdaterMock.Object);
+            _metadataServicesMock.SetupProperty(x => x.MetadataCorrector, _metadataCorrectorMock.Object);
 
             _vm.MetadataServices = _metadataServicesMock.Object;
 

@@ -136,6 +136,8 @@ namespace MediaPlayer.ViewModel
                 return;
 
             BusyViewModel.MediaListPopulated();
+
+            MetadataServices.MetadataCorrector.FixMetadata(audioItems.OfType<AudioItem>());
         }
 
         public async Task SaveChangesAsync()

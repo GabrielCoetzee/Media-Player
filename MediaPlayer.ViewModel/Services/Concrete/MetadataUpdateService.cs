@@ -39,7 +39,8 @@ namespace MediaPlayer.ViewModel.Services.Concrete
         {
             var lyricsDictionary = new ConcurrentDictionary<string, string>();
 
-            await Task.Run(async () => {
+            await Task.Run(async () => 
+            {
 
                 try
                 {
@@ -78,8 +79,8 @@ namespace MediaPlayer.ViewModel.Services.Concrete
         {
             var albumArtDictionary = new ConcurrentDictionary<string, byte[]>();
 
-            await Task.Run(async () => {
-
+            await Task.Run(async () => 
+            {
                 try
                 {
                     await Parallel.ForEachAsync(audioItems, token, async (audioItem, token) =>

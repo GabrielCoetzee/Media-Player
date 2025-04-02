@@ -1,12 +1,10 @@
 ﻿using Flurl.Http;
-using LazyCache;
+using Generic.Cache.Abstract;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.DataAccess.Abstract;
 using MediaPlayer.Model.Metadata.Abstract.Updaters;
-using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MediaPlayer.Model.Metadata.Concrete.Updaters
@@ -15,14 +13,14 @@ namespace MediaPlayer.Model.Metadata.Concrete.Updaters
     public class LastFmAlbumArtMetadataUpdater : IAlbumArtMetadataUpdater
     {
         readonly ILastFMApi _lastFmApi;
-        readonly IAppCache _cache;
+        readonly IRuntimeCache<byte[]> _cache;
+
 
         [ImportingConstructor]
-        public LastFmAlbumArtMetadataUpdater(ILastFMApi lastFmApi)
+        public LastFmAlbumArtMetadataUpdater(ILastFMApi lastFmApi, IRuntimeCache<byte[]> cache)
         {
             _lastFmApi = lastFmApi;
-
-            _cache = new CachingService();
+            _cache = cache;
         }
 
         public async Task<byte[]> GetAlbumArtAsync(string artist, string track)

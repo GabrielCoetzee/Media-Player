@@ -1,13 +1,8 @@
-﻿using MediaPlayer.Model.BusinessEntities.Abstract;
-using MediaPlayer.Model.BusinessEntities.Concrete;
-using MediaPlayer.Model.Metadata.Abstract.Correctors;
-using MediaPlayer.Model.Metadata.Abstract.Readers;
-using MediaPlayer.Model.Metadata.Concrete.Correctors;
+﻿using MediaPlayer.Model.Metadata.Abstract.Readers;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.ViewModel.Services.Concrete;
 using Moq;
 using NUnit.Framework;
-using System.Reflection;
 
 namespace MediaPlayer.ViewModel.Test.ServicesTests
 {
@@ -44,8 +39,7 @@ namespace MediaPlayer.ViewModel.Test.ServicesTests
         public async Task ReadFilePathsAsync_ValidFolderpath_BuildsMediaItems()
         {
             var service = new MetadataReaderService(_metadataReaderMock.Object,
-                _applicationSettings,
-                new List<IMetadataCorrector>() { });
+                _applicationSettings);
 
             var mediaItems = await service.ReadFilePathsAsync(new[] { TestData.InputTestFilesPath });
 
@@ -62,8 +56,7 @@ namespace MediaPlayer.ViewModel.Test.ServicesTests
             var filepaths = TestData.MediaItems.Select(x => x.FilePath.LocalPath);
 
             var service = new MetadataReaderService(_metadataReaderMock.Object,
-                _applicationSettings,
-                new List<IMetadataCorrector>() { });
+                _applicationSettings);
 
             var mediaItems = await service.ReadFilePathsAsync(filepaths);
 
@@ -74,70 +67,6 @@ namespace MediaPlayer.ViewModel.Test.ServicesTests
             });
         }
 
-        [Test]
-        public async Task ReadFilePathsAsync_IncludeLyricsCorrector_CorrectorFixesLyricsSpacing()
-        {
-            var service = new MetadataReaderService(_metadataReaderMock.Object,
-                _applicationSettings,
-                new List<IMetadataCorrector>() { new LyricsCorrector() });
-
-            var mediaItems = await service.ReadFilePathsAsync(new[] { TestData.InputTestFilesPath });
-
-            var lyrics = (mediaItems.First() as AudioItem)?.Lyrics;
-
-            Assert.That(lyrics, Is.EqualTo($"Test {Environment.NewLine} Lyrics {Environment.NewLine} Spacing"));
-        }
-
-        [Test]
-        public async Task ReadFilePathsAsync_IncludeAlbumArtCorrector_CorrecterReadsCoverArtFromFolder()
-        {
-            var service = new MetadataReaderService(_metadataReaderMock.Object,
-                _applicationSettings,
-                new List<IMetadataCorrector>() { new AlbumArtCorrector() });
-
-            var mediaItems = await service.ReadFilePathsAsync(new[] { TestData.InputTestFilesPath });
-
-            Assert.That(mediaItems.OfType<AudioItem>().All(x => x.HasAlbumArt), Is.EqualTo(true));
-        }
-
-        public static class TestData
-        {
-            public static string InputTestFilesPath = $"_Test Files/Input Files";
-
-            public static AudioItem AudioItem1 = new AudioItem()
-            {
-                Id = 1,
-                Album = "Found in Far Away Places",
-                Artist = "August Burns Red",
-                MediaTitle = "Majoring in the Minors",
-                Lyrics = "Test \n\n Lyrics \n\n Spacing",
-                FilePath = new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/_Test Files/Input Files/06. Majoring in the Minors.mp3")
-            };
-
-            public static AudioItem AudioItem2 = new AudioItem()
-            {
-                Id = 2,
-                Album = "Constellations",
-                Artist = "August Burns Red",
-                MediaTitle = "Meridian (Remixed)",
-                FilePath = new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/_Test Files/Input Files/09. Meridian (Remixed).mp3")
-            };
-
-            public static AudioItem AudioItem3 = new AudioItem()
-            {
-                Id = 3,
-                Album = "Constellations",
-                Artist = "August Burns Red",
-                MediaTitle = "Meddler (Remixed)",
-                FilePath = new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/_Test Files/Input Files/11. Meddler (Remixed).mp3")
-            };
-
-            public static IEnumerable<MediaItem> MediaItems = new List<MediaItem>()
-            {
-                AudioItem1, 
-                AudioItem2,
-                AudioItem3
-            };
-        }
+        
     }
 }

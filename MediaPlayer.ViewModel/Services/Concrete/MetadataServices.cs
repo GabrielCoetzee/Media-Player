@@ -14,5 +14,8 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
         [Import]
         public IMetadataUpdateService MetadataUpdater { get; set; }
+
+        [Import]
+        public IMetadataCorrectorService MetadataCorrector { get; set; }
     }
 }
