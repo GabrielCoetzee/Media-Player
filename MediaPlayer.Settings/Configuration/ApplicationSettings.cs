@@ -25,7 +25,7 @@ namespace MediaPlayer.Settings.Config
         }
 
         protected override bool UseEncryption => true;
-        public string[] SupportedFileFormats { get; set; } = { ".mp3", ".m4a", ".flac", ".wma" };
+        public string[] SupportedFileFormats { get; set; } = { ".mp3", ".m4a", ".flac", ".wma", ".wav" };
         protected override string FileName => @"Application Settings";
         public void Save()
         {
