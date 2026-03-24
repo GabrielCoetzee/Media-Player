@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Generic.Exceptions
 {
@@ -9,18 +8,13 @@ namespace Generic.Exceptions
         {
         }
 
-        public MustOverrideException(string message) 
+        public MustOverrideException(string message)
             : base(message)
         {
         }
 
-        public MustOverrideException(string message, Exception innerException) 
+        public MustOverrideException(string message, Exception innerException)
             : base(message, innerException)
-        {
-        }
-
-        protected MustOverrideException(SerializationInfo info, StreamingContext context) 
-            : base(info, context)
         {
         }
     }

@@ -27,19 +27,21 @@ namespace MediaPlayer.Settings.Services.Concrete
                 int b = 0;
                 int totalPixels = 0;
 
-                for (int x = 0; x < image.Width; x++)
+                image.ProcessPixelRows(accessor =>
                 {
-                    for (int y = 0; y < image.Height; y++)
+                    for (int y = 0; y < accessor.Height; y++)
                     {
-                        var pixel = image[x, y];
-
-                        r += Convert.ToInt32(pixel.R);
-                        g += Convert.ToInt32(pixel.G);
-                        b += Convert.ToInt32(pixel.B);
-
-                        totalPixels++;
+                        Span<Rgba32> row = accessor.GetRowSpan(y);
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            var pixel = row[x];
+                            r += Convert.ToInt32(pixel.R);
+                            g += Convert.ToInt32(pixel.G);
+                            b += Convert.ToInt32(pixel.B);
+                            totalPixels++;
+                        }
                     }
-                }
+                });
 
                 r /= totalPixels;
                 g /= totalPixels;

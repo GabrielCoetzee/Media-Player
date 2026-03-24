@@ -10,11 +10,9 @@
         xmlns:genericControls="clr-namespace:Generic.Controls;assembly=Generic" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
         xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel"
-        AllowsTransparency="True"
         d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         mc:Ignorable="d"
         SaveWindowPosition="True"
-        GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
         Title="{Binding SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" ShowMaxRestoreButton="False" Height="768" Width="1366" MinHeight="768" MinWidth="1366">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing" >
