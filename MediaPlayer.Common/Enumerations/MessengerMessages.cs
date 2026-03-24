@@ -6,6 +6,7 @@
         OpenApplicationSettingsDialog,
         ProcessFilePaths,
         SaveChangesToDirtyFiles,
-        AutoAdjustAccent
+        AutoAdjustAccent,
+        ApplyDwmBackdrop
     }
 }

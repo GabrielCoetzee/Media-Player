@@ -26,7 +26,7 @@
         <KeyBinding Command="{Binding MediaControlsViewModel.PreviousTrackCommand}" CommandParameter="{Binding}" Key="MediaPreviousTrack" />
     </Controls:MetroWindow.InputBindings>
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="{Binding SettingsViewModel.ThemeViewModel.BackgroundColor, FallbackValue=Black}" Opacity="{Binding SettingsViewModel.ThemeViewModel.Opacity}"/>
+        <SolidColorBrush Color="{Binding SettingsViewModel.ThemeViewModel.EffectiveBackgroundColor, FallbackValue=Black}"/>
     </Controls:MetroWindow.Background>
 
     <Controls:MetroWindow.RightWindowCommands>

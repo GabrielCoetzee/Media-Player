@@ -6,6 +6,7 @@ using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.Settings.ViewModels;
+using MediaPlayer.View.Services.Abstract;
 using MediaPlayer.View.Views;
 using MediaPlayer.ViewModel;
 
@@ -55,6 +56,20 @@ namespace MediaPlayer.Shell.MessengerRegs
 
                 if (shutdownApplication)
                     Application.Current.Shutdown(0);
+            });
+        }
+
+        public static void ApplyDwmBackdrop(CompositionContainer container)
+        {
+            Messenger<MessengerMessages>.Register(MessengerMessages.ApplyDwmBackdrop, (args) =>
+            {
+                if (args is DwmBackdropType backdropType)
+                {
+                    var view = container?.GetExports<ViewMediaPlayer>().Single().Value;
+                    var service = container?.GetExports<IDwmBackdropService>(MediaPlayer.Common.Constants.ServiceNames.DwmBackdropService).Single().Value;
+
+                    service.ApplyBackdrop(view, backdropType);
+                }
             });
         }
 
