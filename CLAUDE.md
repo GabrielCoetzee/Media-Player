@@ -6,19 +6,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Build the entire solution
-dotnet build MediaPlayer.sln
+dotnet build src/MediaPlayer.sln
 
 # Run all tests
-dotnet test MediaPlayer.ViewModel.Test
+dotnet test src/MediaPlayer.ViewModel.Test
 
 # Run a single test by name
-dotnet test MediaPlayer.ViewModel.Test --filter "FullyQualifiedName~TestMethodName"
+dotnet test src/MediaPlayer.ViewModel.Test --filter "FullyQualifiedName~TestMethodName"
 
 # Clean build
-dotnet clean MediaPlayer.sln && dotnet build MediaPlayer.sln
+dotnet clean src/MediaPlayer.sln && dotnet build src/MediaPlayer.sln
 
 # Run the application (startup project is MediaPlayer.Shell)
-dotnet run --project MediaPlayer.Shell
+dotnet run --project src/MediaPlayer.Shell
 ```
 
 ## Architecture
