@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Text.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Integration.LastFM.Contracts
 {
@@ -66,7 +65,7 @@ namespace Integration.LastFM.Contracts
 
     public class Image
     {
-        [JsonProperty("#text")]
+        [JsonPropertyName("#text")]
         public string? Url { get; set; }
 
         public string? Size { get; set; }

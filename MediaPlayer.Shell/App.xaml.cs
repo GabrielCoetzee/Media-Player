@@ -50,6 +50,7 @@ namespace MediaPlayer.Shell
             MessengerRegistrations.OpenApplicationSettingsDialog(MEF.Container);
             MessengerRegistrations.ProcessFilePaths(MEF.Container);
             MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
+            MessengerRegistrations.ApplyDwmBackdrop(MEF.Container);
             MessengerRegistrations.AutoAdjustAccent(MEF.Container);
 
             LoadTheme(ThemeSettings.BaseColor, ThemeSettings.Accent);

@@ -23,6 +23,8 @@ namespace MediaPlayer.View.Views
             MEF.Container?.SatisfyImportsOnce(this);
 
             SetWindowResolution();
+
+            Loaded += (_, _) => DwmBackdropService.ApplyBackdrop(this, ViewModel.SettingsViewModel.ThemeViewModel.BackdropType);
         }
 
         private void SetWindowResolution()
@@ -42,6 +44,9 @@ namespace MediaPlayer.View.Views
 
         [Import(ServiceNames.HardCodedWindowResolutionCalculator)]
         public IWindowResolutionCalculator WindowResolutionCalculator { get; set; }
+
+        [Import(ServiceNames.DwmBackdropService)]
+        public IDwmBackdropService DwmBackdropService { get; set; }
 
         public void BringToForeground()
         {

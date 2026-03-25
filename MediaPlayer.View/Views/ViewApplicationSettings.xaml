@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
         xmlns:i1="http://schemas.microsoft.com/xaml/behaviors" 
-        xmlns:viewmodel="clr-namespace:MediaPlayer.Settings.ViewModels;assembly=MediaPlayer.Settings" 
+        xmlns:viewmodel="clr-namespace:MediaPlayer.Settings.ViewModels;assembly=MediaPlayer.Settings"
+        xmlns:enums="clr-namespace:MediaPlayer.Common.Enumerations;assembly=MediaPlayer.Common"
         d:DataContext="{d:DesignInstance Type=viewmodel:SettingsViewModel}"
         mc:Ignorable="d"
         Title="Settings" MinHeight="250" MinWidth="500" Height="350" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" x:Name="ApplicationSettingsWindow">
@@ -16,7 +17,7 @@
         </i1:EventTrigger>
     </i1:Interaction.Triggers>
     <Controls:MetroWindow.Background>
-        <SolidColorBrush Color="{Binding ThemeViewModel.BackgroundColor}" Opacity="{Binding ThemeViewModel.Opacity}"/>
+        <SolidColorBrush Color="{Binding ThemeViewModel.EffectiveBackgroundColor, FallbackValue=Black}"/>
     </Controls:MetroWindow.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -61,8 +62,15 @@
                     <Label Grid.Column="0" Grid.Row="2" Content="{Binding ThemeViewModel.AccentLabel, FallbackValue=Accent: }" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="2" Grid.Column="1" x:Name="ComboBoxAccents" Grid.ColumnSpan="3" SelectedItem="{Binding ThemeViewModel.Accent}" />
 
-                    <Label Grid.Column="0" Grid.Row="4" Content="Opacity:" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Slider x:Name="SliderOpacity" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Value="{Binding ThemeViewModel.Opacity}" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" Style="{DynamicResource FlatSlider}" TickPlacement="Both" IsSnapToTickEnabled="True" Minimum="0.5" Maximum="1.0" Ticks="0,50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0" TickFrequency="0.05" />
+                    <Label Grid.Column="0" Grid.Row="4" Content="Window Backdrop:" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <ComboBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"
+                              SelectedValue="{Binding ThemeViewModel.BackdropType}"
+                              SelectedValuePath="Tag"
+                              IsEnabled="{Binding ThemeViewModel.IsBackdropSupported}">
+                        <ComboBoxItem Content="None (Solid)"  Tag="{x:Static enums:DwmBackdropType.None}" />
+                        <ComboBoxItem Content="Mica"          Tag="{x:Static enums:DwmBackdropType.Mica}" />
+                        <ComboBoxItem Content="Acrylic"       Tag="{x:Static enums:DwmBackdropType.Acrylic}" />
+                    </ComboBox>
 
                 </Grid>
             </TabItem>

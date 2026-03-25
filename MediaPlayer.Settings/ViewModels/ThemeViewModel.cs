@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using ControlzEx.Theming;
 using Generic.Extensions;
 using Generic.Mediator;
@@ -70,6 +72,7 @@ namespace MediaPlayer.Settings.ViewModels
                 OnPropertyChanged(nameof(BaseColor));
                 OnPropertyChanged(nameof(BackgroundColor));
                 OnPropertyChanged(nameof(ForegroundColor));
+                OnPropertyChanged(nameof(EffectiveBackgroundColor));
 
                 ChangeBaseColor();
             }
@@ -87,22 +90,25 @@ namespace MediaPlayer.Settings.ViewModels
             }
         }
 
-        public decimal Opacity
+        public DwmBackdropType BackdropType
         {
-            get => _themeSettings.Opacity;
+            get => _themeSettings.BackdropType;
             set
             {
-                _themeSettings.Opacity = value;
-                OnPropertyChanged(nameof(Opacity));
-
-                ChangeOpacity();
+                _themeSettings.BackdropType = value;
+                OnPropertyChanged(nameof(BackdropType));
+                OnPropertyChanged(nameof(EffectiveBackgroundColor));
+                Messenger<MessengerMessages>.Send(MessengerMessages.ApplyDwmBackdrop, value);
             }
         }
+
+        public Color EffectiveBackgroundColor => BackdropType != DwmBackdropType.None ? Colors.Transparent : UseDarkMode ? Colors.Black : Colors.White;
+
+        public bool IsBackdropSupported => Environment.OSVersion.Version is { Major: >= 10, Build: >= 22621 };
 
         public void ResetThemeToDefaultSettings() => ThemeManager.Current.ChangeTheme(Application.Current, BaseColor, Accent);
         public void ChangeAccent() => ThemeManager.Current.ChangeThemeColorScheme(Application.Current, Accent);
         public void ChangeBaseColor() => ThemeManager.Current.ChangeThemeBaseColor(Application.Current, BaseColor);
-        public void ChangeOpacity() => Application.Current.MainWindow.Background.Opacity = (double)Opacity;
 
         public void SaveSettings()
         {

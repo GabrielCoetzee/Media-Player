@@ -1,6 +1,7 @@
 ﻿using ControlzEx.Theming;
 using Generic.Settings.Abstract;
 using Generic.Settings.Concrete;
+using MediaPlayer.Common.Enumerations;
 using System;
 using System.ComponentModel.Composition;
 
@@ -29,7 +30,7 @@ namespace MediaPlayer.Settings.Config
         public bool UseDarkMode { get; set; } = true;
         public string BaseColor => UseDarkMode ? ThemeManager.BaseColorDarkConst : ThemeManager.BaseColorLightConst;
         public string Accent { get; set; } = "Blue";
-        public decimal Opacity { get; set; } = 0.8m;
+        public DwmBackdropType BackdropType { get; set; } = DwmBackdropType.Acrylic;
         public bool AutoAdjustAccent { get; set; } = false;
         protected override string FileName => @"Theme Settings";
         protected override bool UseEncryption => true;
