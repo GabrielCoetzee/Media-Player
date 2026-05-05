@@ -55,12 +55,8 @@
                 <Border CornerRadius="8"
                         BorderThickness="1"
                         BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
-                        Background="{DynamicResource LayerFillColorDefaultBrush}"
-                        Padding="12">
-                    <TextBlock Text="LyricsPanel placeholder (step 9)"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Top"
-                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        Background="{DynamicResource LayerFillColorDefaultBrush}">
+                    <components:LyricsPanel />
                 </Border>
             </Border>
 
