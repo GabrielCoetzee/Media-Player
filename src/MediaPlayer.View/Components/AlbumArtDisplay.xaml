@@ -1,0 +1,37 @@
+<UserControl x:Class="MediaPlayer.View.Components.AlbumArtDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:converters="clr-namespace:MediaPlayer.View.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:AlbumArtMultiValueConverter x:Key="AlbumArtConverter" />
+    </UserControl.Resources>
+
+    <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
+        <Border Width="360" Height="360"
+                CornerRadius="12"
+                ClipToBounds="True">
+            <Grid>
+                <Border CornerRadius="12"
+                        Background="{DynamicResource SystemAccentColorLight2Brush}">
+                    <ui:SymbolIcon Symbol="MusicNote224"
+                                   FontSize="160"
+                                   Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                </Border>
+
+                <Image Stretch="UniformToFill">
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource AlbumArtConverter}" FallbackValue="{x:Null}">
+                            <Binding Path="SelectedMediaItem.AlbumArt" />
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
+            </Grid>
+        </Border>
+    </Viewbox>
+</UserControl>

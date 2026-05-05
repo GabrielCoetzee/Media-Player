@@ -78,12 +78,7 @@
                     </components:EmptyState.Style>
                 </components:EmptyState>
 
-                <Border Visibility="{Binding IsMediaListPopulated, Converter={StaticResource BoolToVis}}">
-                    <TextBlock Text="HeroArea placeholder (step 7)"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                </Border>
+                <components:HeroArea Visibility="{Binding IsMediaListPopulated, Converter={StaticResource BoolToVis}}" />
             </Grid>
 
             <Border Grid.Column="2"

@@ -1,0 +1,48 @@
+<UserControl x:Class="MediaPlayer.View.Components.HeroArea"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:components="clr-namespace:MediaPlayer.View.Components"
+             xmlns:converters="clr-namespace:MediaPlayer.View.Converters"
+             xmlns:extensions="clr-namespace:MediaPlayer.View.Extensions"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:MediaElementOpenedMultiValueConverter x:Key="MediaElementOpenedConverter" />
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="16,8">
+            <MediaElement x:Name="MediaElement"
+                          Source="{Binding SelectedMediaItem.FilePath}"
+                          LoadedBehavior="{Binding MediaControlsViewModel.MediaState}"
+                          Volume="{Binding MediaControlsViewModel.MediaVolume}"
+                          extensions:MediaElementExtension.Position="{Binding MediaControlsViewModel.MediaElementPosition}"
+                          Stretch="Uniform">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MediaOpened">
+                        <i:InvokeCommandAction Command="{Binding MediaOpenedCommand}">
+                            <i:InvokeCommandAction.CommandParameter>
+                                <MultiBinding Converter="{StaticResource MediaElementOpenedConverter}">
+                                    <Binding ElementName="MediaElement" />
+                                    <Binding Path="" />
+                                </MultiBinding>
+                            </i:InvokeCommandAction.CommandParameter>
+                        </i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </MediaElement>
+
+            <components:AlbumArtDisplay Visibility="{Binding SelectedMediaItem.IsAudio, Converter={StaticResource BoolToVis}, FallbackValue=Collapsed}" />
+        </Grid>
+
+        <components:NowPlayingMetadata Grid.Row="1" Margin="16,8,16,16" />
+    </Grid>
+</UserControl>

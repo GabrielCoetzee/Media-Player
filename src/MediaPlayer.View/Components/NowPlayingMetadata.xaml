@@ -1,0 +1,32 @@
+<UserControl x:Class="MediaPlayer.View.Components.NowPlayingMetadata"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+        <ui:TextBlock FontTypography="Title"
+                      HorizontalAlignment="Center"
+                      TextAlignment="Center"
+                      TextTrimming="CharacterEllipsis"
+                      MaxWidth="600"
+                      Text="{Binding SelectedMediaItem.MediaTitle, FallbackValue=''}" />
+
+        <ui:TextBlock Margin="0,6,0,0"
+                      FontTypography="BodyStrong"
+                      HorizontalAlignment="Center"
+                      TextAlignment="Center"
+                      TextTrimming="CharacterEllipsis"
+                      MaxWidth="600"
+                      Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                      Text="{Binding SelectedMediaItem.Artist, FallbackValue=''}" />
+
+        <ui:TextBlock Margin="0,2,0,0"
+                      FontTypography="Caption"
+                      HorizontalAlignment="Center"
+                      TextAlignment="Center"
+                      Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                      Text="{Binding SelectedMediaItem.InfoLabel, FallbackValue=''}" />
+    </StackPanel>
+</UserControl>
