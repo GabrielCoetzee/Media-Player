@@ -108,9 +108,7 @@
                 Margin="0,8,0,0"
                 BorderThickness="0,1,0,0"
                 BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
-            <TextBlock Text="TransportBar placeholder (step 6)"
-                       HorizontalAlignment="Center"
-                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <components:TransportBar />
         </Border>
     </Grid>
 </UserControl>
