@@ -88,12 +88,8 @@
                 <Border CornerRadius="8"
                         BorderThickness="1"
                         BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
-                        Background="{DynamicResource LayerFillColorDefaultBrush}"
-                        Padding="12">
-                    <TextBlock Text="QueuePanel placeholder (step 8)"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Top"
-                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        Background="{DynamicResource LayerFillColorDefaultBrush}">
+                    <components:QueuePanel />
                 </Border>
             </Border>
         </Grid>
