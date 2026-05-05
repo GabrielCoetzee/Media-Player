@@ -1,5 +1,4 @@
-﻿using ControlzEx.Theming;
-using Generic.Settings.Abstract;
+﻿using Generic.Settings.Abstract;
 using Generic.Settings.Concrete;
 using MediaPlayer.Common.Enumerations;
 using System;
@@ -17,20 +16,18 @@ namespace MediaPlayer.Settings.Config
         }
 
         [ImportingConstructor]
-        public ThemeSettings(IFileLocations fileLocations) 
+        public ThemeSettings(IFileLocations fileLocations)
             : base(fileLocations)
         {
             if (!Exists())
                 Save();
 
             CopyToThis(DeserializeObject<ThemeSettings>());
-            
         }
 
         public bool UseDarkMode { get; set; } = true;
-        public string BaseColor => UseDarkMode ? ThemeManager.BaseColorDarkConst : ThemeManager.BaseColorLightConst;
         public string Accent { get; set; } = "Blue";
-        public DwmBackdropType BackdropType { get; set; } = DwmBackdropType.Acrylic;
+        public DwmBackdropType BackdropType { get; set; } = DwmBackdropType.Mica;
         public bool AutoAdjustAccent { get; set; } = false;
         protected override string FileName => @"Theme Settings";
         protected override bool UseEncryption => true;

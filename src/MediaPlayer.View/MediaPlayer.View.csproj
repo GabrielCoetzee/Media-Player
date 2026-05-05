@@ -117,6 +117,7 @@
     <ProjectReference Include="..\MediaPlayer.ViewModel\MediaPlayer.ViewModel.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
     <PackageReference Include="System.ComponentModel.Composition" Version="10.0.0" />
     <PackageReference Include="WPF-UI" Version="3.0.5" />
   </ItemGroup>

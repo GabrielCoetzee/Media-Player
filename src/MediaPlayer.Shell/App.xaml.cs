@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using ControlzEx.Theming;
 using Generic.DependencyInjection;
 using Generic.Mediator;
 using Generic.NamedPipes.Wrappers;
@@ -13,13 +12,10 @@ using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.Shell.MessengerRegs;
 using MediaPlayer.View.Views;
+using Wpf.Ui.Appearance;
 
 namespace MediaPlayer.Shell
 {
-    /// <inheritdoc />
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         private Mutex _mutex;
@@ -47,13 +43,11 @@ namespace MediaPlayer.Shell
             InitializeMEF();
 
             MessengerRegistrations.OpenMainWindow(MEF.Container);
-            MessengerRegistrations.OpenApplicationSettingsDialog(MEF.Container);
             MessengerRegistrations.ProcessFilePaths(MEF.Container);
             MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
-            MessengerRegistrations.ApplyDwmBackdrop(MEF.Container);
             MessengerRegistrations.AutoAdjustAccent(MEF.Container);
 
-            LoadTheme(ThemeSettings.BaseColor, ThemeSettings.Accent);
+            LoadTheme(ThemeSettings.UseDarkMode);
             StartApplication(e);
 
             base.OnStartup(e);
@@ -77,9 +71,9 @@ namespace MediaPlayer.Shell
             await PipeManager.WriteLinesAsync(e.Args);
         }
 
-        private static void LoadTheme(string baseColor, string accent)
+        private static void LoadTheme(bool useDarkMode)
         {
-            ThemeManager.Current.ChangeTheme(Application.Current, baseColor, accent);
+            ApplicationThemeManager.Apply(useDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light);
         }
 
         private static void StartApplication(StartupEventArgs e)
@@ -96,7 +90,6 @@ namespace MediaPlayer.Shell
         {
             try
             {
-                //MEF.Compose(Assembly.GetExecutingAssembly(), "MediaPlayer");
                 MEF.ComposeAll(Assembly.GetExecutingAssembly());
                 MEF.Build(this);
             }

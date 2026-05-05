@@ -52,9 +52,6 @@ namespace MediaPlayer.ViewModel
         }
         public bool IsMediaListPopulated => MediaItems.Count > 0;
 
-        [Import(CommandNames.OpenSettingsWindow)]
-        public ICommand OpenSettingsWindowCommand { get; set; }
-
         [Import(CommandNames.TopMostGridDragEnter)]
         public ICommand TopMostGridDragEnterCommand { get; set; }
 

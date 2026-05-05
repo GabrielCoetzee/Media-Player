@@ -1,4 +1,4 @@
-﻿using Generic.DependencyInjection;
+using Generic.DependencyInjection;
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
@@ -16,7 +16,8 @@ namespace MediaPlayer.ViewModel.ViewModels
     {
         private TimeSpan _mediaElementPosition;
         private MediaState _mediaState = MediaState.Pause;
-        private VolumeLevel _mediaVolume = VolumeLevel.Full;
+        private double _mediaVolume = 1.0;
+        private double _preMuteVolume = 1.0;
         private bool _isUserDraggingSeekbarThumb;
         private bool _isRepeatEnabled;
         private bool _isShuffled;
@@ -42,15 +43,28 @@ namespace MediaPlayer.ViewModel.ViewModels
             }
         }
 
-        public VolumeLevel MediaVolume
+        public double MediaVolume
         {
             get => _mediaVolume;
             set
             {
-                _mediaVolume = value;
+                _mediaVolume = Math.Clamp(value, 0.0, 1.0);
                 OnPropertyChanged(nameof(MediaVolume));
+                OnPropertyChanged(nameof(IsMuted));
             }
         }
+
+        public double PreMuteVolume
+        {
+            get => _preMuteVolume;
+            set
+            {
+                _preMuteVolume = Math.Clamp(value, 0.0, 1.0);
+                OnPropertyChanged(nameof(PreMuteVolume));
+            }
+        }
+
+        public bool IsMuted => _mediaVolume <= 0.0;
 
         public bool IsUserDraggingSeekbarThumb
         {

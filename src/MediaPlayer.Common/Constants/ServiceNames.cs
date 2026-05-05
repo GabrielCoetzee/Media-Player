@@ -1,4 +1,4 @@
-﻿namespace MediaPlayer.Common.Constants
+namespace MediaPlayer.Common.Constants
 {
     public static class ServiceNames
     {
@@ -11,9 +11,5 @@
         public const string LastFmAlbumArtMetadataUpdater = nameof(LastFmAlbumArtMetadataUpdater);
 
         public const string ImageSharpColorService = nameof(ImageSharpColorService);
-
-        public const string HardCodedWindowResolutionCalculator = nameof(HardCodedWindowResolutionCalculator);
-
-        public const string DwmBackdropService = nameof(DwmBackdropService);
     }
 }
