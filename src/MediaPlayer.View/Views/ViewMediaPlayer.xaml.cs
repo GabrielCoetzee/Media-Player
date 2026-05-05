@@ -55,10 +55,15 @@ namespace MediaPlayer.View.Views
                 return;
             }
 
-            if (e.Key == Key.Escape && Shell.IsLyricsOpen)
+            if (e.Key == Key.Escape)
             {
-                Shell.IsLyricsOpen = false;
-                e.Handled = true;
+                Shell.CloseSettings();
+
+                if (Shell.IsLyricsOpen)
+                {
+                    Shell.IsLyricsOpen = false;
+                    e.Handled = true;
+                }
             }
         }
     }

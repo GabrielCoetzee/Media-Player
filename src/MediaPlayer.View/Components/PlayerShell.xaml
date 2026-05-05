@@ -38,7 +38,19 @@
                        Margin="2,0"
                        Appearance="Transparent"
                        ToolTip="Settings"
+                       Click="OnSettingsButtonClick"
                        Icon="{ui:SymbolIcon Settings24}" />
+
+            <Popup x:Name="SettingsPopup"
+                   PlacementTarget="{Binding ElementName=SettingsButton}"
+                   Placement="Bottom"
+                   StaysOpen="False"
+                   AllowsTransparency="True"
+                   PopupAnimation="Fade"
+                   HorizontalOffset="-280"
+                   VerticalOffset="4">
+                <components:SettingsFlyout DataContext="{Binding SettingsViewModel}" />
+            </Popup>
         </StackPanel>
 
         <Grid Grid.Row="1">

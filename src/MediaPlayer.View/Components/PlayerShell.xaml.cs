@@ -35,5 +35,16 @@ namespace MediaPlayer.View.Components
         {
             InitializeComponent();
         }
+
+        public void CloseSettings()
+        {
+            if (SettingsPopup.IsOpen)
+                SettingsPopup.IsOpen = false;
+        }
+
+        private void OnSettingsButtonClick(object sender, RoutedEventArgs e)
+        {
+            SettingsPopup.IsOpen = !SettingsPopup.IsOpen;
+        }
     }
 }
