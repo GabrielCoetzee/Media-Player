@@ -86,3 +86,5 @@ Mutex-based single-instance check in `App.xaml.cs`. Subsequent launches forward 
 
 ## Code Conventions
 - Always use Flurl, but don't use the `new FlurlRequest`, use '.AppendPathSegments` etc. directly on the URL string.
+- One class per file.
+- Separate interfaces and base classes from their concrete implementations. Place abstractions in an `Abstract` folder and concrete implementations in a `Concrete` folder.
