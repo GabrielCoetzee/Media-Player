@@ -61,15 +61,11 @@
                                             SelectionMode="Single"
                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                             behaviors:ListBoxDragReorderBehavior.Enabled="True">
-            <ListView.Resources>
-                <Style x:Key="QueueItemContainerStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="Padding" Value="6,4" />
                 </Style>
-            </ListView.Resources>
-
-            <ListView.ItemContainerStyle>
-                <StaticResource ResourceKey="QueueItemContainerStyle" />
             </ListView.ItemContainerStyle>
 
             <ListView.ItemTemplate>
