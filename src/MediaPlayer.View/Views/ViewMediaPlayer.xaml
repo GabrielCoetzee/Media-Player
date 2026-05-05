@@ -6,7 +6,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel"
-        xmlns:converters="clr-namespace:MediaPlayer.View.Converters"
+        xmlns:components="clr-namespace:MediaPlayer.View.Components"
         d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         mc:Ignorable="d"
         Title="{Binding SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}"
@@ -15,7 +15,8 @@
         ExtendsContentIntoTitleBar="True"
         WindowBackdropType="Mica"
         WindowCornerPreference="Round"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        KeyDown="OnWindowKeyDown">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding MainWindowClosingCommand}" PassEventArgsToCommand="True" />
@@ -51,11 +52,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
-            <TextBlock Text="Player content area — components land here in step 5+"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="14"
-                       Opacity="0.6" />
+            <components:PlayerShell x:Name="Shell" />
         </Grid>
     </Grid>
 </ui:FluentWindow>
