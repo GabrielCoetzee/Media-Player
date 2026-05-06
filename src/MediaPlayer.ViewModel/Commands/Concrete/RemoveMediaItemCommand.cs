@@ -1,10 +1,8 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
-using Generic.Mediator;
 using MediaPlayer.Common.Constants;
-using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model.BusinessEntities.Abstract;
+using MediaPlayer.ViewModel.ConverterObject;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
@@ -17,14 +15,19 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             remove => CommandManager.RequerySuggested -= value;
         }
 
-        public bool CanExecute(object parameter) => parameter is MediaItem;
+        public bool CanExecute(object parameter)
+        {
+            return parameter is RemoveMediaItemConverterModel model
+                && model.MainViewModel != null
+                && model.MediaItem != null;
+        }
 
         public void Execute(object parameter)
         {
-            if (parameter is not MediaItem item)
+            if (parameter is not RemoveMediaItemConverterModel model)
                 return;
 
-            Messenger<MessengerMessages>.Send(MessengerMessages.RemoveMediaItem, item);
+            model.MainViewModel.RemoveMediaItem(model.MediaItem);
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
-using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.Settings.ViewModels;
 using MediaPlayer.View.Views;
@@ -58,19 +57,6 @@ namespace MediaPlayer.Shell.MessengerRegs
                 var vm = container?.GetExports<ThemeViewModel>().Single().Value;
 
                 await vm.AutoAdjustAccentAsync(audioItem?.AlbumArt);
-            });
-        }
-
-        public static void RemoveMediaItem(CompositionContainer container)
-        {
-            Messenger<MessengerMessages>.Register(MessengerMessages.RemoveMediaItem, (args) =>
-            {
-                if (args is not MediaItem item)
-                    return;
-
-                var vm = container?.GetExports<MainViewModel>().Single().Value;
-
-                vm?.RemoveMediaItem(item);
             });
         }
     }

@@ -45,7 +45,6 @@ namespace MediaPlayer.Shell
             MessengerRegistrations.ProcessFilePaths(MEF.Container);
             MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
             MessengerRegistrations.AutoAdjustAccent(MEF.Container);
-            MessengerRegistrations.RemoveMediaItem(MEF.Container);
 
             LoadTheme(ThemeSettings.UseDarkMode);
             StartApplication(e);
