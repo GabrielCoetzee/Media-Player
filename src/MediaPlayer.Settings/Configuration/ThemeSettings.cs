@@ -1,8 +1,8 @@
-﻿using Generic.Settings.Abstract;
+using Generic.Settings.Abstract;
 using Generic.Settings.Concrete;
-using MediaPlayer.Common.Enumerations;
 using System;
 using System.ComponentModel.Composition;
+using Wpf.Ui.Controls;
 
 namespace MediaPlayer.Settings.Config
 {
@@ -27,7 +27,7 @@ namespace MediaPlayer.Settings.Config
 
         public bool UseDarkMode { get; set; } = true;
         public string Accent { get; set; } = "Blue";
-        public DwmBackdropType BackdropType { get; set; } = DwmBackdropType.Mica;
+        public WindowBackdropType BackdropType { get; set; } = WindowBackdropType.Acrylic;
         public bool AutoAdjustAccent { get; set; } = false;
         protected override string FileName => @"Theme Settings";
         protected override bool UseEncryption => true;

@@ -13,7 +13,7 @@
         Height="768" Width="1366"
         MinHeight="600" MinWidth="900"
         ExtendsContentIntoTitleBar="True"
-        WindowBackdropType="{Binding SettingsViewModel.ThemeViewModel.BackdropType, Converter={StaticResource BackdropConverter}, FallbackValue=Mica}"
+        WindowBackdropType="{Binding SettingsViewModel.ThemeViewModel.BackdropType, FallbackValue=Mica}"
         WindowCornerPreference="Round"
         WindowStartupLocation="CenterScreen"
         KeyDown="OnWindowKeyDown">

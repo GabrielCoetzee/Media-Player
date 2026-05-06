@@ -63,12 +63,12 @@ namespace MediaPlayer.Settings.ViewModels
                 OnPropertyChanged(nameof(EffectiveBackgroundColor));
 
                 _themeSettings.Save();
-                ApplicationThemeManager.Apply(CurrentTheme, CurrentBackdrop);
+                ApplicationThemeManager.Apply(CurrentTheme, BackdropType);
                 Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
             }
         }
 
-        public DwmBackdropType BackdropType
+        public WindowBackdropType BackdropType
         {
             get => _themeSettings.BackdropType;
             set
@@ -78,13 +78,13 @@ namespace MediaPlayer.Settings.ViewModels
                 OnPropertyChanged(nameof(EffectiveBackgroundColor));
 
                 _themeSettings.Save();
-                ApplicationThemeManager.Apply(CurrentTheme, CurrentBackdrop);
+                ApplicationThemeManager.Apply(CurrentTheme, BackdropType);
                 Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
             }
         }
 
         public Color EffectiveBackgroundColor =>
-            BackdropType != DwmBackdropType.None
+            BackdropType != WindowBackdropType.None
                 ? Colors.Transparent
                 : UseDarkMode ? Colors.Black : Colors.White;
 
@@ -92,19 +92,9 @@ namespace MediaPlayer.Settings.ViewModels
             Environment.OSVersion.Version is { Major: >= 10, Build: >= 22621 };
 
         public void ResetThemeToDefaultSettings() =>
-            ApplicationThemeManager.Apply(CurrentTheme, CurrentBackdrop);
+            ApplicationThemeManager.Apply(CurrentTheme, BackdropType);
 
         private ApplicationTheme CurrentTheme =>
             UseDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light;
-
-        private WindowBackdropType CurrentBackdrop => BackdropType switch
-        {
-            DwmBackdropType.Auto    => WindowBackdropType.Auto,
-            DwmBackdropType.None    => WindowBackdropType.None,
-            DwmBackdropType.Mica    => WindowBackdropType.Mica,
-            DwmBackdropType.Acrylic => WindowBackdropType.Acrylic,
-            DwmBackdropType.Tabbed  => WindowBackdropType.Tabbed,
-            _                       => WindowBackdropType.Auto
-        };
     }
 }
