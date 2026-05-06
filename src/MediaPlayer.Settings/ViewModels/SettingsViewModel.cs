@@ -7,11 +7,15 @@ namespace MediaPlayer.Settings.ViewModels
     [Export]
     public class SettingsViewModel : NotifyPropertyChanged
     {
-        [Import]
-        public MetadataSettings MetadataSettings { get; set; }
+        public MetadataSettings MetadataSettings { get; }
+        public ThemeViewModel ThemeViewModel { get; }
 
-        [Import]
-        public ThemeViewModel ThemeViewModel { get; set; }
+        [ImportingConstructor]
+        public SettingsViewModel(MetadataSettings metadataSettings, ThemeViewModel themeViewModel)
+        {
+            MetadataSettings = metadataSettings;
+            ThemeViewModel = themeViewModel;
+        }
 
         public bool UpdateMetadata
         {

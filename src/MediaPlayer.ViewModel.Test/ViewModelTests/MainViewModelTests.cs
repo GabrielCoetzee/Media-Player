@@ -32,10 +32,7 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
             {
                 BusyViewModel = new BusyViewModel(),
                 MediaControlsViewModel = new MediaControlsViewModel(),
-                SettingsViewModel = new SettingsViewModel()
-                {
-                    MetadataSettings = new MetadataSettings()
-                },
+                SettingsViewModel = new SettingsViewModel(new MetadataSettings(), themeViewModel: null),
                 MediaItems = new Model.Collections.MediaItemObservableCollection(TestData.MediaItems.OrderBy(x => x.Id))
             };
         }
