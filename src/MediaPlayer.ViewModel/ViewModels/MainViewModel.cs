@@ -222,7 +222,9 @@ namespace MediaPlayer.ViewModel
             if (item == null || !MediaItems.Contains(item))
                 return;
 
-            if (!ReferenceEquals(item, SelectedMediaItem))
+            var isCurrentlyPlaying = ReferenceEquals(item, SelectedMediaItem);
+
+            if (!isCurrentlyPlaying)
             {
                 MediaItems.Remove(item);
                 return;
