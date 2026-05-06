@@ -22,14 +22,24 @@
                       Text="Lyrics" />
 
         <Grid Grid.Row="1" Margin="12,0,12,12">
-            <ui:TextBlock Visibility="{Binding SelectedMediaItem.HasLyrics, Converter={StaticResource BoolToVis}, FallbackValue=Collapsed}"
-                          HorizontalAlignment="Center"
+            <ui:TextBlock HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           FontTypography="Body"
                           TextWrapping="Wrap"
                           TextAlignment="Center"
                           Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                          Text="No lyrics available for this track." />
+                          Text="No lyrics available for this track.">
+                <ui:TextBlock.Style>
+                    <Style TargetType="ui:TextBlock">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedMediaItem.HasLyrics}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ui:TextBlock.Style>
+            </ui:TextBlock>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">

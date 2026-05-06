@@ -56,6 +56,9 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             var mediaElement = model.MediaElement;
             var vm = model.MainViewModel;
 
+            if (vm.SelectedMediaItem == null)
+                return;
+
             if (!vm.MediaControlsViewModel.IsUserDraggingSeekbarThumb)
                 vm.SelectedMediaItem.ElapsedTime = mediaElement.Position;
 

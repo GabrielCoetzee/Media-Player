@@ -172,6 +172,34 @@ namespace MediaPlayer.ViewModel
 
         public void SelectMediaItem(int index) => SelectedMediaItem = MediaItems[index];
 
+        public void RemoveMediaItem(MediaItem item)
+        {
+            if (item == null || !MediaItems.Contains(item))
+                return;
+
+            if (!ReferenceEquals(item, SelectedMediaItem))
+            {
+                MediaItems.Remove(item);
+                return;
+            }
+
+            if (MediaItems.Count == 1)
+            {
+                MediaControlsViewModel.SetPlaybackState(MediaState.Stop);
+                PositionTracker.Stop();
+                SelectedMediaItem = null;
+                MediaItems.Remove(item);
+                return;
+            }
+
+            var removedIndex = MediaItems.IndexOf(item);
+            var nextIndex = removedIndex < MediaItems.Count - 1 ? removedIndex + 1 : removedIndex - 1;
+
+            SelectMediaItem(nextIndex);
+            MediaControlsViewModel.SetPlaybackState(MediaState.Play);
+            MediaItems.Remove(item);
+        }
+
         public bool IsPreviousMediaItemAvailable() => IsMediaListPopulated && GetPreviousMediaItemIndex() >= GetFirstMediaItemIndex();
 
         public bool IsNextMediaItemAvailable() => IsMediaListPopulated && GetNextMediaItemIndex() <= GetLastMediaItemIndex();

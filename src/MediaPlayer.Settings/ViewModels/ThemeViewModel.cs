@@ -10,6 +10,7 @@ using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.Settings.Services.Abstract;
 using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 
 namespace MediaPlayer.Settings.ViewModels
 {
@@ -62,7 +63,8 @@ namespace MediaPlayer.Settings.ViewModels
                 OnPropertyChanged(nameof(EffectiveBackgroundColor));
 
                 _themeSettings.Save();
-                ApplicationThemeManager.Apply(CurrentTheme);
+                ApplicationThemeManager.Apply(CurrentTheme, CurrentBackdrop);
+                Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
             }
         }
 
@@ -76,6 +78,8 @@ namespace MediaPlayer.Settings.ViewModels
                 OnPropertyChanged(nameof(EffectiveBackgroundColor));
 
                 _themeSettings.Save();
+                ApplicationThemeManager.Apply(CurrentTheme, CurrentBackdrop);
+                Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
             }
         }
 
@@ -88,9 +92,19 @@ namespace MediaPlayer.Settings.ViewModels
             Environment.OSVersion.Version is { Major: >= 10, Build: >= 22621 };
 
         public void ResetThemeToDefaultSettings() =>
-            ApplicationThemeManager.Apply(CurrentTheme);
+            ApplicationThemeManager.Apply(CurrentTheme, CurrentBackdrop);
 
         private ApplicationTheme CurrentTheme =>
             UseDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light;
+
+        private WindowBackdropType CurrentBackdrop => BackdropType switch
+        {
+            DwmBackdropType.Auto    => WindowBackdropType.Auto,
+            DwmBackdropType.None    => WindowBackdropType.None,
+            DwmBackdropType.Mica    => WindowBackdropType.Mica,
+            DwmBackdropType.Acrylic => WindowBackdropType.Acrylic,
+            DwmBackdropType.Tabbed  => WindowBackdropType.Tabbed,
+            _                       => WindowBackdropType.Auto
+        };
     }
 }

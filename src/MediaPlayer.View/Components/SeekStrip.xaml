@@ -20,7 +20,7 @@
                 IsMoveToPointEnabled="True"
                 Minimum="0"
                 Maximum="{Binding SelectedMediaItem.Duration.TotalSeconds, FallbackValue=0}"
-                Value="{Binding SelectedMediaItem.ElapsedTime, Converter={StaticResource ElapsedToSeconds}, Mode=OneWay}"
+                Value="{Binding SelectedMediaItem.ElapsedTime, Converter={StaticResource ElapsedToSeconds}, Mode=TwoWay}"
                 IsEnabled="{Binding IsMediaListPopulated, FallbackValue=False}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseUp">
