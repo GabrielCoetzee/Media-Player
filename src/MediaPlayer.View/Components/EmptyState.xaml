@@ -9,7 +9,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420">
             <Border Width="120" Height="120"
                     CornerRadius="12"
-                    Background="{DynamicResource SystemAccentColorLight2Brush}"
+                    Background="{DynamicResource AccentFillColorDefaultBrush}"
                     HorizontalAlignment="Center">
                 <ui:SymbolIcon Symbol="MusicNote224"
                                FontSize="64"

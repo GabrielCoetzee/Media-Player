@@ -70,7 +70,7 @@
                 <StackPanel Margin="0,4">
                     <Grid Margin="0,4">
                         <ui:TextBlock VerticalAlignment="Center"
-                                      Text="Auto-update metadata from online sources" />
+                                      Text="Auto-update metadata" />
                         <ui:ToggleSwitch HorizontalAlignment="Right"
                                          IsChecked="{Binding UpdateMetadata, Mode=TwoWay}" />
                     </Grid>

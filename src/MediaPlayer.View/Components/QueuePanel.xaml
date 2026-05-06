@@ -82,7 +82,7 @@
                                 Width="36" Height="36"
                                 CornerRadius="4"
                                 Margin="0,0,8,0"
-                                Background="{DynamicResource SystemAccentColorLight2Brush}">
+                                Background="{DynamicResource AccentFillColorDefaultBrush}">
                             <ui:SymbolIcon Symbol="MusicNote124"
                                            FontSize="20"
                                            Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"

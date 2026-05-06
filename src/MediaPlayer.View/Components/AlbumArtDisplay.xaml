@@ -16,7 +16,7 @@
                 ClipToBounds="True">
             <Grid>
                 <Border CornerRadius="12"
-                        Background="{DynamicResource SystemAccentColorLight2Brush}">
+                        Background="{DynamicResource AccentFillColorDefaultBrush}">
                     <ui:SymbolIcon Symbol="MusicNote224"
                                    FontSize="160"
                                    Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
