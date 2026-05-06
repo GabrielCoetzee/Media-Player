@@ -15,8 +15,7 @@
         ExtendsContentIntoTitleBar="True"
         WindowBackdropType="{Binding SettingsViewModel.ThemeViewModel.BackdropType, FallbackValue=Mica}"
         WindowCornerPreference="Round"
-        WindowStartupLocation="CenterScreen"
-        KeyDown="OnWindowKeyDown">
+        WindowStartupLocation="CenterScreen">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -32,6 +31,9 @@
         <KeyBinding Command="{Binding MediaControlsViewModel.PlayPauseCommand}" CommandParameter="{Binding}" Key="Space" />
         <KeyBinding Command="{Binding MediaControlsViewModel.AddMediaCommand}" Key="O" Modifiers="Control" />
         <KeyBinding Command="{Binding MediaControlsViewModel.MuteCommand}" CommandParameter="{Binding MediaControlsViewModel}" Key="M" />
+        <KeyBinding Command="{Binding ToggleLyricsCommand}" CommandParameter="{Binding}" Key="L" Modifiers="Control" />
+        <KeyBinding Command="{Binding ToggleQueueCommand}" CommandParameter="{Binding}" Key="Q" Modifiers="Control" />
+        <KeyBinding Command="{Binding EscapeCommand}" CommandParameter="{Binding}" Key="Escape" />
     </ui:FluentWindow.InputBindings>
 
     <Grid>
@@ -53,7 +55,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
-            <components:PlayerShell x:Name="Shell" />
+            <components:PlayerShell />
         </Grid>
     </Grid>
 </ui:FluentWindow>

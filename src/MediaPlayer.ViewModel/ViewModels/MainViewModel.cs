@@ -25,6 +25,9 @@ namespace MediaPlayer.ViewModel
     {
         private MediaItem _selectedMediaItem;
         private MediaItemObservableCollection _mediaItems = new();
+        private bool _isLyricsOpen;
+        private bool _isQueueOpen = true;
+        private bool _isSettingsOpen;
 
         public readonly DispatcherTimer PositionTracker = new();
         public List<CancellationTokenSource> UpdateMetadataTokenSources = new();
@@ -52,6 +55,36 @@ namespace MediaPlayer.ViewModel
         }
         public bool IsMediaListPopulated => MediaItems.Count > 0;
 
+        public bool IsLyricsOpen
+        {
+            get => _isLyricsOpen;
+            set
+            {
+                _isLyricsOpen = value;
+                OnPropertyChanged(nameof(IsLyricsOpen));
+            }
+        }
+
+        public bool IsQueueOpen
+        {
+            get => _isQueueOpen;
+            set
+            {
+                _isQueueOpen = value;
+                OnPropertyChanged(nameof(IsQueueOpen));
+            }
+        }
+
+        public bool IsSettingsOpen
+        {
+            get => _isSettingsOpen;
+            set
+            {
+                _isSettingsOpen = value;
+                OnPropertyChanged(nameof(IsSettingsOpen));
+            }
+        }
+
         [Import(CommandNames.TopMostGridDragEnter)]
         public ICommand TopMostGridDragEnterCommand { get; set; }
 
@@ -63,6 +96,18 @@ namespace MediaPlayer.ViewModel
 
         [Import(CommandNames.MainWindowClosing)]
         public ICommand MainWindowClosingCommand { get; set; }
+
+        [Import(CommandNames.ToggleLyrics)]
+        public ICommand ToggleLyricsCommand { get; set; }
+
+        [Import(CommandNames.ToggleQueue)]
+        public ICommand ToggleQueueCommand { get; set; }
+
+        [Import(CommandNames.Escape)]
+        public ICommand EscapeCommand { get; set; }
+
+        [Import(CommandNames.RemoveMediaItem)]
+        public ICommand RemoveMediaItemCommand { get; set; }
 
         [Import]
         public SettingsViewModel SettingsViewModel { get; set; }

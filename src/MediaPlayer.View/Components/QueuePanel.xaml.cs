@@ -1,5 +1,3 @@
-using MediaPlayer.Model.BusinessEntities.Abstract;
-using MediaPlayer.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -11,17 +9,6 @@ namespace MediaPlayer.View.Components
         public QueuePanel()
         {
             InitializeComponent();
-        }
-
-        private void OnRemoveItemClick(object sender, RoutedEventArgs e)
-        {
-            if (sender is not FrameworkElement fe || fe.DataContext is not MediaItem item)
-                return;
-
-            if (DataContext is MainViewModel vm)
-                vm.RemoveMediaItem(item);
-
-            e.Handled = true;
         }
 
         private void OnMoreButtonClick(object sender, RoutedEventArgs e)

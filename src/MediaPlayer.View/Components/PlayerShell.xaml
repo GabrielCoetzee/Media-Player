@@ -5,8 +5,7 @@
              xmlns:components="clr-namespace:MediaPlayer.View.Components"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Name="ShellRoot">
+             mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
@@ -25,30 +24,30 @@
             <ToggleButton x:Name="LyricsToggle"
                           Margin="2,0"
                           ToolTip="Toggle lyrics (Ctrl+L)"
-                          IsChecked="{Binding IsLyricsOpen, ElementName=ShellRoot, Mode=TwoWay}">
+                          IsChecked="{Binding IsLyricsOpen, Mode=TwoWay}">
                 <ui:SymbolIcon Symbol="Notepad24" />
             </ToggleButton>
             <ToggleButton x:Name="QueueToggle"
                           Margin="2,0"
                           ToolTip="Toggle queue (Ctrl+Q)"
-                          IsChecked="{Binding IsQueueOpen, ElementName=ShellRoot, Mode=TwoWay}">
+                          IsChecked="{Binding IsQueueOpen, Mode=TwoWay}">
                 <ui:SymbolIcon Symbol="AppsListDetail24" />
             </ToggleButton>
-            <ui:Button x:Name="SettingsButton"
-                       Margin="2,0"
-                       Appearance="Transparent"
-                       ToolTip="Settings"
-                       Click="OnSettingsButtonClick"
-                       Icon="{ui:SymbolIcon Settings24}" />
+            <ToggleButton x:Name="SettingsButton"
+                          Margin="2,0"
+                          ToolTip="Settings"
+                          IsChecked="{Binding IsSettingsOpen, Mode=TwoWay}">
+                <ui:SymbolIcon Symbol="Settings24" />
+            </ToggleButton>
 
-            <Popup x:Name="SettingsPopup"
-                   PlacementTarget="{Binding ElementName=SettingsButton}"
+            <Popup PlacementTarget="{Binding ElementName=SettingsButton}"
                    Placement="Bottom"
                    StaysOpen="False"
                    AllowsTransparency="True"
                    PopupAnimation="Fade"
                    HorizontalOffset="-280"
-                   VerticalOffset="4">
+                   VerticalOffset="4"
+                   IsOpen="{Binding IsSettingsOpen, Mode=TwoWay}">
                 <components:SettingsFlyout DataContext="{Binding SettingsViewModel}" />
             </Popup>
         </StackPanel>
@@ -63,7 +62,7 @@
             <Border Grid.Column="0"
                     Width="320"
                     Margin="8,0,4,0"
-                    Visibility="{Binding IsLyricsOpen, ElementName=ShellRoot, Converter={StaticResource BoolToVis}}">
+                    Visibility="{Binding IsLyricsOpen, Converter={StaticResource BoolToVis}}">
                 <Border CornerRadius="8"
                         BorderThickness="1"
                         BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
@@ -92,7 +91,7 @@
             <Border Grid.Column="2"
                     Width="320"
                     Margin="4,0,8,0"
-                    Visibility="{Binding IsQueueOpen, ElementName=ShellRoot, Converter={StaticResource BoolToVis}}">
+                    Visibility="{Binding IsQueueOpen, Converter={StaticResource BoolToVis}}">
                 <Border CornerRadius="8"
                         BorderThickness="1"
                         BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"

@@ -5,6 +5,7 @@ namespace MediaPlayer.Common.Enumerations
         OpenMainWindow,
         ProcessFilePaths,
         SaveChangesToDirtyFiles,
-        AutoAdjustAccent
+        AutoAdjustAccent,
+        RemoveMediaItem
     }
 }

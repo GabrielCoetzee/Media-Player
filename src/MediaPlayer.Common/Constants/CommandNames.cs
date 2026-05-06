@@ -17,5 +17,9 @@ namespace MediaPlayer.Common.Constants
         public const string MainWindowClosing = "Main Window Closing";
         public const string MediaOpened = "Media Opened";
         public const string AddMedia = "Add Media";
+        public const string ToggleLyrics = "Toggle Lyrics";
+        public const string ToggleQueue = "Toggle Queue";
+        public const string Escape = "Escape";
+        public const string RemoveMediaItem = "Remove Media Item";
     }
 }

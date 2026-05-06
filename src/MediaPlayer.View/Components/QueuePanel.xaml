@@ -120,7 +120,8 @@
                                    Padding="4"
                                    Appearance="Transparent"
                                    ToolTip="Remove"
-                                   Click="OnRemoveItemClick"
+                                   Command="{Binding DataContext.RemoveMediaItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   CommandParameter="{Binding}"
                                    Icon="{ui:SymbolIcon Dismiss12}" />
                     </Grid>
                 </DataTemplate>
