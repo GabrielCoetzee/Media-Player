@@ -6,7 +6,7 @@ using Wpf.Ui.Controls;
 
 namespace MediaPlayer.View.Converters
 {
-    internal class DwmBackdropTypeConverter : IValueConverter
+    public class DwmBackdropTypeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

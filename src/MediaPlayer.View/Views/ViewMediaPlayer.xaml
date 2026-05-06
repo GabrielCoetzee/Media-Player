@@ -7,7 +7,6 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel"
         xmlns:components="clr-namespace:MediaPlayer.View.Components"
-        xmlns:converters="clr-namespace:MediaPlayer.View.Converters"
         d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         mc:Ignorable="d"
         Title="{Binding SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}"
@@ -18,9 +17,6 @@
         WindowCornerPreference="Round"
         WindowStartupLocation="CenterScreen"
         KeyDown="OnWindowKeyDown">
-    <ui:FluentWindow.Resources>
-        <converters:DwmBackdropTypeConverter x:Key="BackdropConverter" />
-    </ui:FluentWindow.Resources>
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
