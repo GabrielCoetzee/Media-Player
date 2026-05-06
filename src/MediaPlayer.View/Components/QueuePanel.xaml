@@ -35,22 +35,19 @@
                            Command="{Binding MediaControlsViewModel.AddMediaCommand}"
                            Icon="{ui:SymbolIcon Add24}" />
 
-                <ui:Button Margin="2,0"
-                           Padding="6"
-                           Appearance="Transparent"
-                           ToolTip="More"
-                           Click="OnMoreButtonClick">
-                    <ui:Button.Icon>
-                        <ui:SymbolIcon Symbol="MoreHorizontal24" />
-                    </ui:Button.Icon>
-                    <ui:Button.ContextMenu>
+                <ui:DropDownButton Margin="2,0"
+                                   Padding="6"
+                                   Appearance="Transparent"
+                                   ToolTip="More"
+                                   Icon="{ui:SymbolIcon MoreHorizontal24}">
+                    <ui:DropDownButton.Flyout>
                         <ContextMenu>
                             <MenuItem Header="Clear all"
                                       Command="{Binding MediaControlsViewModel.ClearMediaListCommand}"
                                       CommandParameter="{Binding}" />
                         </ContextMenu>
-                    </ui:Button.ContextMenu>
-                </ui:Button>
+                    </ui:DropDownButton.Flyout>
+                </ui:DropDownButton>
             </StackPanel>
         </Grid>
 
