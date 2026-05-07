@@ -75,7 +75,7 @@
                         </Style>
                     </Border.Style>
                     <Border.Background>
-                        <SolidColorBrush Color="{DynamicResource SystemAccentColor}" Opacity="0.22" />
+                        <SolidColorBrush Color="{DynamicResource SystemAccentColor}" Opacity="0.34" />
                     </Border.Background>
                 </Border>
 
@@ -91,7 +91,7 @@
                         </Style>
                     </Border.Style>
                     <Border.Background>
-                        <SolidColorBrush Color="{DynamicResource SystemAccentColorTertiary}" Opacity="0.32" />
+                        <SolidColorBrush Color="{DynamicResource SystemAccentColorTertiary}" Opacity="0.65" />
                     </Border.Background>
                 </Border>
             </Grid>
