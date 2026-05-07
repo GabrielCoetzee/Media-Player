@@ -28,9 +28,9 @@ namespace MediaPlayer.ViewModel
         private bool _isLyricsOpen;
         private bool _isQueueOpen = true;
         private bool _isSettingsOpen;
+        private readonly List<CancellationTokenSource> _updateMetadataTokenSources = new();
 
         public readonly DispatcherTimer PositionTracker = new();
-        public List<CancellationTokenSource> UpdateMetadataTokenSources = new();
 
         public MediaItem SelectedMediaItem
         {
@@ -170,11 +170,11 @@ namespace MediaPlayer.ViewModel
             BusyViewModel.UpdatingMetadata();
 
             var cts = new CancellationTokenSource();
-            UpdateMetadataTokenSources.Add(cts);
+            _updateMetadataTokenSources.Add(cts);
 
             await MetadataServices.MetadataUpdater.UpdateMetadataAsync(audioItems, cts.Token);
 
-            if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
+            if (_updateMetadataTokenSources.All(x => x.IsCancellationRequested))
                 return;
 
             BusyViewModel.MediaListPopulated();
@@ -198,7 +198,7 @@ namespace MediaPlayer.ViewModel
         {
             await Task.Run(async () =>
             {
-                await Parallel.ForEachAsync(UpdateMetadataTokenSources, new CancellationTokenSource().Token, (sources, token) =>
+                await Parallel.ForEachAsync(_updateMetadataTokenSources, new CancellationTokenSource().Token, (sources, token) =>
                 {
                     sources.Cancel();
                     sources.Dispose();
@@ -207,7 +207,7 @@ namespace MediaPlayer.ViewModel
                 });
             });
 
-            UpdateMetadataTokenSources.Clear();
+            _updateMetadataTokenSources.Clear();
 
             MediaControlsViewModel.SetPlaybackState(MediaState.Stop);
 

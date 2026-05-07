@@ -1,7 +1,5 @@
-using Generic.DependencyInjection;
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Constants;
-using MediaPlayer.Common.Enumerations;
 using MediaPlayer.ViewModel.Commands.Abstract;
 using MediaPlayer.ViewModel.Commands.Concrete;
 using System;
@@ -12,7 +10,7 @@ using System.Windows.Input;
 namespace MediaPlayer.ViewModel.ViewModels
 {
     [Export]
-    public class MediaControlsViewModel : NotifyPropertyChanged
+    public class MediaControlsViewModel : NotifyPropertyChanged, IPartImportsSatisfiedNotification
     {
         private TimeSpan _mediaElementPosition;
         private MediaState _mediaState = MediaState.Pause;
@@ -132,10 +130,8 @@ namespace MediaPlayer.ViewModel.ViewModels
         [Import]
         public ISeekbarPreviewMouseUpCommand SeekbarPreviewMouseUpCommand { get; set; }
 
-        public MediaControlsViewModel()
+        public void OnImportsSatisfied()
         {
-            MEF.Container?.SatisfyImportsOnce(this);
-
             if (SeekbarPreviewMouseUpCommand == null)
                 return;
 

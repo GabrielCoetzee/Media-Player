@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using MediaPlayer.ViewModel.ConverterObject;
 using System.ComponentModel.Composition;
-using Generic;
 using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
@@ -10,6 +9,8 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
     [Export(CommandNames.MediaOpened, typeof(ICommand))]
     public class MediaOpenedCommand : ICommand
     {
+        private EventHandler _currentTickHandler;
+
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -41,7 +42,11 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
             SetAccurateCurrentMediaDuration(vm, mediaElement.NaturalDuration.TimeSpan);
 
-            vm.PositionTracker.Tick += (sender, args) => TrackMediaPosition(model);
+            if (_currentTickHandler != null)
+                vm.PositionTracker.Tick -= _currentTickHandler;
+
+            _currentTickHandler = (sender, args) => TrackMediaPosition(model);
+            vm.PositionTracker.Tick += _currentTickHandler;
 
             vm.PositionTracker.Start();
         }

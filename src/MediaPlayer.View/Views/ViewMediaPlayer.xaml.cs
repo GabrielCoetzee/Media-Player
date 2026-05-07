@@ -1,4 +1,3 @@
-using Generic.DependencyInjection;
 using MediaPlayer.ViewModel;
 using System.ComponentModel.Composition;
 using System.Windows;
@@ -13,8 +12,6 @@ namespace MediaPlayer.View.Views
         public ViewMediaPlayer()
         {
             InitializeComponent();
-
-            MEF.Container?.SatisfyImportsOnce(this);
         }
 
         [Import]
