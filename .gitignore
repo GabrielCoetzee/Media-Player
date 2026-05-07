@@ -104,6 +104,9 @@ DocProject/Help/html
 # Click-Once directory
 publish/
 
+# Velopack release output
+releases/
+
 # Publish Web Output
 *.Publish.xml
 

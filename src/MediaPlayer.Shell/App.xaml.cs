@@ -11,6 +11,7 @@ using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.Shell.MessengerRegs;
 using MediaPlayer.View.Views;
+using Velopack;
 using Wpf.Ui.Appearance;
 
 namespace MediaPlayer.Shell
@@ -26,6 +27,8 @@ namespace MediaPlayer.Shell
 
         protected async override void OnStartup(StartupEventArgs e)
         {
+            VelopackApp.Build().Run();
+
             _mutex = new Mutex(true, _mutexName, out var isFirstInstance);
 
             if (!isFirstInstance)
