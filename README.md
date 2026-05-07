@@ -41,8 +41,6 @@ External API's used:
 - LastFM
 - Lyrics OVH
 
-![Screenshot](./Screenshots/Main.JPG?raw=true "Screenshot")
+<img width="1368" height="775" alt="image" src="https://github.com/user-attachments/assets/d16adbc7-f6b6-421f-a9fe-36024885783d" />
 
-![Screenshot - Lyrics Collapsed](./Screenshots/LyricsCollapsed.JPG?raw=true "Screenshot - Lyrics Collapsed")
-
-![Screenshot - Lyrics Expanded](./Screenshots/LyricsExpanded.JPG?raw=true "Screenshot - Lyrics Expanded")
+<img width="1369" height="770" alt="image" src="https://github.com/user-attachments/assets/7cd01883-6ce3-49ec-96d9-544c261abcac" />
