@@ -56,6 +56,7 @@
         <genericControls:AutoScrollListView Grid.Row="1"
                                             BorderThickness="0"
                                             Background="Transparent"
+                                            Padding="0,0,16,0"
                                             ItemsSource="{Binding MediaItems}"
                                             SelectedItem="{Binding SelectedMediaItem, Mode=TwoWay}"
                                             SelectionMode="Single"
