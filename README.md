@@ -43,4 +43,5 @@ External API's used:
 
 <img width="1368" height="775" alt="image" src="https://github.com/user-attachments/assets/d16adbc7-f6b6-421f-a9fe-36024885783d" />
 
+
 <img width="1369" height="770" alt="image" src="https://github.com/user-attachments/assets/7cd01883-6ce3-49ec-96d9-544c261abcac" />
