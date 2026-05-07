@@ -4,7 +4,9 @@ This is a Media Player that I am actively working on. This is made for personal 
 
 (Targets .NET 10 (Windows) - Startup assembly is 'MediaPlayer.Shell')
 
-![Alt Text](https://i.imgur.com/Xze4BCG.gif)
+<img width="1372" height="772" alt="Adobe Express - Video - Dark Mode" src="https://github.com/user-attachments/assets/b4ce2db9-cdeb-4b52-aa86-42d2451e847f" />
+
+<img width="1370" height="772" alt="Adobe Express - Video - Light Mode" src="https://github.com/user-attachments/assets/389c020c-e886-446e-910e-66a12efdf80c" />
 
 Features :
 - Modern Fluent/WinUI 3 styling via the WPF-UI library, with `FluentWindow`, Mica/Acrylic backdrops and dynamic accent
