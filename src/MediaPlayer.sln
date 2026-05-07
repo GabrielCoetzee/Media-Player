@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32421.90
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11723.231 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer.View", "MediaPlayer.View\MediaPlayer.View.csproj", "{AFF319F3-32E1-4636-865E-F43AC339219E}"
 EndProject
@@ -22,19 +22,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generic", "Generic\Generic.csproj", "{1AA7279F-AFBF-4197-AE1A-F47A7F40AFFE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EEBA5DAB-B772-4CA4-945D-498075DAF661}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = ..\.editorconfig
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{34E03899-57E4-47CF-A323-662C2A69E984}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration.LyricsOVH", "Integration.LyricsOVH\Integration.LyricsOVH.csproj", "{B8FEFD2C-7CEA-46BE-9C4F-6B91F3902232}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration.LastFM", "Integration.LastFM\Integration.LastFM.csproj", "{FCC1CD6F-9701-4932-B4B4-4BF676D9C0AE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Installer", "_Installer", "{7A6F4EB1-1C52-4216-9C0F-1640BD25C071}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Media Player", "_Installer\\Media Player\\Media Player.vdproj", "{E020A3DE-49BA-46CE-BBAB-112392C49B10}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayer.ViewModel.Test", "MediaPlayer.ViewModel.Test\MediaPlayer.ViewModel.Test.csproj", "{153DE15F-0AE1-4F91-AFCB-4A9561EABCC2}"
 EndProject
@@ -194,14 +187,6 @@ Global
 		{FCC1CD6F-9701-4932-B4B4-4BF676D9C0AE}.Release|x64.Build.0 = Release|Any CPU
 		{FCC1CD6F-9701-4932-B4B4-4BF676D9C0AE}.Release|x86.ActiveCfg = Release|Any CPU
 		{FCC1CD6F-9701-4932-B4B4-4BF676D9C0AE}.Release|x86.Build.0 = Release|Any CPU
-		{E020A3DE-49BA-46CE-BBAB-112392C49B10}.Debug|Any CPU.ActiveCfg = Debug
-		{E020A3DE-49BA-46CE-BBAB-112392C49B10}.Debug|ARM64.ActiveCfg = Debug
-		{E020A3DE-49BA-46CE-BBAB-112392C49B10}.Debug|x64.ActiveCfg = Debug
-		{E020A3DE-49BA-46CE-BBAB-112392C49B10}.Debug|x86.ActiveCfg = Debug
-		{E020A3DE-49BA-46CE-BBAB-112392C49B10}.Release|Any CPU.ActiveCfg = Release
-		{E020A3DE-49BA-46CE-BBAB-112392C49B10}.Release|ARM64.ActiveCfg = Release
-		{E020A3DE-49BA-46CE-BBAB-112392C49B10}.Release|x64.ActiveCfg = Release
-		{E020A3DE-49BA-46CE-BBAB-112392C49B10}.Release|x86.ActiveCfg = Release
 		{153DE15F-0AE1-4F91-AFCB-4A9561EABCC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{153DE15F-0AE1-4F91-AFCB-4A9561EABCC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{153DE15F-0AE1-4F91-AFCB-4A9561EABCC2}.Debug|ARM64.ActiveCfg = Debug|Any CPU
@@ -229,7 +214,6 @@ Global
 		{1AA7279F-AFBF-4197-AE1A-F47A7F40AFFE} = {A1CFB51A-5183-4CF8-9132-150F86A8C2A6}
 		{B8FEFD2C-7CEA-46BE-9C4F-6B91F3902232} = {34E03899-57E4-47CF-A323-662C2A69E984}
 		{FCC1CD6F-9701-4932-B4B4-4BF676D9C0AE} = {34E03899-57E4-47CF-A323-662C2A69E984}
-		{E020A3DE-49BA-46CE-BBAB-112392C49B10} = {7A6F4EB1-1C52-4216-9C0F-1640BD25C071}
 		{153DE15F-0AE1-4F91-AFCB-4A9561EABCC2} = {1DFE55F1-29A8-4A37-9B52-9CC5545C6512}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
