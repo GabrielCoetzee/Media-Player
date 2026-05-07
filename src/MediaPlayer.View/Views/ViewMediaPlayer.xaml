@@ -55,6 +55,47 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
+            <Grid IsHitTestVisible="False">
+                <Grid.OpacityMask>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Color="#FFFFFFFF" Offset="0" />
+                        <GradientStop Color="#00FFFFFF" Offset="0.85" />
+                    </LinearGradientBrush>
+                </Grid.OpacityMask>
+
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SettingsViewModel.ThemeViewModel.UseDarkMode}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Border.Background>
+                        <SolidColorBrush Color="{DynamicResource SystemAccentColor}" Opacity="0.22" />
+                    </Border.Background>
+                </Border>
+
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SettingsViewModel.ThemeViewModel.UseDarkMode}" Value="False">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Border.Background>
+                        <SolidColorBrush Color="{DynamicResource SystemAccentColorTertiary}" Opacity="0.32" />
+                    </Border.Background>
+                </Border>
+            </Grid>
+
             <components:PlayerShell />
         </Grid>
     </Grid>
