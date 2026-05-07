@@ -19,14 +19,14 @@
                       TextAlignment="Center"
                       TextTrimming="CharacterEllipsis"
                       MaxWidth="600"
-                      Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                      Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                       Text="{Binding SelectedMediaItem.Artist, FallbackValue=''}" />
 
         <ui:TextBlock Margin="0,2,0,0"
                       FontTypography="Caption"
                       HorizontalAlignment="Center"
                       TextAlignment="Center"
-                      Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                      Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                       Text="{Binding SelectedMediaItem.InfoLabel, FallbackValue=''}" />
     </StackPanel>
 </UserControl>
