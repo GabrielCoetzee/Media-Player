@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Windows;
@@ -6,7 +6,6 @@ using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.Settings.ViewModels;
-using MediaPlayer.View.Services.Abstract;
 using MediaPlayer.View.Views;
 using MediaPlayer.ViewModel;
 
@@ -21,16 +20,6 @@ namespace MediaPlayer.Shell.MessengerRegs
                 var view = container?.GetExports<ViewMediaPlayer>().Single().Value;
 
                 view.Show();
-            });
-        }
-
-        public static void OpenApplicationSettingsDialog(CompositionContainer container)
-        {
-            Messenger<MessengerMessages>.Register(MessengerMessages.OpenApplicationSettingsDialog, (args) =>
-            {
-                var view = container?.GetExports<ViewApplicationSettings>().Single().Value;
-
-                view.ShowDialog();
             });
         }
 
@@ -56,20 +45,6 @@ namespace MediaPlayer.Shell.MessengerRegs
 
                 if (shutdownApplication)
                     Application.Current.Shutdown(0);
-            });
-        }
-
-        public static void ApplyDwmBackdrop(CompositionContainer container)
-        {
-            Messenger<MessengerMessages>.Register(MessengerMessages.ApplyDwmBackdrop, (args) =>
-            {
-                if (args is DwmBackdropType backdropType)
-                {
-                    var view = container?.GetExports<ViewMediaPlayer>().Single().Value;
-                    var service = container?.GetExports<IDwmBackdropService>(MediaPlayer.Common.Constants.ServiceNames.DwmBackdropService).Single().Value;
-
-                    service.ApplyBackdrop(view, backdropType);
-                }
             });
         }
 

@@ -25,9 +25,12 @@ namespace MediaPlayer.ViewModel
     {
         private MediaItem _selectedMediaItem;
         private MediaItemObservableCollection _mediaItems = new();
+        private bool _isLyricsOpen;
+        private bool _isQueueOpen = true;
+        private bool _isSettingsOpen;
+        private readonly List<CancellationTokenSource> _updateMetadataTokenSources = new();
 
         public readonly DispatcherTimer PositionTracker = new();
-        public List<CancellationTokenSource> UpdateMetadataTokenSources = new();
 
         public MediaItem SelectedMediaItem
         {
@@ -52,8 +55,35 @@ namespace MediaPlayer.ViewModel
         }
         public bool IsMediaListPopulated => MediaItems.Count > 0;
 
-        [Import(CommandNames.OpenSettingsWindow)]
-        public ICommand OpenSettingsWindowCommand { get; set; }
+        public bool IsLyricsOpen
+        {
+            get => _isLyricsOpen;
+            set
+            {
+                _isLyricsOpen = value;
+                OnPropertyChanged(nameof(IsLyricsOpen));
+            }
+        }
+
+        public bool IsQueueOpen
+        {
+            get => _isQueueOpen;
+            set
+            {
+                _isQueueOpen = value;
+                OnPropertyChanged(nameof(IsQueueOpen));
+            }
+        }
+
+        public bool IsSettingsOpen
+        {
+            get => _isSettingsOpen;
+            set
+            {
+                _isSettingsOpen = value;
+                OnPropertyChanged(nameof(IsSettingsOpen));
+            }
+        }
 
         [Import(CommandNames.TopMostGridDragEnter)]
         public ICommand TopMostGridDragEnterCommand { get; set; }
@@ -66,6 +96,18 @@ namespace MediaPlayer.ViewModel
 
         [Import(CommandNames.MainWindowClosing)]
         public ICommand MainWindowClosingCommand { get; set; }
+
+        [Import(CommandNames.ToggleLyrics)]
+        public ICommand ToggleLyricsCommand { get; set; }
+
+        [Import(CommandNames.ToggleQueue)]
+        public ICommand ToggleQueueCommand { get; set; }
+
+        [Import(CommandNames.Escape)]
+        public ICommand EscapeCommand { get; set; }
+
+        [Import(CommandNames.RemoveMediaItem)]
+        public ICommand RemoveMediaItemCommand { get; set; }
 
         [Import]
         public SettingsViewModel SettingsViewModel { get; set; }
@@ -128,11 +170,11 @@ namespace MediaPlayer.ViewModel
             BusyViewModel.UpdatingMetadata();
 
             var cts = new CancellationTokenSource();
-            UpdateMetadataTokenSources.Add(cts);
+            _updateMetadataTokenSources.Add(cts);
 
             await MetadataServices.MetadataUpdater.UpdateMetadataAsync(audioItems, cts.Token);
 
-            if (UpdateMetadataTokenSources.All(x => x.IsCancellationRequested))
+            if (_updateMetadataTokenSources.All(x => x.IsCancellationRequested))
                 return;
 
             BusyViewModel.MediaListPopulated();
@@ -156,7 +198,7 @@ namespace MediaPlayer.ViewModel
         {
             await Task.Run(async () =>
             {
-                await Parallel.ForEachAsync(UpdateMetadataTokenSources, new CancellationTokenSource().Token, (sources, token) =>
+                await Parallel.ForEachAsync(_updateMetadataTokenSources, new CancellationTokenSource().Token, (sources, token) =>
                 {
                     sources.Cancel();
                     sources.Dispose();
@@ -165,7 +207,7 @@ namespace MediaPlayer.ViewModel
                 });
             });
 
-            UpdateMetadataTokenSources.Clear();
+            _updateMetadataTokenSources.Clear();
 
             MediaControlsViewModel.SetPlaybackState(MediaState.Stop);
 
@@ -174,6 +216,36 @@ namespace MediaPlayer.ViewModel
         }
 
         public void SelectMediaItem(int index) => SelectedMediaItem = MediaItems[index];
+
+        public void RemoveMediaItem(MediaItem item)
+        {
+            if (item == null || !MediaItems.Contains(item))
+                return;
+
+            var isCurrentlyPlaying = ReferenceEquals(item, SelectedMediaItem);
+
+            if (!isCurrentlyPlaying)
+            {
+                MediaItems.Remove(item);
+                return;
+            }
+
+            if (MediaItems.Count == 1)
+            {
+                MediaControlsViewModel.SetPlaybackState(MediaState.Stop);
+                PositionTracker.Stop();
+                SelectedMediaItem = null;
+                MediaItems.Remove(item);
+                return;
+            }
+
+            var removedIndex = MediaItems.IndexOf(item);
+            var nextIndex = removedIndex < MediaItems.Count - 1 ? removedIndex + 1 : removedIndex - 1;
+
+            SelectMediaItem(nextIndex);
+            MediaControlsViewModel.SetPlaybackState(MediaState.Play);
+            MediaItems.Remove(item);
+        }
 
         public bool IsPreviousMediaItemAvailable() => IsMediaListPopulated && GetPreviousMediaItemIndex() >= GetFirstMediaItemIndex();
 

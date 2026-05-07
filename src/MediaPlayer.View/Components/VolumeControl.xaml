@@ -1,0 +1,43 @@
+<UserControl x:Class="MediaPlayer.View.Components.VolumeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <ui:Button Appearance="Transparent"
+                   Margin="2,0"
+                   Padding="6"
+                   ToolTip="Mute (M)"
+                   Command="{Binding MediaControlsViewModel.MuteCommand}"
+                   CommandParameter="{Binding MediaControlsViewModel}">
+            <ui:SymbolIcon>
+                <ui:SymbolIcon.Style>
+                    <Style TargetType="{x:Type ui:SymbolIcon}">
+                        <Setter Property="Symbol" Value="Speaker224" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding MediaControlsViewModel.IsMuted}" Value="True">
+                                <Setter Property="Symbol" Value="SpeakerMute24" />
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding MediaControlsViewModel.IsMuted}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ui:SymbolIcon.Style>
+            </ui:SymbolIcon>
+        </ui:Button>
+
+        <Slider Width="100"
+                VerticalAlignment="Center"
+                Minimum="0"
+                Maximum="1"
+                SmallChange="0.05"
+                LargeChange="0.1"
+                IsMoveToPointEnabled="True"
+                Value="{Binding MediaControlsViewModel.MediaVolume, Mode=TwoWay}" />
+    </StackPanel>
+</UserControl>

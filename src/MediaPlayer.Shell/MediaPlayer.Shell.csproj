@@ -15,10 +15,8 @@
     <Resource Include="Resources\Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="7.0.3" />
-    <PackageReference Include="FontAwesome5" Version="2.1.11" />
-    <PackageReference Include="MahApps.Metro" Version="3.0.0-rc0529" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
+    <PackageReference Include="WPF-UI" Version="3.0.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />

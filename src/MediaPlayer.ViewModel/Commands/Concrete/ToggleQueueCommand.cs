@@ -1,13 +1,12 @@
-using MediaPlayer.Common.Constants;
-using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
+using MediaPlayer.Common.Constants;
 
 namespace MediaPlayer.ViewModel.Commands.Concrete
 {
-    [Export(CommandNames.Mute, typeof(ICommand))]
-    public class MuteCommand : ICommand
+    [Export(CommandNames.ToggleQueue, typeof(ICommand))]
+    public class ToggleQueueCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -19,17 +18,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not MediaControlsViewModel vm)
+            if (parameter is not MainViewModel vm)
                 return;
 
-            if (vm.IsMuted)
-            {
-                vm.MediaVolume = vm.PreMuteVolume > 0 ? vm.PreMuteVolume : 1.0;
-                return;
-            }
-
-            vm.PreMuteVolume = vm.MediaVolume;
-            vm.MediaVolume = 0.0;
+            vm.IsQueueOpen = !vm.IsQueueOpen;
         }
     }
 }

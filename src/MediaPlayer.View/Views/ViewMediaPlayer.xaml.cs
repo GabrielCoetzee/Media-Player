@@ -1,38 +1,17 @@
-﻿using Generic.DependencyInjection;
-using MahApps.Metro.Controls;
-using MediaPlayer.Common.Constants;
-using MediaPlayer.View.Services.Abstract;
 using MediaPlayer.ViewModel;
 using System.ComponentModel.Composition;
 using System.Windows;
+using Wpf.Ui.Controls;
 
 namespace MediaPlayer.View.Views
 {
-    /// <inheritdoc cref="" />
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     [Export]
-    public partial class ViewMediaPlayer : MetroWindow
+    public partial class ViewMediaPlayer : FluentWindow
     {
         [ImportingConstructor]
         public ViewMediaPlayer()
         {
             InitializeComponent();
-
-            MEF.Container?.SatisfyImportsOnce(this);
-
-            SetWindowResolution();
-
-            Loaded += (_, _) => DwmBackdropService.ApplyBackdrop(this, ViewModel.SettingsViewModel.ThemeViewModel.BackdropType);
-        }
-
-        private void SetWindowResolution()
-        {
-            var resolution = WindowResolutionCalculator.CalculateOptimalMainWindowResolution();
-
-            MinWidth = resolution.Width;
-            MinHeight = resolution.Height;
         }
 
         [Import]
@@ -41,12 +20,6 @@ namespace MediaPlayer.View.Views
             get => DataContext as MainViewModel;
             set => DataContext = value;
         }
-
-        [Import(ServiceNames.HardCodedWindowResolutionCalculator)]
-        public IWindowResolutionCalculator WindowResolutionCalculator { get; set; }
-
-        [Import(ServiceNames.DwmBackdropService)]
-        public IDwmBackdropService DwmBackdropService { get; set; }
 
         public void BringToForeground()
         {

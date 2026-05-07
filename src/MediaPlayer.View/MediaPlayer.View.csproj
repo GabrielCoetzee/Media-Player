@@ -1,125 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
-  <PropertyGroup />
-	
-	<!--Dark Mode-->
-      <ItemGroup>
-        <Resource Include="Resources\Button_Images\appbar.control.pause_dark.png">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Resources\Button_Images\appbar.control.play_dark.png">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
-      </ItemGroup>
-      <ItemGroup>
-        <Resource Include="Resources\Button_Images\appbar.sound.mute_dark.png">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
-      </ItemGroup>
-      <ItemGroup>
-        <Resource Include="Resources\Button_Images\appbar.control.rewind_dark.png">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
-      </ItemGroup>
-      <ItemGroup>
-        <Resource Include="Resources\Button_Images\appbar.control.stop_dark.png">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
-      </ItemGroup>
-      <ItemGroup>
-        <Resource Include="Resources\Button_Images\appbar.control.fastforward_dark.png">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
-      </ItemGroup>
-      <ItemGroup>
-        <Resource Include="Resources\Button_Images\appbar.repeat_dark.png">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
-      </ItemGroup>
-      <ItemGroup>
-        <Resource Include="Resources\Button_Images\appbar.shuffle_dark.png">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
-      </ItemGroup>
-
-	<!--Light Mode-->
-	<ItemGroup>
-		<Resource Include="Resources\Button_Images\appbar.control.pause_light.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Resources\Button_Images\appbar.control.play_light.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
-	<ItemGroup>
-		<Resource Include="Resources\Button_Images\appbar.sound.mute_light.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
-	<ItemGroup>
-		<Resource Include="Resources\Button_Images\appbar.control.rewind_light.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
-	<ItemGroup>
-		<Resource Include="Resources\Button_Images\appbar.control.stop_light.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
-	<ItemGroup>
-		<Resource Include="Resources\Button_Images\appbar.control.fastforward_light.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
-	<ItemGroup>
-		<Resource Include="Resources\Button_Images\appbar.repeat_light.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
-	<ItemGroup>
-		<Resource Include="Resources\Button_Images\appbar.shuffle_light.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
-	
-  <ItemGroup>
-    <Resource Include="Resources\Default_AlbumArt\blue.png" />
-    <Resource Include="Resources\Default_AlbumArt\amber.png" />
-    <Resource Include="Resources\Default_AlbumArt\brown.png" />
-    <Resource Include="Resources\Default_AlbumArt\cobalt.png" />
-    <Resource Include="Resources\Default_AlbumArt\crimson.png" />
-    <Resource Include="Resources\Default_AlbumArt\cyan.png" />
-    <Resource Include="Resources\Default_AlbumArt\emerald.png" />
-    <Resource Include="Resources\Default_AlbumArt\green.png" />
-    <Resource Include="Resources\Default_AlbumArt\indigo.png" />
-    <Resource Include="Resources\Default_AlbumArt\lime.png" />
-    <Resource Include="Resources\Default_AlbumArt\magenta.png" />
-    <Resource Include="Resources\Default_AlbumArt\mauve.png" />
-    <Resource Include="Resources\Default_AlbumArt\olive.png" />
-    <Resource Include="Resources\Default_AlbumArt\orange.png" />
-    <Resource Include="Resources\Default_AlbumArt\pink.png" />
-    <Resource Include="Resources\Default_AlbumArt\purple.png" />
-    <Resource Include="Resources\Default_AlbumArt\red.png" />
-    <Resource Include="Resources\Default_AlbumArt\sienna.png" />
-    <Resource Include="Resources\Default_AlbumArt\steel.png" />
-    <Resource Include="Resources\Default_AlbumArt\taupe.png" />
-    <Resource Include="Resources\Default_AlbumArt\teal.png" />
-    <Resource Include="Resources\Default_AlbumArt\violet.png" />
-    <Resource Include="Resources\Default_AlbumArt\yellow.png" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic\Generic.csproj" />
     <ProjectReference Include="..\MediaPlayer.ViewModel\MediaPlayer.ViewModel.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="7.0.3" />
-    <PackageReference Include="FontAwesome5" Version="2.1.11" />
-    <PackageReference Include="MahApps.Metro" Version="3.0.0-rc0529" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
     <PackageReference Include="System.ComponentModel.Composition" Version="10.0.0" />
+    <PackageReference Include="WPF-UI" Version="3.0.5" />
   </ItemGroup>
 </Project>

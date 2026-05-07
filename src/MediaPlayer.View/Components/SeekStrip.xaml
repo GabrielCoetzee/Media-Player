@@ -1,0 +1,62 @@
+<UserControl x:Class="MediaPlayer.View.Components.SeekStrip"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:converters="clr-namespace:MediaPlayer.View.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:ElapsedTimeTimeSpanToSecondsConverter x:Key="ElapsedToSeconds" />
+    </UserControl.Resources>
+
+    <Grid VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Slider Grid.Row="0"
+                IsMoveToPointEnabled="True"
+                Minimum="0"
+                Maximum="{Binding SelectedMediaItem.Duration.TotalSeconds, FallbackValue=0}"
+                Value="{Binding SelectedMediaItem.ElapsedTime, Converter={StaticResource ElapsedToSeconds}, Mode=TwoWay}"
+                IsEnabled="{Binding IsMediaListPopulated, FallbackValue=False}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseUp">
+                    <i:InvokeCommandAction Command="{Binding MediaControlsViewModel.SeekbarPreviewMouseUpCommand}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="GotMouseCapture">
+                    <i:InvokeCommandAction Command="{Binding MediaControlsViewModel.SeekbarThumbStartedDraggingCommand}" CommandParameter="{Binding MediaControlsViewModel}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="LostMouseCapture">
+                    <i:InvokeCommandAction Command="{Binding MediaControlsViewModel.SeekbarThumbCompletedDraggingCommand}" CommandParameter="{Binding MediaControlsViewModel}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Slider>
+
+        <Grid Grid.Row="1" Margin="4,2,4,0">
+            <TextBlock HorizontalAlignment="Left"
+                       FontSize="11"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0:00}:{1:00}" FallbackValue="00:00">
+                        <Binding Path="SelectedMediaItem.ElapsedTime.Minutes" />
+                        <Binding Path="SelectedMediaItem.ElapsedTime.Seconds" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+
+            <TextBlock HorizontalAlignment="Right"
+                       FontSize="11"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0:00}:{1:00}" FallbackValue="00:00">
+                        <Binding Path="SelectedMediaItem.Duration.Minutes" />
+                        <Binding Path="SelectedMediaItem.Duration.Seconds" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

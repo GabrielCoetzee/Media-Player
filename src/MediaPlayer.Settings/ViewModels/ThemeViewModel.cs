@@ -1,9 +1,7 @@
-﻿using System;
+using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media;
-using ControlzEx.Theming;
 using Generic.Extensions;
 using Generic.Mediator;
 using Generic.PropertyNotify;
@@ -11,6 +9,8 @@ using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.Settings.Services.Abstract;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 
 namespace MediaPlayer.Settings.ViewModels
 {
@@ -21,7 +21,7 @@ namespace MediaPlayer.Settings.ViewModels
         readonly IColorService _colorService;
 
         [ImportingConstructor]
-        public ThemeViewModel(ThemeSettings themeSettings, 
+        public ThemeViewModel(ThemeSettings themeSettings,
             [Import(ServiceNames.ImageSharpColorService)] IColorService colorService)
         {
             _themeSettings = themeSettings;
@@ -37,17 +37,8 @@ namespace MediaPlayer.Settings.ViewModels
             }
 
             var dominantColor = await _colorService.GetDominantColorAsync(albumArt);
-
-            var theme = RuntimeThemeGenerator.Current.GenerateRuntimeTheme(BaseColor, dominantColor);
-
-            ThemeManager.Current.AddTheme(theme);
-            ThemeManager.Current.ChangeTheme(Application.Current, theme);
+            ApplicationAccentColorManager.Apply(dominantColor, CurrentTheme);
         }
-
-        public string AccentLabel => !AutoAdjustAccent ? "Accent: " : "Default Accent: ";
-        public string BaseColor => _themeSettings.BaseColor;
-        public string BackgroundColor => UseDarkMode ? System.Drawing.Color.Black.Name.ToString() : System.Drawing.Color.White.Name.ToString();
-        public string ForegroundColor => UseDarkMode ? System.Drawing.Color.White.Name.ToString() : System.Drawing.Color.Black.Name.ToString();
 
         public bool AutoAdjustAccent
         {
@@ -56,8 +47,8 @@ namespace MediaPlayer.Settings.ViewModels
             {
                 _themeSettings.AutoAdjustAccent = value;
                 OnPropertyChanged(nameof(AutoAdjustAccent));
-                OnPropertyChanged(nameof(AccentLabel));
 
+                _themeSettings.Save();
                 Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
             }
         }
@@ -69,28 +60,15 @@ namespace MediaPlayer.Settings.ViewModels
             {
                 _themeSettings.UseDarkMode = value;
                 OnPropertyChanged(nameof(UseDarkMode));
-                OnPropertyChanged(nameof(BaseColor));
-                OnPropertyChanged(nameof(BackgroundColor));
-                OnPropertyChanged(nameof(ForegroundColor));
                 OnPropertyChanged(nameof(EffectiveBackgroundColor));
 
-                ChangeBaseColor();
+                _themeSettings.Save();
+                ApplicationThemeManager.Apply(CurrentTheme, BackdropType);
+                Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
             }
         }
 
-        public string Accent
-        {
-            get => _themeSettings.Accent;
-            set
-            {
-                _themeSettings.Accent = value;
-                OnPropertyChanged(nameof(Accent));
-
-                ChangeAccent();
-            }
-        }
-
-        public DwmBackdropType BackdropType
+        public WindowBackdropType BackdropType
         {
             get => _themeSettings.BackdropType;
             set
@@ -98,21 +76,25 @@ namespace MediaPlayer.Settings.ViewModels
                 _themeSettings.BackdropType = value;
                 OnPropertyChanged(nameof(BackdropType));
                 OnPropertyChanged(nameof(EffectiveBackgroundColor));
-                Messenger<MessengerMessages>.Send(MessengerMessages.ApplyDwmBackdrop, value);
+
+                _themeSettings.Save();
+                ApplicationThemeManager.Apply(CurrentTheme, BackdropType);
+                Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
             }
         }
 
-        public Color EffectiveBackgroundColor => BackdropType != DwmBackdropType.None ? Colors.Transparent : UseDarkMode ? Colors.Black : Colors.White;
+        public Color EffectiveBackgroundColor =>
+            BackdropType != WindowBackdropType.None
+                ? Colors.Transparent
+                : UseDarkMode ? Colors.Black : Colors.White;
 
-        public bool IsBackdropSupported => Environment.OSVersion.Version is { Major: >= 10, Build: >= 22621 };
+        public bool IsBackdropSupported =>
+            Environment.OSVersion.Version is { Major: >= 10, Build: >= 22621 };
 
-        public void ResetThemeToDefaultSettings() => ThemeManager.Current.ChangeTheme(Application.Current, BaseColor, Accent);
-        public void ChangeAccent() => ThemeManager.Current.ChangeThemeColorScheme(Application.Current, Accent);
-        public void ChangeBaseColor() => ThemeManager.Current.ChangeThemeBaseColor(Application.Current, BaseColor);
+        public void ResetThemeToDefaultSettings() =>
+            ApplicationThemeManager.Apply(CurrentTheme, BackdropType);
 
-        public void SaveSettings()
-        {
-            _themeSettings.Save();
-        }
+        private ApplicationTheme CurrentTheme =>
+            UseDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light;
     }
 }
