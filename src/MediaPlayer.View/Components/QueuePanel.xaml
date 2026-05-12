@@ -60,8 +60,9 @@
                                             ItemsSource="{Binding MediaItems}"
                                             SelectedItem="{Binding SelectedMediaItem, Mode=TwoWay}"
                                             SelectionMode="Single"
-                                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                            behaviors:ListBoxDragReorderBehavior.Enabled="True">
+                                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <!-- Drag-to-reorder disabled for now: interferes with selecting a track while the list is still loading.
+                 Re-enable by adding: behaviors:ListBoxDragReorderBehavior.Enabled="True" -->
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />

@@ -36,8 +36,16 @@ namespace MediaPlayer.Settings.ViewModels
                 return;
             }
 
-            var dominantColor = await _colorService.GetDominantColorAsync(albumArt);
-            ApplicationAccentColorManager.Apply(dominantColor, CurrentTheme);
+            try
+            {
+                var dominantColor = await _colorService.GetDominantColorAsync(albumArt);
+                ApplicationAccentColorManager.Apply(dominantColor, CurrentTheme);
+            }
+            catch (Exception)
+            {
+                // Corrupt / undecodable album art — treat it like missing art rather than crashing.
+                ResetThemeToDefaultSettings();
+            }
         }
 
         public bool AutoAdjustAccent

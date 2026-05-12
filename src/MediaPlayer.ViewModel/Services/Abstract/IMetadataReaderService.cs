@@ -1,11 +1,11 @@
-﻿using MediaPlayer.Model.BusinessEntities.Abstract;
+using MediaPlayer.Model.BusinessEntities.Abstract;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace MediaPlayer.ViewModel.Services.Abstract
 {
     public interface IMetadataReaderService
     {
-        Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable<string> filePaths);
+        IAsyncEnumerable<MediaItem> EnumerateMediaItemsAsync(IEnumerable<string> paths, CancellationToken cancellationToken = default);
     }
 }
