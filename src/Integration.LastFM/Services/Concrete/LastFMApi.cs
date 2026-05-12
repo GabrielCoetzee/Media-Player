@@ -12,6 +12,8 @@ namespace MediaPlayer.DataAccess.Concrete
     [Export(typeof(ILastFMApi))]
     public class LastFMApi : ILastFMApi
     {
+        const string UserAgent = "MediaPlayer (+https://github.com/GabrielCoetzee/Media-Player)";
+
         readonly LastFmSettings _lastFmSettings;
 
         [ImportingConstructor]
@@ -26,6 +28,7 @@ namespace MediaPlayer.DataAccess.Concrete
             {
                 return await _lastFmSettings.Api
                     .AppendPathSegments("2.0")
+                    .WithHeader("User-Agent", UserAgent)
                     .SetQueryParam("method", "track.getinfo")
                     .SetQueryParam("api_key", _lastFmSettings.ApiKey)
                     .SetQueryParam("artist", artist)

@@ -19,7 +19,7 @@ namespace MediaPlayer.Shell
     public partial class App : Application
     {
         private Mutex _mutex;
-        private const string _mutexName = "##||MediaPlayer||##";
+        private const string _mutexName = "MediaPlayer-{131763b7-57a3-4a9c-bbb5-97f2c86ba3c5}";
         public NamedPipeManager PipeManager { get; set; } = new NamedPipeManager("MediaPlayer");
 
         [Import]
