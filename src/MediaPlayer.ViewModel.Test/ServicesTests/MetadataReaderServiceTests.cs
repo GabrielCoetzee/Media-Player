@@ -1,4 +1,5 @@
-﻿using MediaPlayer.Model.Metadata.Abstract.Readers;
+﻿using MediaPlayer.Model.BusinessEntities.Abstract;
+using MediaPlayer.Model.Metadata.Abstract.Readers;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.ViewModel.Services.Concrete;
 using Moq;
@@ -36,12 +37,12 @@ namespace MediaPlayer.ViewModel.Test.ServicesTests
         }
 
         [Test]
-        public async Task ReadFilePathsAsync_ValidFolderpath_BuildsMediaItems()
+        public async Task EnumerateMediaItemsAsync_ValidFolderpath_BuildsMediaItems()
         {
             var service = new MetadataReaderService(_metadataReaderMock.Object,
                 _applicationSettings);
 
-            var mediaItems = await service.ReadFilePathsAsync(new[] { TestData.InputTestFilesPath });
+            var mediaItems = await ToListAsync(service.EnumerateMediaItemsAsync(new[] { TestData.InputTestFilesPath }));
 
             Assert.Multiple(() =>
             {
@@ -51,14 +52,14 @@ namespace MediaPlayer.ViewModel.Test.ServicesTests
         }
 
         [Test]
-        public async Task ReadFilePathsAsync_ValidFilepaths_BuildsMediaItems()
+        public async Task EnumerateMediaItemsAsync_ValidFilepaths_BuildsMediaItems()
         {
-            var filepaths = TestData.MediaItems.Select(x => x.FilePath.LocalPath);
+            var paths = TestData.MediaItems.Select(x => x.FilePath.LocalPath);
 
             var service = new MetadataReaderService(_metadataReaderMock.Object,
                 _applicationSettings);
 
-            var mediaItems = await service.ReadFilePathsAsync(filepaths);
+            var mediaItems = await ToListAsync(service.EnumerateMediaItemsAsync(paths));
 
             Assert.Multiple(() =>
             {
@@ -67,6 +68,14 @@ namespace MediaPlayer.ViewModel.Test.ServicesTests
             });
         }
 
-        
+        private static async Task<List<MediaItem>> ToListAsync(IAsyncEnumerable<MediaItem> source)
+        {
+            var items = new List<MediaItem>();
+
+            await foreach (var item in source)
+                items.Add(item);
+
+            return items;
+        }
     }
 }

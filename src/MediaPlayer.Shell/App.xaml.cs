@@ -45,7 +45,7 @@ namespace MediaPlayer.Shell
             InitializeMEF();
 
             MessengerRegistrations.OpenMainWindow(MEF.Container);
-            MessengerRegistrations.ProcessFilePaths(MEF.Container);
+            MessengerRegistrations.AddMedia(MEF.Container);
             MessengerRegistrations.SaveChangesToDirtyFiles(MEF.Container);
             MessengerRegistrations.AutoAdjustAccent(MEF.Container);
 
@@ -64,7 +64,7 @@ namespace MediaPlayer.Shell
             {
                 ((ViewMediaPlayer)Current.MainWindow).BringToForeground();
 
-                Messenger<MessengerMessages>.Send(MessengerMessages.ProcessFilePaths, args);
+                Messenger<MessengerMessages>.Send(MessengerMessages.AddMedia, args);
             });
         }
 
@@ -85,7 +85,7 @@ namespace MediaPlayer.Shell
             if (!e.Args.Any())
                 return;
 
-            Messenger<MessengerMessages>.Send(MessengerMessages.ProcessFilePaths, e.Args);
+            Messenger<MessengerMessages>.Send(MessengerMessages.AddMedia, e.Args);
         }
 
         private void InitializeMEF()

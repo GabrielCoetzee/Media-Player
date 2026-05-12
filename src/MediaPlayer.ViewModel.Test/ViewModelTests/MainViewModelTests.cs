@@ -38,11 +38,11 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
         }
 
         [Test]
-        public async Task ProcessFilePathsAsync_FilePathsPassedWithoutMetadataUpdate_AddsMediaItemsToListView()
+        public async Task AddMediaAsync_FilePathsPassedWithoutMetadataUpdate_AddsMediaItemsToListView()
         {
             _metadataReaderMock
-                .Setup(x => x.ReadFilePathsAsync(TestData.FilePaths))
-                .ReturnsAsync(TestData.MediaItems);
+                .Setup(x => x.EnumerateMediaItemsAsync(TestData.FilePaths, It.IsAny<CancellationToken>()))
+                .Returns(ToAsyncEnumerable(TestData.MediaItems));
 
             _metadataServicesMock.SetupProperty(x => x.MetadataReader, _metadataReaderMock.Object);
 
@@ -50,7 +50,7 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
 
             _vm.SettingsViewModel.MetadataSettings.UpdateMetadata = false;
 
-            await _vm.ProcessFilePathsAsync(TestData.FilePaths);
+            await _vm.AddMediaAsync(TestData.FilePaths);
 
             Assert.Multiple(() =>
             {
@@ -61,11 +61,11 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
         }
 
         [Test]
-        public async Task ProcessFilePathsAsync_FilePathsPassedWithMetadataUpdate_AddsMediaItemsToListViewAndUpdatesMetadata()
+        public async Task AddMediaAsync_FilePathsPassedWithMetadataUpdate_AddsMediaItemsToListViewAndUpdatesMetadata()
         {
             _metadataReaderMock
-                .Setup(x => x.ReadFilePathsAsync(TestData.FilePaths))
-                .ReturnsAsync(TestData.MediaItems);
+                .Setup(x => x.EnumerateMediaItemsAsync(TestData.FilePaths, It.IsAny<CancellationToken>()))
+                .Returns(ToAsyncEnumerable(TestData.MediaItems));
 
             //Mock updating album art
             _metadataUpdaterMock
@@ -84,7 +84,7 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
 
             _vm.SettingsViewModel.MetadataSettings.UpdateMetadata = true;
 
-            await _vm.ProcessFilePathsAsync(TestData.FilePaths);
+            await _vm.AddMediaAsync(TestData.FilePaths);
 
             Assert.Multiple(() =>
             {
@@ -94,13 +94,27 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
         }
 
         [Test]
-        public async Task ProcessFilePathsAsync_EmptyFilePathsListPassed_EmptyMediaList()
+        public async Task AddMediaAsync_EmptyFilePathsListPassed_EmptyMediaList()
         {
             _vm.MediaItems.Clear();
 
-            await _vm.ProcessFilePathsAsync(new List<string>());
+            await _vm.AddMediaAsync(new List<string>());
 
             Assert.That(_vm.MediaItems, Is.Empty);
+        }
+
+        [Test]
+        public void AddMediaAsync_LoadCancelledMidStream_SwallowsCancellationInsteadOfThrowing()
+        {
+            _metadataReaderMock
+                .Setup(x => x.EnumerateMediaItemsAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
+                .Returns(CancelledMidStream());
+
+            _metadataServicesMock.SetupProperty(x => x.MetadataReader, _metadataReaderMock.Object);
+
+            _vm.MetadataServices = _metadataServicesMock.Object;
+
+            Assert.That(async () => await _vm.AddMediaAsync(TestData.FilePaths), Throws.Nothing);
         }
 
         [Test]
@@ -252,6 +266,23 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
             _vm.SelectedMediaItem.ElapsedTime = TimeSpan.FromSeconds(300);
 
             Assert.That(_vm.IsEndOfCurrentlyPlayingMedia(), Is.EqualTo(true));
+        }
+
+        private static async IAsyncEnumerable<MediaItem> ToAsyncEnumerable(IEnumerable<MediaItem> items)
+        {
+            await Task.CompletedTask;
+
+            foreach (var item in items)
+                yield return item;
+        }
+
+        private static async IAsyncEnumerable<MediaItem> CancelledMidStream()
+        {
+            await Task.CompletedTask;
+
+            yield return TestData.AudioItem1;
+
+            throw new OperationCanceledException();
         }
 
         public static class TestData

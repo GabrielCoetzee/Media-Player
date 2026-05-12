@@ -1,4 +1,4 @@
-﻿using MediaPlayer.Common.Constants;
+using MediaPlayer.Common.Constants;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.Metadata.Abstract.Readers;
 using MediaPlayer.Settings.Config;
@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
@@ -30,27 +32,34 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
         readonly Func<string, bool> IsFile = x => File.Exists(x);
 
-        public async Task<IEnumerable<MediaItem>> ReadFilePathsAsync(IEnumerable<string> filePaths)
+        public async IAsyncEnumerable<MediaItem> EnumerateMediaItemsAsync(IEnumerable<string> paths, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
-            var mediaItems = new List<MediaItem>();
+            var supportedFileFormats = _applicationSettings.SupportedFileFormats;
 
-            await Task.Run(() =>
-            {
-                var supportedFileFormats = _applicationSettings.SupportedFileFormats;
+            await foreach (var mediaItem in BuildMediaItemsAsync(SearchFolders(paths.Where(IsFolder), supportedFileFormats), cancellationToken))
+                yield return mediaItem;
 
-                foreach (var file in SearchFolders(filePaths.Where(IsFolder), supportedFileFormats))
-                    mediaItems.Add(_metadataReader.BuildMediaItem(file));
-
-                foreach (var file in SearchFiles(filePaths.Where(IsFile), supportedFileFormats))
-                    mediaItems.Add(_metadataReader.BuildMediaItem(file));
-            });
-
-            return mediaItems.Where(x => x != null);
+            await foreach (var mediaItem in BuildMediaItemsAsync(SearchFiles(paths.Where(IsFile), supportedFileFormats), cancellationToken))
+                yield return mediaItem;
         }
 
-        private IEnumerable<string> SearchFolders(IEnumerable<string> filePaths, string[] supportedFileFormats)
+        private async IAsyncEnumerable<MediaItem> BuildMediaItemsAsync(IEnumerable<string> files,
+            [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            foreach (var path in filePaths)
+            foreach (var file in files)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var mediaItem = await Task.Run(() => _metadataReader.BuildMediaItem(file), cancellationToken);
+
+                if (mediaItem != null)
+                    yield return mediaItem;
+            }
+        }
+
+        private IEnumerable<string> SearchFolders(IEnumerable<string> folderPaths, string[] supportedFileFormats)
+        {
+            foreach (var path in folderPaths)
             {
                 foreach (var file in Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories).Where(file => supportedFileFormats.Any(file.ToLower().EndsWith)))
                     yield return file;

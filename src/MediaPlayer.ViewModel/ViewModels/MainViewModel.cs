@@ -1,5 +1,7 @@
 ﻿using Generic.PropertyNotify;
 using MediaPlayer.Model.Collections;
+using System;
+using System.Diagnostics;
 using System.Windows.Threading;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,12 +25,16 @@ namespace MediaPlayer.ViewModel
     [Export]
     public class MainViewModel : NotifyPropertyChanged
     {
+        private const int FlushBatchSize = 25;
+        private const int FlushIntervalMs = 150;
+
         private MediaItem _selectedMediaItem;
         private MediaItemObservableCollection _mediaItems = new();
         private bool _isLyricsOpen;
         private bool _isQueueOpen = true;
         private bool _isSettingsOpen;
         private readonly List<CancellationTokenSource> _updateMetadataTokenSources = new();
+        private readonly List<CancellationTokenSource> _loadMediaTokenSources = new();
 
         public readonly DispatcherTimer PositionTracker = new();
 
@@ -131,23 +137,57 @@ namespace MediaPlayer.ViewModel
             OnPropertyChanged(nameof(IsMediaListPopulated));
         }
 
-        public async Task ProcessFilePathsAsync(IEnumerable<string> filePaths)
+        public async Task AddMediaAsync(IEnumerable<string> paths)
         {
-            if (filePaths == null || !filePaths.Any())
+            if (paths == null || !paths.Any())
                 return;
+
+            var cts = new CancellationTokenSource();
+            _loadMediaTokenSources.Add(cts);
 
             BusyViewModel.MediaListLoading();
 
-            var mediaItems = await MetadataServices.MetadataReader.ReadFilePathsAsync(filePaths);
+            var newlyAddedItems = new List<MediaItem>();
+            var pendingItems = new List<MediaItem>();
+            var sinceLastFlush = Stopwatch.StartNew();
 
-            AddMediaItemsToListView(mediaItems);
+            try
+            {
+                await foreach (var mediaItem in MetadataServices.MetadataReader.EnumerateMediaItemsAsync(paths, cts.Token))
+                {
+                    newlyAddedItems.Add(mediaItem);
+                    pendingItems.Add(mediaItem);
+
+                    if (pendingItems.Count < FlushBatchSize && sinceLastFlush.ElapsedMilliseconds < FlushIntervalMs)
+                        continue;
+
+                    AddMediaItemsToListView(pendingItems);
+                    pendingItems.Clear();
+                    sinceLastFlush.Restart();
+                }
+
+                if (pendingItems.Count > 0)
+                    AddMediaItemsToListView(pendingItems);
+            }
+            catch (OperationCanceledException)
+            {
+                // Media list was cleared (or the app is shutting down) — stop adding the rest of this batch.
+                return;
+            }
+            finally
+            {
+                _loadMediaTokenSources.Remove(cts);
+                cts.Dispose();
+            }
 
             BusyViewModel.MediaListPopulated();
 
-            await UpdateMetadataAsync(mediaItems.OfType<AudioItem>());
+            await UpdateMetadataAsync(newlyAddedItems.OfType<AudioItem>());
 
             Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
         }
+
+        public void CancelMediaLoad() => _loadMediaTokenSources.ForEach(x => x.Cancel());
 
         private void AddMediaItemsToListView(IEnumerable<MediaItem> mediaItems)
         {
@@ -172,19 +212,29 @@ namespace MediaPlayer.ViewModel
             var cts = new CancellationTokenSource();
             _updateMetadataTokenSources.Add(cts);
 
-            await MetadataServices.MetadataUpdater.UpdateMetadataAsync(audioItems, cts.Token);
+            try
+            {
+                await MetadataServices.MetadataUpdater.UpdateMetadataAsync(audioItems, cts.Token);
 
-            if (_updateMetadataTokenSources.All(x => x.IsCancellationRequested))
-                return;
+                if (cts.IsCancellationRequested)
+                    return;
 
-            BusyViewModel.MediaListPopulated();
+                BusyViewModel.MediaListPopulated();
 
-            MetadataServices.MetadataCorrector.FixMetadata(audioItems.OfType<AudioItem>());
+                MetadataServices.MetadataCorrector.FixMetadata(audioItems.OfType<AudioItem>());
+            }
+            finally
+            {
+                _updateMetadataTokenSources.Remove(cts);
+                cts.Dispose();
+            }
         }
+
+        public void CancelMetadataUpdate() => _updateMetadataTokenSources.ForEach(x => x.Cancel());
 
         public async Task SaveChangesAsync()
         {
-            await ReleaseResourcesAsync();
+            ReleaseResources();
 
             if (!SettingsViewModel.SaveMetadataToFile)
                 return;
@@ -194,20 +244,10 @@ namespace MediaPlayer.ViewModel
             await MetadataServices.MetadataWriter.WriteChangesToFilesInParallel(MediaItems.Where(x => x.IsDirty));
         }
 
-        private async Task ReleaseResourcesAsync()
+        private void ReleaseResources()
         {
-            await Task.Run(async () =>
-            {
-                await Parallel.ForEachAsync(_updateMetadataTokenSources, new CancellationTokenSource().Token, (sources, token) =>
-                {
-                    sources.Cancel();
-                    sources.Dispose();
-
-                    return new ValueTask();
-                });
-            });
-
-            _updateMetadataTokenSources.Clear();
+            CancelMediaLoad();
+            CancelMetadataUpdate();
 
             MediaControlsViewModel.SetPlaybackState(MediaState.Stop);
 

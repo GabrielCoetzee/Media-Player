@@ -23,13 +23,13 @@ namespace MediaPlayer.Shell.MessengerRegs
             });
         }
 
-        public static void ProcessFilePaths(CompositionContainer container)
+        public static void AddMedia(CompositionContainer container)
         {
-            Messenger<MessengerMessages>.Register(MessengerMessages.ProcessFilePaths, async (args) =>
+            Messenger<MessengerMessages>.Register(MessengerMessages.AddMedia, async (args) =>
             {
                 var vm = container?.GetExports<MainViewModel>().Single().Value;
 
-                await vm.ProcessFilePathsAsync(args as IEnumerable<string>);
+                await vm.AddMediaAsync(args as IEnumerable<string>);
             });
         }
 
