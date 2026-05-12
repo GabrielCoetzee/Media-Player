@@ -21,8 +21,9 @@ namespace MediaPlayer.Model.Metadata.Concrete.Correctors
         {
             var audioItem = mediaItem as AudioItem;
 
-            audioItem.Lyrics = audioItem.Lyrics.ReplaceTwoSucceedingNewLinesWithOne();
-            audioItem.DirtyProperties.Remove(nameof(audioItem.Lyrics));
+            var lyrics = audioItem.Lyrics.ReplaceTwoSucceedingNewLinesWithOne();
+
+            audioItem.SetLyrics(lyrics);
         }
     }
 }

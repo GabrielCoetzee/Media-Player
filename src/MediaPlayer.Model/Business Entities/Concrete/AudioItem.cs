@@ -1,7 +1,6 @@
 ﻿using Generic.Extensions;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using System.Diagnostics;
-using System.Linq;
 
 namespace MediaPlayer.Model.BusinessEntities.Concrete
 {
@@ -20,17 +19,20 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
         public bool HasLyrics => !string.IsNullOrEmpty(_lyrics);
         public bool HasAlbumArt => !_albumArt.IsNullOrEmpty();
 
-        public byte[] AlbumArt
-        {
-            get => _albumArt;
-            set
-            {
-                _albumArt = value;
-                DirtyProperties.Add(nameof(AlbumArt));
+        public byte[] AlbumArt => _albumArt;
 
-                OnPropertyChanged(nameof(AlbumArt));
-                OnPropertyChanged(nameof(HasAlbumArt));
-            }
+        public void DisplayLocalAlbumArt(byte[] albumArt)
+        {
+            _albumArt = albumArt;
+
+            OnPropertyChanged(nameof(AlbumArt));
+            OnPropertyChanged(nameof(HasAlbumArt));
+        }
+
+        public void EnrichAlbumArt(byte[] albumArt)
+        {
+            DisplayLocalAlbumArt(albumArt);
+            DirtyProperties.Add(nameof(AlbumArt));
         }
 
         public string Album
@@ -80,17 +82,20 @@ namespace MediaPlayer.Model.BusinessEntities.Concrete
                 OnPropertyChanged(nameof(Year));
             } 
         }
-        public string Lyrics
-        {
-            get => _lyrics;
-            set
-            {
-                _lyrics = value;
-                DirtyProperties.Add(nameof(Lyrics));
+        public string Lyrics => _lyrics;
 
-                OnPropertyChanged(nameof(Lyrics));
-                OnPropertyChanged(nameof(HasLyrics));
-            } 
+        public void SetLyrics(string lyrics)
+        {
+            _lyrics = lyrics;
+
+            OnPropertyChanged(nameof(Lyrics));
+            OnPropertyChanged(nameof(HasLyrics));
+        }
+
+        public void EnrichLyrics(string lyrics)
+        {
+            SetLyrics(lyrics);
+            DirtyProperties.Add(nameof(Lyrics));
         }
 
 

@@ -72,7 +72,7 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
                 .Setup(x => x.UpdateMetadataAsync(TestData.MediaItems.OfType<AudioItem>(), It.IsAny<CancellationToken>()))
                 .Callback((IEnumerable<AudioItem> audioItems, CancellationToken token) => {
 
-                    audioItems.ToList().ForEach(x => x.AlbumArt = new byte[5] { 2, 4, 6, 8, 10 });
+                    audioItems.ToList().ForEach(x => x.EnrichAlbumArt(new byte[5] { 2, 4, 6, 8, 10 }));
 
                 });
 
@@ -263,10 +263,16 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
                 "Fakedir/Track 3"
             };
 
+            static TestData()
+            {
+                AudioItem1.SetLyrics("These are lyrics");
+                AudioItem2.SetLyrics("These are lyrics, too");
+                AudioItem3.SetLyrics("I am singing, here are some lyrics woo");
+            }
+
             public static AudioItem AudioItem1 = new AudioItem
             {
                 Id = 1,
-                Lyrics = "These are lyrics",
                 Album = "Test Album",
                 MediaTitle = "Track 1"
             };
@@ -274,7 +280,6 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
             public static AudioItem AudioItem2 = new AudioItem
             {
                 Id = 2,
-                Lyrics = "These are lyrics, too",
                 Album = "Test Album",
                 MediaTitle = "Track 2"
             };
@@ -282,7 +287,6 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
             public static AudioItem AudioItem3 = new AudioItem
             {
                 Id = 3,
-                Lyrics = "I am singing, here are some lyrics woo",
                 Album = "Test Album",
                 MediaTitle = "Track 3"
             };
