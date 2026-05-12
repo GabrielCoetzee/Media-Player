@@ -8,13 +8,17 @@ namespace MediaPlayer.ViewModel.Test
     {
         public static string InputTestFilesPath = $"_Test Files/Input Files";
 
+        static TestData()
+        {
+            AudioItem1.SetLyrics("Test \n\n Lyrics \n\n Spacing");
+        }
+
         public static AudioItem AudioItem1 = new()
         {
             Id = 1,
             Album = "Found in Far Away Places",
             Artist = "August Burns Red",
             MediaTitle = "Majoring in the Minors",
-            Lyrics = "Test \n\n Lyrics \n\n Spacing",
             FilePath = new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/_Test Files/Input Files/06. Majoring in the Minors.mp3")
         };
 

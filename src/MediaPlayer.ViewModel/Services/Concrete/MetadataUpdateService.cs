@@ -72,7 +72,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             var updateItems = audioItems.Where(x => !x.HasLyrics).ToList();
 
-            updateItems.ForEach(x => x.Lyrics = lyricsDictionary.GetValueOrDefault(x.FileName));
+            updateItems.ForEach(x => x.EnrichLyrics(lyricsDictionary.GetValueOrDefault(x.FileName)));
         }
 
         private async Task UpdateAlbumArtAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
@@ -111,7 +111,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             var updateItems = audioItems.Where(x => !x.HasAlbumArt).ToList();
 
-            updateItems.ForEach(x => x.AlbumArt = albumArtDictionary.GetValueOrDefault(x.FileName));
+            updateItems.ForEach(x => x.EnrichAlbumArt(albumArtDictionary.GetValueOrDefault(x.FileName)));
         }
     }
 }

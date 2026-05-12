@@ -31,7 +31,7 @@ namespace MediaPlayer.ViewModel.Test.ServicesTests
                     if (audioItem == null || !audioItem.DirtyProperties.Contains(nameof(audioItem.Lyrics)))
                         return;
 
-                    audioItem.Lyrics = "I am adding some lyrics";
+                    audioItem.EnrichLyrics("I am adding some lyrics");
                     audioItem.DirtyProperties.Remove(nameof(audioItem.Lyrics));
                 });
 

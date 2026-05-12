@@ -27,9 +27,10 @@ namespace MediaPlayer.Model.Metadata.Concrete.Updaters
             })
             .Build();
 
+        private static bool IsTransient(FlurlHttpException ex) => ex.StatusCode is null || ex.StatusCode >= 500 || ex.StatusCode == 408;
+
         readonly ILastFMApi _lastFmApi;
         readonly IRuntimeCache<byte[]> _cache;
-
 
         [ImportingConstructor]
         public LastFmAlbumArtMetadataUpdater(ILastFMApi lastFmApi, IRuntimeCache<byte[]> cache)
@@ -65,7 +66,5 @@ namespace MediaPlayer.Model.Metadata.Concrete.Updaters
             }
         }
 
-        private static bool IsTransient(FlurlHttpException ex)
-            => ex.StatusCode is null || ex.StatusCode >= 500 || ex.StatusCode == 408;
     }
 }

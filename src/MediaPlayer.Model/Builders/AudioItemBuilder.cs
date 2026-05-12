@@ -52,16 +52,9 @@ namespace MediaPlayer.Model.ObjectBuilders
             return this;
         }
 
-        /// <summary>
-        /// On initial read, setting "IsDirty" to false so we don't write same data back to it later
-        /// </summary>
-        /// <param name="lyrics"></param>
-        /// <returns></returns>
         public AudioItemBuilder WithLyrics(string lyrics)
         {
-            _audioItem.Lyrics = lyrics;
-
-            _audioItem.DirtyProperties.Remove(nameof(_audioItem.Lyrics));
+            _audioItem.SetLyrics(lyrics);
 
             return this;
         }
@@ -73,15 +66,9 @@ namespace MediaPlayer.Model.ObjectBuilders
             return this;
         }
 
-        /// <summary>
-        /// On initial read, setting "IsDirty" to false so we don't write same data back to it later
-        /// </summary>
-        /// <param name="albumArt"></param>
-        /// <returns></returns>
         public AudioItemBuilder WithAlbumArt(byte[] albumArt)
         {
-            _audioItem.AlbumArt = albumArt;
-            _audioItem.DirtyProperties.Remove(nameof(_audioItem.AlbumArt));
+            _audioItem.DisplayLocalAlbumArt(albumArt);
 
             return this;
         }
