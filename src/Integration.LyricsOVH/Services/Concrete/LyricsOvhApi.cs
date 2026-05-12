@@ -11,6 +11,8 @@ namespace Integration.LyricsOVH.Services.Concrete
     [Export(typeof(ILyricsOvhApi))]
     public class LyricsOvhApi : ILyricsOvhApi
     {
+        const int TimeoutSeconds = 5;
+
         public async Task<LyricsOvhResponse?> GetLyricsAsync(string artist, string track)
         {
             try
@@ -18,6 +20,7 @@ namespace Integration.LyricsOVH.Services.Concrete
                 return await "https://api.lyrics.ovh"
                     .AppendPathSegments("v1")
                     .AppendPathSegments(artist, track)
+                    .WithTimeout(TimeoutSeconds)
                     .GetJsonAsync<LyricsOvhResponse>();
             }
             catch (Exception)

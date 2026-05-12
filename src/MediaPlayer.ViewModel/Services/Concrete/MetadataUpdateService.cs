@@ -7,8 +7,10 @@ using System.Linq;
 using System.Threading;
 using System.Collections.Concurrent;
 using MediaPlayer.Common.Constants;
+using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.Metadata.Abstract.Updaters;
 using Generic.Extensions;
+using Generic.Mediator;
 using System;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
@@ -16,6 +18,8 @@ namespace MediaPlayer.ViewModel.Services.Concrete
     [Export(typeof(IMetadataUpdateService))]
     public class MetadataUpdateService : IMetadataUpdateService
     {
+        const int MaxConcurrentRequests = 8;
+
         readonly IAlbumArtMetadataUpdater _albumArtMetadataUpdater;
         readonly ILyricsMetadataUpdater _lyricsMetadataUpdater;
 
@@ -29,27 +33,31 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
         public async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
         {
-            var updateAlbumArtTask = UpdateAlbumArtAsync(audioItems, token);
-            var updateLyricsTask = UpdateLyricsAsync(audioItems, token);
+            var updateAlbumArtTask = UpdateAlbumArtAsync(audioItems.Where(x => !x.HasAlbumArt), token);
+            var updateLyricsTask = UpdateLyricsAsync(audioItems.Where(x => !x.HasLyrics), token);
 
             await Task.WhenAll(updateAlbumArtTask, updateLyricsTask);
         }
 
         private async Task UpdateLyricsAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
         {
+            var updateItems = audioItems.ToList();
             var lyricsDictionary = new ConcurrentDictionary<string, string>();
 
-            await Task.Run(async () => 
+            await Task.Run(async () =>
             {
 
                 try
                 {
-                    await Parallel.ForEachAsync(audioItems, token, async (audioItem, token) =>
+                    var parallelOptions = new ParallelOptions 
+                    { 
+                        MaxDegreeOfParallelism = MaxConcurrentRequests, 
+                        CancellationToken = token 
+                    };
+
+                    await Parallel.ForEachAsync(updateItems, parallelOptions, async (audioItem, token) =>
                     {
                         token.ThrowIfCancellationRequested();
-
-                        if (audioItem.HasLyrics)
-                            return;
 
                         var lyrics = await _lyricsMetadataUpdater.GetLyricsAsync(audioItem.Artist, audioItem.MediaTitle);
 
@@ -70,25 +78,27 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             }, token);
 
-            var updateItems = audioItems.Where(x => !x.HasLyrics).ToList();
-
             updateItems.ForEach(x => x.EnrichLyrics(lyricsDictionary.GetValueOrDefault(x.FileName)));
         }
 
         private async Task UpdateAlbumArtAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
         {
+            var updateItems = audioItems.ToList();
             var albumArtDictionary = new ConcurrentDictionary<string, byte[]>();
 
-            await Task.Run(async () => 
+            await Task.Run(async () =>
             {
                 try
                 {
-                    await Parallel.ForEachAsync(audioItems, token, async (audioItem, token) =>
+                    var parallelOptions = new ParallelOptions 
+                    { 
+                        MaxDegreeOfParallelism = MaxConcurrentRequests, 
+                        CancellationToken = token 
+                    };
+
+                    await Parallel.ForEachAsync(updateItems, parallelOptions, async (audioItem, token) =>
                     {
                         token.ThrowIfCancellationRequested();
-
-                        if (audioItem.HasAlbumArt)
-                            return;
 
                         var albumArt = await _albumArtMetadataUpdater.GetAlbumArtAsync(audioItem.Artist, audioItem.MediaTitle);
 
@@ -109,9 +119,9 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
             }, token);
 
-            var updateItems = audioItems.Where(x => !x.HasAlbumArt).ToList();
-
             updateItems.ForEach(x => x.EnrichAlbumArt(albumArtDictionary.GetValueOrDefault(x.FileName)));
+
+            Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
         }
     }
 }
