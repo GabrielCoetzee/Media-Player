@@ -90,3 +90,4 @@ Because the app is single-instance, every MEF singleton (commands, ViewModels, s
 - Always use Flurl, but don't use the `new FlurlRequest`, use '.AppendPathSegments` etc. directly on the URL string.
 - One class per file.
 - Separate interfaces and base classes from their concrete implementations. Place abstractions in an `Abstract` folder and concrete implementations in a `Concrete` folder.
+- **ViewModel vs Model placement:** If a class mutates a domain entity (`MediaItem`, `AudioItem`, `VideoItem` — e.g., sets lyrics, album art, dirty flags), it belongs in `MediaPlayer.Model`. If it computes or orchestrates without touching the entities, it belongs in `MediaPlayer.ViewModel`. Example: `LyricsCorrector` mutates `AudioItem.Lyrics` → Model; `ImageSharpColorService` returns a `Color` from image bytes → ViewModel.
