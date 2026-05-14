@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
-using System.Linq;
 using System.Windows;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
@@ -17,7 +16,7 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.OpenMainWindow, (args) =>
             {
-                var view = container?.GetExports<ViewMediaPlayer>().Single().Value;
+                var view = container?.GetExportedValue<ViewMediaPlayer>();
 
                 view.Show();
             });
@@ -27,7 +26,7 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.AddMedia, async (args) =>
             {
-                var vm = container?.GetExports<MainViewModel>().Single().Value;
+                var vm = container?.GetExportedValue<MainViewModel>();
 
                 await vm.AddMediaAsync(args as IEnumerable<string>);
             });
@@ -37,7 +36,7 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.SaveChangesToDirtyFiles, async (args) =>
             {
-                var vm = container?.GetExports<MainViewModel>().Single().Value;
+                var vm = container?.GetExportedValue<MainViewModel>();
 
                 await vm.SaveChangesAsync();
 
@@ -52,9 +51,9 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.AutoAdjustAccent, async (args) =>
             {
-                var audioItem = container?.GetExports<MainViewModel>().Single().Value.SelectedMediaItem as AudioItem;
+                var audioItem = container?.GetExportedValue<MainViewModel>().SelectedMediaItem as AudioItem;
 
-                var vm = container?.GetExports<ThemeViewModel>().Single().Value;
+                var vm = container?.GetExportedValue<ThemeViewModel>();
 
                 await vm.AutoAdjustAccentAsync(audioItem?.AlbumArt);
             });
