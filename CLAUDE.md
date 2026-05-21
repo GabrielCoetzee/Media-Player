@@ -54,7 +54,7 @@ Custom `Messenger<T>` (in `Generic/Mediator/Messenger.cs`) decouples components.
 **Three notification mechanisms exist — use the right one for the coupling shape:**
 - **`PropertyChanged`** — for view bindings only. Never use it as a VM-to-VM communication channel.
 - **Messenger** — for broadcast/cross-cutting signals fired from multiple unrelated sources or that cross assembly boundaries (`AutoAdjustAccent`, `AddMedia`, etc.).
-- **Dedicated C# events** — for directed, one-to-one VM-to-VM relationships when the coupling is intentional and explicit (e.g. `MediaControlsViewModel` subscribing to `QueueViewModel.FirstItemAutoSelected` to auto-play on populate-from-empty).
+- **Dedicated C# events** — for directed, one-to-one VM-to-VM relationships when the coupling is intentional and explicit. (Introduce as needed; the codebase has no example currently.)
 
 **When adding a new trigger for an existing Messenger message**, add the subscription inside the existing `MessengerRegistrations` method for that message — not a new method. This keeps the complete answer to "what causes X to fire" grouped in one readable place.
 
