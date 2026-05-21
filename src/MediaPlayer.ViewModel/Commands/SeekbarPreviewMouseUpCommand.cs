@@ -33,7 +33,7 @@ namespace MediaPlayer.ViewModel.Commands
             var cursorX = Mouse.GetPosition(seekbar).X;
             var seconds = (cursorX / seekbar.ActualWidth) * (seekbar.Maximum - seekbar.Minimum);
 
-            model.MediaControlsViewModel.MediaElementPosition = TimeSpan.FromSeconds(seconds);
+            model.MediaControlsViewModel.Seek(TimeSpan.FromSeconds(seconds));
         }
     }
 }

@@ -36,7 +36,7 @@
                         <Style TargetType="{x:Type ui:SymbolIcon}">
                             <Setter Property="Symbol" Value="Play24" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding MediaControlsViewModel.MediaState}" Value="Play">
+                                <DataTrigger Binding="{Binding MediaControlsViewModel.PlaybackState}" Value="Playing">
                                     <Setter Property="Symbol" Value="Pause24" />
                                 </DataTrigger>
                             </Style.Triggers>

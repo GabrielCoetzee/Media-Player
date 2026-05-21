@@ -2,7 +2,6 @@ using MediaPlayer.Common.Constants;
 using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands
@@ -29,7 +28,7 @@ namespace MediaPlayer.ViewModel.Commands
             if (parameter is not MediaControlsViewModel vm)
                 return;
 
-            vm.MediaState = vm.MediaState == MediaState.Play ? MediaState.Pause : MediaState.Play;
+            vm.TogglePause();
         }
     }
 }

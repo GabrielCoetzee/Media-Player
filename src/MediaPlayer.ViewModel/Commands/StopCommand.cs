@@ -2,7 +2,6 @@ using MediaPlayer.Common.Constants;
 using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands
@@ -30,7 +29,10 @@ namespace MediaPlayer.ViewModel.Commands
                 return;
 
             vm.QueueViewModel.SelectMediaItem(vm.QueueViewModel.GetFirstMediaItemIndex());
-            vm.MediaState = MediaState.Stop;
+
+            vm.Stop();
+
+            vm.QueueViewModel.SelectedMediaItem.ElapsedTime = TimeSpan.Zero;
         }
     }
 }

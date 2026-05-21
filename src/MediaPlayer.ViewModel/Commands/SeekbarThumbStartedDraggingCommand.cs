@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Windows.Controls;
 using System.Windows.Input;
+using MediaPlayer.AudioEngine.Enumerations;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.ViewModel.ViewModels;
 
@@ -21,7 +21,7 @@ namespace MediaPlayer.ViewModel.Commands
             if (parameter is not MediaControlsViewModel vm)
                 return false;
 
-            return vm.MediaState == MediaState.Play;
+            return vm.PlaybackState == PlaybackState.Playing;
         }
 
         public void Execute(object parameter)

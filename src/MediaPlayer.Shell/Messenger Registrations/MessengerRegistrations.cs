@@ -62,6 +62,10 @@ namespace MediaPlayer.Shell.MessengerRegs
 
                 await vm.AutoAdjustAccentAsync(audioItem?.AlbumArt);
             });
+
+            var queue = container?.GetExportedValue<QueueViewModel>();
+
+            queue.SelectedMediaItemChanged += (sender, args) => Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
         }
     }
 }

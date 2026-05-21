@@ -45,7 +45,7 @@ Generic (standalone utility library — DI, caching, messaging, named pipes)
 
 ### Dependency Injection — MEF
 
-Uses MEF (`System.ComponentModel.Composition`) not the Microsoft.Extensions.DependencyInjection container. Services and ViewModels are registered via `[Export]` / `[Import]` attributes. Composition happens in `App.xaml.cs` → `MEF.ComposeRoot()` → `MEF.Build()` (setup in `Generic/Dependency Injection/MEF.cs`).
+Uses MEF (`System.ComponentModel.Composition`) not the Microsoft.Extensions.DependencyInjection container. Services and ViewModels are registered via `[Export]` / `[Import]` attributes. Composition happens in `App.xaml.cs` → `MEF.ComposeAll()` → `MEF.Build()` (setup in `Generic/Dependency Injection/MEF.cs`).
 
 ### Messaging
 
@@ -54,23 +54,23 @@ Custom `Messenger<T>` (in `Generic/Mediator/Messenger.cs`) decouples components.
 **Three notification mechanisms exist — use the right one for the coupling shape:**
 - **`PropertyChanged`** — for view bindings only. Never use it as a VM-to-VM communication channel.
 - **Messenger** — for broadcast/cross-cutting signals fired from multiple unrelated sources or that cross assembly boundaries (`AutoAdjustAccent`, `AddMedia`, etc.).
-- **Dedicated C# events** — for directed, one-to-one VM-to-VM relationships when the coupling is intentional and explicit. (Introduce as needed; the codebase has no example currently.)
+- **Dedicated C# events** — for directed, one-to-one VM-to-VM relationships where the coupling is already intentional and explicit (e.g. `MediaControlsViewModel` subscribing to `QueueViewModel.SelectedMediaItemChanged`).
 
 **When adding a new trigger for an existing Messenger message**, add the subscription inside the existing `MessengerRegistrations` method for that message — not a new method. This keeps the complete answer to "what causes X to fire" grouped in one readable place.
 
 ### Commands
 
-20 `ICommand` implementations in `MediaPlayer.ViewModel/Commands/`, each exported via MEF with `[ExportMetadata]` string names matching constants in `CommandNames`.
+19 `ICommand` implementations in `MediaPlayer.ViewModel/Commands/`, each exported via MEF with `[ExportMetadata]` string names matching constants in `CommandNames`.
 
 - **Commands receive their target VM via `CommandParameter`, not via `[Import]`.** The View binds `CommandParameter` — single binding (when the DataContext already *is* the target VM) or `MultiBinding` via a converter (when multiple values are needed) — and the command's `Execute` casts that parameter to the VM type. No command in `Commands/Concrete` uses MEF `[Import]` to resolve a VM dependency. Keep new commands consistent with this convention so the call site stays discoverable in XAML rather than hidden in MEF composition.
-- **A command's `[Import]` lives on the VM whose state it operates on.** Examples: `StopCommand` / `PlayPauseCommand` / `MediaOpenedCommand` on `MediaControlsViewModel`; `ClearMediaListCommand` / `AddMediaCommand` / `RemoveMediaItemCommand` on `QueueViewModel`; `ToggleLyricsCommand` / `EscapeCommand` on `PlayerShellViewModel`. XAML reaches the command via the appropriate property path on the root DataContext (e.g., `{Binding QueueViewModel.AddMediaCommand}`). This rule has no exception for compound parameters — the `MultiBinding` for the `CommandParameter` and the location of the command's `[Import]` are independent concerns. A `MultiBinding` resolves its parameter sources from the binding scope just as easily whether the command lives at the root or one level deeper.
+- **A command's `[Import]` lives on the VM whose state it operates on.** Examples: `StopCommand` / `PlayPauseCommand` on `MediaControlsViewModel`; `ClearMediaListCommand` / `AddMediaCommand` / `RemoveMediaItemCommand` on `QueueViewModel`; `ToggleLyricsCommand` / `EscapeCommand` on `PlayerShellViewModel`. XAML reaches the command via the appropriate property path on the root DataContext (e.g., `{Binding QueueViewModel.AddMediaCommand}`). This rule has no exception for compound parameters — the `MultiBinding` for the `CommandParameter` and the location of the command's `[Import]` are independent concerns. A `MultiBinding` resolves its parameter sources from the binding scope just as easily whether the command lives at the root or one level deeper.
 
 ### ViewModel Structure
 
 Six ViewModels form the ViewModel layer:
 
-- **`QueueViewModel`** — track list. Owns `MediaItems`, `SelectedMediaItem`, navigation logic (next/previous/first/last index helpers), the load/enrich orchestration (`AddMediaAsync` → loader batches → updater), persistence of dirty metadata (`SaveDirtyMetadataAsync`), and the clear-list ceremony (`ClearMediaListAsync`). The *mechanism* of streaming load (batching, cancellation) lives in `IMediaLoader`; the *mechanism* of metadata enrichment (parallel HTTP calls, cancellation) lives in `IMetadataUpdateService`. Both services own their own `CancellationTokenSource` lists and expose `Cancel()`; the VM holds no cancellation state. The `SelectedMediaItem` setter raises `PropertyChanged` and sends `MessengerMessages.AutoAdjustAccent` to refresh the theme accent from the new track's album art. Imported by both `MediaControlsViewModel` and `PlayerShellViewModel`.
-- **`MediaControlsViewModel`** — player controls brain. Owns `MediaState` (WPF `System.Windows.Controls.MediaState`), `MediaElementPosition`, `MediaVolume`, `IsUserDraggingSeekbarThumb`, `IsRepeatEnabled`, `IsShuffled`, and all player commands. Imports `QueueViewModel` for access to the current selection.
+- **`QueueViewModel`** — track list. Owns `MediaItems`, `SelectedMediaItem`, navigation logic (next/previous/first/last index helpers), the load/enrich orchestration (`AddMediaAsync` → loader batches → updater), persistence of dirty metadata (`SaveDirtyMetadataAsync`), and the clear-list ceremony (`ClearMediaListAsync`). The *mechanism* of streaming load (batching, cancellation) lives in `IMediaLoader`; the *mechanism* of metadata enrichment (parallel HTTP calls, cancellation) lives in `IMetadataUpdateService`. Both services own their own `CancellationTokenSource` lists and expose `Cancel()`; the VM holds no cancellation state. The `SelectedMediaItem` setter raises `PropertyChanged` and fires `SelectedMediaItemChanged` — **no engine side-effects**. Imported by both `MediaControlsViewModel` and `PlayerShellViewModel`.
+- **`MediaControlsViewModel`** — player controls brain. Owns `IAudioEngine`, playback state, seek/volume/mute, `IsRepeatEnabled`, `IsShuffled`, and all player commands. Imports `QueueViewModel`; subscribes to `QueueViewModel.SelectedMediaItemChanged` to trigger playback on selection changes.
 - **`PlayerShellViewModel`** — app shell. Owns panel states (`IsLyricsOpen`, `IsQueueOpen`, `IsSettingsOpen`), drag/drop, and window lifecycle. Imports all child VMs.
 - **`BusyViewModel`** — loading state. Owns `IsLoading` and `MediaListTitle`; exposes named state-transition methods (`MediaListLoading`, `UpdatingMetadata`, `SavingChanges`, etc.) called by `QueueViewModel` during async operations.
 - **`ThemeViewModel`** — appearance. Owns `AutoAdjustAccent`, `UseDarkMode`, `BackdropType` settings and exposes `AutoAdjustAccentAsync`, which computes and applies a dominant-color accent from album art bytes.
@@ -80,15 +80,14 @@ New code touching the queue (items, selection, navigation) → `QueueViewModel`.
 
 ### Playback control
 
-Playback uses WPF's `MediaElement`, declared in `MediaPlayer.View/Components/HeroArea.xaml`. The integration is binding-driven:
+`IAudioEngine` (LibVLC-backed) is mediated by `MediaControlsViewModel`, which is the **sole consumer of `IAudioEngine` in the codebase**.
 
-- **`Source`** binds to `QueueViewModel.SelectedMediaItem.FilePath`. Changing selection re-points `Source`, which causes `MediaElement` to load the new file.
-- **`LoadedBehavior`** binds to `MediaControlsViewModel.MediaState`. Setting `MediaState = MediaState.Play / Pause / Stop` is how commands drive playback. The `MediaState` setter just raises `PropertyChanged`; the binding pipeline pushes the value into `MediaElement` for it to act on.
-- **`Volume`** binds to `MediaControlsViewModel.MediaVolume` (double, 0–1).
-- **`Position`** synchronizes via a custom `MediaElementExtension.Position` attached property (two-way) — `MediaElement.Position` cannot be data-bound directly in XAML.
-- **End-of-track detection** lives in `MediaOpenedCommand`. The XAML triggers `MediaOpenedCommand` on `MediaOpened`; the command starts a `DispatcherTimer` that polls `MediaElement.Position`, copies it into `QueueViewModel.SelectedMediaItem.ElapsedTime` (skipped while the user drags the seekbar), and invokes `MediaControlsViewModel.NextTrackCommand` when `ElapsedTime >= Duration`.
-
-`MediaElement` plays one file at a time — it does not own a queue. `QueueViewModel.MediaItems` is the single source of truth for playback order. Track navigation lives in `NextTrackCommand` / `PreviousTrackCommand` (selection change → `Source` update via binding → auto-load).
+- **Don't `[Import] IAudioEngine` anywhere except `MediaControlsViewModel`.** Other VMs and commands must route playback ops through `MediaControlsViewModel.{Play, TogglePause, Stop}`. Engine events are consumed internally by `MediaControlsViewModel`: `PositionChanged` updates `SelectedMediaItem.ElapsedTime`, `DurationDiscovered` updates `SelectedMediaItem.Duration`, and `TrackEnded` advances the queue (see below). If a future consumer (e.g. a visualizer) needs these events, re-raise them on `MediaControlsViewModel` at that point — don't pre-emptively expose them.
+- **The engine plays one file at a time — it does not own a queue.** `QueueViewModel.MediaItems` is the single source of truth for playback order. Queue navigation (next/previous, repeat-wrap, end-of-queue stop) lives in commands; `MediaControlsViewModel`'s `AudioEngine_TrackEnded` handler delegates to `NextTrackCommand` internally rather than reimplementing the policy. Don't reintroduce `LoadPlaylist`, `PlayAt(int)`, or any other index-shaped or list-shaped API on `IAudioEngine` — it had one and we deliberately removed it (see `docs/plans/done/ENGINE_QUEUE_REMOVAL_PLAN.md`).
+- **Selection triggers playback via a dedicated event, not a setter side-effect.** `QueueViewModel.SelectedMediaItem`'s setter raises `PropertyChanged` and fires `SelectedMediaItemChanged` — no engine calls. `MediaControlsViewModel.OnImportsSatisfied` subscribes to `QueueViewModel.SelectedMediaItemChanged`; the handler calls `Play(path)` on non-null selection and `Stop()` on null. Don't add engine calls into the `SelectedMediaItem` setter. **Corollary — "selection mirrors playback":** code that clears `SelectedMediaItem` should expect playback to stop as a side-effect; there is no "deselect-without-stopping" path by design.
+- **The engine is authoritative for playback state; VMs project from it.** `MediaControlsViewModel.PlaybackState`'s setter is private — it's only driven by `IAudioEngine.StateChanged`. Don't make a VM "authoritative" for state the engine owns; bidirectional sync creates fragile equality guards and "fake" state when engine actions fail (e.g. a `Play()` call on a corrupt file leaves the property lying).
+- **Setter side-effects are for values; action methods are for actions.** `Volume = x` and `SeekPosition = ts` setters that call into the engine are fine — those are values. Play/pause/stop are *actions*, not state, and belong as methods (e.g., `TogglePause()` on the engine, `Play(path)` / `Stop()` on `MediaControlsViewModel`), not setter side-effects on a state property. State-dependent dispatch *inside* a named action method is fine — `TogglePause` reading `PlaybackState` to decide pause-vs-resume is the endorsed pattern. The rule is: no implicit dispatch via property setters. Don't reintroduce a `PlaybackState = Playing` pattern.
+- **Engine→orchestrator events that describe per-track state carry the track's path.** `DurationDiscoveredEventArgs` and `TrackEndedEventArgs` each include `Path`; `MediaControlsViewModel` validates against `QueueViewModel.SelectedMediaItem.FilePath.LocalPath` and drops events whose path doesn't match. Defends against races where a VLC callback for a just-superseded track surfaces after the user has moved on. Position events are deliberately *not* path-stamped because they self-correct within one tick. Any new engine→orchestrator event that describes a specific track should follow the same pattern.
 
 ### Metadata Pipeline
 
@@ -104,7 +103,7 @@ Playback uses WPF's `MediaElement`, declared in `MediaPlayer.View/Components/Her
 
 Mutex-based single-instance check in `App.xaml.cs`. Subsequent launches forward file arguments to the running instance via `NamedPipeManager` (`Generic/Named Pipes/`).
 
-Because the app is single-instance, every MEF singleton (commands, ViewModels, services) is process-wide and exists exactly once. State held on a command instance (e.g., `MediaOpenedCommand`'s `_model` field, which the timer's tick handler reads on each tick) is therefore safe — there is no second instance to interfere with it.
+Because the app is single-instance, every MEF singleton (commands, ViewModels, services) is process-wide and exists exactly once. State held on a command instance (e.g., a cached event-handler reference for an unsubscribe/resubscribe pattern) is therefore safe — there is no second instance to interfere with it.
 
 ## Testing
 
@@ -126,5 +125,5 @@ Because the app is single-instance, every MEF singleton (commands, ViewModels, s
 ## Code Conventions
 - Always use Flurl, but don't use the `new FlurlRequest`, use '.AppendPathSegments` etc. directly on the URL string.
 - One class per file.
-- Separate interfaces and base classes from their concrete implementations. When both abstractions and concrete implementations exist for a feature, place abstractions in an `Abstract` folder and concrete implementations in a `Concrete` folder. When only concretes exist (no interface or base class), keep the folder flat — don't create a lone `Concrete` folder.
+- Separate interfaces and base classes from their concrete implementations. Place abstractions in an `Abstract` folder and concrete implementations in a `Concrete` folder.
 - **ViewModel vs Model placement:** If a class mutates a domain entity (`MediaItem`, `AudioItem`, `VideoItem` — e.g., sets lyrics, album art, dirty flags), it belongs in `MediaPlayer.Model`. If it computes or orchestrates without touching the entities, it belongs in `MediaPlayer.ViewModel`. Example: `LyricsCorrector` mutates `AudioItem.Lyrics` → Model; `ImageSharpColorService` returns a `Color` from image bytes → ViewModel.

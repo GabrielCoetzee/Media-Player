@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic\Generic.csproj" />
+    <ProjectReference Include="..\MediaPlayer.AudioEngine\MediaPlayer.AudioEngine.csproj" />
     <ProjectReference Include="..\MediaPlayer.Model\MediaPlayer.Model.csproj" />
     <ProjectReference Include="..\MediaPlayer.Settings\MediaPlayer.Settings.csproj" />
   </ItemGroup>
