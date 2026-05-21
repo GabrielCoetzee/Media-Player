@@ -28,6 +28,19 @@ namespace Generic.DependencyInjection
             Container = new CompositionContainer(aggregateCatalog);
         }
 
+        public static void ComposeRoot(Assembly assembly)
+        {
+            var aggregateCatalog = new AggregateCatalog();
+            aggregateCatalog.Catalogs.Add(new AssemblyCatalog(assembly));
+
+            var directoryPath = Path.GetDirectoryName(assembly.Location);
+
+            if (directoryPath != null)
+                aggregateCatalog.Catalogs.Add(new DirectoryCatalog(directoryPath, $"*.dll"));
+
+            Container = new CompositionContainer(aggregateCatalog);
+        }
+
         public static void Compose(Assembly assembly, string applicationName)
         {
             var aggregateCatalog = new AggregateCatalog();
