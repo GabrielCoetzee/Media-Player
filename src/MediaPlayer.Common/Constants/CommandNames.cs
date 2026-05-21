@@ -21,6 +21,5 @@ namespace MediaPlayer.Common.Constants
         public const string Escape = "Escape";
         public const string RemoveMediaItem = "Remove Media Item";
         public const string SeekbarPreviewMouseUp = "Seekbar Preview Mouse Up";
-        public const string MediaOpened = "Media Opened";
     }
 }

@@ -1,39 +1,35 @@
 using Generic.PropertyNotify;
+using MediaPlayer.AudioEngine.Abstract;
+using MediaPlayer.AudioEngine.Enumerations;
+using MediaPlayer.AudioEngine.Events;
 using MediaPlayer.Common.Constants;
+using MediaPlayer.ViewModel.Events;
 using System;
 using System.ComponentModel.Composition;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.ViewModels
 {
     [Export]
-    public class MediaControlsViewModel : NotifyPropertyChanged
+    public class MediaControlsViewModel : NotifyPropertyChanged, IPartImportsSatisfiedNotification
     {
-        private TimeSpan _mediaElementPosition;
-        private MediaState _mediaState = MediaState.Play;
+        private PlaybackState _playbackState = PlaybackState.Stopped;
         private double _mediaVolume = 1.0;
-        private bool _isUserDraggingSeekbarThumb;
         private bool _isRepeatEnabled;
         private bool _isShuffled;
 
-        public TimeSpan MediaElementPosition
-        {
-            get => _mediaElementPosition;
-            set
-            {
-                _mediaElementPosition = value;
-                OnPropertyChanged(nameof(MediaElementPosition));
-            }
-        }
+        public void Seek(TimeSpan position) => AudioEngine?.SeekTo(position);
 
-        public MediaState MediaState
+        public PlaybackState PlaybackState
         {
-            get => _mediaState;
-            set
+            get => _playbackState;
+            private set
             {
-                _mediaState = value;
-                OnPropertyChanged(nameof(MediaState));
+                if (_playbackState == value)
+                    return;
+
+                _playbackState = value;
+                OnPropertyChanged(nameof(PlaybackState));
             }
         }
 
@@ -45,20 +41,14 @@ namespace MediaPlayer.ViewModel.ViewModels
                 _mediaVolume = Math.Clamp(value, 0.0, 1.0);
                 OnPropertyChanged(nameof(MediaVolume));
                 OnPropertyChanged(nameof(IsMuted));
+
+                AudioEngine?.Volume = _mediaVolume;
             }
         }
 
         public bool IsMuted => _mediaVolume <= 0.0;
 
-        public bool IsUserDraggingSeekbarThumb
-        {
-            get => _isUserDraggingSeekbarThumb;
-            set
-            {
-                _isUserDraggingSeekbarThumb = value;
-                OnPropertyChanged(nameof(IsUserDraggingSeekbarThumb));
-            }
-        }
+        public bool IsUserDraggingSeekbarThumb { get; set; }
 
         public bool IsRepeatEnabled
         {
@@ -110,10 +100,97 @@ namespace MediaPlayer.ViewModel.ViewModels
         [Import(CommandNames.SeekbarPreviewMouseUp)]
         public ICommand SeekbarPreviewMouseUpCommand { get; set; }
 
-        [Import(CommandNames.MediaOpened)]
-        public ICommand MediaOpenedCommand { get; set; }
+        [Import]
+        public IAudioEngine AudioEngine { get; set; }
 
         [Import]
         public QueueViewModel QueueViewModel { get; set; }
+
+        public void OnImportsSatisfied()
+        {
+            WireQueueViewModel();
+            WireAudioEngine();
+        }
+
+        private void WireQueueViewModel()
+        {
+            if (QueueViewModel == null)
+                return;
+
+            QueueViewModel.SelectedMediaItemChanged += QueueViewModel_SelectedMediaItemChanged;
+        }
+
+        private void WireAudioEngine()
+        {
+            if (AudioEngine == null)
+                return;
+
+            AudioEngine.Volume = _mediaVolume;
+            AudioEngine.StateChanged += AudioEngine_StateChanged;
+            AudioEngine.PositionChanged += AudioEngine_PositionChanged;
+            AudioEngine.DurationDiscovered += AudioEngine_DurationDiscovered;
+            AudioEngine.TrackEnded += AudioEngine_TrackEnded;
+        }
+
+        public void TogglePause() => AudioEngine?.TogglePause();
+
+        public void Stop() => AudioEngine?.Stop();
+
+        public void Play(string path)
+        {
+            if (AudioEngine == null || string.IsNullOrWhiteSpace(path))
+                return;
+
+            if (path == AudioEngine.CurrentTrackPath)
+                return;
+
+            AudioEngine.Play(path);
+        }
+
+        private void QueueViewModel_SelectedMediaItemChanged(object sender, SelectedMediaItemChangedEventArgs e)
+        {
+            if (e.SelectedMediaItem == null)
+            {
+                Stop();
+                return;
+            }
+
+            Play(e.SelectedMediaItem.FilePath?.LocalPath);
+        }
+
+        private void AudioEngine_StateChanged(object sender, PlaybackStateChangedEventArgs e)
+        {
+            PlaybackState = e.State;
+        }
+
+        private void AudioEngine_PositionChanged(object sender, PlaybackPositionChangedEventArgs e)
+        {
+            if (IsUserDraggingSeekbarThumb || (QueueViewModel?.SelectedMediaItem) == null)
+                return;
+
+            QueueViewModel.SelectedMediaItem.ElapsedTime = e.Position;
+        }
+
+        private void AudioEngine_DurationDiscovered(object sender, DurationDiscoveredEventArgs e)
+        {
+            var selected = QueueViewModel?.SelectedMediaItem;
+
+            if ((selected?.FilePath?.LocalPath) != e.Path)
+                return;
+
+            selected.Duration = e.Duration;
+        }
+
+        private void AudioEngine_TrackEnded(object sender, TrackEndedEventArgs e)
+        {
+            if (NextTrackCommand?.CanExecute(this) == true)
+            {
+                NextTrackCommand.Execute(this);
+                return;
+            }
+
+            AudioEngine?.Stop();
+        }
+
     }
 }

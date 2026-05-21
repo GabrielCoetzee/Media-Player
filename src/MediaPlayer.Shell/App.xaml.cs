@@ -7,6 +7,7 @@ using System.Windows;
 using Generic.DependencyInjection;
 using Generic.Mediator;
 using Generic.NamedPipes.Wrappers;
+using LibVLCSharp.Shared;
 using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Settings.Config;
 using MediaPlayer.Shell.MessengerRegs;
@@ -41,6 +42,8 @@ namespace MediaPlayer.Shell
 
             PipeManager.StartServer();
             PipeManager.ServerReceivedArguments += FirstApplicationInstanceReceivedArguments;
+
+            Core.Initialize();
 
             InitializeMEF();
 

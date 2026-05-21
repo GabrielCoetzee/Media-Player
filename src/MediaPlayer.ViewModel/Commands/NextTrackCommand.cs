@@ -2,7 +2,6 @@ using MediaPlayer.Common.Constants;
 using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MediaPlayer.ViewModel.Commands
@@ -41,7 +40,6 @@ namespace MediaPlayer.ViewModel.Commands
                 index = vm.QueueViewModel.GetFirstMediaItemIndex();
 
             vm.QueueViewModel.SelectMediaItem(index);
-            vm.MediaState = MediaState.Play;
         }
     }
 }

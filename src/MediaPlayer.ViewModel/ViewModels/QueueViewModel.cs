@@ -1,10 +1,9 @@
-using Generic.Mediator;
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Constants;
-using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.Model.Collections;
+using MediaPlayer.ViewModel.Events;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System;
 using System.Collections.Generic;
@@ -20,6 +19,9 @@ namespace MediaPlayer.ViewModel.ViewModels
     public class QueueViewModel : NotifyPropertyChanged
     {
         private MediaItem _selectedMediaItem;
+
+        public event EventHandler<SelectedMediaItemChangedEventArgs> SelectedMediaItemChanged;
+
         public MediaItem SelectedMediaItem
         {
             get => _selectedMediaItem;
@@ -27,8 +29,7 @@ namespace MediaPlayer.ViewModel.ViewModels
             {
                 _selectedMediaItem = value;
                 OnPropertyChanged(nameof(SelectedMediaItem));
-
-                Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
+                SelectedMediaItemChanged?.Invoke(this, new SelectedMediaItemChangedEventArgs(value));
             }
         }
 
