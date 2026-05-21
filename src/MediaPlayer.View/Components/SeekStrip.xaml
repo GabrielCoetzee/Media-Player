@@ -8,6 +8,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <converters:ElapsedTimeTimeSpanToSecondsConverter x:Key="ElapsedToSeconds" />
+        <converters:SeekMultiValueConverter x:Key="SeekConverter" />
     </UserControl.Resources>
 
     <Grid VerticalAlignment="Center">
@@ -19,12 +20,19 @@
         <Slider Grid.Row="0"
                 IsMoveToPointEnabled="True"
                 Minimum="0"
-                Maximum="{Binding SelectedMediaItem.Duration.TotalSeconds, FallbackValue=0}"
-                Value="{Binding SelectedMediaItem.ElapsedTime, Converter={StaticResource ElapsedToSeconds}, Mode=TwoWay}"
-                IsEnabled="{Binding IsMediaListPopulated, FallbackValue=False}">
+                Maximum="{Binding QueueViewModel.SelectedMediaItem.Duration.TotalSeconds, FallbackValue=0}"
+                Value="{Binding QueueViewModel.SelectedMediaItem.ElapsedTime, Converter={StaticResource ElapsedToSeconds}, Mode=TwoWay}"
+                IsEnabled="{Binding QueueViewModel.IsMediaListPopulated, FallbackValue=False}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseUp">
-                    <i:InvokeCommandAction Command="{Binding MediaControlsViewModel.SeekbarPreviewMouseUpCommand}" PassEventArgsToCommand="True" />
+                    <i:InvokeCommandAction Command="{Binding MediaControlsViewModel.SeekbarPreviewMouseUpCommand}">
+                        <i:InvokeCommandAction.CommandParameter>
+                            <MultiBinding Converter="{StaticResource SeekConverter}">
+                                <Binding Path="MediaControlsViewModel" />
+                                <Binding RelativeSource="{RelativeSource AncestorType={x:Type Slider}}" />
+                            </MultiBinding>
+                        </i:InvokeCommandAction.CommandParameter>
+                    </i:InvokeCommandAction>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="GotMouseCapture">
                     <i:InvokeCommandAction Command="{Binding MediaControlsViewModel.SeekbarThumbStartedDraggingCommand}" CommandParameter="{Binding MediaControlsViewModel}" />
@@ -41,8 +49,8 @@
                        Foreground="{DynamicResource TextFillColorSecondaryBrush}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0:00}:{1:00}" FallbackValue="00:00">
-                        <Binding Path="SelectedMediaItem.ElapsedTime.Minutes" />
-                        <Binding Path="SelectedMediaItem.ElapsedTime.Seconds" />
+                        <Binding Path="QueueViewModel.SelectedMediaItem.ElapsedTime.Minutes" />
+                        <Binding Path="QueueViewModel.SelectedMediaItem.ElapsedTime.Seconds" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
@@ -52,8 +60,8 @@
                        Foreground="{DynamicResource TextFillColorSecondaryBrush}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0:00}:{1:00}" FallbackValue="00:00">
-                        <Binding Path="SelectedMediaItem.Duration.Minutes" />
-                        <Binding Path="SelectedMediaItem.Duration.Seconds" />
+                        <Binding Path="QueueViewModel.SelectedMediaItem.Duration.Minutes" />
+                        <Binding Path="QueueViewModel.SelectedMediaItem.Duration.Seconds" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>

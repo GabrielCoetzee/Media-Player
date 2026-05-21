@@ -1,12 +1,13 @@
 ﻿using MediaPlayer.Common.Constants;
+using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete
+namespace MediaPlayer.ViewModel.Commands
 {
-    [Export(CommandNames.Repeat, typeof(ICommand))]
-    public class RepeatMediaListCommand : ICommand
+    [Export(CommandNames.CompletedDragging, typeof(ICommand))]
+    public class SeekbarThumbCompletedDraggingCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -16,18 +17,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return false;
 
-            return vm.IsMediaListPopulated;
+            return vm.IsUserDraggingSeekbarThumb;
         }
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return;
 
-            vm.MediaControlsViewModel.IsRepeatEnabled = !vm.MediaControlsViewModel.IsRepeatEnabled;
+            vm.IsUserDraggingSeekbarThumb = false;
         }
     }
 }

@@ -1,13 +1,13 @@
-﻿using MediaPlayer.Common.Constants;
+using MediaPlayer.Common.Constants;
 using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete
+namespace MediaPlayer.ViewModel.Commands
 {
-    [Export(CommandNames.CompletedDragging, typeof(ICommand))]
-    public class SeekbarThumbCompletedDraggingCommand : ICommand
+    [Export(CommandNames.ClearList, typeof(ICommand))]
+    public class ClearMediaListCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -17,18 +17,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not MediaControlsViewModel vm)
+            if (parameter is not QueueViewModel vm)
                 return false;
 
-            return vm.IsUserDraggingSeekbarThumb;
+            return vm.IsMediaListPopulated;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            if (parameter is not MediaControlsViewModel vm)
+            if (parameter is not QueueViewModel vm)
                 return;
 
-            vm.IsUserDraggingSeekbarThumb = false;
+            await vm.ClearMediaListAsync();
         }
     }
 }

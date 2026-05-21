@@ -1,10 +1,11 @@
 using MediaPlayer.Model.BusinessEntities.Abstract;
+using MediaPlayer.ViewModel.ViewModels;
 
 namespace MediaPlayer.ViewModel.ConverterObject
 {
     public class RemoveMediaItemConverterModel
     {
-        public MainViewModel MainViewModel { get; set; }
+        public QueueViewModel QueueViewModel { get; set; }
 
         public MediaItem MediaItem { get; set; }
     }

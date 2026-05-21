@@ -1,10 +1,11 @@
-﻿using MediaPlayer.Common.Constants;
+using MediaPlayer.Common.Constants;
+using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete
+namespace MediaPlayer.ViewModel.Commands
 {
     [Export(CommandNames.PlayPause, typeof(ICommand))]
     public class PlayPauseCommand : ICommand
@@ -17,24 +18,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return false;
 
-            return vm.IsMediaListPopulated;
+            return vm.QueueViewModel.IsMediaListPopulated;
         }
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return;
 
-            if (vm.MediaControlsViewModel.MediaState == MediaState.Play)
-            {
-                vm.MediaControlsViewModel.SetPlaybackState(MediaState.Pause);
-                return;
-            }
-
-            vm.MediaControlsViewModel.SetPlaybackState(MediaState.Play);
+            vm.MediaState = vm.MediaState == MediaState.Play ? MediaState.Pause : MediaState.Play;
         }
     }
 }

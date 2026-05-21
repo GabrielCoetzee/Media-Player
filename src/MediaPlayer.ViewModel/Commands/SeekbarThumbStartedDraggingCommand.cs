@@ -1,13 +1,14 @@
-﻿using MediaPlayer.Common.Constants;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MediaPlayer.Common.Constants;
+using MediaPlayer.ViewModel.ViewModels;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete
+namespace MediaPlayer.ViewModel.Commands
 {
-    [Export(CommandNames.Stop, typeof(ICommand))]
-    public class StopCommand : ICommand
+    [Export(nameof(CommandNames.StartedDragging), typeof(ICommand))]
+    public class SeekbarThumbStartedDraggingCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -17,20 +18,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return false;
 
-            return vm.IsMediaListPopulated;
+            return vm.MediaState == MediaState.Play;
         }
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return;
 
-            vm.SelectMediaItem(vm.GetFirstMediaItemIndex());
-
-            vm.MediaControlsViewModel.SetPlaybackState(MediaState.Stop);
+            vm.IsUserDraggingSeekbarThumb = true;
         }
     }
 }

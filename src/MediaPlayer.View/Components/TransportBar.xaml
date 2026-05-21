@@ -21,7 +21,7 @@
                        Padding="8"
                        ToolTip="Previous"
                        Command="{Binding MediaControlsViewModel.PreviousTrackCommand}"
-                       CommandParameter="{Binding}">
+                       CommandParameter="{Binding MediaControlsViewModel}">
                 <ui:SymbolIcon Symbol="Previous24" />
             </ui:Button>
 
@@ -30,7 +30,7 @@
                        Padding="12,8"
                        ToolTip="Play/Pause (Space)"
                        Command="{Binding MediaControlsViewModel.PlayPauseCommand}"
-                       CommandParameter="{Binding}">
+                       CommandParameter="{Binding MediaControlsViewModel}">
                 <ui:SymbolIcon FontSize="20">
                     <ui:SymbolIcon.Style>
                         <Style TargetType="{x:Type ui:SymbolIcon}">
@@ -50,7 +50,7 @@
                        Padding="8"
                        ToolTip="Stop"
                        Command="{Binding MediaControlsViewModel.StopCommand}"
-                       CommandParameter="{Binding}">
+                       CommandParameter="{Binding MediaControlsViewModel}">
                 <ui:SymbolIcon Symbol="Stop24" />
             </ui:Button>
 
@@ -59,7 +59,7 @@
                        Padding="8"
                        ToolTip="Next"
                        Command="{Binding MediaControlsViewModel.NextTrackCommand}"
-                       CommandParameter="{Binding}">
+                       CommandParameter="{Binding MediaControlsViewModel}">
                 <ui:SymbolIcon Symbol="Next24" />
             </ui:Button>
         </StackPanel>
@@ -76,7 +76,7 @@
                           ToolTip="Shuffle"
                           IsChecked="{Binding MediaControlsViewModel.IsShuffled, Mode=OneWay}"
                           Command="{Binding MediaControlsViewModel.ShuffleCommand}"
-                          CommandParameter="{Binding}">
+                          CommandParameter="{Binding MediaControlsViewModel}">
                 <ui:SymbolIcon Symbol="ArrowShuffle24" />
             </ToggleButton>
 
@@ -85,7 +85,7 @@
                           ToolTip="Repeat"
                           IsChecked="{Binding MediaControlsViewModel.IsRepeatEnabled, Mode=OneWay}"
                           Command="{Binding MediaControlsViewModel.RepeatMediaListCommand}"
-                          CommandParameter="{Binding}">
+                          CommandParameter="{Binding MediaControlsViewModel}">
                 <ui:SymbolIcon Symbol="ArrowRepeatAll24" />
             </ToggleButton>
 

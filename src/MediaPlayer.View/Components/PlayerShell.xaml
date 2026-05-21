@@ -77,7 +77,7 @@
                         <Style TargetType="{x:Type components:EmptyState}">
                             <Setter Property="Visibility" Value="Visible" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsMediaListPopulated}" Value="True">
+                                <DataTrigger Binding="{Binding QueueViewModel.IsMediaListPopulated}" Value="True">
                                     <Setter Property="Visibility" Value="Collapsed" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -85,7 +85,7 @@
                     </components:EmptyState.Style>
                 </components:EmptyState>
 
-                <components:HeroArea Visibility="{Binding IsMediaListPopulated, Converter={StaticResource BoolToVis}}" />
+                <components:HeroArea Visibility="{Binding QueueViewModel.IsMediaListPopulated, Converter={StaticResource BoolToVis}}" />
             </Grid>
 
             <Border Grid.Column="2"

@@ -15,9 +15,9 @@ namespace MediaPlayer.View.Views
         }
 
         [Import]
-        public MainViewModel ViewModel
+        public PlayerShellViewModel ViewModel
         {
-            get => DataContext as MainViewModel;
+            get => DataContext as PlayerShellViewModel;
             set => DataContext = value;
         }
 

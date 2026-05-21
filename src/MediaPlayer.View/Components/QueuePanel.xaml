@@ -34,7 +34,7 @@
                            Padding="6"
                            Appearance="Transparent"
                            ToolTip="Add files (Ctrl+O)"
-                           Command="{Binding MediaControlsViewModel.AddMediaCommand}"
+                           Command="{Binding QueueViewModel.AddMediaCommand}"
                            Icon="{ui:SymbolIcon Add24}" />
 
                 <ui:DropDownButton Margin="2,0"
@@ -45,8 +45,8 @@
                     <ui:DropDownButton.Flyout>
                         <ContextMenu>
                             <MenuItem Header="Clear all"
-                                      Command="{Binding MediaControlsViewModel.ClearMediaListCommand}"
-                                      CommandParameter="{Binding}" />
+                                      Command="{Binding QueueViewModel.ClearMediaListCommand}"
+                                      CommandParameter="{Binding QueueViewModel}" />
                         </ContextMenu>
                     </ui:DropDownButton.Flyout>
                 </ui:DropDownButton>
@@ -57,8 +57,8 @@
                                             BorderThickness="0"
                                             Background="Transparent"
                                             Padding="0,0,16,0"
-                                            ItemsSource="{Binding MediaItems}"
-                                            SelectedItem="{Binding SelectedMediaItem, Mode=TwoWay}"
+                                            ItemsSource="{Binding QueueViewModel.MediaItems}"
+                                            SelectedItem="{Binding QueueViewModel.SelectedMediaItem, Mode=TwoWay}"
                                             SelectionMode="Single"
                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <!-- Drag-to-reorder disabled for now: interferes with selecting a track while the list is still loading.
@@ -121,11 +121,11 @@
                                    Padding="4"
                                    Appearance="Transparent"
                                    ToolTip="Remove"
-                                   Command="{Binding DataContext.RemoveMediaItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   Command="{Binding DataContext.QueueViewModel.RemoveMediaItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                    Icon="{ui:SymbolIcon Dismiss12}">
                             <ui:Button.CommandParameter>
                                 <MultiBinding Converter="{StaticResource RemoveMediaItemConverter}">
-                                    <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=UserControl}" />
+                                    <Binding Path="DataContext.QueueViewModel" RelativeSource="{RelativeSource AncestorType=UserControl}" />
                                     <Binding />
                                 </MultiBinding>
                             </ui:Button.CommandParameter>

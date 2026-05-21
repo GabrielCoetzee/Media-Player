@@ -2,7 +2,7 @@ using Generic.PropertyNotify;
 using MediaPlayer.Settings.Configuration;
 using System.ComponentModel.Composition;
 
-namespace MediaPlayer.Settings.ViewModels
+namespace MediaPlayer.ViewModel.ViewModels
 {
     [Export]
     public class SettingsViewModel : NotifyPropertyChanged

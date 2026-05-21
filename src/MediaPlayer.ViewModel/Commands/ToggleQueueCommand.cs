@@ -3,10 +3,10 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using MediaPlayer.Common.Constants;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete
+namespace MediaPlayer.ViewModel.Commands
 {
-    [Export(CommandNames.ToggleLyrics, typeof(ICommand))]
-    public class ToggleLyricsCommand : ICommand
+    [Export(CommandNames.ToggleQueue, typeof(ICommand))]
+    public class ToggleQueueCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -18,10 +18,10 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not PlayerShellViewModel vm)
                 return;
 
-            vm.IsLyricsOpen = !vm.IsLyricsOpen;
+            vm.IsQueueOpen = !vm.IsQueueOpen;
         }
     }
 }

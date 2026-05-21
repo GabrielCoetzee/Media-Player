@@ -11,7 +11,7 @@
                       TextAlignment="Center"
                       TextTrimming="CharacterEllipsis"
                       MaxWidth="600"
-                      Text="{Binding SelectedMediaItem.MediaTitle, FallbackValue=''}" />
+                      Text="{Binding QueueViewModel.SelectedMediaItem.MediaTitle, FallbackValue=''}" />
 
         <ui:TextBlock Margin="0,6,0,0"
                       FontTypography="BodyStrong"
@@ -20,13 +20,13 @@
                       TextTrimming="CharacterEllipsis"
                       MaxWidth="600"
                       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                      Text="{Binding SelectedMediaItem.Artist, FallbackValue=''}" />
+                      Text="{Binding QueueViewModel.SelectedMediaItem.Artist, FallbackValue=''}" />
 
         <ui:TextBlock Margin="0,2,0,0"
                       FontTypography="Caption"
                       HorizontalAlignment="Center"
                       TextAlignment="Center"
                       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                      Text="{Binding SelectedMediaItem.InfoLabel, FallbackValue=''}" />
+                      Text="{Binding QueueViewModel.SelectedMediaItem.InfoLabel, FallbackValue=''}" />
     </StackPanel>
 </UserControl>

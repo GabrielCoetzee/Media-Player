@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using MediaPlayer.Model.BusinessEntities.Concrete;
@@ -11,7 +11,6 @@ using MediaPlayer.Common.Enumerations;
 using MediaPlayer.Model.Metadata.Abstract.Updaters;
 using Generic.Extensions;
 using Generic.Mediator;
-using System;
 
 namespace MediaPlayer.ViewModel.Services.Concrete
 {
@@ -22,6 +21,7 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
         readonly IAlbumArtMetadataUpdater _albumArtMetadataUpdater;
         readonly ILyricsMetadataUpdater _lyricsMetadataUpdater;
+        readonly List<CancellationTokenSource> _tokenSources = [];
 
         [ImportingConstructor]
         public MetadataUpdateService([Import(ServiceNames.LastFmAlbumArtMetadataUpdater)] IAlbumArtMetadataUpdater albumArtMetadataUpdater,
@@ -31,28 +31,40 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             _lyricsMetadataUpdater = lyricsMetadataUpdater;
         }
 
-        public async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
+        public async Task UpdateMetadataAsync(IEnumerable<AudioItem> audioItems)
         {
-            var updateAlbumArtTask = UpdateAlbumArtAsync(audioItems.Where(x => !x.HasAlbumArt), token);
-            var updateLyricsTask = UpdateLyricsAsync(audioItems.Where(x => !x.HasLyrics), token);
+            var cts = new CancellationTokenSource();
+            _tokenSources.Add(cts);
 
-            await Task.WhenAll(updateAlbumArtTask, updateLyricsTask);
+            try
+            {
+                var updateAlbumArtTask = UpdateAlbumArtAsync(audioItems.Where(x => !x.HasAlbumArt), cts.Token);
+                var updateLyricsTask = UpdateLyricsAsync(audioItems.Where(x => !x.HasLyrics), cts.Token);
+
+                await Task.WhenAll(updateAlbumArtTask, updateLyricsTask);
+            }
+            finally
+            {
+                _tokenSources.Remove(cts);
+                cts.Dispose();
+            }
         }
+
+        public void Cancel() => _tokenSources.ForEach(x => x.Cancel());
 
         private async Task UpdateLyricsAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
         {
             var updateItems = audioItems.ToList();
             var lyricsDictionary = new ConcurrentDictionary<string, string>();
 
-            await Task.Run(async () =>
+            try
             {
-
-                try
+                await Task.Run(async () =>
                 {
-                    var parallelOptions = new ParallelOptions 
-                    { 
-                        MaxDegreeOfParallelism = MaxConcurrentRequests, 
-                        CancellationToken = token 
+                    var parallelOptions = new ParallelOptions
+                    {
+                        MaxDegreeOfParallelism = MaxConcurrentRequests,
+                        CancellationToken = token
                     };
 
                     await Parallel.ForEachAsync(updateItems, parallelOptions, async (audioItem, token) =>
@@ -66,19 +78,12 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
                         lyricsDictionary[audioItem.FileName] = lyrics;
                     });
-                }
-                catch (TaskCanceledException)
-                {
-                    //If a task is canceled that's okay, user probably cleared media list and that's a valid case
-                }
-                catch (OperationCanceledException)
-                {
-                    //If a task is canceled that's okay, user probably cleared media list and that's a valid case
-                }
-
-            }, token);
-
-            updateItems.ForEach(x => x.EnrichLyrics(lyricsDictionary.GetValueOrDefault(x.FileName)));
+                }, token);
+            }
+            finally
+            {
+                updateItems.ForEach(x => x.EnrichLyrics(lyricsDictionary.GetValueOrDefault(x.FileName)));
+            }
         }
 
         private async Task UpdateAlbumArtAsync(IEnumerable<AudioItem> audioItems, CancellationToken token)
@@ -86,14 +91,14 @@ namespace MediaPlayer.ViewModel.Services.Concrete
             var updateItems = audioItems.ToList();
             var albumArtDictionary = new ConcurrentDictionary<string, byte[]>();
 
-            await Task.Run(async () =>
+            try
             {
-                try
+                await Task.Run(async () =>
                 {
-                    var parallelOptions = new ParallelOptions 
-                    { 
-                        MaxDegreeOfParallelism = MaxConcurrentRequests, 
-                        CancellationToken = token 
+                    var parallelOptions = new ParallelOptions
+                    {
+                        MaxDegreeOfParallelism = MaxConcurrentRequests,
+                        CancellationToken = token
                     };
 
                     await Parallel.ForEachAsync(updateItems, parallelOptions, async (audioItem, token) =>
@@ -107,21 +112,14 @@ namespace MediaPlayer.ViewModel.Services.Concrete
 
                         albumArtDictionary[audioItem.FileName] = albumArt;
                     });
-                }
-                catch (TaskCanceledException)
-                {
-                    //If a task is canceled that's okay, user probably cleared media list and that's a valid case
-                }
-                catch (OperationCanceledException)
-                {
-                    //If a task is canceled that's okay, user probably cleared media list and that's a valid case
-                }
+                }, token);
+            }
+            finally
+            {
+                updateItems.ForEach(x => x.EnrichAlbumArt(albumArtDictionary.GetValueOrDefault(x.FileName)));
 
-            }, token);
-
-            updateItems.ForEach(x => x.EnrichAlbumArt(albumArtDictionary.GetValueOrDefault(x.FileName)));
-
-            Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
+                Messenger<MessengerMessages>.Send(MessengerMessages.AutoAdjustAccent);
+            }
         }
     }
 }

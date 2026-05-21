@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using MediaPlayer.Common.Constants;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete
+namespace MediaPlayer.ViewModel.Commands
 {
     [Export(CommandNames.Escape, typeof(ICommand))]
     public class EscapeCommand : ICommand
@@ -16,7 +16,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not PlayerShellViewModel vm)
                 return false;
 
             return vm.IsSettingsOpen || vm.IsLyricsOpen;
@@ -24,7 +24,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not PlayerShellViewModel vm)
                 return;
 
             if (vm.IsSettingsOpen)

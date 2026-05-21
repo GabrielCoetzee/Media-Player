@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
-using System.Windows.Media;
 using Generic.Extensions;
 using Generic.Mediator;
 using Generic.PropertyNotify;
@@ -12,7 +11,7 @@ using MediaPlayer.Settings.Services.Abstract;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
-namespace MediaPlayer.Settings.ViewModels
+namespace MediaPlayer.ViewModel.ViewModels
 {
     [Export]
     public class ThemeViewModel : NotifyPropertyChanged
@@ -39,6 +38,7 @@ namespace MediaPlayer.Settings.ViewModels
             try
             {
                 var dominantColor = await _colorService.GetDominantColorAsync(albumArt);
+
                 ApplicationAccentColorManager.Apply(dominantColor, CurrentTheme);
             }
             catch (Exception)
@@ -68,7 +68,6 @@ namespace MediaPlayer.Settings.ViewModels
             {
                 _themeSettings.UseDarkMode = value;
                 OnPropertyChanged(nameof(UseDarkMode));
-                OnPropertyChanged(nameof(EffectiveBackgroundColor));
 
                 _themeSettings.Save();
                 ApplicationThemeManager.Apply(CurrentTheme, BackdropType);
@@ -83,7 +82,6 @@ namespace MediaPlayer.Settings.ViewModels
             {
                 _themeSettings.BackdropType = value;
                 OnPropertyChanged(nameof(BackdropType));
-                OnPropertyChanged(nameof(EffectiveBackgroundColor));
 
                 _themeSettings.Save();
                 ApplicationThemeManager.Apply(CurrentTheme, BackdropType);
@@ -91,18 +89,10 @@ namespace MediaPlayer.Settings.ViewModels
             }
         }
 
-        public Color EffectiveBackgroundColor =>
-            BackdropType != WindowBackdropType.None
-                ? Colors.Transparent
-                : UseDarkMode ? Colors.Black : Colors.White;
+        public bool IsBackdropSupported => Environment.OSVersion.Version is { Major: >= 10, Build: >= 22621 };
 
-        public bool IsBackdropSupported =>
-            Environment.OSVersion.Version is { Major: >= 10, Build: >= 22621 };
+        private void ResetThemeToDefaultSettings() => ApplicationThemeManager.Apply(CurrentTheme, BackdropType);
 
-        public void ResetThemeToDefaultSettings() =>
-            ApplicationThemeManager.Apply(CurrentTheme, BackdropType);
-
-        private ApplicationTheme CurrentTheme =>
-            UseDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light;
+        private ApplicationTheme CurrentTheme => UseDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light;
     }
 }

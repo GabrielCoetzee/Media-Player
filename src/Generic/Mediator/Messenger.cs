@@ -31,4 +31,34 @@ namespace Generic.Mediator
             }
         }
     }
+
+    public static class Messenger<T, TArgs>
+        where TArgs : class
+    {
+        private static IDictionary<T, Action<TArgs>> _messages = new Dictionary<T, Action<TArgs>>();
+
+        public static void Register(T message, Action<TArgs> callback)
+        {
+            if (!_messages.ContainsKey(message))
+            {
+                _messages.Add(message, callback);
+            }
+        }
+
+        public static void Unregister(T message, Action<TArgs> callback)
+        {
+            if (_messages.ContainsKey(message))
+            {
+                _messages.Remove(message);
+            }
+        }
+
+        public static void Send(T message, TArgs args = null)
+        {
+            if (_messages.ContainsKey(message))
+            {
+                _messages[message].Invoke(args);
+            }
+        }
+    }
 }
