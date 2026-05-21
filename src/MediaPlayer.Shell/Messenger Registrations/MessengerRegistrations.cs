@@ -28,9 +28,9 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.AddMedia, async (args) =>
             {
-                var vm = container?.GetExportedValue<PlayerShellViewModel>();
+                var vm = container?.GetExportedValue<QueueViewModel>();
 
-                await vm.QueueViewModel.AddMediaAsync(args as IEnumerable<string>);
+                await vm.AddMediaAsync(args as IEnumerable<string>);
             });
         }
 

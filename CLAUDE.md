@@ -104,7 +104,7 @@ Playback uses WPF's `MediaElement`, declared in `MediaPlayer.View/Components/Her
 
 Mutex-based single-instance check in `App.xaml.cs`. Subsequent launches forward file arguments to the running instance via `NamedPipeManager` (`Generic/Named Pipes/`).
 
-Because the app is single-instance, every MEF singleton (commands, ViewModels, services) is process-wide and exists exactly once. State held on a command instance (e.g., a cached event-handler reference for an unsubscribe/resubscribe pattern) is therefore safe — there is no second instance to interfere with it.
+Because the app is single-instance, every MEF singleton (commands, ViewModels, services) is process-wide and exists exactly once. State held on a command instance (e.g., `MediaOpenedCommand`'s `_model` field, which the timer's tick handler reads on each tick) is therefore safe — there is no second instance to interfere with it.
 
 ## Testing
 

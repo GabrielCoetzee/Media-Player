@@ -1,6 +1,5 @@
 using MediaPlayer.Common.Constants;
 using MediaPlayer.ViewModel.ConverterObject;
-using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
@@ -12,7 +11,12 @@ namespace MediaPlayer.ViewModel.Commands
     public class MediaOpenedCommand : ICommand
     {
         private readonly DispatcherTimer _positionTracker = new() { Interval = TimeSpan.FromMilliseconds(200) };
-        private EventHandler _currentTickHandler;
+        private MediaOpenedConverterModel _model;
+
+        public MediaOpenedCommand()
+        {
+            _positionTracker.Tick += OnPositionTrackerTick;
+        }
 
         public event EventHandler CanExecuteChanged
         {
@@ -35,37 +39,27 @@ namespace MediaPlayer.ViewModel.Commands
             if (parameter is not MediaOpenedConverterModel model)
                 return;
 
-            PollMediaPosition(model);
-        }
-
-        private void PollMediaPosition(MediaOpenedConverterModel model)
-        {
-            SetAccurateCurrentMediaDuration(model.QueueViewModel, model.MediaElement.NaturalDuration.TimeSpan);
-
-            if (_currentTickHandler != null)
-                _positionTracker.Tick -= _currentTickHandler;
-
-            _currentTickHandler = (sender, args) => TrackMediaPosition(model);
-            _positionTracker.Tick += _currentTickHandler;
+            _model = model;
+            SetAccurateDuration();
 
             _positionTracker.Start();
         }
 
-        private void SetAccurateCurrentMediaDuration(QueueViewModel queue, TimeSpan duration)
+        private void SetAccurateDuration()
         {
-            queue.SelectedMediaItem.Duration = duration;
+            _model.QueueViewModel.SelectedMediaItem.Duration = _model.MediaElement.NaturalDuration.TimeSpan;
         }
 
-        private void TrackMediaPosition(MediaOpenedConverterModel model)
+        private void OnPositionTrackerTick(object sender, EventArgs e)
         {
-            var queue = model.QueueViewModel;
-            var controls = model.MediaControlsViewModel;
+            var queue = _model.QueueViewModel;
+            var controls = _model.MediaControlsViewModel;
 
             if (queue.SelectedMediaItem == null)
                 return;
 
             if (!controls.IsUserDraggingSeekbarThumb)
-                queue.SelectedMediaItem.ElapsedTime = model.MediaElement.Position;
+                queue.SelectedMediaItem.ElapsedTime = _model.MediaElement.Position;
 
             if (queue.SelectedMediaItem.ElapsedTime < queue.SelectedMediaItem.Duration)
                 return;
