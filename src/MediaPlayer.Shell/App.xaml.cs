@@ -92,7 +92,7 @@ namespace MediaPlayer.Shell
         {
             try
             {
-                MEF.ComposeAll(Assembly.GetExecutingAssembly());
+                MEF.ComposeRoot(Assembly.GetExecutingAssembly());
                 MEF.Build(this);
             }
             catch (ReflectionTypeLoadException ex)

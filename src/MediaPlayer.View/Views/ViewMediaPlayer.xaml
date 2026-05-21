@@ -7,9 +7,9 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:viewmodel="clr-namespace:MediaPlayer.ViewModel;assembly=MediaPlayer.ViewModel"
         xmlns:components="clr-namespace:MediaPlayer.View.Components"
-        d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
+        d:DataContext="{d:DesignInstance Type=viewmodel:PlayerShellViewModel}"
         mc:Ignorable="d"
-        Title="{Binding SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}"
+        Title="{Binding QueueViewModel.SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}"
         Height="768" Width="1366"
         MinHeight="600" MinWidth="900"
         ExtendsContentIntoTitleBar="True"
@@ -24,12 +24,12 @@
     </i:Interaction.Triggers>
 
     <ui:FluentWindow.InputBindings>
-        <KeyBinding Command="{Binding MediaControlsViewModel.PlayPauseCommand}" CommandParameter="{Binding}" Key="MediaPlayPause" />
-        <KeyBinding Command="{Binding MediaControlsViewModel.StopCommand}" CommandParameter="{Binding}" Key="MediaStop" />
-        <KeyBinding Command="{Binding MediaControlsViewModel.NextTrackCommand}" CommandParameter="{Binding}" Key="MediaNextTrack" />
-        <KeyBinding Command="{Binding MediaControlsViewModel.PreviousTrackCommand}" CommandParameter="{Binding}" Key="MediaPreviousTrack" />
-        <KeyBinding Command="{Binding MediaControlsViewModel.PlayPauseCommand}" CommandParameter="{Binding}" Key="Space" />
-        <KeyBinding Command="{Binding MediaControlsViewModel.AddMediaCommand}" Key="O" Modifiers="Control" />
+        <KeyBinding Command="{Binding MediaControlsViewModel.PlayPauseCommand}" CommandParameter="{Binding MediaControlsViewModel}" Key="MediaPlayPause" />
+        <KeyBinding Command="{Binding MediaControlsViewModel.StopCommand}" CommandParameter="{Binding MediaControlsViewModel}" Key="MediaStop" />
+        <KeyBinding Command="{Binding MediaControlsViewModel.NextTrackCommand}" CommandParameter="{Binding MediaControlsViewModel}" Key="MediaNextTrack" />
+        <KeyBinding Command="{Binding MediaControlsViewModel.PreviousTrackCommand}" CommandParameter="{Binding MediaControlsViewModel}" Key="MediaPreviousTrack" />
+        <KeyBinding Command="{Binding MediaControlsViewModel.PlayPauseCommand}" CommandParameter="{Binding MediaControlsViewModel}" Key="Space" />
+        <KeyBinding Command="{Binding QueueViewModel.AddMediaCommand}" Key="O" Modifiers="Control" />
         <KeyBinding Command="{Binding MediaControlsViewModel.MuteCommand}" CommandParameter="{Binding MediaControlsViewModel}" Key="M" />
         <KeyBinding Command="{Binding ToggleLyricsCommand}" CommandParameter="{Binding}" Key="L" Modifiers="Control" />
         <KeyBinding Command="{Binding ToggleQueueCommand}" CommandParameter="{Binding}" Key="Q" Modifiers="Control" />
@@ -43,7 +43,7 @@
         </Grid.RowDefinitions>
 
         <ui:TitleBar Grid.Row="0"
-                     Title="{Binding SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" />
+                     Title="{Binding QueueViewModel.SelectedMediaItem.WindowTitle, FallbackValue='Media Player'}" />
 
         <Grid Grid.Row="1" AllowDrop="True" Background="Transparent">
             <i:Interaction.Triggers>

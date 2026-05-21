@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete
+namespace MediaPlayer.ViewModel.Commands
 {
     [Export(CommandNames.TopMostGridDragEnter, typeof(ICommand))]
     public class TopMostGridDragEnterCommand : ICommand

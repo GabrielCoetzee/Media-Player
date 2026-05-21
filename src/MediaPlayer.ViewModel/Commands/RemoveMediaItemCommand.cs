@@ -4,7 +4,7 @@ using System.Windows.Input;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.ViewModel.ConverterObject;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete
+namespace MediaPlayer.ViewModel.Commands
 {
     [Export(CommandNames.RemoveMediaItem, typeof(ICommand))]
     public class RemoveMediaItemCommand : ICommand
@@ -18,7 +18,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
         public bool CanExecute(object parameter)
         {
             return parameter is RemoveMediaItemConverterModel model
-                && model.MainViewModel != null
+                && model.QueueViewModel != null
                 && model.MediaItem != null;
         }
 
@@ -27,7 +27,7 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             if (parameter is not RemoveMediaItemConverterModel model)
                 return;
 
-            model.MainViewModel.RemoveMediaItem(model.MediaItem);
+            model.QueueViewModel.RemoveMediaItem(model.MediaItem);
         }
     }
 }

@@ -27,7 +27,7 @@
                 <Image Stretch="UniformToFill">
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource AlbumArtConverter}" FallbackValue="{x:Null}">
-                            <Binding Path="SelectedMediaItem.AlbumArt" />
+                            <Binding Path="QueueViewModel.SelectedMediaItem.AlbumArt" />
                         </MultiBinding>
                     </Image.Source>
                 </Image>

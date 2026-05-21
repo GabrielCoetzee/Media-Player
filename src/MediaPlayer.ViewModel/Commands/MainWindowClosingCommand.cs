@@ -2,10 +2,10 @@
 using Generic.NamedPipes.Wrappers;
 using MediaPlayer.Common.Constants;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Common.Model;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.Model.Metadata.Concrete;
-using MediaPlayer.ViewModel.Commands.Abstract;
 using MediaPlayer.ViewModel.Services.Abstract;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete
+namespace MediaPlayer.ViewModel.Commands
 {
     [Export(CommandNames.MainWindowClosing, typeof(ICommand))]
     public class MainWindowClosingCommand : ICommand
@@ -42,9 +42,12 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
             var pipeManager = new NamedPipeManager("MediaPlayer");
             await pipeManager.StopServerAsync();
 
-            var shutdownApplication = true;
+            var args = new ShutdownArgs()
+            {
+                IsEnabled = true
+            };
 
-            Messenger<MessengerMessages>.Send(MessengerMessages.SaveChangesToDirtyFiles, shutdownApplication);
+            Messenger<MessengerMessages, ShutdownArgs>.Send(MessengerMessages.SaveChangesToDirtyFiles, args);
         }
     }
 }

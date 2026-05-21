@@ -1,50 +1,46 @@
-﻿using MediaPlayer.Common.Exceptions;
+using MediaPlayer.Common.Exceptions;
 using MediaPlayer.Model.BusinessEntities.Abstract;
 using MediaPlayer.Model.BusinessEntities.Concrete;
 using MediaPlayer.Settings.Configuration;
-using MediaPlayer.Settings.ViewModels;
 using MediaPlayer.ViewModel.Services.Abstract;
 using MediaPlayer.ViewModel.ViewModels;
 using Moq;
 using NUnit.Framework;
-using System.Windows.Controls;
 
 namespace MediaPlayer.ViewModel.Test.ViewModelTests
 {
     [TestFixture]
-    public class MainViewModelTests
+    public class QueueViewModelTests
     {
         Mock<IMetadataServices> _metadataServicesMock;
-        Mock<IMetadataReaderService> _metadataReaderMock;
+        Mock<IMediaLoader> _mediaLoaderMock;
         Mock<IMetadataUpdateService> _metadataUpdaterMock;
         Mock<IMetadataCorrectorService> _metadataCorrectorMock;
-        MainViewModel _vm;
+        QueueViewModel _vm;
 
         [SetUp]
         public void SetUp()
         {
             _metadataServicesMock = new Mock<IMetadataServices>();
-            _metadataReaderMock = new Mock<IMetadataReaderService>();
+            _mediaLoaderMock = new Mock<IMediaLoader>();
             _metadataUpdaterMock = new Mock<IMetadataUpdateService>();
             _metadataCorrectorMock = new Mock<IMetadataCorrectorService>();
 
-            _vm = new MainViewModel
+            _vm = new QueueViewModel
             {
                 BusyViewModel = new BusyViewModel(),
-                MediaControlsViewModel = new MediaControlsViewModel(),
                 SettingsViewModel = new SettingsViewModel(new MetadataSettings(), themeViewModel: null),
-                MediaItems = new Model.Collections.MediaItemObservableCollection(TestData.MediaItems.OrderBy(x => x.Id))
+                MediaLoader = _mediaLoaderMock.Object
             };
+            _vm.MediaItems.AddRange(TestData.MediaItems.OrderBy(x => x.Id));
         }
 
         [Test]
         public async Task AddMediaAsync_FilePathsPassedWithoutMetadataUpdate_AddsMediaItemsToListView()
         {
-            _metadataReaderMock
-                .Setup(x => x.EnumerateMediaItemsAsync(TestData.FilePaths, It.IsAny<CancellationToken>()))
-                .Returns(ToAsyncEnumerable(TestData.MediaItems));
-
-            _metadataServicesMock.SetupProperty(x => x.MetadataReader, _metadataReaderMock.Object);
+            _mediaLoaderMock
+                .Setup(x => x.LoadInBatchesAsync(TestData.FilePaths))
+                .Returns(ToBatchedAsyncEnumerable(TestData.MediaItems));
 
             _vm.MetadataServices = _metadataServicesMock.Object;
 
@@ -56,27 +52,24 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
             {
                 Assert.That(_vm.MediaItems, Is.Not.Empty);
                 Assert.That(_vm.SelectedMediaItem, Is.EqualTo(TestData.AudioItem1));
-                Assert.That(_vm.MediaControlsViewModel.MediaState, Is.EqualTo(MediaState.Play));
             });
         }
 
         [Test]
         public async Task AddMediaAsync_FilePathsPassedWithMetadataUpdate_AddsMediaItemsToListViewAndUpdatesMetadata()
         {
-            _metadataReaderMock
-                .Setup(x => x.EnumerateMediaItemsAsync(TestData.FilePaths, It.IsAny<CancellationToken>()))
-                .Returns(ToAsyncEnumerable(TestData.MediaItems));
+            _mediaLoaderMock
+                .Setup(x => x.LoadInBatchesAsync(TestData.FilePaths))
+                .Returns(ToBatchedAsyncEnumerable(TestData.MediaItems));
 
-            //Mock updating album art
             _metadataUpdaterMock
-                .Setup(x => x.UpdateMetadataAsync(TestData.MediaItems.OfType<AudioItem>(), It.IsAny<CancellationToken>()))
-                .Callback((IEnumerable<AudioItem> audioItems, CancellationToken token) => {
+                .Setup(x => x.UpdateMetadataAsync(TestData.MediaItems.OfType<AudioItem>()))
+                .Callback((IEnumerable<AudioItem> audioItems) => {
 
                     audioItems.ToList().ForEach(x => x.EnrichAlbumArt(new byte[5] { 2, 4, 6, 8, 10 }));
 
                 });
 
-            _metadataServicesMock.SetupProperty(x => x.MetadataReader, _metadataReaderMock.Object);
             _metadataServicesMock.SetupProperty(x => x.MetadataUpdater, _metadataUpdaterMock.Object);
             _metadataServicesMock.SetupProperty(x => x.MetadataCorrector, _metadataCorrectorMock.Object);
 
@@ -106,11 +99,9 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
         [Test]
         public void AddMediaAsync_LoadCancelledMidStream_SwallowsCancellationInsteadOfThrowing()
         {
-            _metadataReaderMock
-                .Setup(x => x.EnumerateMediaItemsAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
+            _mediaLoaderMock
+                .Setup(x => x.LoadInBatchesAsync(It.IsAny<IEnumerable<string>>()))
                 .Returns(CancelledMidStream());
-
-            _metadataServicesMock.SetupProperty(x => x.MetadataReader, _metadataReaderMock.Object);
 
             _vm.MetadataServices = _metadataServicesMock.Object;
 
@@ -246,41 +237,18 @@ namespace MediaPlayer.ViewModel.Test.ViewModelTests
             Assert.That(_vm.IsLastMediaItemSelected(), Is.EqualTo(false));
         }
 
-        [Test]
-        public void IsEndOfCurrentlyPlayingMedia_IsNotTheEnd_ReturnsFalse()
-        {
-            _vm.SelectMediaItem(_vm.GetFirstMediaItemIndex());
-
-            _vm.SelectedMediaItem.Duration = TimeSpan.FromSeconds(300);
-            _vm.SelectedMediaItem.ElapsedTime = TimeSpan.FromSeconds(100);
-
-            Assert.That(_vm.IsEndOfCurrentlyPlayingMedia(), Is.EqualTo(false));
-        }
-
-        [Test]
-        public void IsEndOfCurrentlyPlayingMedia_IsTheEnd_ReturnsTrue()
-        {
-            _vm.SelectMediaItem(_vm.GetFirstMediaItemIndex());
-
-            _vm.SelectedMediaItem.Duration = TimeSpan.FromSeconds(300);
-            _vm.SelectedMediaItem.ElapsedTime = TimeSpan.FromSeconds(300);
-
-            Assert.That(_vm.IsEndOfCurrentlyPlayingMedia(), Is.EqualTo(true));
-        }
-
-        private static async IAsyncEnumerable<MediaItem> ToAsyncEnumerable(IEnumerable<MediaItem> items)
+        private static async IAsyncEnumerable<IReadOnlyList<MediaItem>> ToBatchedAsyncEnumerable(IEnumerable<MediaItem> items)
         {
             await Task.CompletedTask;
 
-            foreach (var item in items)
-                yield return item;
+            yield return items.ToArray();
         }
 
-        private static async IAsyncEnumerable<MediaItem> CancelledMidStream()
+        private static async IAsyncEnumerable<IReadOnlyList<MediaItem>> CancelledMidStream()
         {
             await Task.CompletedTask;
 
-            yield return TestData.AudioItem1;
+            yield return new[] { TestData.AudioItem1 };
 
             throw new OperationCanceledException();
         }

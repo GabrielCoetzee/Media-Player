@@ -35,7 +35,7 @@
                        Appearance="Primary"
                        Icon="{ui:SymbolIcon Add24}"
                        Content="Add Files"
-                       Command="{Binding MediaControlsViewModel.AddMediaCommand}" />
+                       Command="{Binding QueueViewModel.AddMediaCommand}" />
         </StackPanel>
     </Grid>
 </UserControl>

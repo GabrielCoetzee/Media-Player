@@ -33,7 +33,7 @@
                     <Style TargetType="ui:TextBlock">
                         <Setter Property="Visibility" Value="Visible" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding SelectedMediaItem.HasLyrics}" Value="True">
+                            <DataTrigger Binding="{Binding QueueViewModel.SelectedMediaItem.HasLyrics}" Value="True">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -47,13 +47,13 @@
                     <Style TargetType="ScrollViewer">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding SelectedMediaItem.HasLyrics}" Value="True">
+                            <DataTrigger Binding="{Binding QueueViewModel.SelectedMediaItem.HasLyrics}" Value="True">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ScrollViewer.Style>
-                <TextBlock Text="{Binding SelectedMediaItem.Lyrics}"
+                <TextBlock Text="{Binding QueueViewModel.SelectedMediaItem.Lyrics}"
                            TextWrapping="Wrap"
                            FontSize="13"
                            LineHeight="20"

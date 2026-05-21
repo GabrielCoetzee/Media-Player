@@ -3,12 +3,10 @@ using System.Windows.Controls;
 
 namespace MediaPlayer.ViewModel.ConverterObject
 {
-    public class MediaOpenedConverterModel
+    public class SeekConverterModel
     {
-        public MediaElement MediaElement { get; set; }
-
-        public QueueViewModel QueueViewModel { get; set; }
-
         public MediaControlsViewModel MediaControlsViewModel { get; set; }
+
+        public Slider Seekbar { get; set; }
     }
 }

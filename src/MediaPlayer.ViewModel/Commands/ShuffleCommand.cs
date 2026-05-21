@@ -1,10 +1,11 @@
-﻿using MediaPlayer.Common.Constants;
+using MediaPlayer.Common.Constants;
+using MediaPlayer.ViewModel.ViewModels;
 using System;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 
-namespace MediaPlayer.ViewModel.Commands.Concrete
+namespace MediaPlayer.ViewModel.Commands
 {
     [Export(CommandNames.Shuffle, typeof(ICommand))]
     public class ShuffleCommand : ICommand
@@ -19,18 +20,18 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
 
         public bool CanExecute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return false;
 
-            return vm.MediaItems.Count > 2;
+            return vm.QueueViewModel.MediaItems.Count > 2;
         }
 
         public void Execute(object parameter)
         {
-            if (parameter is not MainViewModel vm)
+            if (parameter is not MediaControlsViewModel vm)
                 return;
 
-            if (vm.MediaControlsViewModel.IsShuffled)
+            if (vm.IsShuffled)
             {
                 OrderMediaList(vm);
                 return;
@@ -45,25 +46,27 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
         /// don't try move it if it's already in the right spot
         /// </summary>
         /// <param name="vm"></param>
-        public void OrderMediaList(MainViewModel vm)
+        public void OrderMediaList(MediaControlsViewModel vm)
         {
-            var items = vm.MediaItems
-                .Where(x => x != vm.SelectedMediaItem)
+            var queue = vm.QueueViewModel;
+
+            var items = queue.MediaItems
+                .Where(x => x != queue.SelectedMediaItem)
                 .ToList();
 
-            var remove = vm.MediaItems.Where(x => items.Contains(x)).ToList();
+            var remove = queue.MediaItems.Where(x => items.Contains(x)).ToList();
 
             var ordered = items.OrderBy(x => x.Id);
 
-            vm.MediaItems.RemoveRange(remove);
-            vm.MediaItems.AddRange(ordered);
+            queue.MediaItems.RemoveRange(remove);
+            queue.MediaItems.AddRange(ordered);
 
-            var selectedIndex = vm.MediaItems.IndexOf(vm.SelectedMediaItem);
+            var selectedIndex = queue.MediaItems.IndexOf(queue.SelectedMediaItem);
 
-            if (selectedIndex != vm.SelectedMediaItem.Id)
-                vm.MediaItems.Move(selectedIndex, vm.SelectedMediaItem.Id.GetValueOrDefault());
+            if (selectedIndex != queue.SelectedMediaItem.Id)
+                queue.MediaItems.Move(selectedIndex, queue.SelectedMediaItem.Id.GetValueOrDefault());
 
-            vm.MediaControlsViewModel.IsShuffled = false;
+            vm.IsShuffled = false;
         }
 
         /// <summary>
@@ -71,20 +74,22 @@ namespace MediaPlayer.ViewModel.Commands.Concrete
         /// top is a better user experience.
         /// </summary>
         /// <param name="vm"></param>
-        public void ShuffleMediaList(MainViewModel vm)
+        public void ShuffleMediaList(MediaControlsViewModel vm)
         {
-            var items = vm.MediaItems
-                .Where(x => x != vm.SelectedMediaItem)
+            var queue = vm.QueueViewModel;
+
+            var items = queue.MediaItems
+                .Where(x => x != queue.SelectedMediaItem)
                 .ToList();
 
-            var remove = vm.MediaItems.Where(x => items.Contains(x)).ToList();
+            var remove = queue.MediaItems.Where(x => items.Contains(x)).ToList();
 
             var shuffled = items.OrderBy(x => _randomIdGenerator.Next());
 
-            vm.MediaItems.RemoveRange(remove);
-            vm.MediaItems.AddRange(shuffled);
+            queue.MediaItems.RemoveRange(remove);
+            queue.MediaItems.AddRange(shuffled);
 
-            vm.MediaControlsViewModel.IsShuffled = true;
+            vm.IsShuffled = true;
         }
     }
 }

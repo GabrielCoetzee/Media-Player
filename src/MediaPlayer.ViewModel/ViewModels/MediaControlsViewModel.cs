@@ -1,7 +1,5 @@
 using Generic.PropertyNotify;
 using MediaPlayer.Common.Constants;
-using MediaPlayer.ViewModel.Commands.Abstract;
-using MediaPlayer.ViewModel.Commands.Concrete;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Controls;
@@ -10,12 +8,11 @@ using System.Windows.Input;
 namespace MediaPlayer.ViewModel.ViewModels
 {
     [Export]
-    public class MediaControlsViewModel : NotifyPropertyChanged, IPartImportsSatisfiedNotification
+    public class MediaControlsViewModel : NotifyPropertyChanged
     {
         private TimeSpan _mediaElementPosition;
-        private MediaState _mediaState = MediaState.Pause;
+        private MediaState _mediaState = MediaState.Play;
         private double _mediaVolume = 1.0;
-        private double _preMuteVolume = 1.0;
         private bool _isUserDraggingSeekbarThumb;
         private bool _isRepeatEnabled;
         private bool _isShuffled;
@@ -26,7 +23,6 @@ namespace MediaPlayer.ViewModel.ViewModels
             set
             {
                 _mediaElementPosition = value;
-
                 OnPropertyChanged(nameof(MediaElementPosition));
             }
         }
@@ -49,16 +45,6 @@ namespace MediaPlayer.ViewModel.ViewModels
                 _mediaVolume = Math.Clamp(value, 0.0, 1.0);
                 OnPropertyChanged(nameof(MediaVolume));
                 OnPropertyChanged(nameof(IsMuted));
-            }
-        }
-
-        public double PreMuteVolume
-        {
-            get => _preMuteVolume;
-            set
-            {
-                _preMuteVolume = Math.Clamp(value, 0.0, 1.0);
-                OnPropertyChanged(nameof(PreMuteVolume));
             }
         }
 
@@ -112,9 +98,6 @@ namespace MediaPlayer.ViewModel.ViewModels
         [Import(CommandNames.Repeat)]
         public ICommand RepeatMediaListCommand { get; set; }
 
-        [Import(CommandNames.ClearList)]
-        public ICommand ClearMediaListCommand { get; set; }
-
         [Import(CommandNames.StartedDragging)]
         public ICommand SeekbarThumbStartedDraggingCommand { get; set; }
 
@@ -124,25 +107,13 @@ namespace MediaPlayer.ViewModel.ViewModels
         [Import(CommandNames.NextTrack)]
         public ICommand NextTrackCommand { get; set; }
 
-        [Import(CommandNames.AddMedia)]
-        public ICommand AddMediaCommand { get; set; }
+        [Import(CommandNames.SeekbarPreviewMouseUp)]
+        public ICommand SeekbarPreviewMouseUpCommand { get; set; }
+
+        [Import(CommandNames.MediaOpened)]
+        public ICommand MediaOpenedCommand { get; set; }
 
         [Import]
-        public ISeekbarPreviewMouseUpCommand SeekbarPreviewMouseUpCommand { get; set; }
-
-        public void OnImportsSatisfied()
-        {
-            if (SeekbarPreviewMouseUpCommand == null)
-                return;
-
-            SeekbarPreviewMouseUpCommand.ChangeMediaPosition += SeekbarPreviewMouseUpCommand_ChangeMediaPosition;
-        }
-
-        private void SeekbarPreviewMouseUpCommand_ChangeMediaPosition(object sender, SliderPositionEventArgs e)
-        {
-            MediaElementPosition = TimeSpan.FromSeconds(e.Position);
-        }
-
-        public void SetPlaybackState(MediaState mediaState) => MediaState = mediaState;
+        public QueueViewModel QueueViewModel { get; set; }
     }
 }

@@ -3,10 +3,12 @@ using System.ComponentModel.Composition.Hosting;
 using System.Windows;
 using Generic.Mediator;
 using MediaPlayer.Common.Enumerations;
+using MediaPlayer.Common.Model;
 using MediaPlayer.Model.BusinessEntities.Concrete;
-using MediaPlayer.Settings.ViewModels;
 using MediaPlayer.View.Views;
 using MediaPlayer.ViewModel;
+using MediaPlayer.ViewModel.Services.Abstract;
+using MediaPlayer.ViewModel.ViewModels;
 
 namespace MediaPlayer.Shell.MessengerRegs
 {
@@ -26,7 +28,7 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.AddMedia, async (args) =>
             {
-                var vm = container?.GetExportedValue<MainViewModel>();
+                var vm = container?.GetExportedValue<QueueViewModel>();
 
                 await vm.AddMediaAsync(args as IEnumerable<string>);
             });
@@ -34,15 +36,18 @@ namespace MediaPlayer.Shell.MessengerRegs
 
         public static void SaveChangesToDirtyFiles(CompositionContainer container)
         {
-            Messenger<MessengerMessages>.Register(MessengerMessages.SaveChangesToDirtyFiles, async (args) =>
+            Messenger<MessengerMessages, ShutdownArgs>.Register(MessengerMessages.SaveChangesToDirtyFiles, async (args) =>
             {
-                var vm = container?.GetExportedValue<MainViewModel>();
+                var loader = container?.GetExportedValue<IMediaLoader>();
+                var updater = container?.GetExportedValue<IMetadataUpdateService>();
+                var queue = container?.GetExportedValue<QueueViewModel>();
 
-                await vm.SaveChangesAsync();
+                loader.Cancel();
+                updater.Cancel();
 
-                var shutdownApplication = (bool)args;
+                await queue.SaveDirtyMetadataAsync();
 
-                if (shutdownApplication)
+                if (args.IsEnabled)
                     Application.Current.Shutdown(0);
             });
         }
@@ -51,7 +56,7 @@ namespace MediaPlayer.Shell.MessengerRegs
         {
             Messenger<MessengerMessages>.Register(MessengerMessages.AutoAdjustAccent, async (args) =>
             {
-                var audioItem = container?.GetExportedValue<MainViewModel>().SelectedMediaItem as AudioItem;
+                var audioItem = container?.GetExportedValue<PlayerShellViewModel>().QueueViewModel.SelectedMediaItem as AudioItem;
 
                 var vm = container?.GetExportedValue<ThemeViewModel>();
 
